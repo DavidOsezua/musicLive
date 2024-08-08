@@ -21,13 +21,14 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  font-size: 10px;
   border: 1px solid rgba(10, 34, 89, 0.3);
   border-radius: 5px;
   padding: 11px 14px 11px 14px;
 }
 
 .image {
-  width: 24px;
+  width: 40px;
 }
 
 @media screen and (min-width: 500px) {

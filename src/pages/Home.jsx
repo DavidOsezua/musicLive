@@ -40,7 +40,11 @@ const Home = () => {
           </button>
         </div>
 
-        <img src={mobileHeroImage} className="w-full" />
+        <div className="flex justify-center">
+          <img src={mobileHeroImage} />
+        </div>
+
+        {/* <img src={mobileHeroImage} className="flex justify-center" /> */}
 
         <TipJar />
 
