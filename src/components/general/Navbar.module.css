@@ -1,0 +1,221 @@
+.navbar {
+  display: flex;
+  justify-content: center;
+  height: 100px;
+  width: 100%;
+  background-color: #f6f8fd;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  position: sticky;
+  color: #0e338680;
+  z-index: 999;
+  top: 0;
+  box-shadow: 0px 5px 5px 0px rgba(42, 62, 132, 0.5);
+
+  /* box-shadow: ; */
+}
+
+.navContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.navLogo > * + * {
+  padding-left: 8px;
+}
+.navLogo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #0e338680;
+}
+
+.mobile {
+  display: flex;
+  align-items: center;
+}
+
+.desktop {
+  display: none;
+}
+
+.navMenu {
+  position: relative;
+}
+
+@media screen and (max-width: 913px) {
+  .navMenu {
+    z-index: 10;
+    position: fixed;
+    background: #f1f5ff;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    padding-top: 5rem;
+    padding-left: 2rem;
+    transition: 0.4s;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .toggle {
+    position: absolute;
+    top: 40%;
+    bottom: 50%;
+    right: 5%;
+    cursor: pointer;
+  }
+
+  .closeToggle {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    cursor: pointer;
+  }
+}
+
+.navMenu.showMenu {
+  visibility: visible;
+  transition: 0.4s;
+  opacity: 1;
+}
+
+.navMenu > * + * {
+  padding-top: 3rem;
+}
+
+.link {
+  color: #0e338680;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.link:hover::before {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  content: "";
+  background: #0e3386;
+  color: #0e3386;
+  /* font-weight: bold; */
+}
+
+.link:global(.active) {
+  color: #0e3386;
+  font-weight: 500;
+}
+.bar {
+  cursor: pointer;
+}
+.navItems {
+  position: relative;
+}
+.navItems :global(.active)::before {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  content: "";
+  background: #0e3386;
+}
+.mobileBtn {
+  padding-right: 1rem;
+}
+.btn {
+  width: 100%;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.pro {
+  color: #fff;
+  background-color: #d99a26;
+  border-radius: 5px;
+  padding: 5px;
+}
+/* responsive */
+
+@media screen and (min-width: 913px) {
+  .navbar {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .mobile {
+    display: none;
+  }
+
+  .mobileBtn {
+    display: none;
+  }
+
+  .desktop {
+    display: flex;
+  }
+
+  .desktopBtn {
+    color: #fff;
+    font-size: 1.1rem;
+    margin-right: 0.5rem;
+  }
+  .toggle,
+  .closeToggle {
+    display: none;
+  }
+
+  .mobileNav {
+    display: none;
+  }
+
+  .navMenu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 1rem;
+  }
+
+  .navMenu > * + * {
+    padding-top: 0;
+  }
+
+  .navItems {
+    margin-right: 1.5rem;
+    font-size: 0.9rem;
+  }
+  .navLinks,
+  .navBtn {
+    font-size: 0.8rem;
+    color: var(--Dark-Grayish-Violet);
+    font-weight: 550;
+  }
+
+  .navLinks:hover {
+    color: var(--Very-Dark-Violet);
+  }
+  .navBtn {
+    background-color: transparent;
+    border: 2px solid var(--Dark-Grayish-Violet);
+    padding: 0.8rem 1.5rem;
+  }
+  .navBtn:hover {
+    background-color: var(--Very-Dark-Violet);
+    color: var(--Very-Light-Gray);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .navbar {
+    padding-right: 1.3rem;
+    padding-left: 1.3rem;
+  }
+
+  /* .navItems {
+    margin-right: 1rem;
+  } */
+}

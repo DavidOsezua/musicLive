@@ -1,0 +1,41 @@
+.locationAndDatesContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 0.7rem;
+  padding: 0.7rem 1rem;
+  gap: 10px;
+
+  background: #ffffff;
+  border: 1px solid rgba(38, 89, 195, 0.5);
+  border-radius: 100px;
+}
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+}
+
+.input {
+  background: transparent;
+  width: 100%;
+  outline: none;
+}
+
+.search {
+  position: absolute;
+  right: 1px;
+}
+
+@media screen and (min-width: 1024px) {
+  .locationAndDatesContainer {
+    margin-top: -3rem;
+    max-width: 918px;
+    margin-left: auto;
+    margin-right: auto;
+     font-size: 1rem;
+  padding: 1rem 1.3rem;
+  }
+}

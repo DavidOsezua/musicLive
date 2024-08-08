@@ -1,0 +1,32 @@
+.tipJarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.tipJarContent > * + * {
+  margin-top: 0.7rem;
+}
+
+.tipJarImage {
+  border-radius: 16px;
+}
+
+.tipJartext {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.8rem;
+  line-height: 17px;
+
+  color: #0a2259;
+}
+
+.tipJarTitle {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+
+  color: #0a2259;
+}

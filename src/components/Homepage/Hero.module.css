@@ -1,0 +1,39 @@
+.heroContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  gap: 3rem;
+  position: relative;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 600;
+  color: #0a2259;
+}
+
+.text {
+  color: #0a2259;
+}
+
+
+.logo{
+    position: absolute;
+    right: 5%;
+    top: 0;
+    width: 200px;
+}
+
+
+@media screen and (min-width:1226px){
+    .logo{
+        right: 7%;
+        width: 230px;
+    }
+}
+@media screen and (min-width:1440px){
+    .logo{
+        right: 13%;
+        width: 256px;
+    }
+}

@@ -1,0 +1,17 @@
+.colored {
+  background: #3d69c5;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  color: #fff;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+
+.transparent {
+  color: #2659c3;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  border: 1px solid #2659c3;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+}

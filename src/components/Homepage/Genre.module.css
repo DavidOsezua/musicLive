@@ -1,0 +1,58 @@
+.genreContainer {
+  text-align: center;
+}
+
+.genreContainer > * + * {
+  margin-top: 1rem;
+}
+
+.genre {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  overflow-x: scroll;
+}
+
+.genre::-webkit-scrollbar {
+  display: none;
+}
+
+.genrebtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid rgba(10, 34, 89, 0.3);
+  border-radius: 5px;
+  padding: 11px 14px 11px 14px;
+}
+
+.image {
+  width: 24px;
+}
+
+@media screen and (min-width: 500px) {
+  .image {
+    width: 35px;
+  }
+}
+@media screen and (min-width: 550px) {
+  .image {
+    width: 64px;
+  }
+}
+@media screen and (min-width: 820px) {
+  .genre {
+    justify-content: center;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .genreContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+
+  
+}
