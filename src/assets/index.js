@@ -15,6 +15,11 @@ import raggae from "./raggae.svg";
 import country from "./country.svg";
 import metal from "./metal.svg";
 import dance from "./dance.svg";
+import happyPeople from "./happyPeople.webp";
+import mission from "./mission.webp";
+import musicians from "./musicians.webp";
+import fans from "./fans.webp";
+import venue from "./venue.webp";
 
 export {
   logo,
@@ -34,4 +39,9 @@ export {
   mobileHeroImage,
   dance,
   desktopHeroImage,
+  happyPeople,
+  fans,
+  venue,
+  mission,
+  musicians,
 };

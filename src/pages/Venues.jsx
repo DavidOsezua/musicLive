@@ -1,7 +1,14 @@
 import React from "react";
+import { TipJar } from "../components";
 
 const Venues = () => {
-  return <div>Venues</div>;
+  return (
+    <section className={`section`}>
+      <div className={`sectionContainer`}>
+        <TipJar />
+      </div>
+    </section>
+  );
 };
 
 export default Venues;
