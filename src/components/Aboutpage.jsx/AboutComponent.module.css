@@ -11,10 +11,7 @@
 }
 
 .image {
-  width: 404px;
-  height: 373.21px;
-  border-radius: 21.78px;
-  object-fit: cover;
+
 }
 
 .imgContainer {
@@ -26,16 +23,36 @@
 }
 
 .text {
-  font-size: 0.8rem;
+  font-size: 1rem;
   color: #5c5b5b;
   text-align: justify;
-  line-height: 2.7;
+  /* line-height: 2.7; */
 }
 .text2 {
   font-size: 0.8rem;
   color: #fff;
   text-align: justify;
-  line-height: 2.7;
+  /* line-height: 2.7; */
+}
+.title {
+  /* Our Vission */
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 49px;
+
+  color: #0a2259;
+  text-align: center;
+}
+
+.title2 {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 46px;
+
+  color: #c32fb4;
 }
 
 .desktopTitle2 {
@@ -50,7 +67,7 @@
 
   .text,
   .text2 {
-    width: 600px;
+    max-width: 600px;
   }
   .desktopTitle {
     display: block;
@@ -62,5 +79,9 @@
 
   .switch {
     order: -1;
+  }
+
+  .title {
+    text-align: left;
   }
 }

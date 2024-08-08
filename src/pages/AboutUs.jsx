@@ -4,42 +4,42 @@ import styles from "./AboutUs.module.css";
 import { TipJar } from "../components";
 import AboutComponent from "../components/Aboutpage.jsx/AboutComponent";
 import { happyPeople, mission } from "../assets";
+import { about } from "../data/data";
 
 const AboutUs = () => {
   return (
     <section className={`section`}>
-      <div className={`sectionContainer`}>
+      <div className={`sectionContainer ${styles.aboutContainer}`}>
         {" "}
         <AboutComponent
           Image={happyPeople}
-          title={
-            <h2 className="text-[1.7rem]">
-              {" "}
-              <span className="italic">Brief History of the</span>{" "}
-              <span className="font-bold text-[#754FE2]">Department</span>
-            </h2>
-          }
-          content={`The Industrial Design Programme is concerned with the development of creative strategies in the provision of technological solutions to problems that are related to the specific needs of industry and the society in general. The programme places emphasis on the development of high professional skills as well as exploration and development of indigenous materials in the areas of Ceramics, Graphics and Textiles Design. It also focuses on producing graduates of high quality with creative skill and entrepreneurial knowledge that can make them self reliant as well as employable by the Printing, Textiles and Ceramics industries.`}
+          title={`Our Vision`}
+          title2={`Music Makes People Happy`}
+          content={`Our vision is to create a vibrant online platform where music enthusiasts can easily discover and connect with live band venues across the country for free. By providing users with up-to-date information on local gigs and performances, we aim to support live music communities and bring people closer to the music they love.`}
           switched
         />
-        <AboutComponent
-          Image={mission}
-          title={
-            <h2 className="text-[1.7rem]">
-              {" "}
-              <span className="italic">Academic </span>{" "}
-              <span className="font-bold text-[#fff]">Programs</span>
-            </h2>
-          }
-          content={`The Industrial Design Programme is concerned with the development of creative strategies in the provision of technological solutions to problems that are related to the specific needs of industry and the society in general. The programme places emphasis on the development of high professional skills as well as exploration and development of indigenous materials in the areas of Ceramics, Graphics and Textiles Design. It also focuses on producing graduates of high quality with creative skill and entrepreneurial knowledge that can make them self reliant as well as employable by the Printing, Textiles and Ceramics industries.`}
-          invert
-        />
-        <TipJar />
-
-
-        <div>
-          
+        {/*  */}
+        <section className={`section px-0`}>
+          <AboutComponent
+            Image={mission}
+            title={`Our Mission`}
+            content={`We envision a world where live music is accessible to everyone, regardless of location or budget. Our website will empower users to explore and experience live band performances by offering a user-friendly, interactive map that showcases nearby venues and events at no cost.`}
+          />
+        </section>
+        {/*  */}
+        <div className={`section px-0`}>
+          {about.map((item) => (
+            <div key={item.title}>
+              <h1>
+                <span>{item.title}</span>
+              </h1>
+              <img src={item.image} className={`${styles.image}}`} />
+              <p>{item.content}</p>
+            </div>
+          ))}
         </div>
+        <TipJar />
+        <div></div>
       </div>
     </section>
   );
