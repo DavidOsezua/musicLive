@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import styles from "./AboutComponent.module.css";
+import Button from "../general/Button";
+import ExploreShowBtn from "../general/ExploreShowBtn";
 
 const AboutComponent = ({
   Image,
@@ -36,7 +38,9 @@ const AboutComponent = ({
           {title}
         </h2>
         <p className={`${!invert ? styles.text : styles.text2}`}>{content}</p>
+        <ExploreShowBtn/>
       </div>
+
     </div>
   );
 };

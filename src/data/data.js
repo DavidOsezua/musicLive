@@ -1,9 +1,12 @@
 import {
   Acoustic,
+  band1,
   blues,
   country,
   dance,
+  facebook,
   fans,
+  instagram,
   jazz,
   metal,
   musicians,
@@ -12,6 +15,7 @@ import {
   rock,
   urban,
   venue,
+  website,
 } from "../assets";
 
 export const navLinks = [
@@ -83,5 +87,56 @@ export const about = [
     image: fans,
     content:
       "will put great effort into finding and supporting venues and musicians they love.  As we said, “Music Makes People Happy”. (Insert small photo of frustrated fan?)  And of course, fans are happy to spend money at the venue and hopefully on big tips for the musicians.  So for fans we also make this site entirely free!",
+  },
+];
+
+export const bands = [
+  {
+    image: band1,
+    genre: "Blues",
+    bandName: "Demi3D Bands",
+    socials: [facebook, instagram, website],
+  },
+  {
+    image: band1,
+    genre: "Blues",
+    bandName: "Demi3D Bands",
+    socials: [facebook, instagram, website],
+  },
+  {
+    image: band1,
+    genre: "Blues",
+    bandName: "Demi3D Bands",
+    socials: [facebook, instagram, website],
+  },
+  {
+    image: band1,
+    genre: "Blues",
+    bandName: "Demi3D Bands",
+    socials: [facebook, instagram, website],
+  },
+  {
+    image: band1,
+    genre: "Blues",
+    bandName: "Demi3D Bands",
+    socials: [facebook, instagram, website],
+  },
+  {
+    image: band1,
+    genre: "Blues",
+    bandName: "Demi3D Bands",
+    socials: [facebook, instagram, website],
+  },
+  {
+    image: band1,
+    genre: "Blues",
+    bandName: "Demi3D Bands",
+    socials: [facebook, instagram, website],
+  },
+  {
+    image: band1,
+    genre: "Blues",
+    bandName: "Demi3D Bands",
+    socials: [facebook, instagram, website],
   },
 ];

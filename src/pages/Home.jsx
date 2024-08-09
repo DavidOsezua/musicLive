@@ -2,12 +2,13 @@ import React from "react";
 import "../App.css";
 import styles from "./Home.module.css";
 import LocationAndDates from "../components/Homepage/LocationAndDates";
-import Genre from "../components/Homepage/Genre";
 import Share from "../components/SVGcomponent/Share";
 import { mobileHeroImage } from "../assets";
 import { TipJar } from "../components";
 import Button from "../components/general/Button";
 import Hero from "../components/Homepage/Hero";
+import SelectGenre from "../components/SVGcomponent/SelectGenre";
+import GenreScroll from "../components/general/GenreScroll";
 
 const Home = () => {
   return (
@@ -28,7 +29,19 @@ const Home = () => {
 
         <LocationAndDates />
 
-        <Genre />
+        {/******************* GENERE *******************/}
+
+        <div className={`${styles.genreContainer}`}>
+          {/******************* GENERE BUTTON *******************/}
+          <div className="flex justify-center">
+            <button className={`${styles.genrebtn}`}>
+              <SelectGenre />
+              Select Genre
+            </button>
+          </div>
+          {/******************* GENERE ICONS *******************/}
+          <GenreScroll />
+        </div>
 
         <div className={`${styles.placeOrder}`}></div>
 
@@ -70,7 +83,19 @@ const Home = () => {
 
         <LocationAndDates />
 
-        <Genre />
+        {/******************* GENERE *******************/}
+
+        <div className={`${styles.genreContainer}`}>
+          {/******************* GENERE BUTTON *******************/}
+          <div className="flex justify-center">
+            <button className={`${styles.genrebtn}`}>
+              <SelectGenre />
+              Select Genre
+            </button>
+          </div>
+          {/******************* GENERE ICONS *******************/}
+         <GenreScroll/>
+        </div>
         <div className={`${styles.placeOrder}`}></div>
 
         {/*  */}

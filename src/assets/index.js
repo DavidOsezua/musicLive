@@ -13,6 +13,9 @@ import urban from "./urban.svg";
 import Acoustic from "./Acoustic.svg";
 import raggae from "./raggae.svg";
 import country from "./country.svg";
+import facebook from "./facebook.svg";
+import instagram from "./instagram.svg";
+import website from "./website.svg";
 import metal from "./metal.svg";
 import dance from "./dance.svg";
 import happyPeople from "./happyPeople.webp";
@@ -20,8 +23,16 @@ import mission from "./mission.webp";
 import musicians from "./musicians.webp";
 import fans from "./fans.webp";
 import venue from "./venue.webp";
+import band1 from "./band1.webp";
+import band2 from "./band2.webp";
+import band3 from "./band3.webp";
+import band4 from "./band4.webp";
+import band5 from "./band5.webp";
 
 export {
+  facebook,
+  instagram,
+  website,
   logo,
   close,
   tipJarImage,
@@ -44,4 +55,9 @@ export {
   venue,
   mission,
   musicians,
+  band1,
+  band2,
+  band3,
+  band4,
+  band5,
 };

@@ -1,5 +1,16 @@
+.homeContainerMobile {
+}
+
 .homeContainerMobile > * + * {
   margin-top: 1rem;
+}
+
+.check {
+  overflow-x: scroll;
+}
+
+.check::-webkit-scrollbar {
+  display: none;
 }
 
 .textContent {
@@ -111,6 +122,20 @@
   border-radius: 5px;
 }
 
+.genrebtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  border: 1px solid rgba(10, 34, 89, 0.3);
+  border-radius: 5px;
+  padding: 11px 14px 11px 14px;
+}
+
+.genreContainer > * + * {
+  margin-top: 1rem;
+}
+
 .homeContainerDesktop {
   display: none;
 }
@@ -213,5 +238,19 @@
   .subscribeContainer {
     /* width: 100%; */
     padding: 0.4rem;
+  }
+
+  .genrebtn {
+    font-size: 1rem;
+  }
+
+  .genreContainer > * + * {
+    margin-top: 0rem;
+  }
+  .genreContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row-reverse;
   }
 }

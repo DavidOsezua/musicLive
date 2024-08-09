@@ -1,0 +1,7 @@
+.check {
+  overflow-x: scroll;
+}
+
+.check::-webkit-scrollbar {
+  display: none;
+}

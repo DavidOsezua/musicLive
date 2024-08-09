@@ -6,8 +6,7 @@
 }
 .section {
   background: #f6f8fd;
-  padding-right: 1rem;
-  padding-left: 1rem;
+
   padding-top: 2rem;
 }
 
@@ -17,14 +16,15 @@
   max-width: 1400px;
   margin: 0 auto;
   padding-bottom: 3rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
 }
 .transition {
   animation: transitionIn 1.5s;
 }
 
-
-span{
-  color: #C32FB4;
+span {
+  color: #c32fb4;
 }
 @keyframes transitionIn {
   from {

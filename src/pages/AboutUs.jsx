@@ -5,10 +5,13 @@ import { TipJar } from "../components";
 import AboutComponent from "../components/Aboutpage.jsx/AboutComponent";
 import { happyPeople, mission } from "../assets";
 import { about } from "../data/data";
+import ExploreShowBtn from "../components/general/ExploreShowBtn";
+import PageHeader from "../components/general/PageHeader";
 
 const AboutUs = () => {
   return (
-    <section className={`section`}>
+    <section className={`section py-0 px-0`}>
+      <PageHeader page={`About Us`} />
       <div className={`sectionContainer ${styles.aboutContainer}`}>
         {" "}
         <AboutComponent
@@ -27,19 +30,21 @@ const AboutUs = () => {
           />
         </section>
         {/*  */}
-        <div className={`section px-0`}>
+        <div className={`section px-0 ${styles.about}`}>
           {about.map((item) => (
             <div key={item.title}>
               <h1>
                 <span>{item.title}</span>
               </h1>
-              <img src={item.image} className={`${styles.image}}`} />
-              <p>{item.content}</p>
+              <img src={item.image} className={`${styles.image}`} />
+              <p className={`${styles.text}`}>{item.content}</p>
             </div>
           ))}
         </div>
+        <div className="flex justify-center py-[2rem] w-full">
+          <ExploreShowBtn />
+        </div>
         <TipJar />
-        <div></div>
       </div>
     </section>
   );

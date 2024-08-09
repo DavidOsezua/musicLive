@@ -1,4 +1,30 @@
 .image {
-  width: 408px;
+  width: 100%;
   height: 266.99px;
+  object-fit: cover;
+  object-position: top center;
+ 
+}
+
+.text {
+  text-align: justify;
+  font-size: 0.8rem;
+  max-width: 408px;
+  padding-top: 1rem;
+}
+  .about {
+    display: grid;
+    gap: 5rem;
+  }
+
+@media screen and (min-width: 1024px) {
+  .about {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    
+  }
+
+  .image {
+    margin: 0;
+  }
 }
