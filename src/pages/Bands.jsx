@@ -25,7 +25,9 @@ const Bands = () => {
         {/******** BANDS  *********/}
 
         <div>
-          <p>Highlighted Live Bands Near Sacramento, CA</p>
+          <p className={`${styles.text}`}>
+            Highlighted Live Bands Near Sacramento, CA
+          </p>
 
           {/******** BANDS DETAILS  *********/}
           <div className={`${styles.bandDetailsContainer}`}>
