@@ -10,7 +10,7 @@ import PageHeader from "../components/general/PageHeader";
 
 const AboutUs = () => {
   return (
-    <section className={`section py-0 px-0`}>
+    <section className={`section py-0 px-0 transition`}>
       <PageHeader page={`About Us`} />
       <div className={`sectionContainer ${styles.aboutContainer}`}>
         {" "}

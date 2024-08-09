@@ -15,8 +15,9 @@ import FooterTwo from "./components/general/FooterTwo";
 
 const App = () => {
   return (
-    <div className="transition">
+   
       <BrowserRouter>
+       <div className="transition">
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -30,8 +31,9 @@ const App = () => {
         </Routes>
         <Footer />
         <FooterTwo/>
+        </div>
       </BrowserRouter>
-    </div>
+    
   );
 };
 

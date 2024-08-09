@@ -10,7 +10,7 @@ import GenreScroll from "../components/general/GenreScroll";
 
 const Bands = () => {
   return (
-    <section className={`section py-0 px-0`}>
+    <section className={`section py-0 px-0 transition`}>
       <div>
         <PageHeader page={`Bands`} />
 

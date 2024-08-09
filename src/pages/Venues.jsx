@@ -1,16 +1,20 @@
 import React from "react";
 import { TipJar } from "../components";
 import Search from "../components/general/Search";
-import styles from './Venues.module.css'
+import styles from "./Venues.module.css";
 import { bands } from "../data/data";
 import Button from "../components/general/Button";
 
 const Venues = () => {
   return (
-    <section className={`section ${styles.venueSection}`}>
-      <div className={`px-[1rem]`}>
+    <section className={`section ${styles.venueSection} transition`}>
+      <div className={`px-[1rem] `}>
         <Search />
       </div>
+
+      <div>GENRE</div>
+
+      <div className={`${styles.map}`}>MAP</div>
 
       {/******** BANDS DETAILS  *********/}
       <div className={`${styles.bandDetailsContainer}`}>
@@ -38,6 +42,7 @@ const Venues = () => {
           radius={`rounded-full`}
         />
       </div>
+
       <TipJar />
     </section>
   );

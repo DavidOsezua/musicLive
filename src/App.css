@@ -20,7 +20,7 @@
   padding-left: 1rem;
 }
 .transition {
-  animation: transitionIn 1.5s;
+  animation: transitionIn 3s;
 }
 
 span {

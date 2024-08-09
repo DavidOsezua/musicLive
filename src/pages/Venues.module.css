@@ -40,3 +40,14 @@
 
   color: #0a2259;
 }
+
+@media screen and (min-width: 1024px) {
+  .venueSection {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .map {
+    grid-column: 2/-1;
+  }
+}

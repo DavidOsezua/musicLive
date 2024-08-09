@@ -3,7 +3,7 @@ import { TipJar } from "../components";
 
 const AddYourBand = () => {
   return (
-    <section className={`section`}>
+    <section className={`section transition`}>
       <div className={`sectionContainer`}>
         <TipJar />
       </div>

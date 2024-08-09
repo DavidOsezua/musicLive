@@ -12,7 +12,7 @@ import GenreScroll from "../components/general/GenreScroll";
 
 const Home = () => {
   return (
-    <section className={`section pt-0 ${styles.homeSection}`}>
+    <section className={`section pt-0 ${styles.homeSection} transition`}>
       <div className={`${styles.ellipse1}`}></div>
       <div className={`${styles.ellipse2}`}></div>
       <div className={`${styles.ellipse3}`}></div>
@@ -94,7 +94,7 @@ const Home = () => {
             </button>
           </div>
           {/******************* GENERE ICONS *******************/}
-         <GenreScroll/>
+          <GenreScroll />
         </div>
         <div className={`${styles.placeOrder}`}></div>
 
