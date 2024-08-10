@@ -4,18 +4,21 @@ import Search from "../components/general/Search";
 import styles from "./Venues.module.css";
 import { bands } from "../data/data";
 import Button from "../components/general/Button";
+import { desktopMap } from "../assets";
 
 const Venues = () => {
   return (
     <>
-      <section className={`section ${styles.venueSection} transition`}>
-        <div className={`px-[1rem] `}>
+      <section className={`${styles.venueSection} transition`}>
+        <div className={`${styles.search}`}>
           <Search />
+          <p>GENRE</p>
         </div>
 
-        <div>GENRE</div>
 
-        <div className={`${styles.map}`}>MAP</div>
+        <div className={`${styles.map} px-0`}>
+          <img src={desktopMap} className={`${styles.mapImage}`} />
+        </div>
 
         {/******** BANDS DETAILS  *********/}
         <div className={`${styles.bandDetailsContainer}`}>

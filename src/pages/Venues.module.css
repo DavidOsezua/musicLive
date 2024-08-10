@@ -11,7 +11,7 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   width: 100%;
-  padding: 0 1rem;
+  padding: 1rem;
 }
 
 .bandDetail > * + * {
@@ -21,7 +21,7 @@
 .image {
   /* Frame 1261152740 */
 
-  width: 170px;
+  width: 100%;
   height: 170px;
 
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
@@ -45,30 +45,55 @@
   color: #0a2259;
 }
 
+.search {
+    padding-top: 1rem;
+  }
+
+.search > * + * {
+  margin-top: 1rem;
+}
+
 @media screen and (min-width: 1024px) {
   .venueSection {
     display: grid;
     grid-template-columns: 25% 75%;
+    padding: 0;
+  }
+
+  .venueSection > * + * {
+    margin-top: 0;
   }
 
   .map {
     grid-column: 2/-1;
-    grid-row: 1/2;
+    grid-row: 1/3;
+  }
+
+  .mapImage {
+    width: 100%;
+    height: 900px;
+    object-fit: cover;
+  }
+
+  .search {
+    padding-left:1rem;
+    padding-right: 1rem;
   }
 
   .bandDetailsContainer {
-    grid-row: 3/4;
+    grid-row: 2/3;
     grid-column: 1/2;
     height: 700px;
     overflow-y: scroll;
   }
 
-  /* .bandDetailsContainer::-webkit-scrollbar{
-    display: none;
-  } */
-
   .showMore {
     grid-row: 4/5;
     grid-column: 1/2;
+  }
+
+  .genre {
+    display: none;
+    height: 100px;
   }
 }

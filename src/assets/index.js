@@ -28,6 +28,8 @@ import band2 from "./band2.webp";
 import band3 from "./band3.webp";
 import band4 from "./band4.webp";
 import band5 from "./band5.webp";
+import mobileMap from "./mobileMap.webp";
+import desktopMap from "./desktopMap.webp";
 
 export {
   facebook,
@@ -60,4 +62,6 @@ export {
   band3,
   band4,
   band5,
+  desktopMap,
+  mobileMap,
 };
