@@ -14,13 +14,7 @@ const AboutComponent = ({
 }) => {
   return (
     <div className={`${styles.container}`}>
-      <h2
-        className={`${styles.mobileTitle} ${
-          !invert ? "" : styles.desktopTitle2
-        } ${styles.title}`}
-      >
-        {title}
-      </h2>
+      <h2 className={`${styles.title2}`}>{title2}</h2>
 
       <img src={Image} className={`${styles.image}`} />
 
@@ -29,18 +23,18 @@ const AboutComponent = ({
           switched ? styles.switch : ""
         }`}
       >
-        <h2 className={`${styles.title2}`}>{title2}</h2>
-        <h2
+        <h2 className={`${styles.title3}`}>{title2}</h2>
+        <h2 className={`${styles.title}`}>{title}</h2>
+        {/* <h2
           className={`${!invert ? "" : styles.desktopTitle2} ${
             styles.desktopTitle
           } ${styles.title}`}
         >
           {title}
-        </h2>
+        </h2> */}
         <p className={`${!invert ? styles.text : styles.text2}`}>{content}</p>
-        <ExploreShowBtn/>
+        <ExploreShowBtn />
       </div>
-
     </div>
   );
 };

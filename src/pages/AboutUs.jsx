@@ -7,6 +7,7 @@ import { happyPeople, mission } from "../assets";
 import { about } from "../data/data";
 import ExploreShowBtn from "../components/general/ExploreShowBtn";
 import PageHeader from "../components/general/PageHeader";
+import About from "../components/Aboutpage.jsx/About";
 
 const AboutUs = () => {
   return (
@@ -22,24 +23,14 @@ const AboutUs = () => {
           switched
         />
         {/*  */}
-        <section className={`section px-0`}>
-          <AboutComponent
-            Image={mission}
-            title={`Our Mission`}
-            content={`We envision a world where live music is accessible to everyone, regardless of location or budget. Our website will empower users to explore and experience live band performances by offering a user-friendly, interactive map that showcases nearby venues and events at no cost.`}
-          />
-        </section>
+        <AboutComponent
+          Image={mission}
+          title={`Our Mission`}
+          content={`We envision a world where live music is accessible to everyone, regardless of location or budget. Our website will empower users to explore and experience live band performances by offering a user-friendly, interactive map that showcases nearby venues and events at no cost.`}
+        />
         {/*  */}
-        <div className={`section px-0 ${styles.about}`}>
-          {about.map((item) => (
-            <div key={item.title}>
-              <h1>
-                <span>{item.title}</span>
-              </h1>
-              <img src={item.image} className={`${styles.image}`} />
-              <p className={`${styles.text}`}>{item.content}</p>
-            </div>
-          ))}
+        <div className={`${styles.check}`}>
+          <About />
         </div>
         <div className="flex justify-center py-[2rem] w-full">
           <ExploreShowBtn />

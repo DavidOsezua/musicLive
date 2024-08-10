@@ -6,10 +6,6 @@
   width: 600px;
 }
 
-.genre::-webkit-scrollbar {
-  display: none;
-}
-
 .image {
   width: 40px;
 }

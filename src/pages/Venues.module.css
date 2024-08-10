@@ -1,3 +1,7 @@
+.venueSection {
+  padding-left: 1rem;
+}
+
 .venueSection > * + * {
   margin-top: 1rem;
 }
@@ -44,10 +48,27 @@
 @media screen and (min-width: 1024px) {
   .venueSection {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 25% 75%;
   }
 
   .map {
     grid-column: 2/-1;
+    grid-row: 1/2;
+  }
+
+  .bandDetailsContainer {
+    grid-row: 3/4;
+    grid-column: 1/2;
+    height: 700px;
+    overflow-y: scroll;
+  }
+
+  /* .bandDetailsContainer::-webkit-scrollbar{
+    display: none;
+  } */
+
+  .showMore {
+    grid-row: 4/5;
+    grid-column: 1/2;
   }
 }
