@@ -42,7 +42,7 @@
   line-height: 49px;
 
   color: #0a2259;
-  text-align: center;
+  text-align: left;
 }
 
 .title2,
@@ -60,6 +60,13 @@
 }
 .desktopTitle2 {
   color: #fff;
+}
+
+@media screen and (max-width: 425px) {
+
+  .title,.title2,.title3{
+    font-size: 1.5rem;
+  }
 }
 
 @media screen and (min-width: 967px) {

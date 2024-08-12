@@ -13,8 +13,24 @@
 }
 
 .about {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+
   gap: 15px;
   width: 1240px;
+}
+
+@media screen and (max-width: 425px) {
+  .about {
+    gap: 5;
+    width: 700px;
+  }
+
+  .image {
+    max-width: 250px;
+    height: 163.79px;
+  }
+
+  .text {
+    max-width: 250px;
+  }
 }
