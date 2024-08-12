@@ -5,12 +5,17 @@ import useMultistepForm from "../CustomHooks/useMultiStepForm";
 import BrandVenueForm from "../components/VenueBrand/BrandVenueForm";
 import VenueForm from "../components/VenueBrand/VenueForm";
 import ProgressBar from "../components/VenueBrand/Progressbar";
+import PageHeader from "../components/general/PageHeader";
 import Button from "../components/general/Button";
 
 const AddYourVenue = () => {
   const { steps, currentStep, next, step, stepNames } = useMultistepForm([
     <VenueForm key={"one"} />,
-    <BrandVenueForm key={`two`} />,
+    <BrandVenueForm
+      key={`two`}
+      text1={`Pending Gigs? E-mail us the Musician / Band names and Dates we will help you.`}
+      text2={`Send to: addMyVenue@findmelivemusic.com`}
+    />,
   ]);
 
   const submitHandler = (e) => {
@@ -18,7 +23,8 @@ const AddYourVenue = () => {
     next();
   };
   return (
-    <section className={`section transition`}>
+    <section className={`section p-0 transition`}>
+      <PageHeader page={`Add your venue`} />
       <div className={`sectionContainer`}>
         <div className={`${styles.formContainer}`}>
           <form onSubmit={submitHandler} className={`${styles.form}`}>
@@ -42,7 +48,7 @@ const AddYourVenue = () => {
               <ProgressBar />
             </div>
 
-            <h4 className={`${styles.tellUs}`}>Tell Us About Your Band!</h4>
+            <h4 className={`${styles.tellUs}`}>Tell Us About Your Venue!</h4>
             <div className={`${styles.formWrapper}`}>
               {step}
 

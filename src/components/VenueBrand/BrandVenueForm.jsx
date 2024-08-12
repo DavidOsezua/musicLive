@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./BrandVenueForm.module.css";
 import Upload from "../SVGcomponent/Upload";
 
-const BrandVenueForm = () => {
+const BrandVenueForm = ({text1,text2}) => {
   return (
     <div className={`${styles.formContainer}`}>
       <form className={`${styles.form}`}>
@@ -67,10 +67,10 @@ const BrandVenueForm = () => {
 
         <div>
           <p className="text-[#00000080]">
-            Pending Gigs? E-mail us the Venue names and Dates we will help you.
+            {text1}
           </p>
           <p className="text-[#0A2259]">
-            Send to: addMyBand@findmelivemusic.com
+            {text2}
           </p>
         </div>
       </form>

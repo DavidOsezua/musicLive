@@ -6,11 +6,16 @@ import ProgressBar from "../components/VenueBrand/Progressbar";
 import BrandForm from "../components/VenueBrand/BrandForm";
 import BrandVenueForm from "../components/VenueBrand/BrandVenueForm";
 import Button from "../components/general/Button";
+import PageHeader from "../components/general/PageHeader"
 
 const AddYourBand = () => {
   const { steps, currentStep, next, step, stepNames } = useMultistepForm([
     <BrandForm key={"one"} />,
-    <BrandVenueForm key={`two`} />,
+    <BrandVenueForm
+      key={`two`}
+      text1={`Pending Gigs? E-mail us the Venue names and Dates we will help you.`}
+      text2={`Send to: addMyBand@findmelivemusic.com`}
+    />,
   ]);
 
   const submitHandler = (e) => {
@@ -18,7 +23,8 @@ const AddYourBand = () => {
     next();
   };
   return (
-    <section className={`section transition`}>
+    <section className={`section p-0 transition`}>
+      <PageHeader page={`Add your Band`} />
       <div className={`sectionContainer`}>
         <div className={`${styles.formContainer}`}>
           <form onSubmit={submitHandler} className={`${styles.form}`}>
