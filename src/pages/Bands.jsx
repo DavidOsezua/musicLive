@@ -25,7 +25,7 @@ const Bands = () => {
         {/******** BANDS  *********/}
 
         <div>
-          <p className={`${styles.text}`}>
+          <p className={`${styles.text} text-[#0A2259] pb-[1rem]`}>
             Highlighted Live Bands Near Sacramento, CA
           </p>
 
