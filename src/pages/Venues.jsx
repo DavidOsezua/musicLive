@@ -5,19 +5,19 @@ import styles from "./Venues.module.css";
 import { bands } from "../data/data";
 import Button from "../components/general/Button";
 import { desktopMap } from "../assets";
+import Map from "../components/VenueBrand/Map";
 
 const Venues = () => {
   return (
     <>
       <section className={`${styles.venueSection} transition`}>
-        <div className={`${styles.search}`}>
+        <div className={`${styles.search} pl-[1rem]`}>
           <Search />
           <p>GENRE</p>
         </div>
 
-
-        <div className={`${styles.map} px-0`}>
-          <img src={desktopMap} className={`${styles.mapImage}`} />
+        <div className={`${styles.map} px-0 `}>
+          <Map />
         </div>
 
         {/******** BANDS DETAILS  *********/}
