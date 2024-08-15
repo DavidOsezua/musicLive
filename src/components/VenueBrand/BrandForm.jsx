@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "../general/Button";
 import styles from "./BrandForm.module.css";
+import ArrowDown from "../SVGcomponent/ArrowDown";
 
 const BrandForm = () => {
   return (
@@ -14,7 +15,16 @@ const BrandForm = () => {
         <div className={`${styles.inputContainer}`}>
           <div className="w-full">
             <label>Genre type</label>
-            <input placeholder="Email" className={`${styles.input}`} />
+
+            <div className="relative">
+              <input
+                placeholder="Select genre type"
+                className={`${styles.input}`}
+              />
+              <button className="absolute right-4 top-4">
+                <ArrowDown />
+              </button>
+            </div>
           </div>
 
           <div className="w-full">
