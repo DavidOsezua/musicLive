@@ -1,14 +1,14 @@
 import React from "react";
+import styles from "./DropdownItem.module.css";
+
 const DropdownItem = ({ img, closeDropdown }) => {
   return (
     <div onClick={closeDropdown}>
-      <div
-        className={`flex gap-4 items-center cursor-pointer text-[#C8A2D6] border-b-[1px] py-[10px] border-[#7B548D99]`}
-      >
+      <button className={`${styles.dropItem}`}>
         <img src={img} className="w-[15px]" />
 
         <p>Genre</p>
-      </div>
+      </button>
     </div>
   );
 };

@@ -1,28 +1,21 @@
 import React, { useState } from "react";
 import styles from "./Dropdown.module.css";
-import { token } from "../Data/data";
-import Token from "./Token";
 import { genre } from "../../data/data";
+import DropdownItem from "./DropdownItem";
 
-const Dropdown = ({
-  tokenStateHandler,
-  closeDropdown,
-  setToken,
-  isUpdatingRef,
-}) => {
+const Dropdown = ({ tokenStateHandler, closeDropdown, setGenre }) => {
   return (
     <div className={`${styles.card}`}>
-      {genre.map((token, i) => (
+      {genre.map((item, i) => (
         <DropdownItem
           key={i}
-          img={token.image}
-          token={token.token}
-          value={token.value}
-          network={token.network}
+          img={item.image}
+          token={item.token}
+          value={item.value}
+          network={item.network}
           closeDropdown={closeDropdown}
           tokenStateHandler={tokenStateHandler}
-          setToken={setToken}
-          isUpdatingRef={isUpdatingRef}
+          setGenre={setGenre}
         />
       ))}
     </div>

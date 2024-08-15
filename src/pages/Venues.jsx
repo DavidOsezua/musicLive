@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { TipJar } from "../components";
 import Search from "../components/general/Search";
 import styles from "./Venues.module.css";
@@ -6,14 +6,34 @@ import { bands } from "../data/data";
 import Button from "../components/general/Button";
 import { desktopMap } from "../assets";
 import Map from "../components/VenueBrand/Map";
+import Dropdown from "../components/general/Dropdown";
 
 const Venues = () => {
+  const [dropdown, setDropDown] = useState(false);
+  const [tokenState, setTokenState] = useState("USDT");
+
+  const showDropdown = () => {
+    setDropDown((prev) => !prev);
+  };
+
+  const closeDropdown = () => {
+    setDropDown(false);
+  };
+
+  const tokenStateHandler = (currentToken) => {
+    setTokenState(currentToken);
+  };
   return (
     <>
       <section className={`${styles.venueSection} transition`}>
-        <div className={`${styles.search} pl-[1rem]`}>
-          <Search />
-          <p>GENRE</p>
+        <div className={`${styles.search} px-[1rem] `}>
+          <Search showDropdown={showDropdown} />
+          {dropdown && (
+            <Dropdown
+              tokenStateHandler={tokenStateHandler}
+              closeDropdown={closeDropdown}
+            />
+          )}
         </div>
 
         <div className={`${styles.map} px-0 `}>
