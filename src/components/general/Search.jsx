@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import SearchIcon from "../SVGcomponent/SearchIcon";
 import styles from "./Search.module.css";
 import ArrowDown from "../SVGcomponent/ArrowDown";
@@ -27,6 +27,21 @@ export const Line = () => {
 };
 
 const Search = () => {
+  const [dropdown, setDropDown] = useState(false);
+  const [tokenState, setTokenState] = useState("USDT");
+
+  const showDropdown = () => {
+    setDropDown(!false);
+  };
+
+  const closeDropdown = () => {
+    setDropDown(false);
+  };
+
+  const tokenStateHandler = (currentToken) => {
+    setTokenState(currentToken);
+  };
+
   return (
     <div className={`${styles.searchContainer}`}>
       {/* INPUT SECTION */}
@@ -41,6 +56,17 @@ const Search = () => {
       <div className="flex items-center gap-2">
         <h1 className="text-[#00103380]">Genre</h1>
         <ArrowDown />
+
+        <div className="absolute right-0 top-[51px] ">
+          {dropdown && (
+            <Dropdown
+              setToken={setToken}
+              tokenStateHandler={tokenStateHandler}
+              closeDropdown={closeDropdown}
+              isUpdatingRef={isUpdatingRef}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

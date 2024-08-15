@@ -14,14 +14,15 @@ const Navbar = () => {
     <nav className={styles.navbar}>
       <div className={styles.navContainer}>
         {/*************  NavLogo ******************/}
-        <div className={styles.navLogo}>
-          <NavLink to="/">
+        <NavLink to="/">
+          <div className={styles.navLogo}>
             <img src={logo} className="w-[40px]" />
-          </NavLink>
-          <h1 className={`text-[#000000]`}>
-            Find Me <span className={`text-[#C32FB4]`}>Live Music</span>
-          </h1>
-        </div>
+
+            <h1 className={`text-[#000000]`}>
+              Find Me <span className={`text-[#C32FB4]`}>Live Music</span>
+            </h1>
+          </div>
+        </NavLink>
 
         {/******************  Menu Items *********************/}
         <ul className={`${styles.navMenu} ${toggle && styles.showMenu} `}>
