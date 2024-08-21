@@ -10,6 +10,15 @@
   padding-top: 2rem;
 }
 
+.adminSection {
+  background-color: #f6f8fd;
+  height: 100vh;
+}
+
+.adminContainer {
+  padding: 1rem;
+}
+
 .sectionContainer {
   padding-top: 3rem;
   width: 100%;

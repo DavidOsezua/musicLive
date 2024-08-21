@@ -1,14 +1,14 @@
 import React from "react";
-import "../App.css";
+import "../../App.css";
 import styles from "./Home.module.css";
-import LocationAndDates from "../components/Homepage/LocationAndDates";
-import Share from "../components/SVGcomponent/Share";
-import { mobileHeroImage } from "../assets";
-import { TipJar } from "../components";
-import Button from "../components/general/Button";
-import Hero from "../components/Homepage/Hero";
-import SelectGenre from "../components/SVGcomponent/SelectGenre";
-import GenreScroll from "../components/general/GenreScroll";
+import LocationAndDates from "../../components/Homepage/LocationAndDates";
+import Share from "../../components/SVGcomponent/Share";
+import { mobileHeroImage } from "../../assets";
+import { TipJar } from "../../components";
+import Button from "../../components/general/Button";
+import Hero from "../../components/Homepage/Hero";
+import SelectGenre from "../../components/SVGcomponent/SelectGenre";
+import GenreScroll from "../../components/general/GenreScroll";
 
 const Home = () => {
   return (

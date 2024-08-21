@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { TipJar } from "../components";
-import Search from "../components/general/Search";
+import { TipJar } from "../../components";
+import Search from "../../components/general/Search";
 import styles from "./Venues.module.css";
-import { bands } from "../data/data";
-import Button from "../components/general/Button";
-import { desktopMap } from "../assets";
-import Map from "../components/VenueBrand/Map";
-import Dropdown from "../components/general/Dropdown";
+import { bands } from "../../data/data";
+import Button from "../../components/general/Button";
+import { desktopMap } from "../../assets";
+import Map from "../../components/VenueBrand/Map";
+import Dropdown from "../../components/general/Dropdown";
 
 const Venues = () => {
   const [dropdown, setDropDown] = useState(false);

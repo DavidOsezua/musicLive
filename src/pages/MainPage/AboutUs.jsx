@@ -1,13 +1,13 @@
 import React from "react";
-import "../App.css";
+import "../../App.css";
 import styles from "./AboutUs.module.css";
-import { TipJar } from "../components";
-import AboutComponent from "../components/Aboutpage.jsx/AboutComponent";
-import { happyPeople, mission } from "../assets";
-import { about } from "../data/data";
-import ExploreShowBtn from "../components/general/ExploreShowBtn";
-import PageHeader from "../components/general/PageHeader";
-import About from "../components/Aboutpage.jsx/About";
+import { TipJar } from "../../components";
+import AboutComponent from "../../components/Aboutpage.jsx/AboutComponent";
+import { happyPeople, mission } from "../../assets";
+import { about } from "../../data/data";
+import ExploreShowBtn from "../../components/general/ExploreShowBtn";
+import PageHeader from "../../components/general/PageHeader";
+import About from "../../components/Aboutpage.jsx/About";
 
 const AboutUs = () => {
   return (

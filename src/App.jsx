@@ -9,31 +9,43 @@ import {
   Venues,
   AddYourBand,
   AddYourVenue,
+  DashBoard,
+  AdminVenue,
+  AdminBand,
+  Ads,
+  EmailTemplates,
+  AdminGenre,
 } from "./pages";
-import { Footer, Navbar } from "./components";
-import FooterTwo from "./components/general/FooterTwo";
+import MainLayout from "./Layout/MainLayout";
+import AdminDashboardLayout from "./Layout/AdminDashboardLayout";
 
 const App = () => {
   return (
-   
-      <BrowserRouter>
-       <div className="transition">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="home" element={<Home />} />
+    <BrowserRouter>
+      <Routes>
+        {/*********************** MAIN WEBSITE   ******************************/}
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<Home />} />
           <Route path="aboutus" element={<AboutUs />} />
           <Route path="contactus" element={<ContactUs />} />
           <Route path="bands" element={<Bands />} />
           <Route path="venues" element={<Venues />} />
           <Route path="addyourband" element={<AddYourBand />} />
           <Route path="addyourvenue" element={<AddYourVenue />} />
-        </Routes>
-        <Footer />
-        <FooterTwo/>
-        </div>
-      </BrowserRouter>
-    
+        </Route>
+
+        {/*********************** ADMIN DASHBOARD   ******************************/}
+        <Route path="/admin" element={<AdminDashboardLayout />}>
+          <Route index element={<DashBoard />} />
+          <Route path="dashboard" element={<DashBoard />} />
+          <Route path="adminvenue" element={<AdminVenue />} />
+          <Route path="adminband" element={<AdminBand />} />
+          <Route path="admingenre" element={<AdminGenre />} />
+          <Route path="ads" element={<Ads />} />
+          <Route path="emailtemplates" element={<EmailTemplates />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 

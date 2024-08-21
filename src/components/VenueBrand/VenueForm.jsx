@@ -43,14 +43,14 @@ const VenueForm = () => {
                 <ArrowDown />
               </button>
 
-              <div className="absolute w-full">
-                {dropdown && (
+              {dropdown && (
+                <div className="absolute top-0 w-full bg-[#F6F8FD] p-[1rem] border-[#2659C34D] border-[1px] rounded-md ">
                   <Dropdown
                     tokenStateHandler={tokenStateHandler}
                     closeDropdown={closeDropdown}
                   />
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

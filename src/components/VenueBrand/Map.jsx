@@ -1,7 +1,7 @@
 import React from "react";
 import GoogleMapReact from "google-map-react";
 
-const apiKey = import.meta.env.MAP_API_KEY;
+const apiKey = import.meta.env.REACT_APP_MAP_API_KEY;
 
 const Map = () => {
   return (

@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./ContactUs.module.css";
-import { TipJar } from "../components";
-import Button from "../components/general/Button";
+import { TipJar } from "../../components";
+import Button from "../../components/general/Button";
 
 const ContactUs = () => {
   return (

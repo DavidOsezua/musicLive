@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import "../../App.css";
 import { close, hamburgermenu, logo } from "../../assets";
 import { navLinks } from "../../data/data";
+import LogoComponent from "./LogoComponent";
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
@@ -16,11 +17,7 @@ const Navbar = () => {
         {/*************  NavLogo ******************/}
         <NavLink to="/">
           <div className={styles.navLogo}>
-            <img src={logo} className="w-[40px]" />
-
-            <h1 className={`text-[#000000]`}>
-              Find Me <span className={`text-[#C32FB4]`}>Live Music</span>
-            </h1>
+            <LogoComponent />
           </div>
         </NavLink>
 

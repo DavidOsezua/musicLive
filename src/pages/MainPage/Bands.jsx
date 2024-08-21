@@ -1,12 +1,12 @@
 import React from "react";
-import { TipJar } from "../components";
-import PageHeader from "../components/general/PageHeader";
-import Search from "../components/general/Search";
-import { bands, genre } from "../data/data";
-import Button from "../components/general/Button";
-import Genre from "../components/general/Genre";
+import { TipJar } from "../../components";
+import PageHeader from "../../components/general/PageHeader";
+import Search from "../../components/general/Search";
+import { bands, genre } from "../../data/data";
+import Button from "../../components/general/Button";
+import Genre from "../../components/general/Genre";
 import styles from "./Bands.module.css";
-import GenreScroll from "../components/general/GenreScroll";
+import GenreScroll from "../../components/general/GenreScroll";
 
 const Bands = () => {
   return (

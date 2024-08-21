@@ -32,6 +32,15 @@ export const navLinks = [
   { link: "About US", path: "/aboutus" },
 ];
 
+export const sideBarLinks = [
+  { link: "Dashboard", path: "dashboard" },
+  { link: "Venues", path: "adminvenue" },
+  { link: "Bands", path: "adminband" },
+  { link: "Genre", path: "admingenre" },
+  { link: "Ads", path: "ads" },
+  { link: "Email Templates", path: "emailtemplates" },
+];
+
 export const footerLinks = [
   {
     title: "Quicklink",

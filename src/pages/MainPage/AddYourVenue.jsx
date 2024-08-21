@@ -1,23 +1,23 @@
 import React from "react";
-import { TipJar } from "../components";
-import styles from "./AddYourBand.module.css";
-import useMultistepForm from "../CustomHooks/useMultiStepForm";
-import ProgressBar from "../components/VenueBrand/Progressbar";
-import BrandForm from "../components/VenueBrand/BrandForm";
-import BrandVenueForm from "../components/VenueBrand/BrandVenueForm";
-import Button from "../components/general/Button";
-import PageHeader from "../components/general/PageHeader";
-import ArrowRight from "../components/SVGcomponent/ArrowRight";
-import ArrowLeft from "../components/SVGcomponent/ArrowLeft";
+import { TipJar } from "../../components";
+import styles from "./AddYourVenue.module.css";
+import useMultistepForm from "../../CustomHooks/useMultiStepForm";
+import BrandVenueForm from "../../components/VenueBrand/BrandVenueForm";
+import VenueForm from "../../components/VenueBrand/VenueForm";
+import ProgressBar from "../../components/VenueBrand/Progressbar";
+import PageHeader from "../../components/general/PageHeader";
+import Button from "../../components/general/Button";
+import ArrowLeft from "../../components/SVGcomponent/ArrowLeft";
+import ArrowRight from "../../components/SVGcomponent/ArrowRight";
 
-const AddYourBand = () => {
+const AddYourVenue = () => {
   const { steps, currentStep, next, step, stepNames, previous } =
     useMultistepForm([
-      <BrandForm key={"one"} />,
+      <VenueForm key={"one"} />,
       <BrandVenueForm
         key={`two`}
-        text1={`Pending Gigs? E-mail us the Venue names and Dates we will help you.`}
-        text2={`Send to: addMyBand@findmelivemusic.com`}
+        text1={`Pending Gigs? E-mail us the Musician / Band names and Dates we will help you.`}
+        text2={`Send to: addMyVenue@findmelivemusic.com`}
       />,
     ]);
 
@@ -30,9 +30,11 @@ const AddYourBand = () => {
     e.preventDefault();
     previous();
   };
+
+  console.log(currentStep);
   return (
     <section className={`section p-0 transition`}>
-      <PageHeader page={`Add your Band`} />
+      <PageHeader page={`Add your venue`} />
       <div className={`sectionContainer`}>
         <div className={`${styles.formContainer}`}>
           <form className={`${styles.form}`}>
@@ -56,7 +58,7 @@ const AddYourBand = () => {
               <ProgressBar />
             </div>
 
-            <h4 className={`${styles.tellUs}`}>Tell Us About Your Band!</h4>
+            <h4 className={`${styles.tellUs}`}>Tell Us About Your Venue!</h4>
             <div className={`${styles.formWrapper}`}>
               {step}
 
@@ -80,15 +82,15 @@ const AddYourBand = () => {
                   svg={<ArrowRight />}
                 />
               )}
+
               {/* */}
             </div>
           </form>
         </div>
-
         <TipJar />
       </div>
     </section>
   );
 };
 
-export default AddYourBand;
+export default AddYourVenue;
