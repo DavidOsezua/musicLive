@@ -4,6 +4,7 @@ import { dashboardSummary } from "../../data/data";
 import Button from "../../components/general/Button";
 import DashboardCard from "../../components/Dashboard/DashboardCard";
 import CsvRecent from "../../components/Dashboard/CsvRecent";
+import Mail from "../../components/SVGcomponent/Mail";
 
 const DashBoard = () => {
   return (
@@ -18,11 +19,15 @@ const DashBoard = () => {
 
       <div className={`${styles.emailCard}`}>
         <div className={`${styles.emailcontainer}`}>
-          <h3>Email Subscriber</h3>
-          <div>
-            <p>5000</p>
-            <p>New</p>
-            <p>+30</p>
+          <div className="flex justify-between items-center">
+            <h3>Email Subscriber</h3>
+            <Mail />
+          </div>
+
+          <div className="flex items-center gap-2">
+            <p className="text-[2rem] font-semibold">5000</p>
+            <p className="text-[#437CF3]">+30</p>
+            <p className="text-[#437CF3]">New</p>
           </div>
 
           <div className="flex gap-3 w-full">

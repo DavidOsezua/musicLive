@@ -9,22 +9,25 @@
   grid-template-columns: repeat(auto-fit, minmax(305px, 1fr));
 }
 
-.emailCard{
-  background-color: #E6ECF8;
+.emailCard {
+  background-color: #e6ecf8;
   padding: 1rem;
+  border-radius: 5px;
 }
 
-.emailCard > *+*{
+.emailCard > * + * {
   margin-top: 1rem;
 }
 
 .emailcontainer {
   background-color: #d1e0ff;
   padding: 1rem 1.5rem;
+  border-radius: 3px;
+  color: #0e3386;
 }
 
-.csvRecent > *+*{
-margin-top: 0.7rem;
+.csvRecent > * + * {
+  margin-top: 0.7rem;
 }
 
 @media screen and (min-width: 1220px) {
