@@ -1,3 +1,42 @@
 .dashboardSection {
-  
+  display: grid;
+  gap: 1rem;
+}
+
+.dashboardSummary {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(305px, 1fr));
+}
+
+.emailCard{
+  background-color: #E6ECF8;
+  padding: 1rem;
+}
+
+.emailCard > *+*{
+  margin-top: 1rem;
+}
+
+.emailcontainer {
+  background-color: #d1e0ff;
+  padding: 1rem 1.5rem;
+}
+
+.csvRecent > *+*{
+margin-top: 0.7rem;
+}
+
+@media screen and (min-width: 1220px) {
+  .dashboardSection {
+    grid-template-columns: 1fr 22rem;
+  }
+
+  .dashboardSummary {
+    height: 149px;
+  }
+
+  .emailcontainer {
+    /* height: 100vh; */
+  }
 }

@@ -3,8 +3,8 @@
   height: 100vh;
   padding-left: 3rem;
   padding-top: 1.5rem;
-position: sticky;
-top: 0;
+  position: sticky;
+  top: 0;
   background: #ffffff;
 }
 @media screen and (max-width: 913px) {
@@ -30,7 +30,7 @@ top: 0;
 }
 .sideBar.showMenu {
   visibility: visible;
- transition: all 0.3s ease;
+  transition: all 0.3s ease;
 
   left: 0;
   opacity: 1;
@@ -54,7 +54,6 @@ top: 0;
   width: 100%;
   display: block;
   transition: all 0.6s ease;
- 
 }
 
 .link:hover {
@@ -96,9 +95,8 @@ top: 0;
   transition: all 0.6s ease;
 }
 
-
-@media screen and (min-width:1024px){
-  .navMenu{
+@media screen and (min-width: 1024px) {
+  .navMenu {
     padding-top: 3rem;
   }
 }

@@ -1,15 +1,18 @@
 import {
   Acoustic,
+  ads,
   band1,
   band2,
   band3,
   band4,
   band5,
+  Bands,
   blues,
   country,
   dance,
   facebook,
   fans,
+  genreImg,
   instagram,
   jazz,
   metal,
@@ -19,6 +22,7 @@ import {
   rock,
   urban,
   venue,
+  venueImg,
   website,
 } from "../assets";
 
@@ -151,5 +155,68 @@ export const bands = [
     genre: "Blues",
     bandName: "Demi3D Bands",
     socials: [facebook, instagram, website],
+  },
+];
+
+export const dashboardSummary = [
+  {
+    name: "Bands",
+    numbers: 2000,
+    image: Bands,
+    status: [
+      { state: "active", number: 1200 },
+      { state: "Pending", number: 460 },
+      { state: "inactive", number: 340 },
+    ],
+    colorID: "band",
+    buttonText: "Add Band +",
+  },
+  {
+    name: "Venue",
+    numbers: 200,
+    image: venueImg,
+    status: [
+      { state: "active", number: 120 },
+      { state: "Pending", number: 46 },
+      { state: "inactive", number: 34 },
+    ],
+    colorID: "venue",
+    buttonText: "Add Venue +",
+  },
+  {
+    name: "Genre",
+    numbers: 200,
+    image: genreImg,
+    status: [
+      { state: "active", number: 120 },
+      { state: "Pending", number: 46 },
+      { state: "inactive", number: 34 },
+    ],
+    colorID: "genre",
+    buttonText: "Add Genre +",
+  },
+  {
+    name: "Advertisment",
+    numbers: 5,
+    image: ads,
+    status: [
+      { state: "active", number: 120 },
+      { state: "Pending", number: 46 },
+      { state: "inactive", number: 34 },
+    ],
+    colorID: "band",
+    buttonText: "Add Ads +",
+  },
+  {
+    name: "Venue Type",
+    numbers: 30,
+    image: venueImg,
+    status: [
+      { state: "active", number: 120 },
+      { state: "Pending", number: 46 },
+      { state: "inactive", number: 34 },
+    ],
+    colorID: "venue",
+    buttonText: "Add Venue +",
   },
 ];

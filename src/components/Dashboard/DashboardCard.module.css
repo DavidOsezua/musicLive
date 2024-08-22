@@ -1,0 +1,35 @@
+.dashboardCard {
+  padding: 1rem;
+  border-radius: 8px;
+  color: #0e3386;
+}
+
+.dashboardCard > * + * {
+  margin-top: 0.3rem;
+}
+
+.topContent {
+  display: flex;
+}
+
+.button {
+  border: 1px dashed #0e3386;
+  border-radius: 3px;
+  padding: 3px 8px;
+}
+
+.band {
+  background-color: #e6ecf8;
+}
+
+.venue {
+  background-color: #eee5f9;
+}
+
+.genre {
+  background-color: #e9d7ff;
+}
+
+.state {
+  font-size: 0.7rem;
+}

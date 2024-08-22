@@ -30,6 +30,10 @@ import band4 from "./band4.webp";
 import band5 from "./band5.webp";
 import mobileMap from "./mobileMap.webp";
 import desktopMap from "./desktopMap.webp";
+import Bands from "./Bands.svg";
+import venueImg from "./Venue.svg";
+import ads from "./ADS.svg";
+import genreImg from "./Genre.svg";
 
 export {
   facebook,
@@ -64,4 +68,8 @@ export {
   band5,
   desktopMap,
   mobileMap,
+  Bands,
+  venueImg,
+  ads,
+  genreImg,
 };

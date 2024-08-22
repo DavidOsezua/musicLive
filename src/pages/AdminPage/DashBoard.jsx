@@ -1,10 +1,65 @@
 import React from "react";
 import styles from "./DashBoard.module.css";
+import { dashboardSummary } from "../../data/data";
+import Button from "../../components/general/Button";
+import DashboardCard from "../../components/Dashboard/DashboardCard";
+import CsvRecent from "../../components/Dashboard/CsvRecent";
 
 const DashBoard = () => {
   return (
-    <section className={`${styles.dashboardSection} adminSection adminContainer`}>
-      <div>DashBoard</div>
+    <section
+      className={`${styles.dashboardSection} adminSection adminContainer`}
+    >
+      <div className={`${styles.dashboardSummary}`}>
+        {dashboardSummary.map((summary) => (
+          <DashboardCard key={``} summary={summary} />
+        ))}
+      </div>
+
+      <div className={`${styles.emailCard}`}>
+        <div className={`${styles.emailcontainer}`}>
+          <h3>Email Subscriber</h3>
+          <div>
+            <p>5000</p>
+            <p>New</p>
+            <p>+30</p>
+          </div>
+
+          <div className="flex gap-3 w-full">
+            <Button
+              text={`Export Email`}
+              width={`w-full`}
+              radius={`rounded-[5px]`}
+            />
+            <Button
+              colored
+              text={`See Details`}
+              width={`w-full`}
+              radius={`rounded-[5px]`}
+            />
+          </div>
+        </div>
+
+        <div className={`${styles.csvRecent}`}>
+          <h3>CSV</h3>
+          <CsvRecent title={`Bands`} buttonText={`Export File`} />
+          <CsvRecent title={`Venue`} buttonText={`Export File`} />
+        </div>
+
+        <div className={`${styles.csvRecent}`}>
+          <h3>Recents</h3>
+          <CsvRecent
+            title={`Bands`}
+            buttonText={`Send Details`}
+            numberOfRequests={`+42 new request`}
+          />
+          <CsvRecent
+            title={`Venue`}
+            buttonText={`Send Details`}
+            numberOfRequests={`+42 new request`}
+          />
+        </div>
+      </div>
     </section>
   );
 };
