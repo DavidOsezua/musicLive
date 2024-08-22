@@ -20,8 +20,12 @@ const DashboardCard = ({ summary }) => {
         <div className="flex gap-2">
           {summary.status.map((status) => (
             <div key={``} className="flex gap-1">
-              <span className={`${styles.state}`}>{status.state}</span>
-              <span className={`${styles.state}`}>{status.number}</span>
+              <span className={`${styles.state} ${styles[status.colorID]}`}>
+                {status.state}
+              </span>
+              <span className={`${styles.state} ${styles[status.colorID]}`}>
+                {status.number}
+              </span>
             </div>
           ))}
         </div>

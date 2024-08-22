@@ -30,6 +30,18 @@
   background-color: #e9d7ff;
 }
 
+.active {
+  color: #27993a;
+}
+
+.pending {
+  color: #ffac1c;
+}
+
+.inactive {
+  color: #ff1316;
+}
+
 .state {
   font-size: 0.7rem;
 }
