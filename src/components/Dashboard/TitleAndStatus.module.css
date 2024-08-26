@@ -1,0 +1,87 @@
+.titleAndStatusContainer > * + * {
+  margin-top: 1rem;
+}
+
+.titleAndStatusContainer {
+  max-width: 832px;
+}
+
+.title {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  color: #0e3386;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 2px dashed #0e3386;
+  border-radius: 3px;
+  height: 100px;
+  justify-content: center;
+  color: #0e3386;
+}
+
+.cardContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.total {
+  background-color: #e6ecf8;
+  color: #0e3386;
+  border-radius: 3px;
+}
+
+.total span {
+  color: #0e3386;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.approve {
+  background-color: #5be97326;
+  color: #27993a;
+  border-radius: 3px;
+}
+
+.approve span {
+  color: #27993a;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.pending {
+  background-color: #ffac1c1a;
+  border-radius: 3px;
+  color: #ffac1c;
+}
+
+.pending span {
+  color: #ffac1c;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.inactive {
+  background-color: #fc9c9e26;
+  color: #ff1316;
+}
+
+.inactive span {
+  color: #ff1316;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  justify-content: center;
+  text-align: center;
+}

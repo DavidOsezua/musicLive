@@ -3,7 +3,7 @@
   position: relative;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 914px) {
   .dashboard {
     display: grid;
     grid-template-columns: 14rem 1fr;

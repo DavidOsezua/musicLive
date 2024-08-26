@@ -1,11 +1,11 @@
 import React from "react";
 
-const SearchIcon = () => {
+const SearchIcon = ({ width, height }) => {
   return (
     <span>
       <svg
-        width="25"
-        height="30"
+        width={width}
+        height={height}
         viewBox="0 0 31 30"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
