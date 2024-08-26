@@ -13,8 +13,10 @@
 .adminSection {
   background-color: #f6f8fd;
   height: 100%;
+  width: 100%;
   padding: 1rem;
 }
+
 
 .pageContainer > * + * {
   margin-top: 2rem;
@@ -24,6 +26,13 @@
   margin-top: 2rem;
 }
 
+.tableContainer {
+  overflow-x: scroll;
+}
+
+.tableContainer::-webkit-scrollbar {
+  display: none;
+}
 .sectionContainer {
   padding-top: 3rem;
   width: 100%;

@@ -13,7 +13,7 @@ const AdminDashboardLayout = () => {
     <div className={`transistion ${styles.dashboard}`}>
       <DashboardSidebar toggle={toggle} toggleHandler={toggleHandler} />
       <DashboardNavbar toggleHandler={toggleHandler} />
-      <main>
+      <main className="overflow-hidden">
         <Outlet />
       </main>
     </div>

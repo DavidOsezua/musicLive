@@ -114,12 +114,14 @@ const TablesAndCards = ({ pageData, pageType }) => {
 
       {/* RENDERING TABLES OR CARDS BASED ON THE PAGE TYPE */}
       {pageType === "venue" || pageType === "bands" ? (
-        <Table
-          tableHead={tableHead}
-          tableBody={currentItems}
-          currentPage={currentPage}
-          itemsPerPage={itemsPerPage}
-        />
+        <div className="tableContainer">
+          <Table
+            tableHead={tableHead}
+            tableBody={currentItems}
+            currentPage={currentPage}
+            itemsPerPage={itemsPerPage}
+          />
+        </div>
       ) : (
         <div>Cardlist</div>
       )}
