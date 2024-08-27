@@ -488,7 +488,7 @@ export const genrePageData = {
   tableOrCardData: [
     {
       ID: uuidv4(),
-      status: "Approve",
+      status: "Approved",
       genre: "Rock",
       image: rock,
     },
@@ -501,7 +501,7 @@ export const genrePageData = {
     },
     {
       ID: uuidv4(),
-      status: "Approve",
+      status: "Approved",
       genre: "Blues",
       image: blues,
     },
@@ -513,13 +513,13 @@ export const genrePageData = {
     },
     {
       ID: uuidv4(),
-      status: "Approve",
+      status: "Approved",
       genre: "Urban",
       image: urban,
     },
     {
       ID: uuidv4(),
-      status: "Approve",
+      status: "Approved",
       genre: "Acoustic",
       image: Acoustic,
     },
@@ -531,7 +531,7 @@ export const genrePageData = {
     },
     {
       ID: uuidv4(),
-      status: "Approve",
+      status: "Approved",
       genre: "Country",
       image: country,
     },
@@ -718,6 +718,4 @@ export const adsPageData = {
   size: "ads",
 };
 
-export const emailPageData =[
-  
-]
+export const emailPageData = [];
