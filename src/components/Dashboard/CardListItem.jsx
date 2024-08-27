@@ -1,20 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Switch from "../general/Switch";
 import Delete from "../SVGcomponent/Delete";
 import styles from "./CardListItem.module.css";
 
-const CardListItem = ({ item, isToggled, index, setIsToggled }) => {
-  const clicked = index === isToggled;
+const CardListItem = ({ item, updateItemStatus }) => {
+  const [isToggled, setIsToggled] = useState(false);
+  const [status, setStatus] = useState(item.status);
+
   const handleToggle = () => {
-    setIsToggled(clicked ? null : index);
+    setIsToggled(!isToggled);
+
+    if (!isToggled) {
+      setStatus("Approved");
+    } else {
+      setStatus("Inactive");
+    }
   };
 
-  console.log(isToggled);
   return (
     <div key={item.id} className={styles.cardContainer}>
       <div className="flex justify-between">
-        <p>{item.status}</p>
-        <Switch />
+        <p>{status}</p>
+        <Switch
+          isToggled={isToggled}
+          handleToggle={handleToggle}
+          status={status}
+        />
       </div>
 
       <div className="flex justify-center w-full">

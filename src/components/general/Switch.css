@@ -11,8 +11,7 @@
 
 .switch-label {
   cursor: pointer;
-  width: 28px;
-  height: 14px;
+
   background-color: #ccc;
   display: flex;
   border-radius: 100px;
@@ -41,4 +40,43 @@
 
 .switch-label:active .switch-button {
   width: 12px;
+}
+
+.toggle-btn {
+  background: rgba(215, 228, 254, 0.5);
+  border: 0.5px solid rgba(61, 105, 197, 0.62);
+  border-radius: 100px;
+  width: 28px;
+  height: 14px;
+  position: relative;
+}
+
+.toggle-btn .thumb {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 1px;
+  width: 10px;
+  height: 10px;
+  border-radius: 45px;
+  transition: left 0.2s ease;
+  transform: translateX(0);
+  transform: translateY(-50%);
+  background: #91abdf;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-btn.toggle {
+  background: #d7e4fe;
+  border: 0.5px solid rgba(61, 105, 197, 0.62);
+  border-radius: 100px;
+}
+
+.thumb.active {
+  background-color: #3d69c5;
+}
+
+.toggle-btn.toggle .thumb {
+  left: calc(100% - 12px);
+  transform: translatey(-50%);
 }
