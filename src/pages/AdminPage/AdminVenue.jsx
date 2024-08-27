@@ -2,8 +2,10 @@ import React from "react";
 
 const AdminVenue = () => {
   return (
-    <section className={` adminSection`}>
-      <div>AdminVenue</div>
+    <section className={` adminSection pageContainer`}>
+      <h2 className="text-[red] font-[2rem] font-semibold ">
+        ! STILL WORKING ON THIS PAGE
+      </h2>
     </section>
   );
 };

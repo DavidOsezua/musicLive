@@ -105,6 +105,13 @@ const TablesAndCards = ({ pageData, pageType }) => {
 
   return (
     <section className="tableAndCards">
+      <h2 className="text-[red] font-[2rem] font-semibold ">
+        ! STILL WORKING ON THIS PAGE
+      </h2>
+      <h2 className="text-[red] font-[2rem] font-semibold ">
+        ! DELETE AND SWITCH BUTTONS NOT WORKING YET
+      </h2>
+
       {/* RENDERING FILTER BUTTONS */}
       <FilterAndSearch
         data={pageData}
