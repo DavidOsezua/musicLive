@@ -34,6 +34,7 @@ import Bands from "./Bands.svg";
 import venueImg from "./Venue.svg";
 import ads from "./ADS.svg";
 import genreImg from "./Genre.svg";
+import adImg from "./adImg.png";
 
 export {
   facebook,
@@ -72,4 +73,5 @@ export {
   venueImg,
   ads,
   genreImg,
+  adImg,
 };

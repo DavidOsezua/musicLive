@@ -1,32 +1,25 @@
 import React, { useState } from "react";
 import TitleAndStatus from "../../components/Dashboard/TitleAndStatus";
-import {  genrePageData } from "../../data/data";
+import { genrePageData } from "../../data/data";
 import Switch from "../../components/general/Switch";
 import SomeFunctionality from "../../components/SomeFunctionality";
+import TablesAndCards from "../../components/Dashboard/TablesAndCards";
 
 const AdminGenre = () => {
-  const [isToggled, setIsToggled] = useState(false);
 
-  const handleToggle = () => {
-    setIsToggled(!isToggled);
-  };
 
   return (
-    <section className={` adminSection adminContainer`}>
+    <section className={` adminSection pageContainer`}>
       <TitleAndStatus
         title={`Genre`}
         buttonText={`Add genre`}
         data={genrePageData}
       />
 
-      <div>
-        {isToggled ? <p>Active</p> : <p>Inactive</p>}
-        <Switch isOn={isToggled} handleToggle={handleToggle} />
-      </div>
+      <TablesAndCards pageData={genrePageData} pageType={`cardList`} />
 
 
-
-      <SomeFunctionality/>
+      {/* <SomeFunctionality /> */}
     </section>
   );
 };

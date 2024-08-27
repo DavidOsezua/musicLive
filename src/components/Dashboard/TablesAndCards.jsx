@@ -6,19 +6,20 @@ import DoubleNext from "../SVGcomponent/DoubleNext";
 import Next from "../SVGcomponent/Next";
 import Previous from "../SVGcomponent/Previous";
 import DoublePrevious from "../SVGcomponent/DoublePrevious";
+import CardList from "./CardList";
 
 const TablesAndCards = ({ pageData, pageType }) => {
-  const { tableBody, status, tableHead } = pageData;
-  const [data, setData] = useState(tableBody);
+  const { tableOrCardData, status, tableHead, numberOfItem } = pageData;
+  const [data, setData] = useState(tableOrCardData);
   const [active, setActive] = useState("All");
-  const [filteredData, setFilteredData] = useState(tableBody);
+  const [filteredData, setFilteredData] = useState(tableOrCardData);
   const [currentPage, setCurrentPage] = useState(1);
   const [editId, setEditId] = useState(null);
   const [editName, setEditName] = useState("");
   const [previewItem, setPreviewItem] = useState(null);
   const [editDetails, setEditDetails] = useState("");
   const [isEditingPreview, setIsEditingPreview] = useState(false);
-  const itemsPerPage = 5;
+  const itemsPerPage = numberOfItem;
 
   // Calculate total number of pages
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
@@ -123,7 +124,7 @@ const TablesAndCards = ({ pageData, pageType }) => {
           />
         </div>
       ) : (
-        <div>Cardlist</div>
+        <CardList data={currentItems} />
       )}
 
       {/* Pagination controls */}

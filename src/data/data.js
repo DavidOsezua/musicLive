@@ -1,5 +1,6 @@
 import {
   Acoustic,
+  adImg,
   ads,
   band1,
   band2,
@@ -253,7 +254,7 @@ export const bandPageData = {
     "Status",
     "Actions",
   ],
-  tableBody: [
+  tableOrCardData: [
     {
       ID: uuidv4(),
       image: "",
@@ -471,6 +472,7 @@ export const bandPageData = {
       status: "Inactive",
     },
   ],
+  numberOfItem: 5,
 };
 
 /************  GENRE TABLE DATA  *************/
@@ -481,29 +483,73 @@ export const genrePageData = {
     { status: "Inactive", numbers: 2000, colorID: "inactive" },
   ],
 
-  status: ["All", "Approved", "Pending", "Inactive"],
-  bandTableHead: [
-    "ID",
-    "Band name/Genre",
-    "Socials",
-    "Email",
-    "Date",
-    "Status",
-    "Actions",
-  ],
-  bandTableBody: [
+  status: ["All", "Approved", "Inactive"],
+
+  tableOrCardData: [
     {
       ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
+      status: "Approve",
+      genre: "Rock",
+      image: rock,
+    },
+
+    {
+      ID: uuidv4(),
+      status: "Inactive",
+      genre: "Jazz",
+      image: jazz,
+    },
+    {
+      ID: uuidv4(),
+      status: "Approve",
       genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      status: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
+      image: blues,
+    },
+    {
+      ID: uuidv4(),
+      status: "Inactive",
+      genre: "Pop",
+      image: pop,
+    },
+    {
+      ID: uuidv4(),
+      status: "Approve",
+      genre: "Urban",
+      image: urban,
+    },
+    {
+      ID: uuidv4(),
+      status: "Approve",
+      genre: "Acoustic",
+      image: Acoustic,
+    },
+    {
+      ID: uuidv4(),
+      status: "Inactive",
+      genre: "Raggae",
+      image: raggae,
+    },
+    {
+      ID: uuidv4(),
+      status: "Approve",
+      genre: "Country",
+      image: country,
+    },
+    {
+      ID: uuidv4(),
+      status: "Inactive",
+      genre: "Metal",
+      image: metal,
+    },
+    {
+      ID: uuidv4(),
+      status: "Inactive",
+      genre: "Dance",
+      image: dance,
     },
   ],
+  numberOfItem: 12,
+  size: "genre",
 };
 
 /************  ADS TABLE DATA  *************/
@@ -514,27 +560,164 @@ export const adsPageData = {
     { status: "Inactive", numbers: 2000, colorID: "inactive" },
   ],
 
-  status: ["All", "Approved", "Pending", "Inactive"],
-  bandTableHead: [
-    "ID",
-    "Band name/Genre",
-    "Socials",
-    "Email",
-    "Date",
-    "Status",
-    "Actions",
-  ],
-  bandTableBody: [
+  status: ["All", "Approved", "Inactive"],
+
+  tableOrCardData: [
     {
       ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      status: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: uuidv4(),
+      image: adImg,
+      status: "Inactive",
     },
   ],
+  numberOfItem: 12,
+  size: "ads",
 };
+
+export const emailPageData =[
+  
+]

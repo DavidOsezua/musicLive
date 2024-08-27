@@ -9,6 +9,7 @@
   background: #ffffff;
   border-radius: 5px;
   display: flex;
+  justify-content: space-between;
   color: #07173d66;
   font-size: 0.8rem;
 }

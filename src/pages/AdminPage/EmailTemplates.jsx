@@ -3,7 +3,9 @@ import React from "react";
 const EmailTemplates = () => {
   return (
     <section className={` adminSection`}>
-      <div>EmailTemplate</div>
+      <div className="">
+{}
+      </div>
     </section>
   );
 };
