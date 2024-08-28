@@ -12,7 +12,6 @@ const Type = () => {
         data={typePageData}
       />
 
-      <h2 className="text-[red] font-semibold ">! DATA NOT ADDED YET</h2>
 
       <TablesAndCards pageData={typePageData} pageType={`cardList`} />
     </section>
