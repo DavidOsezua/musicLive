@@ -19,6 +19,7 @@ const TablesAndCards = ({ pageData, pageType }) => {
   const [previewItem, setPreviewItem] = useState(null);
   const [editDetails, setEditDetails] = useState("");
   const [isEditingPreview, setIsEditingPreview] = useState(false);
+
   const itemsPerPage = numberOfItem;
 
   // Calculate total number of pages
@@ -72,7 +73,7 @@ const TablesAndCards = ({ pageData, pageType }) => {
 
   // Delete functionality
   const handleDelete = (id) => {
-    const newData = data.filter((item) => item.id !== id);
+    const newData = data.filter((item) => item.ID !== id);
     setData(newData);
     setFilteredData(newData);
   };
@@ -103,14 +104,36 @@ const TablesAndCards = ({ pageData, pageType }) => {
     setIsEditingPreview(false); // Exit editing mode
   };
 
+  // const updateItemStatus = (id, newStatus) => {
+  //   console.log(`Updating item with id: ${id} to status: ${newStatus}`);
+  //   setData((prevData) =>
+  //     prevData.map((item) =>
+  //       item.ID === id ? { ...item, status: newStatus } : item
+  //     )
+  //   );
+  // };
+
+  const updateItemStatus = (id, newStatus) => {
+    setData((prevData) =>
+      prevData.map((item) =>
+        item.ID === id ? { ...item, status: newStatus } : item
+      )
+    );
+    setFilteredData((prevFilteredData) =>
+      prevFilteredData.map((item) =>
+        item.ID === id ? { ...item, status: newStatus } : item
+      )
+    );
+  };
+
   return (
     <section className="tableAndCards">
-      <h2 className="text-[red] font-[2rem] font-semibold ">
+      {/* <h2 className="text-[red] font-[2rem] font-semibold ">
         ! STILL WORKING ON THIS PAGE
       </h2>
       <h2 className="text-[red] font-[2rem] font-semibold ">
         ! DELETE AND SWITCH BUTTONS NOT WORKING YET
-      </h2>
+      </h2> */}
 
       {/* RENDERING FILTER BUTTONS */}
       <FilterAndSearch
@@ -131,7 +154,11 @@ const TablesAndCards = ({ pageData, pageType }) => {
           />
         </div>
       ) : (
-        <CardList data={currentItems} />
+        <CardList
+          data={currentItems}
+          updateItemStatus={updateItemStatus}
+          handleDelete={handleDelete}
+        />
       )}
 
       {/* Pagination controls */}
@@ -154,6 +181,10 @@ const TablesAndCards = ({ pageData, pageType }) => {
             {i + 1}
           </button>
         ))} */}
+
+        <p>
+          {currentPage} of {totalPages}
+        </p>
 
         <div>
           <button onClick={handleNext} disabled={currentPage === totalPages}>

@@ -11,3 +11,5 @@ export { default as AdminVenue } from "./AdminPage/AdminVenue";
 export { default as Ads } from "./AdminPage/Ads";
 export { default as AdminGenre } from "./AdminPage/AdminGenre";
 export { default as EmailTemplates } from "./AdminPage/EmailTemplates";
+export { default as Type } from "./AdminPage/Type";
+export { default as Location } from "./AdminPage/Location";

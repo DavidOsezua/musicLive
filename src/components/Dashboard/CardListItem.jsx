@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import Switch from "../general/Switch";
 import Delete from "../SVGcomponent/Delete";
 import styles from "./CardListItem.module.css";
 
-const CardListItem = ({ item, updateItemStatus }) => {
+const CardListItem = ({ item, updateItemStatus, handleDelete }) => {
   const [isToggled, setIsToggled] = useState(false);
   const [status, setStatus] = useState(item.status);
 
@@ -11,14 +12,16 @@ const CardListItem = ({ item, updateItemStatus }) => {
     setIsToggled(!isToggled);
 
     if (!isToggled) {
+      updateItemStatus(item.ID, "Approved");
       setStatus("Approved");
     } else {
+      updateItemStatus(item.ID, "Inactive"); // Revert to another status
       setStatus("Inactive");
     }
   };
 
   return (
-    <div key={item.id} className={styles.cardContainer}>
+    <div key={item.ID} className={styles.cardContainer}>
       <div className="flex justify-between">
         <p>{status}</p>
         <Switch
@@ -32,9 +35,11 @@ const CardListItem = ({ item, updateItemStatus }) => {
         <img src={item.image} />
       </div>
 
-      <p className="text-center">{item.genre}</p>
+      <p className="text-center">{item.genreOrType}</p>
 
-      <Delete />
+      <button onClick={() => handleDelete(item.ID)}>
+        <Delete />
+      </button>
     </div>
   );
 };

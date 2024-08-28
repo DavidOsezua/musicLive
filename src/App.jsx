@@ -15,6 +15,8 @@ import {
   Ads,
   EmailTemplates,
   AdminGenre,
+  Location,
+  Type,
 } from "./pages";
 import MainLayout from "./Layout/MainLayout";
 import AdminDashboardLayout from "./Layout/AdminDashboardLayout";
@@ -38,7 +40,8 @@ const App = () => {
         <Route path="/admin" element={<AdminDashboardLayout />}>
           <Route index element={<DashBoard />} />
           <Route path="dashboard" element={<DashBoard />} />
-          <Route path="adminvenue" element={<AdminVenue />} />
+          <Route path="location" element={<Location />} />
+          <Route path="type" element={<Type />} />
           <Route path="adminband" element={<AdminBand />} />
           <Route path="admingenre" element={<AdminGenre />} />
           <Route path="ads" element={<Ads />} />

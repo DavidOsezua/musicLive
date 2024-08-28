@@ -25,8 +25,14 @@ import {
   venue,
   venueImg,
   website,
+  wine,
+  concert,
+  resturant,
+  Bar,
+  night,
+  outdoorStage,
+  brewery,
 } from "../assets";
-import { v4 as uuidv4 } from "uuid";
 
 export const navLinks = [
   { link: "Home", path: "/" },
@@ -40,7 +46,14 @@ export const navLinks = [
 
 export const sideBarLinks = [
   { link: "Dashboard", path: "dashboard" },
-  { link: "Venues", path: "adminvenue" },
+  {
+    link: "Venues",
+    path: "adminvenue",
+    dropdownLink: [
+      { link: "Location", path: "location" },
+      { link: "Type", path: "type" },
+    ],
+  },
   { link: "Bands", path: "adminband" },
   { link: "Genre", path: "admingenre" },
   { link: "Ads", path: "ads" },
@@ -256,7 +269,7 @@ export const bandPageData = {
   ],
   tableOrCardData: [
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: "",
       bandName: "Demi3D Bands",
       genre: "Blues",
@@ -268,7 +281,7 @@ export const bandPageData = {
       status: "Approved",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: "",
       bandName: "Demi3D Bands",
       genre: "Blues",
@@ -280,7 +293,7 @@ export const bandPageData = {
       status: "Pending",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: "",
       bandName: "Demi3D Bands",
       genre: "Blues",
@@ -292,7 +305,7 @@ export const bandPageData = {
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: "",
       bandName: "Demi3D Bands",
       genre: "Blues",
@@ -304,7 +317,7 @@ export const bandPageData = {
       status: "Approved",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: "",
       bandName: "Demi3D Bands",
       genre: "Blues",
@@ -316,7 +329,7 @@ export const bandPageData = {
       status: "Pending",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: "",
       bandName: "Demi3D Bands",
       genre: "Blues",
@@ -328,7 +341,7 @@ export const bandPageData = {
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: "",
       bandName: "Demi3D Bands",
       genre: "Blues",
@@ -340,7 +353,7 @@ export const bandPageData = {
       status: "Approved",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: "",
       bandName: "Demi3D Bands",
       genre: "Blues",
@@ -352,7 +365,7 @@ export const bandPageData = {
       status: "Pending",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: "",
       bandName: "Demi3D Bands",
       genre: "Blues",
@@ -364,7 +377,7 @@ export const bandPageData = {
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: "",
       bandName: "Demi3D Bands",
       genre: "Blues",
@@ -376,7 +389,7 @@ export const bandPageData = {
       status: "Approved",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: "",
       bandName: "Demi3D Bands",
       genre: "Blues",
@@ -388,7 +401,7 @@ export const bandPageData = {
       status: "Pending",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: "",
       bandName: "Demi3D Bands",
       genre: "Blues",
@@ -400,7 +413,7 @@ export const bandPageData = {
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: "",
       bandName: "Demi3D Bands",
       genre: "Blues",
@@ -412,7 +425,7 @@ export const bandPageData = {
       status: "Approved",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: "",
       bandName: "Demi3D Bands",
       genre: "Blues",
@@ -424,7 +437,7 @@ export const bandPageData = {
       status: "Pending",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: "",
       bandName: "Demi3D Bands",
       genre: "Blues",
@@ -436,7 +449,7 @@ export const bandPageData = {
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: "",
       bandName: "Demi3D Bands",
       genre: "Blues",
@@ -448,7 +461,7 @@ export const bandPageData = {
       status: "Approved",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: "",
       bandName: "Demi3D Bands",
       genre: "Blues",
@@ -460,7 +473,7 @@ export const bandPageData = {
       status: "Pending",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: "",
       bandName: "Demi3D Bands",
       genre: "Blues",
@@ -473,6 +486,91 @@ export const bandPageData = {
     },
   ],
   numberOfItem: 5,
+};
+/************  LOCATION TABLE DATA  *************/
+export const locationPageData = {
+  statusData: [
+    { status: "Total", numbers: 2000, colorID: "total" },
+    { status: "Approve", numbers: 2000, colorID: "approve" },
+    { status: "Pending", numbers: 2000, colorID: "pending" },
+    { status: "Inactive", numbers: 2000, colorID: "inactive" },
+  ],
+  status: ["All", "Approved", "Pending", "Inactive"],
+  tableHead: [
+    "ID",
+    "Venue name/Genre",
+    "Address",
+    "Email",
+    "Date",
+    "Status",
+    "Actions",
+  ],
+  tableOrCardData: [
+    {
+      ID: crypto.randomUUID(),
+      image: "",
+      venueName: "Transcorp Hilton",
+      tyoe: "Hotel",
+      address: "2200 Harvard St, Sacramento, CA 95815",
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      actions: ["Set", "Del", "Details"],
+      status: "Approved",
+    },
+  ],
+  numberOfItem: 5,
+};
+
+/************  TYPE TABLE DATA  *************/
+export const typePageData = {
+  statusData: [
+    { status: "Total", numbers: 2000, colorID: "total" },
+    { status: "Approve", numbers: 2000, colorID: "approve" },
+    { status: "Inactive", numbers: 2000, colorID: "inactive" },
+  ],
+
+  status: ["All", "Approved", "Inactive"],
+
+  tableOrCardData: [
+    {
+      ID: crypto.randomUUID(),
+      status: "Approved",
+      genreOrType: "Winery",
+      image: wine,
+    },
+    {
+      ID: crypto.randomUUID(),
+      status: "Inactive",
+      genreOrType: "Resturant",
+      image: resturant,
+    },
+    {
+      ID: crypto.randomUUID(),
+      status: "Inactive",
+      genreOrType: "Brewery",
+      image: brewery,
+    },
+    {
+      ID: crypto.randomUUID(),
+      status: "Approved",
+      genreOrType: "Bar",
+      image: Bar,
+    },
+    {
+      ID: crypto.randomUUID(),
+      status: "Approved",
+      genreOrType: "Night club",
+      image: night,
+    },
+    {
+      ID: crypto.randomUUID(),
+      status: "Approved",
+      genreOrType: "Outdoor Stage",
+      image: outdoorStage,
+    },
+  ],
+  numberOfItem: 12,
 };
 
 /************  GENRE TABLE DATA  *************/
@@ -487,64 +585,64 @@ export const genrePageData = {
 
   tableOrCardData: [
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       status: "Approved",
-      genre: "Rock",
+      genreOrType: "Rock",
       image: rock,
     },
 
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       status: "Inactive",
-      genre: "Jazz",
+      genreOrType: "Jazz",
       image: jazz,
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       status: "Approved",
-      genre: "Blues",
+      genreOrType: "Blues",
       image: blues,
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       status: "Inactive",
-      genre: "Pop",
+      genreOrType: "Pop",
       image: pop,
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       status: "Approved",
-      genre: "Urban",
+      genreOrType: "Urban",
       image: urban,
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       status: "Approved",
-      genre: "Acoustic",
+      genreOrType: "Acoustic",
       image: Acoustic,
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       status: "Inactive",
-      genre: "Raggae",
+      genreOrType: "Raggae",
       image: raggae,
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       status: "Approved",
-      genre: "Country",
+      genreOrType: "Country",
       image: country,
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       status: "Inactive",
-      genre: "Metal",
+      genreOrType: "Metal",
       image: metal,
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       status: "Inactive",
-      genre: "Dance",
+      genreOrType: "Dance",
       image: dance,
     },
   ],
@@ -564,152 +662,152 @@ export const adsPageData = {
 
   tableOrCardData: [
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Approved",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Approved",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Approved",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Approved",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Approved",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Approved",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Approved",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Approved",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Approved",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Approved",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
     {
-      ID: uuidv4(),
+      ID: crypto.randomUUID(),
       image: adImg,
       status: "Inactive",
     },
