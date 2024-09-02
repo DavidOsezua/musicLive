@@ -33,6 +33,7 @@ import {
   outdoorStage,
   brewery,
 } from "../assets";
+import { calculateSummary } from "./helper";
 
 export const navLinks = [
   { link: "Home", path: "/" },
@@ -173,83 +174,6 @@ export const bands = [
   },
 ];
 
-export const dashboardSummary = [
-  {
-    name: "Bands",
-    numbers: 2000,
-    image: Bands,
-    status: [
-      { state: "active", number: 1200, colorID: "active" },
-      { state: "Pending", number: 460, colorID: "pending" },
-      { state: "inactive", number: 340, colorID: "inactive" },
-    ],
-    colorID: "band",
-    buttonText: "Add Band +",
-  },
-  {
-    name: "Venue",
-    numbers: 200,
-    image: venueImg,
-    status: [
-      { state: "active", number: 1200, colorID: "active" },
-      { state: "Pending", number: 460, colorID: "pending" },
-      { state: "inactive", number: 340, colorID: "inactive" },
-    ],
-    colorID: "venue",
-    buttonText: "Add Venue +",
-  },
-  {
-    name: "Genre",
-    numbers: 200,
-    image: genreImg,
-    status: [
-      { state: "active", number: 1200, colorID: "active" },
-      { state: "Pending", number: 460, colorID: "pending" },
-      { state: "inactive", number: 340, colorID: "inactive" },
-    ],
-    colorID: "genre",
-    buttonText: "Add Genre +",
-  },
-  {
-    name: "Advertisment",
-    numbers: 5,
-    image: ads,
-    status: [
-      { state: "active", number: 1200, colorID: "active" },
-      { state: "Pending", number: 460, colorID: "pending" },
-      { state: "inactive", number: 340, colorID: "inactive" },
-    ],
-    colorID: "band",
-    buttonText: "Add Ads +",
-  },
-  {
-    name: "Venue Type",
-    numbers: 30,
-    image: venueImg,
-    status: [
-      { state: "active", number: 1200, colorID: "active" },
-      { state: "Pending", number: 460, colorID: "pending" },
-      { state: "inactive", number: 340, colorID: "inactive" },
-    ],
-    colorID: "venue",
-    buttonText: "Add Venue +",
-  },
-];
-
-export const venueLocationData = [
-  { status: "Total", numbers: 2000, colorID: "total" },
-  { status: "Approve", numbers: 2000, colorID: "approve" },
-  { status: "Pending", numbers: 2000, colorID: "pending" },
-  { status: "Inactive", numbers: 2000, colorID: "inactive" },
-];
-
-export const venueTypeData = [
-  { status: "Total", numbers: 2000, colorID: "total" },
-  { status: "Approve", numbers: 2000, colorID: "approve" },
-  { status: "Inactive", numbers: 2000, colorID: "inactive" },
-];
-
-/************  BAND TABLE DATA  *************/
 export const bandPageData = {
   statusData: [
     { status: "Total", numbers: 2000, colorID: "total" },
@@ -817,3 +741,92 @@ export const adsPageData = {
 };
 
 export const emailPageData = [];
+
+const bandSummary = calculateSummary(bandPageData.tableOrCardData);
+const venueLocationSummary = calculateSummary(locationPageData.tableOrCardData);
+const venueTypeSummary = calculateSummary(typePageData.tableOrCardData);
+const adsSummary = calculateSummary(adsPageData.tableOrCardData);
+const genreSummary = calculateSummary(genrePageData.tableOrCardData);
+/************  BAND TABLE DATA  *************/
+export const dashboardSummary = [
+  {
+    name: "Bands",
+    numbers: bandSummary.totalItems,
+    image: Bands,
+    status: [
+      {
+        state: "active",
+        number: bandSummary.statusCount.Approved,
+        colorID: "active",
+      },
+      {
+        state: "Pending",
+        number: bandSummary.statusCount.Pending,
+        colorID: "pending",
+      },
+      {
+        state: "inactive",
+        number: bandSummary.statusCount.Inactive,
+        colorID: "inactive",
+      },
+    ],
+    colorID: "band",
+    buttonText: "Add Band +",
+  },
+  {
+    name: "Venue",
+    numbers: 200,
+    image: venueImg,
+    status: [
+      { state: "active", number: 1200, colorID: "active" },
+      { state: "Pending", number: 460, colorID: "pending" },
+      { state: "inactive", number: 340, colorID: "inactive" },
+    ],
+    colorID: "venue",
+    buttonText: "Add Venue +",
+  },
+  {
+    name: "Genre",
+    numbers: genreSummary.totalItems,
+    image: genreImg,
+    status: [
+      {
+        state: "active",
+        number: genreSummary.statusCount.Approved,
+        colorID: "active",
+      },
+
+      {
+        state: "inactive",
+        number: genreSummary.statusCount.Inactive,
+        colorID: "inactive",
+      },
+    ],
+    colorID: "genre",
+    buttonText: "Add Genre +",
+  },
+  {
+    name: "Advertisment",
+    numbers: 5,
+    image: ads,
+    status: [
+      { state: "active", number: 1200, colorID: "active" },
+      { state: "Pending", number: 460, colorID: "pending" },
+      { state: "inactive", number: 340, colorID: "inactive" },
+    ],
+    colorID: "band",
+    buttonText: "Add Ads +",
+  },
+  {
+    name: "Venue Type",
+    numbers: 30,
+    image: venueImg,
+    status: [
+      { state: "active", number: 1200, colorID: "active" },
+      { state: "Pending", number: 460, colorID: "pending" },
+      { state: "inactive", number: 340, colorID: "inactive" },
+    ],
+    colorID: "venue",
+    buttonText: "Add Venue +",
+  },
+];

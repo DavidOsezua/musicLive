@@ -1,18 +1,14 @@
 .formContainer {
   max-width: 850px;
   margin: 0 auto;
-  padding-top: 2rem;
+  padding-top: 1rem;
   padding-bottom: 2rem;
-
   background: #ffffff;
-}
-
-.formContainer > * + * {
-  margin-top: 2rem;
+  z-index: 1000;
 }
 
 .form > * + * {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 .formWrapper {
   padding: 0 2rem;
@@ -73,5 +69,6 @@
     display: flex;
     flex-direction: row;
     gap: 10px;
+    width: 100%;
   }
 }

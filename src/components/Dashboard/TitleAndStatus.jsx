@@ -3,13 +3,13 @@ import React from "react";
 import styles from "./TitleAndStatus.module.css";
 import Plus from "../SVGcomponent/Plus";
 
-const TitleAndStatus = ({ data, title, buttonText }) => {
+const TitleAndStatus = ({ data, title, buttonText, modalHandler }) => {
   return (
     <div className={`${styles.titleAndStatusContainer}`}>
       <h3 className={`${styles.title}`}>{title}</h3>
 
       <div className={`${styles.cardContainer}`}>
-        <button className={`${styles.btn}`}>
+        <button className={`${styles.btn}`} onClick={modalHandler}>
           <Plus />
           {buttonText}
         </button>

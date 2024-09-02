@@ -1,16 +1,10 @@
-.formContainer {
-  max-width: 850px;
-  margin: 0 auto;
-  background: #ffffff;
-}
+
 
 .formContainer > * + * {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
-.form > * + * {
-  margin-top: 2rem;
-}
+
 
 .title {
   font-style: normal;
