@@ -4,6 +4,7 @@ import TablesAndCards from "../../components/Dashboard/TablesAndCards";
 import TitleAndStatus from "../../components/Dashboard/TitleAndStatus";
 import { useModal } from "../../Layout/AdminDashboardLayout";
 import Modal from "../../components/general/Modal";
+import AddType from "../../components/Dashboard/AddType";
 
 const Type = () => {
   const { modal, modalHandler } = useModal();
@@ -17,7 +18,13 @@ const Type = () => {
       />
 
       <TablesAndCards pageData={typePageData} pageType={`cardList`} />
-      {modal ? <Modal modalHandler={modalHandler} component={""} /> : ""}
+      {modal ? (
+        <Modal modalHandler={modalHandler} component={""}>
+          <AddType />
+        </Modal>
+      ) : (
+        ""
+      )}
     </section>
   );
 };

@@ -4,10 +4,11 @@ import { bandPageData } from "../../data/data";
 import TablesAndCards from "../../components/Dashboard/TablesAndCards";
 import { useModal } from "../../Layout/AdminDashboardLayout";
 import Modal from "../../components/general/Modal";
+import AddBand from "../../components/Dashboard/AddBand";
 
 const AdminBand = () => {
-    const { modal, modalHandler } = useModal();
- 
+  const { modal, modalHandler } = useModal();
+
   return (
     <section className={` adminSection pageContainer`}>
       <TitleAndStatus
@@ -21,7 +22,9 @@ const AdminBand = () => {
 
       <TablesAndCards pageData={bandPageData} pageType={`bands`} />
       {modal ? (
-        <Modal modalHandler={modalHandler} component={""} />
+        <Modal modalHandler={modalHandler}>
+          <AddBand />
+        </Modal>
       ) : (
         ""
       )}

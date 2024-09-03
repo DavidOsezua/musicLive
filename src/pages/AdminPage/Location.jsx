@@ -4,6 +4,7 @@ import { locationPageData } from "../../data/data";
 import TitleAndStatus from "../../components/Dashboard/TitleAndStatus";
 import Modal from "../../components/general/Modal";
 import { useModal } from "../../Layout/AdminDashboardLayout";
+import AddLocation from "../../components/Dashboard/AddLocation";
 
 const Location = () => {
   const { modal, modalHandler } = useModal();
@@ -17,7 +18,13 @@ const Location = () => {
       />
       <h2 className="text-[red] font-semibold ">! DATA NOT ADDED YET</h2>
       <TablesAndCards pageData={locationPageData} pageType={`venue`} />
-      {modal ? <Modal modalHandler={modalHandler} component={""} /> : ""}
+      {modal ? (
+        <Modal modalHandler={modalHandler}>
+          <AddLocation />
+        </Modal>
+      ) : (
+        ""
+      )}
     </section>
   );
 };

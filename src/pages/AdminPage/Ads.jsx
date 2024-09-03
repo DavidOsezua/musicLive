@@ -4,6 +4,7 @@ import { adsPageData } from "../../data/data";
 import TablesAndCards from "../../components/Dashboard/TablesAndCards";
 import Modal from "../../components/general/Modal";
 import { useModal } from "../../Layout/AdminDashboardLayout";
+import AddAds from "../../components/Dashboard/AddAds";
 
 const Ads = () => {
   const { modal, modalHandler } = useModal();
@@ -17,7 +18,13 @@ const Ads = () => {
       />
 
       <TablesAndCards pageData={adsPageData} pageType={`cardList`} />
-      {modal ? <Modal modalHandler={modalHandler} component={""} /> : ""}
+      {modal ? (
+        <Modal modalHandler={modalHandler}>
+          <AddAds />
+        </Modal>
+      ) : (
+        ""
+      )}
     </section>
   );
 };

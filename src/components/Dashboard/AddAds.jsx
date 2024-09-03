@@ -1,7 +1,7 @@
 import React from "react";
 import UploadForm from "../general/UploadForm";
 
-const AddGenre = () => {
+const AddAds = () => {
   return (
     <UploadForm
       label1={`Genre`}
@@ -12,4 +12,4 @@ const AddGenre = () => {
   );
 };
 
-export default AddGenre;
+export default AddAds;
