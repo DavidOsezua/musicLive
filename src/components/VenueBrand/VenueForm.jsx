@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import styles from "./VenueForm.module.css";
 import ArrowDown from "../SVGcomponent/ArrowDown";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Dropdown from "../general/Dropdown";
+import { TimePicker } from "@mui/x-date-pickers";
 
 const VenueForm = () => {
   const [dropdown, setDropDown] = useState(false);
@@ -28,11 +30,41 @@ const VenueForm = () => {
         </div>
 
         <div className="w-full">
+          <label>Email</label>
+          <input placeholder="Enter email" className={`${styles.input}`} />
+        </div>
+      </div>
+
+      <div className={`${styles.inputContainer}`}>
+        <div className="w-full">
           <label>Venue type</label>
 
           <div className="relative">
             <input
               placeholder="Select venue type"
+              className={`${styles.input}`}
+            />
+            <button className="absolute right-4 top-4" onClick={showDropdown}>
+              <ArrowDown />
+            </button>
+
+            {dropdown && (
+              <div className="absolute top-0 w-full bg-[#F6F8FD] p-[1rem] border-[#2659C34D] border-[1px] rounded-md ">
+                <Dropdown
+                  tokenStateHandler={tokenStateHandler}
+                  closeDropdown={closeDropdown}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="w-full">
+          <label>Genre type</label>
+
+          <div className="relative">
+            <input
+              placeholder="Select genre type"
               className={`${styles.input}`}
             />
             <button className="absolute right-4 top-4" onClick={showDropdown}>
@@ -60,10 +92,17 @@ const VenueForm = () => {
             className={`${styles.input}`}
           />
         </div>
+      </div>
 
+      <div className={`${styles.inputContainer}`}>
         <div className="w-full">
-          <label>Email</label>
-          <input placeholder="Enter email" className={`${styles.input}`} />
+          <label>Date</label>
+          <DatePicker className={`${styles.input}`} />
+        </div>
+        <div className="w-full">
+          <label>Time</label>
+
+          <TimePicker className={`${styles.input}`} />
         </div>
       </div>
     </div>
