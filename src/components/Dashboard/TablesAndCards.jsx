@@ -8,7 +8,7 @@ import Previous from "../SVGcomponent/Previous";
 import DoublePrevious from "../SVGcomponent/DoublePrevious";
 import CardList from "./CardList";
 
-const TablesAndCards = ({ pageData, pageType }) => {
+const TablesAndCards = ({ pageData, pageType, columnCount }) => {
   const { tableOrCardData, status, tableHead, numberOfItem } = pageData;
   const [data, setData] = useState(tableOrCardData);
   const [active, setActive] = useState("All");
@@ -144,6 +144,8 @@ const TablesAndCards = ({ pageData, pageType }) => {
             tableBody={currentItems}
             currentPage={currentPage}
             itemsPerPage={itemsPerPage}
+            columnCount={columnCount}
+            handleDelete={handleDelete}
           />
         </div>
       ) : (

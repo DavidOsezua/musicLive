@@ -42,6 +42,7 @@ import brewery from "./brewery.svg";
 import Bar from "./Bar.svg";
 import concert from "./concert.svg";
 import resturant from "./resturant.svg";
+import youtube from "./youtube.svg";
 
 export {
   facebook,
@@ -88,4 +89,5 @@ export {
   night,
   brewery,
   outdoorStage,
+  youtube,
 };

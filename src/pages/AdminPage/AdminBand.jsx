@@ -18,9 +18,13 @@ const AdminBand = () => {
         data={bandPageData}
       />
 
-      <h2 className="text-[red] font-semibold ">! DATA NOT ADDED YET</h2>
+      
 
-      <TablesAndCards pageData={bandPageData} pageType={`bands`} />
+      <TablesAndCards
+        pageData={bandPageData}
+        pageType={`bands`}
+        columnCount={7}
+      />
       {modal ? (
         <Modal modalHandler={modalHandler}>
           <AddBand />

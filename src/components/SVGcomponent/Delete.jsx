@@ -2,7 +2,7 @@ import React from "react";
 
 const Delete = () => {
   return (
-    <div className="flex justify-end ">
+    <div className="">
       <svg
         width="27"
         height="26"

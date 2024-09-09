@@ -9,15 +9,19 @@ import AddLocation from "../../components/Dashboard/AddLocation";
 const Location = () => {
   const { modal, modalHandler } = useModal();
   return (
-    <section className={` adminSection pageContainer`}>
+    <section className={` adminSection pageContainer `}>
       <TitleAndStatus
         title={`Venue Location`}
         buttonText={`Add Location`}
         modalHandler={modalHandler}
         data={locationPageData}
       />
-      <h2 className="text-[red] font-semibold ">! DATA NOT ADDED YET</h2>
-      <TablesAndCards pageData={locationPageData} pageType={`venue`} />
+
+      <TablesAndCards
+        pageData={locationPageData}
+        pageType={`venue`}
+        columnCount={8}
+      />
       {modal ? (
         <Modal modalHandler={modalHandler}>
           <AddLocation />

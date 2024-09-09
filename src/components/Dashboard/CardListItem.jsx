@@ -23,7 +23,13 @@ const CardListItem = ({ item, updateItemStatus, handleDelete }) => {
   return (
     <div key={item.ID} className={styles.cardContainer}>
       <div className="flex justify-between">
-        <p>{status}</p>
+        <p
+          className={` ${
+            status === "Inactive" ? "text-[#FF1316] " : "text-[#27993A]"
+          }`}
+        >
+          {status}
+        </p>
         <Switch
           isToggled={isToggled}
           handleToggle={handleToggle}

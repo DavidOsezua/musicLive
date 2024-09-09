@@ -5,7 +5,13 @@ import styles from "./UploadForm.module.css";
 import Close from "./Close";
 import { useModal } from "../../Layout/AdminDashboardLayout";
 
-const UploadForm = ({ label1, label2, iconSize, uploadInstruction }) => {
+const UploadForm = ({
+  label1,
+  label2,
+  iconSize,
+  uploadInstruction,
+  firstLayer = true,
+}) => {
   const { modalHandler } = useModal();
   return (
     <div className={styles.formContainer}>
@@ -14,10 +20,17 @@ const UploadForm = ({ label1, label2, iconSize, uploadInstruction }) => {
       </button>
 
       <form className={styles.formWrapper}>
-        <div className={`${styles.inputContainer}`}>
-          <label>{label1}</label>
-          <input placeholder="Enter Venue Name" className={`${styles.input}`} />
-        </div>
+        {firstLayer ? (
+          <div className={`${styles.inputContainer}`}>
+            <label>{label1}</label>
+            <input
+              placeholder="Enter Venue Name"
+              className={`${styles.input}`}
+            />
+          </div>
+        ) : (
+          ""
+        )}
 
         <p>{label2}</p>
 
