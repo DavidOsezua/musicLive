@@ -4,23 +4,27 @@ import ArrowDown from "../SVGcomponent/ArrowDown";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Dropdown from "../general/Dropdown";
 import { TimePicker } from "@mui/x-date-pickers";
+import { FaTimes } from "react-icons/fa";
+import { genre, venueType } from "../../data/data";
 
 const VenueForm = () => {
-  const [dropdown, setDropDown] = useState(false);
+  // Single state to track which dropdown is open ('venue' or 'genre')
+  const [activeDropdown, setActiveDropdown] = useState(null);
+
   const [tokenState, setTokenState] = useState("USDT");
 
-  const showDropdown = (e) => {
-    e.preventDefault();
-    setDropDown((prev) => !prev);
+  const toggleDropdown = (dropdownType) => {
+    setActiveDropdown((prev) => (prev === dropdownType ? null : dropdownType));
   };
 
   const closeDropdown = () => {
-    setDropDown(false);
+    setActiveDropdown(null);
   };
 
   const tokenStateHandler = (currentToken) => {
     setTokenState(currentToken);
   };
+
   return (
     <div className={`${styles.formContainer}`}>
       <div className={`${styles.inputContainer}`}>
@@ -43,14 +47,28 @@ const VenueForm = () => {
             <input
               placeholder="Select venue type"
               className={`${styles.input}`}
+              readOnly
             />
-            <button className="absolute right-4 top-4" onClick={showDropdown}>
+            <button
+              type="button"
+              className="absolute right-4 top-4"
+              onClick={() => toggleDropdown("venue")}
+            >
               <ArrowDown />
             </button>
 
-            {dropdown && (
-              <div className="absolute top-0 w-full bg-[#F6F8FD] p-[1rem] border-[#2659C34D] border-[1px] rounded-md ">
+            {activeDropdown === "venue" && (
+              <div className="absolute top-0 w-full bg-[#F6F8FD] z-50 p-[1rem] border-[#2659C34D] border-[1px] rounded-md">
+                <button
+                  type="button"
+                  className="absolute right-[20px] top-[10px]"
+                  onClick={closeDropdown}
+                >
+                  <FaTimes />
+                </button>
+
                 <Dropdown
+                  data={venueType}
                   tokenStateHandler={tokenStateHandler}
                   closeDropdown={closeDropdown}
                 />
@@ -59,6 +77,8 @@ const VenueForm = () => {
           </div>
         </div>
 
+        {/* GENRE INPUT */}
+
         <div className="w-full">
           <label>Genre type</label>
 
@@ -66,14 +86,27 @@ const VenueForm = () => {
             <input
               placeholder="Select genre type"
               className={`${styles.input}`}
+              readOnly
             />
-            <button className="absolute right-4 top-4" onClick={showDropdown}>
+            <button
+              type="button"
+              className="absolute right-4 top-4"
+              onClick={() => toggleDropdown("genre")}
+            >
               <ArrowDown />
             </button>
 
-            {dropdown && (
-              <div className="absolute top-0 w-full bg-[#F6F8FD] p-[1rem] border-[#2659C34D] border-[1px] rounded-md ">
+            {activeDropdown === "genre" && (
+              <div className="absolute top-0 w-full bg-[#F6F8FD] z-50 p-[1rem] border-[#2659C34D] border-[1px] rounded-md">
+                <button
+                  type="button"
+                  className="absolute right-[20px] top-[10px]"
+                  onClick={closeDropdown}
+                >
+                  <FaTimes />
+                </button>
                 <Dropdown
+                  data={genre}
                   tokenStateHandler={tokenStateHandler}
                   closeDropdown={closeDropdown}
                 />
@@ -83,7 +116,6 @@ const VenueForm = () => {
         </div>
       </div>
 
-      {/*  */}
       <div className={`${styles.inputContainer}`}>
         <div className="w-full">
           <label>Address</label>
@@ -101,7 +133,6 @@ const VenueForm = () => {
         </div>
         <div className="w-full">
           <label>Time</label>
-
           <TimePicker className={`${styles.input}`} />
         </div>
       </div>

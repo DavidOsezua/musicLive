@@ -93,17 +93,51 @@ export const footerLinks = [
   },
 ];
 
+export const venueType = [
+  {
+    ID: crypto.randomUUID(),
+    genreOrType: "Winery",
+    image: wine,
+  },
+  {
+    ID: crypto.randomUUID(),
+    genreOrType: "Resturant",
+    image: resturant,
+  },
+  {
+    ID: crypto.randomUUID(),
+    genreOrType: "Brewery",
+    image: brewery,
+  },
+  {
+    ID: crypto.randomUUID(),
+    status: "Approved",
+    genreOrType: "Bar",
+    image: Bar,
+  },
+  {
+    ID: crypto.randomUUID(),
+    genreOrType: "Night",
+    image: night,
+  },
+  {
+    ID: crypto.randomUUID(),
+    genreOrType: "Outdoor",
+    image: outdoorStage,
+  },
+];
+
 export const genre = [
-  { genre: "Rock", image: rock },
-  { genre: "Jazz", image: jazz },
-  { genre: "Blues", image: blues },
-  { genre: "Pop", image: pop },
-  { genre: "Urban", image: urban },
-  { genre: "Acoustic", image: Acoustic },
-  { genre: "Raggae", image: raggae },
-  { genre: "Country", image: country },
-  { genre: "Metal", image: metal },
-  { genre: "Dance", image: dance },
+  { ID: crypto.randomUUID(), genreOrType: "Rock", image: rock },
+  { ID: crypto.randomUUID(), genreOrType: "Jazz", image: jazz },
+  { ID: crypto.randomUUID(), genreOrType: "Blues", image: blues },
+  { ID: crypto.randomUUID(), genreOrType: "Pop", image: pop },
+  { ID: crypto.randomUUID(), genreOrType: "Urban", image: urban },
+  { ID: crypto.randomUUID(), genreOrType: "Acoustic", image: Acoustic },
+  { ID: crypto.randomUUID(), genreOrType: "Raggae", image: raggae },
+  { ID: crypto.randomUUID(), genreOrType: "Country", image: country },
+  { ID: crypto.randomUUID(), genreOrType: "Metal", image: metal },
+  { ID: crypto.randomUUID(), genreOrType: "Dance", image: dance },
 ];
 
 export const about = [

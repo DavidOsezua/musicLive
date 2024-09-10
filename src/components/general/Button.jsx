@@ -10,14 +10,17 @@ const Button = ({
   type,
   svg,
   svg2,
+  disableFn,
+  style,
 }) => {
   return (
     <button
       className={` flex gap-2 justify-center ${
         colored ? styles.colored : styles.transparent
-      } ${width} ${radius}`}
+      } ${width} ${radius} ${style}`}
       onClick={clickFunction}
       type={type}
+      disabled={disableFn}
     >
       {svg2}
       {text}

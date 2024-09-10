@@ -1,23 +1,48 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import styles from "./Dropdown.module.css";
 import { genre } from "../../data/data";
 import DropdownItem from "./DropdownItem";
+import Button from "./Button";
 
-const Dropdown = ({ tokenStateHandler, closeDropdown, setGenre }) => {
+const Dropdown = ({ setGenre, data, closeDropdown }) => {
+  const [selectedButtons, setSelectedButtons] = useState([]);
+
+  const selectedButtonHandler = (id) => {
+    setSelectedButtons((prev) =>
+      prev.includes(id)
+        ? selectedButtons.filter((item) => item !== id)
+        : [...prev, id]
+    );
+  };
+
   return (
-    <div className={`${styles.card}`}>
-      {genre.map((item, i) => (
-        <DropdownItem
-          key={i}
-          img={item.image}
-          token={item.token}
-          value={item.value}
-          network={item.network}
-          closeDropdown={closeDropdown}
-          tokenStateHandler={tokenStateHandler}
-          setGenre={setGenre}
-        />
-      ))}
+    <div>
+      <div className={`${styles.card}`}>
+        {data.map((item, i) => (
+          <DropdownItem
+            key={i}
+            item={item}
+            setGenre={setGenre}
+            selectedButtonHandler={selectedButtonHandler}
+            selectedButtons={selectedButtons}
+          />
+        ))}
+      </div>
+      <Button
+        type={`button`}
+        colored
+        text={`Select`}
+        radius={`rounded-full`}
+        width={`w-full`}
+        clickFunction={closeDropdown}
+        disableFn={selectedButtons.length === 0}
+        style={`${
+          selectedButtons.length === 0
+            ? "bg-[#2659C3] opacity-[30%]"
+            : "bg-[#2659C3]"
+        }`}
+      />
     </div>
   );
 };

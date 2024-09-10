@@ -55,7 +55,10 @@ const MultiFormPage = ({
             </div>
 
             <div>
-              <ProgressBar />
+              <ProgressBar
+                progress={steps.length}
+                currentProgress={currentStep}
+              />
             </div>
 
             <h4 className={`${styles.tellUs}`}>{formHeaderText}</h4>

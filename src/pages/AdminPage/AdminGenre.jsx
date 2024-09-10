@@ -18,6 +18,7 @@ const AdminGenre = () => {
         modalHandler={modalHandler}
         data={genrePageData}
       />
+
       <TablesAndCards pageData={genrePageData} pageType={`cardList`} />
       {modal ? (
         <Modal modalHandler={modalHandler}>
