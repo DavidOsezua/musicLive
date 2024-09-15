@@ -26,7 +26,7 @@ const VenueForm = () => {
   };
 
   return (
-    <div className={`${styles.formContainer}`}>
+    <div className={`${styles.formContainer} `}>
       <div className={`${styles.inputContainer}`}>
         <div className="w-full">
           <label>Name</label>

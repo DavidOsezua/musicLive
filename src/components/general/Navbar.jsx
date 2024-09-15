@@ -12,8 +12,8 @@ const Navbar = () => {
     setToggle((prev) => !prev);
   };
   return (
-    <nav className={styles.navbar}>
-      <div className={styles.navContainer}>
+    <header className={styles.navbar}>
+      <nav className={styles.navContainer}>
         {/*************  NavLogo ******************/}
         <NavLink to="/">
           <div className={styles.navLogo}>
@@ -48,8 +48,8 @@ const Navbar = () => {
         <div className={`${styles.toggle}`} onClick={toggleHandler}>
           <img src={hamburgermenu} />
         </div>
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 };
 
