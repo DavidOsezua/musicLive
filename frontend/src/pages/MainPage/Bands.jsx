@@ -7,6 +7,8 @@ import Button from "../../components/general/Button";
 import Genre from "../../components/general/Genre";
 import styles from "./Bands.module.css";
 import GenreScroll from "../../components/general/GenreScroll";
+import { facebook,instagram,website } from "../../assets";
+import {Url} from "../../service/api.route"
 
 const Bands = () => {
   return (
@@ -28,23 +30,38 @@ const Bands = () => {
           <p className={`${styles.text} text-[#0A2259] pb-[1rem]`}>
             Highlighted Live Bands Near Sacramento, CA
           </p>
-
-          {/******** BANDS DETAILS  *********/}
+          
           <div className={`${styles.bandDetailsContainer}`}>
+            {console.log(bands)}
             {bands.map((band) => (
-              <div key={``} className={`${styles.bandDetail}`}>
-                <img src={band.image} className={`${styles.image}`} />
+              <div key={band.id} className={`${styles.bandDetail}`}>
+                <a href={`${band.homepage}`} target="_blank" rel="noopener noreferrer">
+                <img
+                  src={`${Url}/${band.image1}`}
+                  alt={`${band.name} image 1`}
+                  className={`${Url}/${styles.image}`}
+                />
+                {console.log(Url,band.image1)}
+                 </a>
 
-                <span>{band.genre}</span>
-                <h1 className={`${styles.bandName}`}>{band.bandName}</h1>
+                <span>{band.genre_type}</span>
+                <h1 className={`${styles.bandName}`}>{String(band.name).charAt(0).toUpperCase() + String(band.name.slice(1))}</h1>
+
                 <div className={`${styles.socials}`}>
-                  {band.socials.map((social, i) => (
-                    <img src={social} key={i} />
-                  ))}
+                  <a href={band.facebook_url} target="_blank" rel="noopener noreferrer">
+                    <img src={facebook} alt="Facebook" key={1} />
+                  </a>
+                  <a href={band.instagram_url} target="_blank" rel="noopener noreferrer">
+                    <img src={instagram} alt="Instagram" key={2} />
+                  </a>
+                  <a href={band.youtube_url} target="_blank" rel="noopener noreferrer">
+                    <img src={website} alt="YouTube" key={3}/>
+                  </a>
                 </div>
               </div>
             ))}
           </div>
+
         </div>
 
         <div className={`flex flex-col items-center`}>

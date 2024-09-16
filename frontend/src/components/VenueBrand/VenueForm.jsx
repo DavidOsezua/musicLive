@@ -63,10 +63,7 @@ const selectVenuetype = [
                     }
                     required
               />
-              <button className="absolute right-4 top-4" onClick={showDropdown}
-              value={selectVenuetype.find(
-                (option) => option.value === formData.venueType
-              )}>
+              <button className="absolute right-4 top-4" onClick={showDropdown}>
                 <ArrowDown />
               </button>
 

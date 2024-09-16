@@ -51,8 +51,8 @@ async def upload_venue(
     session: AsyncSession = Depends(get_session)
 )->Venue_:
     try:
-        DIR = 'uploads/venue'
-        file_path = os.path.join(os.path.dirname(__file__),DIR)
+        file_path = 'uploads/venue'
+        # file_path = os.path.join(os.path.dirname(__file__),DIR)
         os.makedirs(file_path, exist_ok=True)
         validate_image_size(image1)
         validate_image_size(image2)
@@ -124,8 +124,8 @@ async def upload_band(
     session: AsyncSession = Depends(get_session)
 )->Band_:
     try:
-        DIR = 'uploads/bands'
-        file_path = os.path.join(os.path.dirname(__file__),DIR)
+        file_path = 'uploads/bands'
+        # file_path = os.path.join(os.path.dirname(__file__),DIR)
         os.makedirs(file_path, exist_ok=True)
         validate_image_size(image1)
         validate_image_size(image2)

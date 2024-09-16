@@ -26,6 +26,7 @@ import {
   website,
 } from "../assets";
 import { v4 as uuidv4 } from "uuid";
+import {getAlluserBand,getAlluserVenue} from "../pages/MainPage/api";
 
 export const navLinks = [
   { link: "Home", path: "/" },
@@ -107,57 +108,18 @@ export const about = [
       "will put great effort into finding and supporting venues and musicians they love.  As we said, “Music Makes People Happy”. (Insert small photo of frustrated fan?)  And of course, fans are happy to spend money at the venue and hopefully on big tips for the musicians.  So for fans we also make this site entirely free!",
   },
 ];
+export const bands = await getAlluserBand();
 
-export const bands = [
-  {
-    image: band1,
-    genre: "Blues",
-    bandName: "Demi3D Bands",
-    socials: [facebook, instagram, website],
-  },
-  {
-    image: band2,
-    genre: "Blues",
-    bandName: "Demi3D Bands",
-    socials: [facebook, instagram, website],
-  },
-  {
-    image: band3,
-    genre: "Blues",
-    bandName: "Demi3D Bands",
-    socials: [facebook, instagram, website],
-  },
-  {
-    image: band4,
-    genre: "Blues",
-    bandName: "Demi3D Bands",
-    socials: [facebook, instagram, website],
-  },
-  {
-    image: band5,
-    genre: "Blues",
-    bandName: "Demi3D Bands",
-    socials: [facebook, instagram, website],
-  },
-  {
-    image: band4,
-    genre: "Blues",
-    bandName: "Demi3D Bands",
-    socials: [facebook, instagram, website],
-  },
-  {
-    image: band3,
-    genre: "Blues",
-    bandName: "Demi3D Bands",
-    socials: [facebook, instagram, website],
-  },
-  {
-    image: band5,
-    genre: "Blues",
-    bandName: "Demi3D Bands",
-    socials: [facebook, instagram, website],
-  },
-];
+export const venues = await getAlluserVenue();
+
+// export const bands = [
+//   {
+//     image: band1,
+//     genre: "Blues",
+//     bandName: "Demi3D Bands",
+//     socials: [facebook, instagram, website],
+//   }
+// ];
 
 export const dashboardSummary = [
   {

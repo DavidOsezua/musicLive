@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { TipJar } from "../../components";
 import Search from "../../components/general/Search";
 import styles from "./Venues.module.css";
-import { bands } from "../../data/data";
+import { venues } from "../../data/data";
 import Button from "../../components/general/Button";
 import { desktopMap } from "../../assets";
 import Map from "../../components/VenueBrand/Map";
 import Dropdown from "../../components/general/Dropdown";
+import { facebook,instagram,website } from "../../assets";
+import {Url} from "../../service/api.route"
 
 const Venues = () => {
   const [dropdown, setDropDown] = useState(false);
@@ -41,7 +43,7 @@ const Venues = () => {
         </div>
 
         {/******** BANDS DETAILS  *********/}
-        <div className={`${styles.bandDetailsContainer}`}>
+        {/* <div className={`${styles.bandDetailsContainer}`}>
           {bands.map((band) => (
             <div key={``} className={`${styles.bandDetail}`}>
               <img src={band.image} className={`${styles.image}`} />
@@ -55,7 +57,35 @@ const Venues = () => {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
+            <div className={`${styles.bandDetailsContainer}`}>
+            {venues.map((band) => (
+              <div key={band.id} className={`${styles.bandDetail}`}>
+                <a href={`${band.homepage}`} target="_blank" rel="noopener noreferrer">
+                <img
+                  src={`${Url}/${band.image1}`}
+                  alt={`${band.name} image 1`}
+                  className={`${Url}/${styles.image}`}
+                />
+                 </a>
+
+                <span>{band.venue_type}</span>
+                <h1 className={`${styles.bandName}`}>{String(band.name).charAt(0).toUpperCase() + String(band.name.slice(1))}</h1>
+
+                <div className={`${styles.socials}`}>
+                  <a href={band.facebook_url} target="_blank" rel="noopener noreferrer">
+                    <img src={facebook} alt="Facebook" key={1} />
+                  </a>
+                  <a href={band.instagram_url} target="_blank" rel="noopener noreferrer">
+                    <img src={instagram} alt="Instagram" key={2} />
+                  </a>
+                  <a href={band.youtube_url} target="_blank" rel="noopener noreferrer">
+                    <img src={website} alt="YouTube" key={3}/>
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
 
         <div className={`flex flex-col items-center ${styles.showMore}`}>
           <p className={`text-[#0A2259] pb-4`}>
