@@ -34,3 +34,13 @@ class Venue_(BaseModel):
 
     class Config:
         allow_population_by_field_name = True
+        
+        
+class Contact(BaseModel):
+    name:str = Field(..., alias="name")
+    email: EmailStr 
+    phone:str = Field(..., alias="phone")
+    description: str
+    
+    class Config:
+        allow_population_by_field_name = True

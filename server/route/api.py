@@ -9,12 +9,14 @@ from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlmodel import select
 from db.database import get_session
 from sqlmodel.ext.asyncio.session import AsyncSession
-from src.schema import Band_, Venue_
+from src.schema import Band_, Venue_,Contact
 from typing import List,Optional,Union
 from http import HTTPStatus
 import os
 from src import exceptions
 from db.table import Venue,Band
+from bs4 import BeautifulSoup
+import requests
 
 
 api_router = APIRouter(
@@ -218,5 +220,47 @@ async def delete_user_band(user_id: int, session: AsyncSession = Depends(get_ses
     await session.delete(band)
     await session.commit()
     return band
+
+
+
+@api_router.post("/contact")
+async def contact_us(contact_info:Contact,
+                     session: AsyncSession = Depends(get_session)):
+    try:
+        print(contact_info)
+    
+        sandbox =  'sandbox0afeee919af44d3c9876ba41ec8c06f4.mailgun.org'
+        key = 'cdb79b1d8175a70aa447ad9ff09069cc-a2dd40a3-0643ada7'
+        recipient = 'daretimileyin1@gmail.com'
+        html_content = f"""
+       <div>
+           <h2><span style="font-size: 16px;color:red;">Hi 👋, I am {str(contact_info.name).capitalize()}</span></h2><br><hr>
+           <p>{str(contact_info.description).capitalize()}</p>
+       </div>
+       """
+        soup = BeautifulSoup(html_content, 'html.parser')
+        text_content = soup.get_text(strip=False)
+        request_url = 'https://api.mailgun.net/v3/{0}/messages'.format(sandbox)
+        request_data = requests.post(request_url, auth=('api', key), data={
+           'from': contact_info.email,
+           'to': recipient,
+           'subject': str(contact_info.description[:20]).capitalize(),
+           'text': text_content})
+        
+        
+        print('Status: {0}'.format(request_data.status_code))
+        print('Body:   {0}'.format(request_data.text))
+        print(request_data)
+        print(request_data.status_code)
+        if request_data.status_code == 200:
+           return {"status":HTTPStatus.OK,"message":"Your message sent successfully!."}
+        else:
+            raise exceptions.BadRequest("Unexpected error occur,please try again")
+
+        
+    except Exception as e:
+        print(e)
+        status_code = getattr(e, 'status', 400) 
+        raise HTTPException(status_code=status_code, detail=f"{str(e)}")
 
 
