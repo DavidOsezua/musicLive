@@ -5,6 +5,7 @@ from sqlalchemy.dialects.mysql import CHAR
 from datetime import datetime
 from typing import Optional
 from pydantic import EmailStr
+from datetime import datetime, date,time
 
 
 class Band(SQLModel, table=True):
@@ -47,6 +48,9 @@ class Venue(SQLModel, table=True):
     image1: Optional[str] = Field(default=None, sa_column=Column(String(255)))
     image2: Optional[str] = Field(default=None, sa_column=Column(String(255)))
     is_verified: bool = False
+    genre_type:str = Field(sa_column=Column(String(100)))
+    venue_date:date
+    venue_time:time
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now)
     

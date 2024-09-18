@@ -6,7 +6,7 @@ from PIL import Image
 import io
 from pydantic import ValidationError
 from sqlalchemy.exc import IntegrityError, OperationalError
-from sqlmodel import select
+from sqlmodel import select,update
 from db.database import get_session
 from sqlmodel.ext.asyncio.session import AsyncSession
 from src.schema import Band_, Venue_,Contact
@@ -17,6 +17,8 @@ from src import exceptions
 from db.table import Venue,Band
 from bs4 import BeautifulSoup
 import requests
+from datetime import datetime, timezone
+from dateutil import parser
 
 
 api_router = APIRouter(
@@ -42,6 +44,9 @@ def validate_image_size(image: UploadFile):
 async def upload_venue(
     name: str = Form(...),
     venue_type: str = Form(...),
+    genre_type:str = Form(...),
+    venue_date:str= Form(...),
+    venue_time:str = Form(...),
     address: str = Form(...),
     email: str = Form(...),
     homepage: Optional[str] = Form(None),
@@ -67,10 +72,16 @@ async def upload_venue(
         
         with open(image2_path, "wb") as f:
             f.write(await image2.read())
-
+            
+        venue_date = parser.parse(venue_date)
+        venue_time = parser.parse(venue_time)
+        
         venue_data = Venue_(
             name=name,
             venue_type=venue_type,
+            genre_type=genre_type,
+            venue_date= venue_date.astimezone(timezone.utc).date().isoformat(),
+            venue_time=venue_time.astimezone(timezone.utc).time().isoformat(),
             address=address,
             email=email,
             homepage=homepage,
@@ -79,6 +90,7 @@ async def upload_venue(
             youtube_url=youtube,
             image1=image1_path,
             image2=image2_path
+            
         )
         try:
             venue_db = Venue(**venue_data.model_dump(by_alias=True))
@@ -201,7 +213,7 @@ async def get_venue(session: AsyncSession = Depends(get_session))->Venue:
     return [dict(row) for row in venues] 
 
 
-@api_router.delete("/{user_id}", response_model=Venue)
+@api_router.delete("/venue/{user_id}", response_model=Venue)
 async def delete_user_venue(user_id: int, session: AsyncSession = Depends(get_session)):
     venue = await session.get(Venue, user_id)
     if not venue:
@@ -212,7 +224,7 @@ async def delete_user_venue(user_id: int, session: AsyncSession = Depends(get_se
 
 
 
-@api_router.delete("/{user_id}", response_model=Band)
+@api_router.delete("/band/{user_id}", response_model=Band)
 async def delete_user_band(user_id: int, session: AsyncSession = Depends(get_session)):
     band = await session.get(Band, user_id)
     if not band:
@@ -220,6 +232,33 @@ async def delete_user_band(user_id: int, session: AsyncSession = Depends(get_ses
     await session.delete(band)
     await session.commit()
     return band
+
+
+@api_router.put("/venue/{venue_type}", response_model=Venue)
+async def update_venue(
+    venue_type: str,
+    session: AsyncSession = Depends(get_session)
+):
+    query = select(Venue).where(Venue.venue_type == venue_type)
+    result = await session.exec(query)
+    venue = result.fetchall()
+    
+    if not venue:
+        raise HTTPException(status_code=404, detail="Venue not found")
+
+    update_query = (
+        update(Venue)
+        .where(Venue.venue_type == venue_type)
+        .values(is_verified=True)
+        .returning(Venue)
+    )
+    result = await session.exec(update_query)
+    updated_venue = result.fetchall()
+    
+    if not updated_venue:
+        raise HTTPException(status_code=404, detail="Update failed")
+
+    return updated_venue
 
 
 
@@ -262,5 +301,25 @@ async def contact_us(contact_info:Contact,
         print(e)
         status_code = getattr(e, 'status', 400) 
         raise HTTPException(status_code=status_code, detail=f"{str(e)}")
+    
+    
+    
+@api_router.get("/band/approved",response_model=List[Band])
+async def get_band_approved(session: AsyncSession = Depends(get_session))->Band:
+    # query = select(Band)
+    query =select(Band).where(Band.is_verified == True)
+    result = await session.exec(query)
+    bands = result.fetchall()
+    print(result)
+    return [dict(row) for row in bands] 
+
+
+
+@api_router.get("/venue/approved",response_model=List[Venue])
+async def get_venue_approved(session: AsyncSession = Depends(get_session))->Venue:
+    query =select(Venue).where(Venue.is_verified == True)
+    result = await session.exec(query)
+    venues = result.fetchall()
+    return [dict(row) for row in venues] 
 
 
