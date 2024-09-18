@@ -3,8 +3,7 @@ import styles from "./ContactUs.module.css";
 import { TipJar } from "../../components";
 import Button from "../../components/general/Button";
 import { useState,useEffect} from "react";
-import { toast } from "react-toastify";
-import {SubmitContactinfo} from "./api"
+import {SubmitContactinfo} from "./router"
 
 const ContactUs = () => {
   const [contact,setContact] = useState({
@@ -24,10 +23,10 @@ const ContactUs = () => {
     try{
      const response = await SubmitContactinfo(JSON.stringify(contactInfo))
      console.log("status code:",response.data.status_code)
-      toast.success(response.data.detail)
+      console.log(response.data.detail)
   }catch(err){
     console.log(err)
-    toast.error(err.response.data.detail)
+    console.error(err.response.data.detail)
   }
   }
 

@@ -1,5 +1,6 @@
 import {
   Acoustic,
+  adImg,
   ads,
   band1,
   band2,
@@ -24,9 +25,19 @@ import {
   venue,
   venueImg,
   website,
+  wine,
+  concert,
+  resturant,
+  Bar,
+  night,
+  outdoorStage,
+  brewery,
+  youtube,
 } from "../assets";
-import { v4 as uuidv4 } from "uuid";
-import {getAlluserBand,getAlluserVenue} from "../pages/MainPage/api";
+import Preview from "../components/SVGcomponent/Preview";
+import Delete from "../components/SVGcomponent/Delete";
+import Settings from "../components/SVGcomponent/Settings";
+import { calculateSummary } from "./helper";
 
 export const navLinks = [
   { link: "Home", path: "/" },
@@ -40,7 +51,14 @@ export const navLinks = [
 
 export const sideBarLinks = [
   { link: "Dashboard", path: "dashboard" },
-  { link: "Venues", path: "adminvenue" },
+  {
+    link: "Venues",
+    path: "adminvenue",
+    dropdownLink: [
+      { link: "Location", path: "location" },
+      { link: "Type", path: "type" },
+    ],
+  },
   { link: "Bands", path: "adminband" },
   { link: "Genre", path: "admingenre" },
   { link: "Ads", path: "ads" },
@@ -75,17 +93,51 @@ export const footerLinks = [
   },
 ];
 
+export const venueType = [
+  {
+    ID: crypto.randomUUID(),
+    genreOrType: "Winery",
+    image: wine,
+  },
+  {
+    ID: crypto.randomUUID(),
+    genreOrType: "Resturant",
+    image: resturant,
+  },
+  {
+    ID: crypto.randomUUID(),
+    genreOrType: "Brewery",
+    image: brewery,
+  },
+  {
+    ID: crypto.randomUUID(),
+    status: "Approved",
+    genreOrType: "Bar",
+    image: Bar,
+  },
+  {
+    ID: crypto.randomUUID(),
+    genreOrType: "Night",
+    image: night,
+  },
+  {
+    ID: crypto.randomUUID(),
+    genreOrType: "Outdoor",
+    image: outdoorStage,
+  },
+];
+
 export const genre = [
-  { genre: "Rock", image: rock },
-  { genre: "Jazz", image: jazz },
-  { genre: "Blues", image: blues },
-  { genre: "Pop", image: pop },
-  { genre: "Urban", image: urban },
-  { genre: "Acoustic", image: Acoustic },
-  { genre: "Raggae", image: raggae },
-  { genre: "Country", image: country },
-  { genre: "Metal", image: metal },
-  { genre: "Dance", image: dance },
+  { ID: crypto.randomUUID(), genreOrType: "Rock", image: rock },
+  { ID: crypto.randomUUID(), genreOrType: "Jazz", image: jazz },
+  { ID: crypto.randomUUID(), genreOrType: "Blues", image: blues },
+  { ID: crypto.randomUUID(), genreOrType: "Pop", image: pop },
+  { ID: crypto.randomUUID(), genreOrType: "Urban", image: urban },
+  { ID: crypto.randomUUID(), genreOrType: "Acoustic", image: Acoustic },
+  { ID: crypto.randomUUID(), genreOrType: "Raggae", image: raggae },
+  { ID: crypto.randomUUID(), genreOrType: "Country", image: country },
+  { ID: crypto.randomUUID(), genreOrType: "Metal", image: metal },
+  { ID: crypto.randomUUID(), genreOrType: "Dance", image: dance },
 ];
 
 export const about = [
@@ -108,28 +160,637 @@ export const about = [
       "will put great effort into finding and supporting venues and musicians they love.  As we said, “Music Makes People Happy”. (Insert small photo of frustrated fan?)  And of course, fans are happy to spend money at the venue and hopefully on big tips for the musicians.  So for fans we also make this site entirely free!",
   },
 ];
-export const bands = await getAlluserBand();
 
-export const venues = await getAlluserVenue();
+export const bands = [
+  {
+    image: band1,
+    genre: "Blues",
+    bandName: "Demi3D Bands",
+    socials: [facebook, instagram, website],
+    date: "",
+  },
+  {
+    image: band2,
+    genre: "Blues",
+    bandName: "Demi3D Bands",
+    socials: [facebook, instagram, website],
+  },
+  {
+    image: band3,
+    genre: "Blues",
+    bandName: "Demi3D Bands",
+    socials: [facebook, instagram, website],
+  },
+  {
+    image: band4,
+    genre: "Blues",
+    bandName: "Demi3D Bands",
+    socials: [facebook, instagram, website],
+  },
+  {
+    image: band5,
+    genre: "Blues",
+    bandName: "Demi3D Bands",
+    socials: [facebook, instagram, website],
+  },
+  {
+    image: band4,
+    genre: "Blues",
+    bandName: "Demi3D Bands",
+    socials: [facebook, instagram, website],
+  },
+  {
+    image: band3,
+    genre: "Blues",
+    bandName: "Demi3D Bands",
+    socials: [facebook, instagram, website],
+  },
+  {
+    image: band5,
+    genre: "Blues",
+    bandName: "Demi3D Bands",
+    socials: [facebook, instagram, website],
+  },
+];
 
-// export const bands = [
-//   {
-//     image: band1,
-//     genre: "Blues",
-//     bandName: "Demi3D Bands",
-//     socials: [facebook, instagram, website],
-//   }
-// ];
+export const bandPageData = {
+  statusData: [
+    { status: "Total", numbers: 2000, colorID: "total" },
+    { status: "Approve", numbers: 2000, colorID: "approve" },
+    { status: "Pending", numbers: 2000, colorID: "pending" },
+    { status: "Inactive", numbers: 2000, colorID: "inactive" },
+  ],
+  status: ["All", "Approved", "Pending", "Inactive"],
+  tableHead: [
+    "ID",
+    "Band name/Genre",
+    "Socials",
+    "Email",
+    "Date",
+    "Status",
+    "Actions",
+  ],
+  tableOrCardData: [
+    {
+      ID: crypto.randomUUID(),
+      image: band1,
+      venueOrBandName: "Demi3D Bands",
+      genreOrType: "Blues",
+      socials: [website, facebook, instagram, youtube],
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      status: "Approved",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: band1,
+      venueOrBandName: "Demi3D Bands",
+      genreOrType: "Blues",
+      socials: [website, facebook, instagram, youtube],
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      status: "Pending",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: band1,
+      venueOrBandName: "Demi3D Bands",
+      genreOrType: "Blues",
+      socials: [website, facebook, instagram, youtube],
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: band1,
+      venueOrBandName: "Demi3D Bands",
+      genreOrType: "Blues",
+      socials: [website, facebook, instagram, youtube],
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      status: "Approved",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: band1,
+      venueOrBandName: "Demi3D Bands",
+      genreOrType: "Blues",
+      socials: [website, facebook, instagram, youtube],
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      status: "Pending",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: band1,
+      venueOrBandName: "Demi3D Bands",
+      genreOrType: "Blues",
+      socials: [website, facebook, instagram, youtube],
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: band1,
+      venueOrBandName: "Demi3D Bands",
+      genreOrType: "Blues",
+      socials: [website, facebook, instagram, youtube],
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      status: "Approved",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: band1,
+      venueOrBandName: "Demi3D Bands",
+      genreOrType: "Blues",
+      socials: [website, facebook, instagram, youtube],
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      status: "Pending",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: band1,
+      venueOrBandName: "Demi3D Bands",
+      genreOrType: "Blues",
+      socials: [website, facebook, instagram, youtube],
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: band1,
+      venueOrBandName: "Demi3D Bands",
+      genreOrType: "Blues",
+      socials: [website, facebook, instagram, youtube],
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      status: "Approved",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: band1,
+      venueOrBandName: "Demi3D Bands",
+      genreOrType: "Blues",
+      socials: [website, facebook, instagram, youtube],
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      status: "Pending",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: band1,
+      venueOrBandName: "Demi3D Bands",
+      genreOrType: "Blues",
+      socials: [website, facebook, instagram, youtube],
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: band1,
+      venueOrBandName: "Demi3D Bands",
+      genreOrType: "Blues",
+      socials: [website, facebook, instagram, youtube],
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      status: "Approved",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: band1,
+      venueOrBandName: "Demi3D Bands",
+      genreOrType: "Blues",
+      socials: [website, facebook, instagram, youtube],
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      status: "Pending",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: band1,
+      venueOrBandName: "Demi3D Bands",
+      genreOrType: "Blues",
+      socials: [website, facebook, instagram, youtube],
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: band1,
+      venueOrBandName: "Demi3D Bands",
+      genreOrType: "Blues",
+      socials: [website, facebook, instagram, youtube],
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      status: "Approved",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: band1,
+      venueOrBandName: "Demi3D Bands",
+      genreOrType: "Blues",
+      socials: [website, facebook, instagram, youtube],
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      status: "Pending",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: band1,
+      venueOrBandName: "Demi3D Bands",
+      genreOrType: "Blues",
+      socials: [website, facebook, instagram, youtube],
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      status: "Inactive",
+    },
+  ],
+  numberOfItem: 5,
+};
+/************  LOCATION TABLE DATA  *************/
+export const locationPageData = {
+  statusData: [
+    { status: "Total", numbers: 2000, colorID: "total" },
+    { status: "Approve", numbers: 2000, colorID: "approve" },
+    { status: "Pending", numbers: 2000, colorID: "pending" },
+    { status: "Inactive", numbers: 2000, colorID: "inactive" },
+  ],
+  status: ["All", "Approved", "Pending", "Inactive"],
+  tableHead: [
+    "ID",
+    "Venue name/Genre",
+    "Address",
+    "Email",
+    "Date",
+    "Time",
+    "Status",
+    "Actions",
+  ],
+  tableOrCardData: [
+    {
+      ID: crypto.randomUUID(),
+      image: band1,
+      venueOrBandName: "Transcorp Hilton",
+      genreOrType: "Hotel",
+      address: "2200 Harvard St, Sacramento, CA 95815",
+      email: "band@findmelivemusic.com",
+      date: "19 Aug 2024",
+      changeStatus: ["Approve", "Pending", "Inactive"],
+      status: "Approved",
+      time: "9:00PM - UTC",
+    },
+  ],
+  numberOfItem: 5,
+};
 
+/************  TYPE TABLE DATA  *************/
+export const typePageData = {
+  statusData: [
+    { status: "Total", numbers: 2000, colorID: "total" },
+    { status: "Approve", numbers: 2000, colorID: "approve" },
+    { status: "Inactive", numbers: 2000, colorID: "inactive" },
+  ],
+
+  status: ["All", "Approved", "Inactive"],
+
+  tableOrCardData: [
+    {
+      ID: crypto.randomUUID(),
+      status: "Approved",
+      genreOrType: "Winery",
+      image: wine,
+    },
+    {
+      ID: crypto.randomUUID(),
+      status: "Inactive",
+      genreOrType: "Resturant",
+      image: resturant,
+    },
+    {
+      ID: crypto.randomUUID(),
+      status: "Inactive",
+      genreOrType: "Brewery",
+      image: brewery,
+    },
+    {
+      ID: crypto.randomUUID(),
+      status: "Approved",
+      genreOrType: "Bar",
+      image: Bar,
+    },
+    {
+      ID: crypto.randomUUID(),
+      status: "Approved",
+      genreOrType: "Night club",
+      image: night,
+    },
+    {
+      ID: crypto.randomUUID(),
+      status: "Approved",
+      genreOrType: "Outdoor Stage",
+      image: outdoorStage,
+    },
+  ],
+  numberOfItem: 12,
+};
+
+/************  GENRE TABLE DATA  *************/
+export const genrePageData = {
+  statusData: [
+    { status: "Total", numbers: 2000, colorID: "total" },
+    { status: "Approve", numbers: 2000, colorID: "approve" },
+    { status: "Inactive", numbers: 2000, colorID: "inactive" },
+  ],
+
+  status: ["All", "Approved", "Inactive"],
+
+  tableOrCardData: [
+    {
+      ID: crypto.randomUUID(),
+      status: "Approved",
+      genreOrType: "Rock",
+      image: rock,
+    },
+
+    {
+      ID: crypto.randomUUID(),
+      status: "Inactive",
+      genreOrType: "Jazz",
+      image: jazz,
+    },
+    {
+      ID: crypto.randomUUID(),
+      status: "Approved",
+      genreOrType: "Blues",
+      image: blues,
+    },
+    {
+      ID: crypto.randomUUID(),
+      status: "Inactive",
+      genreOrType: "Pop",
+      image: pop,
+    },
+    {
+      ID: crypto.randomUUID(),
+      status: "Approved",
+      genreOrType: "Urban",
+      image: urban,
+    },
+    {
+      ID: crypto.randomUUID(),
+      status: "Approved",
+      genreOrType: "Acoustic",
+      image: Acoustic,
+    },
+    {
+      ID: crypto.randomUUID(),
+      status: "Inactive",
+      genreOrType: "Raggae",
+      image: raggae,
+    },
+    {
+      ID: crypto.randomUUID(),
+      status: "Approved",
+      genreOrType: "Country",
+      image: country,
+    },
+    {
+      ID: crypto.randomUUID(),
+      status: "Inactive",
+      genreOrType: "Metal",
+      image: metal,
+    },
+    {
+      ID: crypto.randomUUID(),
+      status: "Inactive",
+      genreOrType: "Dance",
+      image: dance,
+    },
+  ],
+  numberOfItem: 12,
+  size: "genre",
+};
+
+/************  ADS TABLE DATA  *************/
+export const adsPageData = {
+  statusData: [
+    { status: "Total", numbers: 2000, colorID: "total" },
+    { status: "Approve", numbers: 2000, colorID: "approve" },
+    { status: "Inactive", numbers: 2000, colorID: "inactive" },
+  ],
+
+  status: ["All", "Approved", "Inactive"],
+
+  tableOrCardData: [
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Approved",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+    {
+      ID: crypto.randomUUID(),
+      image: adImg,
+      status: "Inactive",
+    },
+  ],
+  numberOfItem: 12,
+  size: "ads",
+};
+
+export const emailPageData = [];
+
+const bandSummary = calculateSummary(bandPageData.tableOrCardData);
+const venueLocationSummary = calculateSummary(locationPageData.tableOrCardData);
+const venueTypeSummary = calculateSummary(typePageData.tableOrCardData);
+const adsSummary = calculateSummary(adsPageData.tableOrCardData);
+const genreSummary = calculateSummary(genrePageData.tableOrCardData);
+/************  BAND TABLE DATA  *************/
 export const dashboardSummary = [
   {
     name: "Bands",
-    numbers: 2000,
+    numbers: bandSummary.totalItems,
     image: Bands,
     status: [
-      { state: "active", number: 1200, colorID: "active" },
-      { state: "Pending", number: 460, colorID: "pending" },
-      { state: "inactive", number: 340, colorID: "inactive" },
+      {
+        state: "active",
+        number: bandSummary.statusCount.Approved,
+        colorID: "active",
+      },
+      {
+        state: "Pending",
+        number: bandSummary.statusCount.Pending,
+        colorID: "pending",
+      },
+      {
+        state: "inactive",
+        number: bandSummary.statusCount.Inactive,
+        colorID: "inactive",
+      },
     ],
     colorID: "band",
     buttonText: "Add Band +",
@@ -148,12 +809,20 @@ export const dashboardSummary = [
   },
   {
     name: "Genre",
-    numbers: 200,
+    numbers: genreSummary.totalItems,
     image: genreImg,
     status: [
-      { state: "active", number: 1200, colorID: "active" },
-      { state: "Pending", number: 460, colorID: "pending" },
-      { state: "inactive", number: 340, colorID: "inactive" },
+      {
+        state: "active",
+        number: genreSummary.statusCount.Approved,
+        colorID: "active",
+      },
+
+      {
+        state: "inactive",
+        number: genreSummary.statusCount.Inactive,
+        colorID: "inactive",
+      },
     ],
     colorID: "genre",
     buttonText: "Add Genre +",
@@ -183,320 +852,3 @@ export const dashboardSummary = [
     buttonText: "Add Venue +",
   },
 ];
-
-export const venueLocationData = [
-  { status: "Total", numbers: 2000, colorID: "total" },
-  { status: "Approve", numbers: 2000, colorID: "approve" },
-  { status: "Pending", numbers: 2000, colorID: "pending" },
-  { status: "Inactive", numbers: 2000, colorID: "inactive" },
-];
-
-export const venueTypeData = [
-  { status: "Total", numbers: 2000, colorID: "total" },
-  { status: "Approve", numbers: 2000, colorID: "approve" },
-  { status: "Inactive", numbers: 2000, colorID: "inactive" },
-];
-
-/************  BAND TABLE DATA  *************/
-export const bandPageData = {
-  statusData: [
-    { status: "Total", numbers: 2000, colorID: "total" },
-    { status: "Approve", numbers: 2000, colorID: "approve" },
-    { status: "Pending", numbers: 2000, colorID: "pending" },
-    { status: "Inactive", numbers: 2000, colorID: "inactive" },
-  ],
-  status: ["All", "Approved", "Pending", "Inactive"],
-  tableHead: [
-    "ID",
-    "Band name/Genre",
-    "Socials",
-    "Email",
-    "Date",
-    "Status",
-    "Actions",
-  ],
-  tableBody: [
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      changeStatus: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-      status: "Approved",
-    },
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      changeStatus: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-      status: "Pending",
-    },
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      changeStatus: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-      status: "Inactive",
-    },
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      changeStatus: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-      status: "Approved",
-    },
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      changeStatus: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-      status: "Pending",
-    },
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      changeStatus: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-      status: "Inactive",
-    },
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      changeStatus: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-      status: "Approved",
-    },
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      changeStatus: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-      status: "Pending",
-    },
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      changeStatus: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-      status: "Inactive",
-    },
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      changeStatus: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-      status: "Approved",
-    },
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      changeStatus: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-      status: "Pending",
-    },
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      changeStatus: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-      status: "Inactive",
-    },
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      changeStatus: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-      status: "Approved",
-    },
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      changeStatus: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-      status: "Pending",
-    },
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      changeStatus: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-      status: "Inactive",
-    },
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      changeStatus: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-      status: "Approved",
-    },
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      changeStatus: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-      status: "Pending",
-    },
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      changeStatus: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-      status: "Inactive",
-    },
-  ],
-};
-
-/************  GENRE TABLE DATA  *************/
-export const genrePageData = {
-  statusData: [
-    { status: "Total", numbers: 2000, colorID: "total" },
-    { status: "Approve", numbers: 2000, colorID: "approve" },
-    { status: "Inactive", numbers: 2000, colorID: "inactive" },
-  ],
-
-  status: ["All", "Approved", "Pending", "Inactive"],
-  bandTableHead: [
-    "ID",
-    "Band name/Genre",
-    "Socials",
-    "Email",
-    "Date",
-    "Status",
-    "Actions",
-  ],
-  bandTableBody: [
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      status: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-    },
-  ],
-};
-
-/************  ADS TABLE DATA  *************/
-export const adsPageData = {
-  statusData: [
-    { status: "Total", numbers: 2000, colorID: "total" },
-    { status: "Approve", numbers: 2000, colorID: "approve" },
-    { status: "Inactive", numbers: 2000, colorID: "inactive" },
-  ],
-
-  status: ["All", "Approved", "Pending", "Inactive"],
-  bandTableHead: [
-    "ID",
-    "Band name/Genre",
-    "Socials",
-    "Email",
-    "Date",
-    "Status",
-    "Actions",
-  ],
-  bandTableBody: [
-    {
-      ID: uuidv4(),
-      image: "",
-      bandName: "Demi3D Bands",
-      genre: "Blues",
-      socials: ["wb", "fb", "ig", "x"],
-      email: "band@findmelivemusic.com",
-      date: "19 Aug 2024",
-      status: ["Approve", "Pending", "Inactive"],
-      actions: ["Set", "Del", "Details"],
-    },
-  ],
-};

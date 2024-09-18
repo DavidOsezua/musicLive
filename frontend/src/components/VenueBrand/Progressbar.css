@@ -32,7 +32,7 @@
   opacity: 1; /* Active step color */
 }
 .progress-step.completed {
-  background-color: #45dd5f; /* Active step color */
+  background-color: #2659c3; /* Active step color */
   opacity: 1;
 }
 
@@ -56,7 +56,7 @@
 
 .progress-line.completed {
   transform: 4s;
-  background-color: #45dd5f; /* Active step color */
+  background-color: #2659C3; /* Active step color */
   opacity: 1;
 }
 

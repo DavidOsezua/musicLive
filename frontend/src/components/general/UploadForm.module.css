@@ -1,0 +1,58 @@
+.formContainer {
+  background-color: #ffffff;
+  max-width: 519px;
+  padding: 2rem;
+  position: relative;
+  padding-top: 3rem;
+}
+
+.formWrapper > * + * {
+  margin-top: 1rem;
+}
+
+.input,
+.textArea {
+  width: 100%;
+  outline-color: #2659c3;
+  border: 1px solid rgba(14, 51, 134, 0.2);
+  border-radius: 5px;
+  padding: 0.7rem 1rem;
+  font-size: 0.8rem;
+}
+
+.inputContainer > * + * {
+  margin-top: 0.5rem;
+}
+.upload {
+  background-color: transparent;
+  width: 100%;
+  padding: 0.6rem;
+  height: 84px;
+  border-radius: 5px;
+  border: 1px solid #2659c3b2;
+  position: relative;
+}
+
+.uploadText {
+  color: #00000066;
+}
+
+.uploadContainer {
+  display: flex;
+  gap: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  align-items: center;
+}
+
+.uploadBox {
+  opacity: 0;
+}
+
+.btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}

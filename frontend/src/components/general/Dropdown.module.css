@@ -11,8 +11,8 @@
   display: grid;
   grid-template-columns: repeat(
     auto-fit,
-    minmax(80px, 1fr)
-  ); /* Adjusts based on available space */
+    minmax(100px, 1fr)
+  ); 
   gap: 1rem;
   width: 100%;
 }

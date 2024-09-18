@@ -1,18 +1,33 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { TipJar } from "../../components";
 import Search from "../../components/general/Search";
 import styles from "./Venues.module.css";
-import { venues } from "../../data/data";
 import Button from "../../components/general/Button";
-import { desktopMap } from "../../assets";
+// import { desktopMap } from "../../assets";
 import Map from "../../components/VenueBrand/Map";
 import Dropdown from "../../components/general/Dropdown";
 import { facebook,instagram,website } from "../../assets";
-import {Url} from "../../service/api.route"
+import {Url,api} from "../../services/api.route"
 
 const Venues = () => {
   const [dropdown, setDropDown] = useState(false);
   const [tokenState, setTokenState] = useState("USDT");
+  const [venues, setVenues] = useState([])
+
+  useEffect(()=>{
+    const getAlluserVenue = async ()=>{
+      try{
+        const response = await api.get("/api/v1/venue/approved")
+        console.log(response.data)
+        setVenues(response.data)
+       
+      }catch (error) {
+        console.error("Error occur when getting the user venue:", error);
+        // toast.error(error|| "An unexpected error occurred");
+      }
+    }
+    getAlluserVenue()
+  }, [])
 
   const showDropdown = () => {
     setDropDown((prev) => !prev);
@@ -59,27 +74,27 @@ const Venues = () => {
           ))}
         </div> */}
             <div className={`${styles.bandDetailsContainer}`}>
-            {venues.map((band) => (
-              <div key={band.id} className={`${styles.bandDetail}`}>
-                <a href={`${band.homepage}`} target="_blank" rel="noopener noreferrer">
+            {venues.map((venue) => (
+              <div key={venue.id} className={`${styles.bandDetail}`}>
+                <a href={`${venue.homepage}`} target="_blank" rel="noopener noreferrer">
                 <img
-                  src={`${Url}/${band.image1}`}
-                  alt={`${band.name} image 1`}
+                  src={`${Url}/${venue.image1}`}
+                  alt={`${venue.name} image 1`}
                   className={`${Url}/${styles.image}`}
                 />
                  </a>
 
-                <span>{band.venue_type}</span>
-                <h1 className={`${styles.bandName}`}>{String(band.name).charAt(0).toUpperCase() + String(band.name.slice(1))}</h1>
+                <span>{venue.venue_type}</span>
+                <h1 className={`${styles.bandName}`}>{String(venue.name).charAt(0).toUpperCase() + String(venue.name.slice(1))}</h1>
 
                 <div className={`${styles.socials}`}>
-                  <a href={band.facebook_url} target="_blank" rel="noopener noreferrer">
+                  <a href={venue.facebook_url} target="_blank" rel="noopener noreferrer">
                     <img src={facebook} alt="Facebook" key={1} />
                   </a>
-                  <a href={band.instagram_url} target="_blank" rel="noopener noreferrer">
+                  <a href={venue.instagram_url} target="_blank" rel="noopener noreferrer">
                     <img src={instagram} alt="Instagram" key={2} />
                   </a>
-                  <a href={band.youtube_url} target="_blank" rel="noopener noreferrer">
+                  <a href={venue.youtube_url} target="_blank" rel="noopener noreferrer">
                     <img src={website} alt="YouTube" key={3}/>
                   </a>
                 </div>

@@ -2,7 +2,7 @@
 
 .tableStyle {
   border-collapse: collapse;
-  width: 1350px;
+  width: 100%;
 }
 
 .thStyle {
@@ -23,8 +23,12 @@
 
 /* Media query for responsiveness */
 
-/* @media (max-width: 690px) {
+@media (max-width: 690px) {
   .tableStyle {
+    border-collapse: collapse;
+    width: 1240px;
+  }
+  /* .tableStyle {
     font-size: 0.5rem;
   }
 
@@ -40,5 +44,5 @@
 
   .UserImage {
     width: 1.3rem;
-  }
-} */
+  } */
+}

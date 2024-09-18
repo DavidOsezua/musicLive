@@ -1,16 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TipJar } from "../../components";
 import PageHeader from "../../components/general/PageHeader";
 import Search from "../../components/general/Search";
-import { bands, genre } from "../../data/data";
+import { genre } from "../../data/data";
 import Button from "../../components/general/Button";
 import Genre from "../../components/general/Genre";
 import styles from "./Bands.module.css";
 import GenreScroll from "../../components/general/GenreScroll";
 import { facebook,instagram,website } from "../../assets";
-import {Url} from "../../service/api.route"
+import {Url,api} from "../../services/api.route"
 
 const Bands = () => {
+  const [bands, setBands] = useState([])
+
+
+  useEffect(()=>{
+    const getAlluserBand = async ()=>{
+      try{
+        const response = await api.get("/api/v1/band/approved")
+        console.log(response.data)
+        setBands(response.data)
+       
+      }catch (error) {
+        console.error("Error occur when getting the user band:", error);
+        console.error(error|| "An unexpected error occurred");
+      }
+    }
+    getAlluserBand()
+  }, [])
+
+
   return (
     <section className={`section py-0 px-0 transition`}>
       <div>

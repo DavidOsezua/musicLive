@@ -34,6 +34,15 @@ import Bands from "./Bands.svg";
 import venueImg from "./Venue.svg";
 import ads from "./ADS.svg";
 import genreImg from "./Genre.svg";
+import adImg from "./adImg.png";
+import wine from "./wine.svg";
+import night from "./night.svg";
+import outdoorStage from "./outdoorStage.svg";
+import brewery from "./brewery.svg";
+import Bar from "./Bar.svg";
+import concert from "./concert.svg";
+import resturant from "./resturant.svg";
+import youtube from "./youtube.svg";
 
 export {
   facebook,
@@ -72,4 +81,13 @@ export {
   venueImg,
   ads,
   genreImg,
+  adImg,
+  wine,
+  concert,
+  Bar,
+  resturant,
+  night,
+  brewery,
+  outdoorStage,
+  youtube,
 };

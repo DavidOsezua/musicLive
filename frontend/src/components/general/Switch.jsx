@@ -1,24 +1,21 @@
 import React, { useState } from "react";
 import "./Switch.css"; // Import the CSS for the switch styling
 
-const Switch = ({ isOn, handleToggle }) => {
+const Switch = ({ isToggled, handleToggle, status }) => {
+  // console.log(status);
   return (
-    <div className="switch-container">
-      <input
-        className="switch-checkbox"
-        id={`switch-new`}
-        type="checkbox"
-        checked={isOn}
-        onChange={handleToggle}
-      />
-      <label
-        className="switch-label"
-        htmlFor={`switch-new`}
-        style={{ background: isOn ? "#06D6A0" : "#FF595E" }}
-      >
-        <span className={`switch-button`} />
-      </label>
-    </div>
+    <button
+      className={`toggle-btn ${isToggled ? "toggle" : ""} ${
+        status === "Approved" ? "toggle" : ""
+      }`}
+      onClick={handleToggle}
+    >
+      <div
+        className={`thumb ${isToggled ? "active" : ""}  ${
+          status === "Approved" ? "active" : ""
+        }`}
+      ></div>
+    </button>
   );
 };
 
