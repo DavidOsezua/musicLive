@@ -43,7 +43,6 @@ const Location = () => {
     setLocationPageData(formattedData);
     } catch (err) {
       console.log(err);
-      console.log("hi")
     }
   };
 
