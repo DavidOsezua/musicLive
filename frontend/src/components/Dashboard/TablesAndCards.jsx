@@ -8,7 +8,7 @@ import DoublePrevious from "../SVGcomponent/DoublePrevious";
 import CardList from "./CardList";
 import { api } from "../../services/api.route";
 
-const TablesAndCards = ({ pageData, pageType, columnCount, setUserData }) => {
+const TablesAndCards = ({ pageData, pageType, columnCount, setUserData,from ,totalBand}) => {
   const { tableOrCardData, status, tableHead, numberOfItem } = pageData;
   const [data, setData] = useState(tableOrCardData || []);
   const [active, setActive] = useState("All");
@@ -69,14 +69,28 @@ const TablesAndCards = ({ pageData, pageType, columnCount, setUserData }) => {
   // Delete functionality
   const handleDelete = async (id) => {
     try {
+      if (from !== "Band"){
       await api.delete(`/api/v1/venue/${id}`);
       const newData = data.filter((item) => item.ID !== id);
       setData(newData);
       setFilteredData(newData);
+      totalBand(newData.length)
       setUserData((prevData) =>
         prevData.filter((item) => item.ID !== id)
       );
-    } catch (err) {
+    }
+      else{
+        await api.delete(`/api/v1/band/${id}`);
+        const newData = data.filter((item) => item.ID !== id);
+        setData(newData);
+        setFilteredData(newData);
+        totalBand(newData.length)
+        setUserData((prevData) =>
+          prevData.filter((item) => item.ID !== id)
+        );
+      }
+      }
+    catch (err) {
       console.log(err);
     }
   };

@@ -9,12 +9,22 @@ import dayjs from 'dayjs';
 
 const Location = () => {
   const [locationPageData, setLocationPageData] = useState([]);
+  const [totalBand, setTotalBand] = useState(0)
+  const [totalApprove, setTotalApprove] = useState(0)
+  const [pending, setpending] = useState(0)
   const { modal, modalHandler } = useModal();
 
   const getAllUserVenueData = async () => {
     try {
       const res = await api.get("/api/v1/venue");
-      const formattedData = res.data.map((venue) => ({
+      setTotalBand(res.data.length);
+      let approvedCount = 0; 
+  
+      const formattedData = res.data.map((venue) => {
+        if (venue.is_verified) {
+          approvedCount += 1; 
+        }
+        return {
         ID: venue.id,
         // ID: crypto?.randomUUID?.() || Math.random().toString(36).substring(2, 15),
         image: venue.image1 ? Url +'/'+ venue.image1 : "",
@@ -26,8 +36,11 @@ const Location = () => {
         date: dayjs(venue.venue_date).format('DD MMM YYYY') || "",
         time: dayjs(venue.venue_time, 'HH:mm:ss').format('h:mm A') || "",
         status: venue.is_verified ? "Approved" : "Pending"
-      }));
-      setLocationPageData(formattedData);
+      };
+    });
+    setTotalApprove(approvedCount); 
+    setpending(totalBand - totalApprove)
+    setLocationPageData(formattedData);
     } catch (err) {
       console.log(err);
       console.log("hi")
@@ -37,7 +50,7 @@ const Location = () => {
   useEffect(() => {
     getAllUserVenueData();
     console.log("Updated locationPageData", locationPageData);
-  }, []);
+  }, [totalBand]);
 
   useEffect(() => {
     console.log("Updated locationPageData", locationPageData);
@@ -46,10 +59,10 @@ const Location = () => {
 
   const getuserVenueData = {
     statusData: [
-      { status: "Total", numbers: 2000, colorID: "total" },
-      { status: "Approve", numbers: 2000, colorID: "approve" },
-      { status: "Pending", numbers: 2000, colorID: "pending" },
-      { status: "Inactive", numbers: 2000, colorID: "inactive" },
+      { status: "Total", numbers: totalBand, colorID: "total" },
+      { status: "Approve", numbers: totalApprove, colorID: "approve" },
+      { status: "Pending", numbers: pending, colorID: "pending" },
+      { status: "Inactive", numbers: 0, colorID: "inactive" },
     ],
     status: ["All", "Approved", "Pending", "Inactive"],
     tableHead: [
@@ -81,6 +94,7 @@ const Location = () => {
         pageType={`venue`}
         columnCount={8}
         setUserData = {setLocationPageData}
+        totalBand={setTotalBand}
       />
       {modal ? (
         <Modal modalHandler={modalHandler}>
