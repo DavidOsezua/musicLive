@@ -8,11 +8,14 @@ import ArrowLeft from "../../components/SVGcomponent/ArrowLeft";
 import ArrowRight from "../../components/SVGcomponent/ArrowRight";
 import { TipJar } from "../../components";
 import styles from "./MultiFormPage.module.css";
+import Upload from '../SVGcomponent/Upload';
 
 const MultiFormPage = ({
   stepContent,
   sectionClass,
   containerClass,
+  onSubmit,
+  validateStep,
   showPageHeader = true,
   headerText,
   showTipJar = true,
@@ -23,12 +26,20 @@ const MultiFormPage = ({
 
   const submitHandler = (e) => {
     e.preventDefault();
-    next();
+    if (validateStep(currentStep)){
+      console.log(currentStep)
+      next();
+    }
+  };
+
+  const Upload = (e) => {
+    e.preventDefault();
+      onSubmit()
   };
 
   const backHandler = (e) => {
     e.preventDefault();
-    previous();
+    previous()
   };
 
   console.log(currentStep);
@@ -65,16 +76,29 @@ const MultiFormPage = ({
             <div className={`${styles.formWrapper}`}>
               {step}
 
-              {currentStep > 0 ? (
+              {currentStep > 0 ? 
+              // validateStep(currentStep)?
+              // (
+              //   <Button
+              //     text={`Upload`}
+              //     width={`w-full`}
+              //     colored
+              //     radius={`rounded-sm`}
+              //     clickFunction={Upload}
+              //     // svg2={<ArrowLeft />}
+              //   />
+              // ) :
+              (
                 <Button
-                  text={`Back`}
+                  text={`Upload`}
                   width={`w-full`}
                   colored
                   radius={`rounded-sm`}
-                  clickFunction={backHandler}
-                  svg2={<ArrowLeft />}
+                  clickFunction={Upload}
+                  // svg2={<ArrowLeft />}
                 />
-              ) : (
+              ) : 
+              (
                 <Button
                   text={`Next`}
                   width={`w-full`}

@@ -14,12 +14,15 @@ const AdminDashboardLayout = () => {
     setToggle((prev) => !prev);
   };
 
+<<<<<<< HEAD
   const [modal, setModal] = useState(false);
 
   const modalHandler = () => {
     setModal(!modal);
   };
 
+=======
+>>>>>>> new
   return (
     <ModalContext.Provider value={{ modal, modalHandler }}>
       <div className={`transistion ${styles.dashboard}`}>

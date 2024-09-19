@@ -4,9 +4,10 @@ import { genrePageData } from "../../data/data";
 import Switch from "../../components/general/Switch";
 
 import TablesAndCards from "../../components/Dashboard/TablesAndCards";
-import { useModal } from "../../Layout/AdminDashboardLayout";
+
 import Modal from "../../components/general/Modal";
 import AddGenre from "../../components/Dashboard/AddGenre";
+import { useModal } from "../../App";
 
 const AdminGenre = () => {
   const { modal, modalHandler } = useModal();

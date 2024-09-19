@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FilterAndSearch from "./FilterAndSearch";
 import Table from "./Table";
 import DoubleNext from "../SVGcomponent/DoubleNext";
@@ -7,6 +6,7 @@ import Next from "../SVGcomponent/Next";
 import Previous from "../SVGcomponent/Previous";
 import DoublePrevious from "../SVGcomponent/DoublePrevious";
 import CardList from "./CardList";
+<<<<<<< HEAD
 
 const TablesAndCards = ({ pageData, pageType, columnCount }) => {
   const { tableOrCardData, status, tableHead, numberOfItem } = pageData;
@@ -21,6 +21,23 @@ const TablesAndCards = ({ pageData, pageType, columnCount }) => {
   const [isEditingPreview, setIsEditingPreview] = useState(false);
 
   const itemsPerPage = numberOfItem;
+=======
+import { api } from "../../services/api.route";
+
+const TablesAndCards = ({ pageData, pageType, columnCount, setUserData,from ,totalBand}) => {
+  const { tableOrCardData, status, tableHead, numberOfItem } = pageData;
+  const [data, setData] = useState(tableOrCardData || []);
+  const [active, setActive] = useState("All");
+  const [filteredData, setFilteredData] = useState(tableOrCardData || []);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = numberOfItem || 10;
+
+  useEffect(() => {
+    setData(tableOrCardData || []);
+    setFilteredData(tableOrCardData || []);
+  }, [tableOrCardData]);
+>>>>>>> new
 
   // Calculate total number of pages
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
@@ -40,7 +57,7 @@ const TablesAndCards = ({ pageData, pageType, columnCount }) => {
 
   const handleDoubleNext = () => {
     if (currentPage + 2 <= totalPages) setCurrentPage(currentPage + 2);
-    else setCurrentPage(totalPages); // Move to the last page if less than 2 pages left
+    else setCurrentPage(totalPages);
   };
 
   // Previous and Double Previous buttons
@@ -50,7 +67,7 @@ const TablesAndCards = ({ pageData, pageType, columnCount }) => {
 
   const handleDoublePrevious = () => {
     if (currentPage - 2 >= 1) setCurrentPage(currentPage - 2);
-    else setCurrentPage(1); // Move to the first page if less than 2 pages left
+    else setCurrentPage(1);
   };
 
   // Filtering functionality
@@ -59,23 +76,47 @@ const TablesAndCards = ({ pageData, pageType, columnCount }) => {
       setFilteredData(data);
     } else {
       setFilteredData(
-        data.filter((item) => {
-          console.log(item);
-          return item.status === status;
-        })
+        data.filter((item) => item.status === status)
       );
     }
-
-    console.log(status);
     setCurrentPage(1); // Reset to first page after filtering
     setActive(status);
   };
 
   // Delete functionality
+<<<<<<< HEAD
   const handleDelete = (id) => {
     const newData = data.filter((item) => item.ID !== id);
     setData(newData);
     setFilteredData(newData);
+=======
+  const handleDelete = async (id) => {
+    try {
+      if (from !== "Band"){
+      await api.delete(`/api/v1/venue/${id}`);
+      const newData = data.filter((item) => item.ID !== id);
+      setData(newData);
+      setFilteredData(newData);
+      totalBand(newData.length)
+      setUserData((prevData) =>
+        prevData.filter((item) => item.ID !== id)
+      );
+    }
+      else{
+        await api.delete(`/api/v1/band/${id}`);
+        const newData = data.filter((item) => item.ID !== id);
+        setData(newData);
+        setFilteredData(newData);
+        totalBand(newData.length)
+        setUserData((prevData) =>
+          prevData.filter((item) => item.ID !== id)
+        );
+      }
+      }
+    catch (err) {
+      console.log(err);
+    }
+>>>>>>> new
   };
 
   // Preview functionality
@@ -91,17 +132,30 @@ const TablesAndCards = ({ pageData, pageType, columnCount }) => {
     setIsEditingPreview(false); // Reset editing state when closing
   };
 
+  const updateItemStatus = (id, newStatus) => {
+    setData((prevData) =>
+      prevData.map((item) =>
+        item.ID === id ? { ...item, status: newStatus } : item
+      )
+    );
+    setFilteredData((prevFilteredData) =>
+      prevFilteredData.map((item) =>
+        item.ID === id ? { ...item, status: newStatus } : item
+      )
+    );
+  };
+
   // Save edited name and details in preview modal
   const handleSavePreview = () => {
     const newData = data.map((item) =>
-      item.id === previewItem.id
+      item.ID === previewItem.ID
         ? { ...item, name: editName, details: editDetails }
         : item
     );
     setData(newData);
     setFilteredData(newData);
-    setPreviewItem({ ...previewItem, name: editName, details: editDetails }); // Update the preview item
-    setIsEditingPreview(false); // Exit editing mode
+    setPreviewItem({ ...previewItem, name: editName, details: editDetails });
+    setIsEditingPreview(false);
   };
 
   // const updateItemStatus = (id, newStatus) => {
@@ -167,15 +221,9 @@ const TablesAndCards = ({ pageData, pageType, columnCount }) => {
           </button>
         </div>
 
-        {/* {[...Array(totalPages)].map((_, i) => (
-          <button
-            key={i}
-            onClick={() => paginate(i + 1)}
-            className={currentPage === i + 1 ? "active" : ""}
-          >
-            {i + 1}
-          </button>
-        ))} */}
+        <p>
+          {currentPage} of {totalPages}
+        </p>
 
         <p>
           {currentPage} of {totalPages}

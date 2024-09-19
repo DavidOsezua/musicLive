@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./BrandVenueForm.module.css";
 import Upload from "../SVGcomponent/Upload";
 
-const BrandVenueForm = ({ formData, setFormData, text1, text2 }) => {
+const BrandVenueForm = ({ formData, setFormData,text1,text2}) => {
   return (
     <div className={`${styles.formContainer}`}>
       <form className={`${styles.form}`}>
@@ -10,11 +10,11 @@ const BrandVenueForm = ({ formData, setFormData, text1, text2 }) => {
           <div className="w-full">
             <label>Homepage</label>
             <input placeholder="Add web link" className={`${styles.input}`} 
-            value={formData.homePage}
+            value={formData.homepage}
             onChange={(e) =>
               setFormData((formData) => ({
                 ...formData,
-                homePage: e.target.value,
+                homepage: e.target.value,
               }))
             }
             required
@@ -26,11 +26,11 @@ const BrandVenueForm = ({ formData, setFormData, text1, text2 }) => {
             <input
               placeholder="Add facebook link"
               className={`${styles.input}`}
-              value={formData.Facebook}
+              value={formData.facebook}
               onChange={(e) =>
                 setFormData((formData) => ({
                   ...formData,
-                  Facebook: e.target.value,
+                  facebook: e.target.value,
                 }))
               }
               required
@@ -44,11 +44,11 @@ const BrandVenueForm = ({ formData, setFormData, text1, text2 }) => {
             <input
               placeholder="Add Instagram link"
               className={`${styles.input}`}
-              value={formData.Instagram}
+              value={formData.instagram}
               onChange={(e) =>
                 setFormData((formData) => ({
                   ...formData,
-                  Instagram: e.target.value,
+                  instagram: e.target.value,
                 }))
               }
               required
@@ -60,11 +60,11 @@ const BrandVenueForm = ({ formData, setFormData, text1, text2 }) => {
             <input
               placeholder="Add youtube link"
               className={`${styles.input}`}
-              value={formData.Youtube}
+              value={formData.youtube}
               onChange={(e) =>
                 setFormData((formData) => ({
                   ...formData,
-                  Youtube: e.target.value,
+                  youtube: e.target.value,
                 }))
               }
               required
@@ -86,7 +86,7 @@ const BrandVenueForm = ({ formData, setFormData, text1, text2 }) => {
                 onChange={(e) =>
                   setFormData((formData) => ({
                     ...formData,
-                    Image1: e.target.files[0], // Handle file selection
+                    image1: e.target.files[0], // Handle file selection
                   }))
                 }
                 required
@@ -104,7 +104,7 @@ const BrandVenueForm = ({ formData, setFormData, text1, text2 }) => {
                 onChange={(e) =>
                   setFormData((formData) => ({
                     ...formData,
-                    Image2: e.target.files[0], // Handle file selection
+                    image2: e.target.files[0], // Handle file selection
                   }))
                 }
                 required

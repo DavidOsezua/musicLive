@@ -3,6 +3,9 @@ from contextlib import asynccontextmanager
 from db.database import init_db
 from route.api import api_router
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from route import path
+import os
 
 @asynccontextmanager
 async def lifespan(app:FastAPI):
@@ -13,10 +16,11 @@ async def lifespan(app:FastAPI):
     print("the system has close automatically")
     # await close_db()
     
-
+print(path.base_dir)
 
 app = FastAPI(lifespan=lifespan)
 app.include_router(api_router)
+app.mount("/uploads", StaticFiles(directory=os.path.join(path.base_dir, "uploads")), name="uploads")
 
 app.add_middleware(
     CORSMiddleware,

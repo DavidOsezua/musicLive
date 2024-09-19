@@ -3,8 +3,8 @@ import TitleAndStatus from "../../components/Dashboard/TitleAndStatus";
 import { adsPageData } from "../../data/data";
 import TablesAndCards from "../../components/Dashboard/TablesAndCards";
 import Modal from "../../components/general/Modal";
-import { useModal } from "../../Layout/AdminDashboardLayout";
 import AddAds from "../../components/Dashboard/AddAds";
+import { useModal } from "../../App";
 
 const Ads = () => {
   const { modal, modalHandler } = useModal();

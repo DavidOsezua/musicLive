@@ -6,6 +6,22 @@
 }
 
 
+<<<<<<< HEAD
+=======
+.delete{
+  background-color: white; /* Default background color */
+  color: white; /* Default text color */
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.delete:hover {
+  color: red !important; /* Text color when hovered */
+}
+
+>>>>>>> new
 .cardContainer > *+*{
     margin-top: 0.6rem;
 }

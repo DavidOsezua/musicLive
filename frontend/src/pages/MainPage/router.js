@@ -1,5 +1,5 @@
 // Corrected import
-import api from "../../service/api.route"
+import {api} from "../../services/api.route"
 
 export const uploadUservenue = async (formData) => {
   try {
@@ -11,7 +11,7 @@ export const uploadUservenue = async (formData) => {
 
     return response.data;
   } catch (error) {
-    console.error("Error uploading profile images:", error);
+    console.error("Error uploading user venue form:", error);
     throw error|| "An unexpected error occurred";
   }
 };
@@ -27,9 +27,34 @@ export const uploadUserbrand = async (formData)=>{
     
         return response.data;
       } catch (error) {
-        console.error("Error uploading profile images:", error);
+        console.error("Error uploading user brand form:", error);
         throw error|| "An unexpected error occurred";
       }
 }
+
+
+
+
+
+export const SubmitContactinfo = async (contactForm)=>{
+  console.log(contactForm)
+  try{
+    const response = await api.post("/api/v1/contact", contactForm,
+     
+     {
+       headers: {
+        "Content-Type": "application/json",
+      },
+    }
+    )
+    console.log(response)
+    return response
+
+  }catch (error) {
+    console.error("Error occur when submitting the form:", error);
+    throw error|| "An unexpected error occurred";
+  }
+}
+
 
 

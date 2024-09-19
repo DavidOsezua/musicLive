@@ -3,9 +3,9 @@ import Check from "../SVGcomponent/Check";
 import Button from "./Button";
 import { NavLink } from "react-router-dom";
 import styles from "./Success.module.css";
-import { useModal } from "../../Layout/AdminDashboardLayout";
 import { TiTimes } from "react-icons/ti";
 import Close from "./Close";
+import { useModal } from "../../App";
 
 const Success = () => {
   const { modalHandler } = useModal();
