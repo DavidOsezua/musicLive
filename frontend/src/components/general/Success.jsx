@@ -5,12 +5,13 @@ import { NavLink } from "react-router-dom";
 import styles from "./Success.module.css";
 import { TiTimes } from "react-icons/ti";
 import Close from "./Close";
+import { useModal } from "../../App";
 
 const Success = () => {
-  // const { modalHandler } = useModal();
+  const { modalHandler } = useModal();
   return (
     <div className={`${styles.successCard} relative`}>
-      <button className={`absolute top-[20px] right-[20px]`} onClick={""}>
+      <button className={`absolute top-[20px] right-[20px]`} onClick={modalHandler}>
         <Close />
       </button>
       <Check />
@@ -24,7 +25,7 @@ const Success = () => {
         text={`Close`}
         width={`w-[165px]`}
         radius={`rounded-md`}
-        clickFunction={""}
+        clickFunction={modalHandler}
       />
       <NavLink to="/">
         <Button text={`Home`} width={`w-[165px]`} radius={`rounded-md`} />
