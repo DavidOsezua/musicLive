@@ -22,13 +22,10 @@ import MainLayout from "./Layout/MainLayout";
 import AdminDashboardLayout from "./Layout/AdminDashboardLayout";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-<<<<<<< HEAD
-=======
 
 const ModalContext = createContext();
 
 export const useModal = () => useContext(ModalContext);
->>>>>>> new
 
 const App = () => {
   const [modal, setModal] = useState(false);
