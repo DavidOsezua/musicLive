@@ -6,23 +6,22 @@ import Next from "../SVGcomponent/Next";
 import Previous from "../SVGcomponent/Previous";
 import DoublePrevious from "../SVGcomponent/DoublePrevious";
 import CardList from "./CardList";
-<<<<<<< HEAD
-
-const TablesAndCards = ({ pageData, pageType, columnCount }) => {
-  const { tableOrCardData, status, tableHead, numberOfItem } = pageData;
-  const [data, setData] = useState(tableOrCardData);
-  const [active, setActive] = useState("All");
-  const [filteredData, setFilteredData] = useState(tableOrCardData);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [editId, setEditId] = useState(null);
-  const [editName, setEditName] = useState("");
-  const [previewItem, setPreviewItem] = useState(null);
-  const [editDetails, setEditDetails] = useState("");
-  const [isEditingPreview, setIsEditingPreview] = useState(false);
-
-  const itemsPerPage = numberOfItem;
-=======
 import { api } from "../../services/api.route";
+
+
+// const TablesAndCards = ({ pageData, pageType, columnCount }) => {
+//   const { tableOrCardData, status, tableHead, numberOfItem } = pageData;
+//   const [data, setData] = useState(tableOrCardData);
+//   const [active, setActive] = useState("All");
+//   const [filteredData, setFilteredData] = useState(tableOrCardData);
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const [editId, setEditId] = useState(null);
+//   const [editName, setEditName] = useState("");
+//   const [previewItem, setPreviewItem] = useState(null);
+//   const [editDetails, setEditDetails] = useState("");
+//   const [isEditingPreview, setIsEditingPreview] = useState(false);
+
+//   const itemsPerPage = numberOfItem;
 
 const TablesAndCards = ({ pageData, pageType, columnCount, setUserData,from ,totalBand}) => {
   const { tableOrCardData, status, tableHead, numberOfItem } = pageData;
@@ -37,7 +36,6 @@ const TablesAndCards = ({ pageData, pageType, columnCount, setUserData,from ,tot
     setData(tableOrCardData || []);
     setFilteredData(tableOrCardData || []);
   }, [tableOrCardData]);
->>>>>>> new
 
   // Calculate total number of pages
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
@@ -83,13 +81,7 @@ const TablesAndCards = ({ pageData, pageType, columnCount, setUserData,from ,tot
     setActive(status);
   };
 
-  // Delete functionality
-<<<<<<< HEAD
-  const handleDelete = (id) => {
-    const newData = data.filter((item) => item.ID !== id);
-    setData(newData);
-    setFilteredData(newData);
-=======
+
   const handleDelete = async (id) => {
     try {
       if (from !== "Band"){
@@ -116,7 +108,6 @@ const TablesAndCards = ({ pageData, pageType, columnCount, setUserData,from ,tot
     catch (err) {
       console.log(err);
     }
->>>>>>> new
   };
 
   // Preview functionality
@@ -132,18 +123,18 @@ const TablesAndCards = ({ pageData, pageType, columnCount, setUserData,from ,tot
     setIsEditingPreview(false); // Reset editing state when closing
   };
 
-  const updateItemStatus = (id, newStatus) => {
-    setData((prevData) =>
-      prevData.map((item) =>
-        item.ID === id ? { ...item, status: newStatus } : item
-      )
-    );
-    setFilteredData((prevFilteredData) =>
-      prevFilteredData.map((item) =>
-        item.ID === id ? { ...item, status: newStatus } : item
-      )
-    );
-  };
+  // const updateItemStatus = (id, newStatus) => {
+  //   setData((prevData) =>
+  //     prevData.map((item) =>
+  //       item.ID === id ? { ...item, status: newStatus } : item
+  //     )
+  //   );
+  //   setFilteredData((prevFilteredData) =>
+  //     prevFilteredData.map((item) =>
+  //       item.ID === id ? { ...item, status: newStatus } : item
+  //     )
+  //   );
+  // };
 
   // Save edited name and details in preview modal
   const handleSavePreview = () => {

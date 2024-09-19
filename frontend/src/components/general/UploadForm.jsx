@@ -3,11 +3,8 @@ import Button from "./Button";
 import Upload from "../SVGcomponent/Upload";
 import styles from "./UploadForm.module.css";
 import Close from "./Close";
-<<<<<<< HEAD
-import { useModal } from "../../Layout/AdminDashboardLayout";
-=======
 import { useModal } from "../../App";
->>>>>>> new
+
 
 const UploadForm = ({
   label1,

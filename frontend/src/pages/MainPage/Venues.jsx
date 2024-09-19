@@ -1,25 +1,15 @@
-<<<<<<< HEAD
-// import React, { useState } from "react";
-import { TipJar } from "../../components";
-import Search from "../../components/general/Search";
-import styles from "./Venues.module.css";
-import { bands, genre } from "../../data/data";
-=======
+
 import { useEffect, useState } from "react";
 import { TipJar } from "../../components";
 import Search from "../../components/general/Search";
 import styles from "./Venues.module.css";
->>>>>>> new
 import Button from "../../components/general/Button";
 // import { desktopMap } from "../../assets";
 import Map from "../../components/VenueBrand/Map";
 import Dropdown from "../../components/general/Dropdown";
-<<<<<<< HEAD
-import { useState } from "react";
-=======
 import { facebook,instagram,website } from "../../assets";
 import {Url,api} from "../../services/api.route"
->>>>>>> new
+
 
 const Venues = () => {
   const [dropdown, setDropDown] = useState(false);
