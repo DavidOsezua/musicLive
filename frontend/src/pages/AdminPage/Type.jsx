@@ -2,9 +2,9 @@ import React from "react";
 import { typePageData } from "../../data/data";
 import TablesAndCards from "../../components/Dashboard/TablesAndCards";
 import TitleAndStatus from "../../components/Dashboard/TitleAndStatus";
-import { useModal } from "../../Layout/AdminDashboardLayout";
 import Modal from "../../components/general/Modal";
 import AddType from "../../components/Dashboard/AddType";
+import { useModal } from "../../App";
 
 const Type = () => {
   const { modal, modalHandler } = useModal();

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import TablesAndCards from "../../components/Dashboard/TablesAndCards";
 import TitleAndStatus from "../../components/Dashboard/TitleAndStatus";
 import Modal from "../../components/general/Modal";
-import { useModal } from "../../Layout/AdminDashboardLayout";
 import AddLocation from "../../components/Dashboard/AddLocation";
 import { api, Url } from "../../services/api.route";
 import dayjs from 'dayjs';
+import { useModal } from "../../App";
 
 const Location = () => {
   const [locationPageData, setLocationPageData] = useState([]);

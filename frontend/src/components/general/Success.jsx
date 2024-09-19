@@ -3,15 +3,14 @@ import Check from "../SVGcomponent/Check";
 import Button from "./Button";
 import { NavLink } from "react-router-dom";
 import styles from "./Success.module.css";
-import { useModal } from "../../Layout/AdminDashboardLayout";
 import { TiTimes } from "react-icons/ti";
 import Close from "./Close";
 
 const Success = () => {
-  const { modalHandler } = useModal();
+  // const { modalHandler } = useModal();
   return (
     <div className={`${styles.successCard} relative`}>
-      <button className={`absolute top-[20px] right-[20px]`} onClick={modalHandler}>
+      <button className={`absolute top-[20px] right-[20px]`} onClick={""}>
         <Close />
       </button>
       <Check />
@@ -25,7 +24,7 @@ const Success = () => {
         text={`Close`}
         width={`w-[165px]`}
         radius={`rounded-md`}
-        clickFunction={modalHandler}
+        clickFunction={""}
       />
       <NavLink to="/">
         <Button text={`Home`} width={`w-[165px]`} radius={`rounded-md`} />
