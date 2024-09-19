@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
   Home,
   AboutUs,
@@ -26,6 +28,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 const App = () => {
   return (
     <BrowserRouter>
+<<<<<<< HEAD:src/App.jsx
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Routes>
           {/*********************** MAIN WEBSITE   ******************************/}
@@ -38,6 +41,20 @@ const App = () => {
             <Route path="addyourband" element={<AddYourBand />} />
             <Route path="addyourvenue" element={<AddYourVenue />} />
           </Route>
+=======
+     <ToastContainer />
+      <Routes>
+        {/*********************** MAIN WEBSITE   ******************************/}
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<Home />} />
+          <Route path="aboutus" element={<AboutUs />} />
+          <Route path="contactus" element={<ContactUs />} />
+          <Route path="bands" element={<Bands />} />
+          <Route path="venues" element={<Venues />} />
+          <Route path="addyourband" element={<AddYourBand />} />
+          <Route path="addyourvenue" element={<AddYourVenue />} />
+        </Route>
+>>>>>>> 6fab4b4e87ac2b1e3f6c33df75dee9ede6675d3e:frontend/src/App.jsx
 
           {/*********************** ADMIN DASHBOARD   ******************************/}
           <Route path="/admin" element={<AdminDashboardLayout />}>
