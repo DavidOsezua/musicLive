@@ -35,8 +35,7 @@ const AddYourVenue = () => {
       if (!formData.name) errors.name = "venue name is required";
       if (!formData.email) errors.email = "Email is required";
       if (!formData.genre_type) errors.genre_type = "Genre type is required";
-      if (!formData.venue_type)
-        errors.venue_type = "venue type tag is required";
+      if (!formData.venue_type) errors.venue_type = "venue type tag is required";
       if (!formData.address) errors.address = "address is required";
       // if (!formData.date) errors.date = "venue date is required";
       // if (!formData.time) errors.date = "venue time is required";
@@ -77,7 +76,7 @@ const AddYourVenue = () => {
       dataForm.append("image1", formData.image1);
       dataForm.append("image2", formData.image2);
       try {
-        await uploadUserbrand(dataForm);
+        await uploadUservenue(dataForm);
         setIssubmitted(true);
       } catch (e) {
         console.log(e);

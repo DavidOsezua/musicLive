@@ -89,28 +89,19 @@ const AdminBand = () => {
         title={`Bands`}
         buttonText={`Add band`}
         modalHandler={modalHandler}
-<<<<<<< HEAD
-        data={bandPageData}
-=======
         data={getuserBandData}
->>>>>>> new
+
       />
 
       
 
       <TablesAndCards
-<<<<<<< HEAD
-        pageData={bandPageData}
-        pageType={`bands`}
-        columnCount={7}
-=======
         pageData={getuserBandData}
         pageType={`bands`}
         columnCount={7}
         setUserData = {setLocationPageData}
         from={`Band`}
         totalBand={setTotalBand}
->>>>>>> new
       />
       {modal ? (
         <Modal modalHandler={modalHandler}>
