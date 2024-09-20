@@ -4,11 +4,13 @@ import VenueForm from "../../components/VenueBrand/VenueForm";
 import BrandVenueForm from "../../components/VenueBrand/BrandVenueForm";
 import { useState } from "react";
 import { uploadUservenue } from "./router";
+import { useModal } from "../../App";
 import Success from "../../components/general/Success";
-import { Modal } from "@mui/material";
 import Failed from "../../components/general/Failed";
+import Modal from "../../components/general/Modal";
 
 const AddYourVenue = () => {
+  const { modal, modalHandler } = useModal();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -35,7 +37,8 @@ const AddYourVenue = () => {
       if (!formData.name) errors.name = "venue name is required";
       if (!formData.email) errors.email = "Email is required";
       if (!formData.genre_type) errors.genre_type = "Genre type is required";
-      if (!formData.venue_type) errors.venue_type = "venue type tag is required";
+      if (!formData.venue_type)
+        errors.venue_type = "venue type tag is required";
       if (!formData.address) errors.address = "address is required";
       // if (!formData.date) errors.date = "venue date is required";
       // if (!formData.time) errors.date = "venue time is required";
@@ -78,16 +81,19 @@ const AddYourVenue = () => {
       try {
         await uploadUservenue(dataForm);
         setIssubmitted(true);
+        modalHandler()
       } catch (e) {
         console.log(e);
         setError(e.message);
         setIssubmitted(false);
+        modalHandler()
         //inplement the catching error card here
       }
     } else {
       console.error("error:", formErrors);
       setError(formErrors);
       setIssubmitted(false);
+      modalHandler()
       // implement the error rendering here
     }
   };
@@ -120,14 +126,14 @@ const AddYourVenue = () => {
         headerText={`Add your venue`}
         formHeaderText={`Tell Us About Your Venue!`}
       />
-      {isSubmitted && (
+      {/* Conditionally render success or failure modal */}
+      {modal && (
         <Modal>
-          <Success />
-        </Modal>
-      )}
-      {error.length !== 0 && (
-        <Modal>
-          <Failed />
+          {isSubmitted ? (
+            <Success modalHandler={modalHandler} />
+          ) : (
+            <Failed modalHandler={modalHandler} />
+          )}
         </Modal>
       )}
     </>
