@@ -2,10 +2,8 @@ import { useState } from "react";
 import BrandForm from "../../components/VenueBrand/BrandForm";
 import BrandVenueForm from "../../components/VenueBrand/BrandVenueForm";
 import MultiFormPage from "../../components/general/MultiFormPage";
-// import { facebook, instagram, youtube } from "../../assets";
 import Success from "../../components/general/Success";
 import { uploadUserbrand } from "./router";
-import { FaSadCry } from "react-icons/fa";
 import Modal from "../../components/general/Modal";
 import { useModal } from "../../App";
 import Failed from "../../components/general/Failed";
@@ -26,7 +24,7 @@ const AddYourBand = () => {
   });
 
   const [formErrors, setFormErrors] = useState({});
-  const [isSubmitted, setIssubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
 
   const validateStep = (currentStep) => {
@@ -39,15 +37,13 @@ const AddYourBand = () => {
     }
 
     if (currentStep === 1) {
-      if (!formData.homepage) errors.date = "homepage is required";
+      if (!formData.homepage) errors.homepage = "Homepage is required";
       if (!formData.facebook)
-        errors.facebook = "facebook profile link is required";
+        errors.facebook = "Facebook profile link is required";
       if (!formData.instagram)
-        errors.instagram = "instagram profile link is required";
+        errors.instagram = "Instagram profile link is required";
       if (!formData.image1) errors.image1 = "Upload your brand image1";
-      if (!formData.image2) errors.image2 = "Upload your brand image1";
-
-      // if (!formData.youtube) errors.youtube = "youtube is required";
+      if (!formData.image2) errors.image2 = "Upload your brand image2";
     }
 
     setFormErrors(errors);
@@ -55,36 +51,26 @@ const AddYourBand = () => {
   };
 
   const handleSubmit = async () => {
-    console.log(formData);
-
     if (validateStep(1)) {
       const dataForm = new FormData();
-      dataForm.append("name", formData.name);
-      dataForm.append("genre_type", formData.genre_type);
-      dataForm.append("tag_line", formData.band_tag);
-      dataForm.append("email", formData.email);
-      dataForm.append("homepage", formData.homepage);
-      dataForm.append("facebook", formData.facebook);
-      dataForm.append("instagram", formData.instagram);
-      dataForm.append("youtube", formData.youtube);
-      dataForm.append("image1", formData.image1);
-      dataForm.append("image2", formData.image2);
+      Object.keys(formData).forEach((key) => {
+        dataForm.append(key, formData[key]);
+      });
       try {
         await uploadUserbrand(dataForm);
-        setIssubmitted(true);
+        setIsSubmitted(true);
+        modalHandler(); // Open modal on success
       } catch (e) {
-        console.log(e);
         setError(e.message);
-        setIssubmitted(false);
-        //inplement the catching error card here
+        setIsSubmitted(false);
+        modalHandler(); // Open modal on failure
       }
     } else {
-      console.error("error:", formErrors);
-      setError(formErrors);
-      setIssubmitted(false);
-      // implement the error rendering here
+      setError("Form validation failed");
+      modalHandler(); // Open modal for validation failure
     }
   };
+
   return (
     <>
       <MultiFormPage
@@ -107,21 +93,21 @@ const AddYourBand = () => {
           />,
         ]}
         onSubmit={handleSubmit}
-        validateStep={validateStep} // Pass the validation function
+        validateStep={validateStep}
         showTipJar
         showPageHeader
         headerText={`Add your Band`}
         formHeaderText={`Tell Us About Your Band!`}
       />
 
-      {isSubmitted && (
+      {/* Conditionally render success or failure modal */}
+      {modal && (
         <Modal>
-          <Success />
-        </Modal>
-      )}
-      {error.length !== 0 && (
-        <Modal>
-          <Failed />
+          {isSubmitted ? (
+            <Success modalHandler={modalHandler} />
+          ) : (
+            <Failed modalHandler={modalHandler} />
+          )}
         </Modal>
       )}
     </>
