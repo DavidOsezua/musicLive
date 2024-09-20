@@ -8,7 +8,6 @@ import DoublePrevious from "../SVGcomponent/DoublePrevious";
 import CardList from "./CardList";
 import { api } from "../../services/api.route";
 
-
 // const TablesAndCards = ({ pageData, pageType, columnCount }) => {
 //   const { tableOrCardData, status, tableHead, numberOfItem } = pageData;
 //   const [data, setData] = useState(tableOrCardData);
@@ -23,7 +22,14 @@ import { api } from "../../services/api.route";
 
 //   const itemsPerPage = numberOfItem;
 
-const TablesAndCards = ({ pageData, pageType, columnCount, setUserData,from ,totalBand}) => {
+const TablesAndCards = ({
+  pageData,
+  pageType,
+  columnCount,
+  setUserData,
+  from,
+  totalBand,
+}) => {
   const { tableOrCardData, status, tableHead, numberOfItem } = pageData;
   const [data, setData] = useState(tableOrCardData || []);
   const [active, setActive] = useState("All");
@@ -73,39 +79,30 @@ const TablesAndCards = ({ pageData, pageType, columnCount, setUserData,from ,tot
     if (status === "All") {
       setFilteredData(data);
     } else {
-      setFilteredData(
-        data.filter((item) => item.status === status)
-      );
+      setFilteredData(data.filter((item) => item.status === status));
     }
     setCurrentPage(1); // Reset to first page after filtering
     setActive(status);
   };
 
-
   const handleDelete = async (id) => {
     try {
-      if (from !== "Band"){
-      await api.delete(`/api/v1/venue/${id}`);
-      const newData = data.filter((item) => item.ID !== id);
-      setData(newData);
-      setFilteredData(newData);
-      totalBand(newData.length)
-      setUserData((prevData) =>
-        prevData.filter((item) => item.ID !== id)
-      );
-    }
-      else{
+      if (from !== "Band") {
+        await api.delete(`/api/v1/venue/${id}`);
+        const newData = data.filter((item) => item.ID !== id);
+        setData(newData);
+        setFilteredData(newData);
+        totalBand(newData.length);
+        setUserData((prevData) => prevData.filter((item) => item.ID !== id));
+      } else {
         await api.delete(`/api/v1/band/${id}`);
         const newData = data.filter((item) => item.ID !== id);
         setData(newData);
         setFilteredData(newData);
-        totalBand(newData.length)
-        setUserData((prevData) =>
-          prevData.filter((item) => item.ID !== id)
-        );
+        totalBand(newData.length);
+        setUserData((prevData) => prevData.filter((item) => item.ID !== id));
       }
-      }
-    catch (err) {
+    } catch (err) {
       console.log(err);
     }
   };
@@ -211,10 +208,6 @@ const TablesAndCards = ({ pageData, pageType, columnCount, setUserData,from ,tot
             <Previous />
           </button>
         </div>
-
-        <p>
-          {currentPage} of {totalPages}
-        </p>
 
         <p>
           {currentPage} of {totalPages}
