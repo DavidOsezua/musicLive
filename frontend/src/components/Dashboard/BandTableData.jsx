@@ -12,7 +12,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const BandTableData = ({ item, rowNumber, index, handleDelete }) => {
+const BandTableData = ({
+  item,
+  rowNumber,
+  index,
+  handleDelete,
+  handleSelectChange,
+  getBackgroundColor,
+  status,
+}) => {
   return (
     <>
       <td className={`${styles.tdStyle}`}>{rowNumber + index + 1}</td>
@@ -42,15 +50,15 @@ const BandTableData = ({ item, rowNumber, index, handleDelete }) => {
         <p>{item.date}</p>
       </td>
 
-      <td className={`${styles.tdStyle} text-[#FF6665]`}>
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Theme" />
+      <td className={`${styles.tdStyle}`}>
+        <Select onValueChange={handleSelectChange} className="">
+          <SelectTrigger className={`${getBackgroundColor()} p-2 rounded-md`}>
+            <SelectValue placeholder={status} />
           </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="light">Light</SelectItem>
-            <SelectItem value="dark">Dark</SelectItem>
-            <SelectItem value="system">System</SelectItem>
+          <SelectContent className="bg-[#E6ECF8]">
+            <SelectItem value="Approved">Approved</SelectItem>
+            <SelectItem value="Pending">Pending</SelectItem>
+            <SelectItem value="Inactive">Inactive</SelectItem>
           </SelectContent>
         </Select>
       </td>

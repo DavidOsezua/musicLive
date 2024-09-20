@@ -1,5 +1,5 @@
 // /* eslint-disable react/prop-types */
-import React from "react";
+import React, { useState } from "react";
 // import { useEffect, useState } from "react";
 
 // import styles from "./Table.module.css";
@@ -74,6 +74,26 @@ const Table = ({
 }) => {
   // Calculate the correct row number based on the current page and page size
   const rowNumber = (currentPage - 1) * itemsPerPage;
+  const [status, setStatus] = useState("Inactive");
+
+  // Function to handle the selection change
+  const handleSelectChange = (value) => {
+    setStatus(value);
+  };
+
+  // Conditional background color based on the selected value
+  const getBackgroundColor = () => {
+    switch (status) {
+      case "Approved":
+        return "bg-[#5BE97326] text-[#27993A]"; // Green for Approved
+      case "Pending":
+        return "bg-[#FFAC1C1A] text-[#FFAC1C]"; // Yellow for Pending
+      case "Inactive":
+        return "bg-[#FC9C9E26] text-[#FF1316]"; // Gray for Inactive
+      default:
+        return "bg-white"; // Default color
+    }
+  };
 
   return (
     <div className="table-responsive">
@@ -96,6 +116,9 @@ const Table = ({
                   rowNumber={rowNumber}
                   index={index}
                   handleDelete={handleDelete}
+                  getBackgroundColor={getBackgroundColor}
+                  handleSelectChange={handleSelectChange}
+                  status={status}
                 />
               ) : (
                 <LocationTableData
@@ -103,6 +126,9 @@ const Table = ({
                   rowNumber={rowNumber}
                   index={index}
                   handleDelete={handleDelete}
+                  getBackgroundColor={getBackgroundColor}
+                  handleSelectChange={handleSelectChange}
+                  status={status}
                 />
               )}
             </tr>

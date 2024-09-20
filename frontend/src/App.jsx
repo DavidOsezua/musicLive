@@ -40,7 +40,6 @@ const App = () => {
     <BrowserRouter>
       <ModalContext.Provider value={{ modal, modalHandler }}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <button onClick={modalHandler}>check</button>
           <Routes>
             {/*********************** MAIN WEBSITE   ******************************/}
             <Route path="/" element={<MainLayout />}>

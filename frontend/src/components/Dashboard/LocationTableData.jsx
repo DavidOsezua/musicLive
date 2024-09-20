@@ -4,8 +4,23 @@ import styles from "./Table.module.css";
 import Delete from "../SVGcomponent/Delete";
 import Settings from "../SVGcomponent/Settings";
 import Preview from "../SVGcomponent/Preview";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-const LocationTableData = ({ item, rowNumber, index, handleDelete }) => {
+const LocationTableData = ({
+  item,
+  rowNumber,
+  index,
+  handleDelete,
+  handleSelectChange,
+  getBackgroundColor,
+  status,
+}) => {
   return (
     <>
       <td className={`${styles.tdStyle}`}>{rowNumber + index + 1}</td>
@@ -33,7 +48,18 @@ const LocationTableData = ({ item, rowNumber, index, handleDelete }) => {
         <p>{item.time}</p>
       </td>
 
-      <td className={`${styles.tdStyle} text-[#FF6665]`}>{item.status}</td>
+      <td className={`${styles.tdStyle} text-[#FF6665]`}>
+        <Select onValueChange={handleSelectChange} className="">
+          <SelectTrigger className={`${getBackgroundColor()} p-2 rounded-md`}>
+            <SelectValue placeholder={status} />
+          </SelectTrigger>
+          <SelectContent className="bg-[#E6ECF8]">
+            <SelectItem value="Approved">Approved</SelectItem>
+            <SelectItem value="Pending">Pending</SelectItem>
+            <SelectItem value="Inactive">Inactive</SelectItem>
+          </SelectContent>
+        </Select>
+      </td>
 
       <td className={`${styles.tdStyle} text-[#FF6665]`}>
         <div className="flex items-center gap-3">
