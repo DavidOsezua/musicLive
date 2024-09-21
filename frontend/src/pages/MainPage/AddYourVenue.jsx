@@ -7,6 +7,7 @@ import { uploadUservenue } from "./router";
 import Success from "../../components/general/Success";
 import { Modal } from "@mui/material";
 import Failed from "../../components/general/Failed";
+import { useModal } from "../../App";
 
 const AddYourVenue = () => {
   const [formData, setFormData] = useState({
@@ -24,6 +25,7 @@ const AddYourVenue = () => {
     image1: "",
     image2: "",
   });
+  const { modal, modalHandler } = useModal();
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitted, setIssubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -120,14 +122,13 @@ const AddYourVenue = () => {
         headerText={`Add your venue`}
         formHeaderText={`Tell Us About Your Venue!`}
       />
-      {isSubmitted && (
+       {modal && (
         <Modal>
-          <Success />
-        </Modal>
-      )}
-      {error.length !== 0 && (
-        <Modal>
-          <Failed />
+          {isSubmitted ? (
+            <Success modalHandler={modalHandler} />
+          ) : (
+            <Failed modalHandler={modalHandler} />
+          )}
         </Modal>
       )}
     </>
