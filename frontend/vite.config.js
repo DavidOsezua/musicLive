@@ -1,5 +1,6 @@
 import { defineConfig, transformWithEsbuild } from "vite";
 import envCompatible from "vite-plugin-env-compatible";
+import path from "path";
 import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
@@ -29,6 +30,12 @@ export default defineConfig({
       loader: {
         ".js": "jsx",
       },
+    },
+  },
+
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
     },
   },
 });
