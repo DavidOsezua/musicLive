@@ -7,6 +7,7 @@ import Previous from "../SVGcomponent/Previous";
 import DoublePrevious from "../SVGcomponent/DoublePrevious";
 import CardList from "./CardList";
 import { api } from "../../services/api.route";
+import { useModal } from "../../App";
 
 // const TablesAndCards = ({ pageData, pageType, columnCount }) => {
 //   const { tableOrCardData, status, tableHead, numberOfItem } = pageData;
@@ -37,6 +38,7 @@ const TablesAndCards = ({
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = numberOfItem || 10;
+  const { modal, modalHandler } = useModal();
 
   useEffect(() => {
     setData(tableOrCardData || []);
@@ -94,6 +96,7 @@ const TablesAndCards = ({
         setFilteredData(newData);
         totalBand(newData.length);
         setUserData((prevData) => prevData.filter((item) => item.ID !== id));
+        modalHandler();
       } else {
         await api.delete(`/api/v1/band/${id}`);
         const newData = data.filter((item) => item.ID !== id);
@@ -101,6 +104,7 @@ const TablesAndCards = ({
         setFilteredData(newData);
         totalBand(newData.length);
         setUserData((prevData) => prevData.filter((item) => item.ID !== id));
+        modalHandler();
       }
     } catch (err) {
       console.log(err);

@@ -3,19 +3,22 @@ import React, { useEffect, useState } from "react";
 import Switch from "../general/Switch";
 import Delete from "../SVGcomponent/Delete";
 import styles from "./CardListItem.module.css";
-import {api} from "../../services/api.route"
+import { api } from "../../services/api.route";
+import { useModal } from "../../App";
+import Modal from "../general/Modal";
 
 const CardListItem = ({ item, updateItemStatus, handleDelete }) => {
+  const { modal, modalHandler } = useModal();
   const [isToggled, setIsToggled] = useState(false);
   const [status, setStatus] = useState(item.status);
 
-  const handleToggle = async() => {
+  const handleToggle = async () => {
     setIsToggled(!isToggled);
 
     if (!isToggled) {
       updateItemStatus(item.ID, "Approved");
-      console.log(item.ID)
-      console.log(item.genreOrType)
+      console.log(item.ID);
+      console.log(item.genreOrType);
       setStatus("Approved");
     } else {
       updateItemStatus(item.ID, "Inactive"); // Revert to another status
@@ -49,6 +52,8 @@ const CardListItem = ({ item, updateItemStatus, handleDelete }) => {
       <button className={styles.delete} onClick={() => handleDelete(item.ID)}>
         <Delete />
       </button>
+
+      {modal && <Modal></Modal>}
     </div>
   );
 };
