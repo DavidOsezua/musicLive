@@ -51,6 +51,7 @@ const AddYourBand = () => {
   };
 
   const handleSubmit = async () => {
+    console.log(formData)
     if (validateStep(1)) {
       const dataForm = new FormData();
       Object.keys(formData).forEach((key) => {

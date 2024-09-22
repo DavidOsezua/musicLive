@@ -10,7 +10,6 @@ import Failed from "../../components/general/Failed";
 import Modal from "../../components/general/Modal";
 
 const AddYourVenue = () => {
-  const { modal, modalHandler } = useModal();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -26,6 +25,7 @@ const AddYourVenue = () => {
     image1: "",
     image2: "",
   });
+  const { modal, modalHandler } = useModal();
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitted, setIssubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -128,7 +128,7 @@ const AddYourVenue = () => {
       />
       {/* Conditionally render success or failure modal */}
       {modal && (
-        <Modal>
+     <Modal>
           {isSubmitted ? (
             <Success modalHandler={modalHandler} />
           ) : (

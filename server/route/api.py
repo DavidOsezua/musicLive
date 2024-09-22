@@ -127,7 +127,7 @@ async def upload_venue(
 async def upload_band(
     name: str = Form(...),
     genre_type: str = Form(...),
-    tag_line: str = Form(...),
+    band_tag: str = Form(...),
     email: str = Form(...),
     homepage: Optional[str] = Form(None),
     facebook: Optional[str] = Form(None),
@@ -156,7 +156,7 @@ async def upload_band(
         venue_data = Band_(
             name=name,
             genre_type=genre_type,
-            band_tag=tag_line,
+            band_tag=band_tag,
             email=email,
             homepage=homepage,
             facebook_url=facebook,
