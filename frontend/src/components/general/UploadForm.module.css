@@ -1,6 +1,8 @@
 .formContainer {
   background-color: #ffffff;
-  max-width: 519px;
+  /* max-width: 519px;
+  margin-left: auto;
+  margin-right: auto; */
   padding: 2rem;
   position: relative;
   padding-top: 3rem;
