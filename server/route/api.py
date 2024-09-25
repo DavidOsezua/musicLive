@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, Form, UploadFile, HTTPException,Depends,APIRouter
+from fastapi import FastAPI, File, Form, UploadFile, HTTPException,Depends,APIRouter,Query
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Optional
@@ -234,31 +234,81 @@ async def delete_user_band(user_id: int, session: AsyncSession = Depends(get_ses
     return band
 
 
-@api_router.put("/venue/{venue_type}", response_model=Venue)
+@api_router.put("/venue/", response_model=List[Venue])
 async def update_venue(
-    venue_type: str,
+    user_id:int = Query(alias="ID"),
+    Status:str = Query(alias="Status"),
     session: AsyncSession = Depends(get_session)
 ):
-    query = select(Venue).where(Venue.venue_type == venue_type)
+    query = select(Venue).where(Venue.id == user_id)
     result = await session.exec(query)
     venue = result.fetchall()
-    
+    print(Status)
+    print(user_id)
     if not venue:
         raise HTTPException(status_code=404, detail="Venue not found")
-
-    update_query = (
-        update(Venue)
-        .where(Venue.venue_type == venue_type)
-        .values(is_verified=True)
-        .returning(Venue)
-    )
-    result = await session.exec(update_query)
+    if Status == "Approved":
+            
+        update_query = (
+            update(Venue)
+            .where(Venue.id == user_id)
+            .values(is_verified=True)
+        )
+    else:
+            update_query = (
+            update(Venue)
+            .where(Venue.id == user_id)
+            .values(is_verified=False)
+        )
+            
+    await session.exec(update_query)
+    await session.commit()
+    updated_query = select(Venue).where(Venue.is_verified == True)
+    result = await session.exec(updated_query)
     updated_venue = result.fetchall()
-    
+
     if not updated_venue:
         raise HTTPException(status_code=404, detail="Update failed")
 
     return updated_venue
+
+
+@api_router.put("/band/", response_model=List[Band])
+async def update_band(
+    user_id:int = Query(alias="ID"),
+    Status:str = Query(alias="Status"),
+    session: AsyncSession = Depends(get_session)
+):
+    query = select(Band).where(Band.id == user_id)
+    result = await session.exec(query)
+    venue = result.fetchall()
+    if not venue:
+        raise HTTPException(status_code=404, detail="Venue not found")
+    if Status == "Approved":
+            
+        update_query = (
+            update(Band)
+            .where(Band.id == user_id)
+            .values(is_verified=True)
+        )
+    else:
+            update_query = (
+            update(Band)
+            .where(Band.id == user_id)
+            .values(is_verified=False)
+        )
+            
+    await session.exec(update_query)
+    await session.commit()
+    updated_query = select(Band).where(Band.is_verified == True)
+    result = await session.exec(updated_query)
+    updated_venue = result.fetchall()
+
+    if not updated_venue:
+        raise HTTPException(status_code=404, detail="Update failed")
+
+    return updated_venue
+
 
 
 

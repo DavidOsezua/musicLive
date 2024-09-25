@@ -51,7 +51,7 @@ const BandTableData = ({
       </td>
 
       <td className={`${styles.tdStyle}`}>
-        <Select onValueChange={handleSelectChange} className="">
+        <Select onValueChange={(value) => handleSelectChange(value, item,"band")} className="">
           <SelectTrigger className={`${getBackgroundColor()} p-2 rounded-md`}>
             <SelectValue placeholder={status} />
           </SelectTrigger>

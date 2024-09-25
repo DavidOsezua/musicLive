@@ -1,5 +1,5 @@
 // /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useState,useEffect} from "react";
 // import { useEffect, useState } from "react";
 
 // import styles from "./Table.module.css";
@@ -63,26 +63,91 @@ import React, { useState } from "react";
 import styles from "./Table.module.css";
 import BandTableData from "./BandTableData";
 import LocationTableData from "./LocationTableData";
+import {api} from "../../services/api.route"
+import { control } from "leaflet";
+
 
 const Table = ({
   tableHead,
   tableBody,
+  setData,
+  totalBand,
+  setUserData,
+  data,
   currentPage,
   itemsPerPage,
   columnCount,
   handleDelete,
+  setFilteredData,
+  setTotalApprove,
+  setpending
 }) => {
-  // Calculate the correct row number based on the current page and page size
   const rowNumber = (currentPage - 1) * itemsPerPage;
-  const [status, setStatus] = useState("Inactive");
+  const [statuses, setStatuses] = useState({}); 
+  const [itemID, setItemId] = useState()
+  const [tableType,setTableType] = useState()
 
-  // Function to handle the selection change
-  const handleSelectChange = (value) => {
-    setStatus(value);
+  const handleSelectChange = (value, item, pageType) => {
+    setStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [item.ID]: value,
+    }));
+    setItemId(item.ID);
+    setTableType(pageType);
   };
-
-  // Conditional background color based on the selected value
-  const getBackgroundColor = () => {
+  
+  useEffect(() => {
+    const updateVenue = async () => {
+      if (!itemID || !statuses[itemID]) return;
+  
+      try {
+        let endpoint = "";
+        if (tableType === "location") {
+          endpoint = "api/v1/venue/";
+        } else if (tableType === "band") {
+          endpoint = "api/v1/band/";
+        }
+  
+        if (endpoint) {
+          const res = await api.put(endpoint, null, {
+            params: {
+              ID: itemID,
+              Status: statuses[itemID],
+            },
+          });
+  
+          if (res.data && Array.isArray(res.data)) {
+            console.log("data", res.data);
+            const totalApproved = res.data.length || 0;
+            setTotalApprove(totalApproved);
+  
+            const totalDataCount = data.length || 0;
+            totalBand(totalDataCount);
+            
+            const pendingCount = totalDataCount - totalApproved;
+            setpending(pendingCount >= 0 ? pendingCount : 0);
+          } else {
+            console.error("No valid data returned from the server.");
+            setTotalApprove(0); 
+            setpending(data.length || 0); 
+          }
+        }
+      } catch (err) {
+        console.error("Error updating venue:", err);
+        setTotalApprove(0);
+        setpending(data.length || 0);
+      }
+    };
+  
+    updateVenue();
+  }, [itemID, statuses[itemID], tableType]);
+  
+  
+  
+  
+  const getBackgroundColor = (status) => {
+    console.log("status", status)
+    console.log("itemID",itemID)
     switch (status) {
       case "Approved":
         return "bg-[#5BE97326] text-[#27993A]"; // Green for Approved
@@ -116,9 +181,9 @@ const Table = ({
                   rowNumber={rowNumber}
                   index={index}
                   handleDelete={handleDelete}
-                  getBackgroundColor={getBackgroundColor}
+                  getBackgroundColor={() =>getBackgroundColor(statuses[item.ID] || item.status)}
+                  status={statuses[item.ID] || item.status} 
                   handleSelectChange={handleSelectChange}
-                  status={status}
                 />
               ) : (
                 <LocationTableData
@@ -126,9 +191,9 @@ const Table = ({
                   rowNumber={rowNumber}
                   index={index}
                   handleDelete={handleDelete}
-                  getBackgroundColor={getBackgroundColor}
+                  getBackgroundColor={() => getBackgroundColor(statuses[item.ID] || item.status)}
                   handleSelectChange={handleSelectChange}
-                  status={status}
+                  status={statuses[item.ID] || item.status} 
                 />
               )}
             </tr>

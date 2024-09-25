@@ -26,7 +26,6 @@ const Location = () => {
         }
         return {
         ID: venue.id,
-        // ID: crypto?.randomUUID?.() || Math.random().toString(36).substring(2, 15),
         image: venue.image1 ? Url +'/'+ venue.image1 : "",
         venueOrBandName: venue.name || "",
         genreOrType: venue.genre_type || "",
@@ -94,6 +93,8 @@ const Location = () => {
         columnCount={8}
         setUserData = {setLocationPageData}
         totalBand={setTotalBand}
+        setTotalApprove={setTotalApprove}
+        setpending = {setpending}
       />
       {modal ? (
         <Modal modalHandler={modalHandler}>

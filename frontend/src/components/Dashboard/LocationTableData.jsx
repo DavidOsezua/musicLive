@@ -27,7 +27,11 @@ const LocationTableData = ({
 
       <td className={`${styles.tdStyle}`}>
         <div className="flex gap-3 items-center">
-          <img src={item.image} className={`w-[40px] rounded-md`} />
+          <img
+            src={item.image}
+            alt={`${item.venueOrBandName} image`}
+            className={`w-[40px] rounded-md`}
+          />
           <div>
             <h2>{item.venueOrBandName}</h2>
             <span>{item.genreOrType}</span>
@@ -49,7 +53,10 @@ const LocationTableData = ({
       </td>
 
       <td className={`${styles.tdStyle} text-[#FF6665]`}>
-        <Select onValueChange={handleSelectChange} className="">
+        <Select
+          onValueChange={(value) => handleSelectChange(value, item,"location")}
+          className=""
+        >
           <SelectTrigger className={`${getBackgroundColor()} p-2 rounded-md`}>
             <SelectValue placeholder={status} />
           </SelectTrigger>
@@ -63,13 +70,13 @@ const LocationTableData = ({
 
       <td className={`${styles.tdStyle} text-[#FF6665]`}>
         <div className="flex items-center gap-3">
-          <button>
+          <button aria-label="Settings">
             <Settings />
           </button>
-          <button onClick={() => handleDelete(item.ID)}>
+          <button onClick={() => handleDelete(item.ID)} aria-label="Delete">
             <Delete />
           </button>
-          <button>
+          <button aria-label="Preview">
             <Preview />
           </button>
         </div>

@@ -111,6 +111,8 @@ const AdminBand = () => {
         setUserData={setLocationPageData}
         from={`Band`}
         totalBand={setTotalBand}
+        setTotalApprove={setTotalApprove}
+        setpending = {setpending}
       />
       {modal ? (
         <Modal modalHandler={modalHandler}>

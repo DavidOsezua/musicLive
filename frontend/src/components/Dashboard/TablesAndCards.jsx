@@ -30,6 +30,8 @@ const TablesAndCards = ({
   setUserData,
   from,
   totalBand,
+  setTotalApprove,
+  setpending
 }) => {
   const { tableOrCardData, status, tableHead, numberOfItem } = pageData;
   const [data, setData] = useState(tableOrCardData || []);
@@ -192,6 +194,13 @@ const TablesAndCards = ({
             itemsPerPage={itemsPerPage}
             columnCount={columnCount}
             handleDelete={handleDelete}
+            data={data}
+            setUserData = {setUserData}
+            totalBand = {totalBand}
+            setData = {setData}
+            setFilteredData = {setFilteredData}
+            setTotalApprove ={setTotalApprove}
+            setpending={setpending}
           />
         </div>
       ) : (
