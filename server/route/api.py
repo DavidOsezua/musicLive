@@ -318,8 +318,8 @@ async def contact_us(contact_info:Contact,
                      session: AsyncSession = Depends(get_session)):
     try:
         print(contact_info)
-        to_email = "daretimileyin1@gmail.com"
-        app_password = 'jugj imek yype zdne'
+        to_email = "your email to be sending the message"
+        app_password = 'You app password'
         yag = yagmail.SMTP(to_email, app_password)
 
         html_content = f"""
@@ -388,7 +388,7 @@ async def contact_us(contact_info:Contact,
         </body>
         </html>
         """
-        yag.send(to_email, 'Help Support For Music Live', html_content)
+        yag.send("email to receive the message", 'Help Support For Music Live', html_content)
 
         return {'status':200, "message":"Email sent successfully"}
         
