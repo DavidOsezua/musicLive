@@ -7,14 +7,28 @@ import Button from "../../components/general/Button";
 import Genre from "../../components/general/Genre";
 import styles from "./Bands.module.css";
 import GenreScroll from "../../components/general/GenreScroll";
+import Dropdown from "../../components/general/Dropdown";
 import { facebook,instagram,website } from "../../assets";
 import {Url,api} from "../../services/api.route"
 
 const Bands = () => {
+  const [form,setForm] = useState(
+    {
+      venue_type:""
+    })
+  const [dropdown, setDropDown] = useState(false);
   const [bands, setBands] = useState([])
 
+  const handleGenre = (selectedGenres) => {
+    setForm((prevData) => ({
+      ...prevData,
+      venue_type: selectedGenres[0].genreOrType,
+    }));
+    closeDropdown(); 
+  };
 
   useEffect(()=>{
+    console.log("The form state has been updated:", form);
     const getAlluserBand = async ()=>{
       try{
         const response = await api.get("/api/v1/band/approved")
@@ -27,7 +41,15 @@ const Bands = () => {
       }
     }
     getAlluserBand()
-  }, [])
+  }, [form])
+
+  const showDropdown = () => {
+    setDropDown((prev) => !prev);
+  };
+
+  const closeDropdown = () => {
+    setDropDown(false);
+  };
 
 
   return (
@@ -36,7 +58,14 @@ const Bands = () => {
         <PageHeader page={`Bands`} />
 
         <div className="mt-[-1rem] px-[1rem]">
-          <Search />
+          <Search showDropdown={showDropdown}/>
+          {dropdown && (
+            <Dropdown
+            data={genre}
+            setGenre={handleGenre}
+            closeDropdown={closeDropdown}
+            />
+          )}
         </div>
       </div>
       <div className={`sectionContainer ${styles.bandContainer}`}>

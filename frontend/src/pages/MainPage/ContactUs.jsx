@@ -4,8 +4,15 @@ import { TipJar } from "../../components";
 import Button from "../../components/general/Button";
 import { useState,useEffect} from "react";
 import {SubmitContactinfo} from "./router"
+import Modal from "../../components/general/Modal";
+import Success from "../../components/general/Success";
+import Failed from "../../components/general/Failed";
+import { useModal } from "../../App";
 
 const ContactUs = () => {
+  const { modal, modalHandler } = useModal();
+  const [message, setMessage] = useState()
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [contact,setContact] = useState({
     name:"",
     email:"",
@@ -23,15 +30,23 @@ const ContactUs = () => {
     try{
      const response = await SubmitContactinfo(JSON.stringify(contactInfo))
      console.log("status code:",response.data.status_code)
-      console.log(response.data.detail)
+      console.log(response.data.message)
+      setIsSubmitted(true)
+      setMessage(response.data.message)
+      modalHandler();
+      
   }catch(err){
+    setIsSubmitted(false)
     console.log(err)
     console.error(err.response.data.detail)
+    setMessage(err.response.data.detail)
+    modalHandler();
   }
   }
 
   
   return (
+    <>
     <section className={`section transition`}>
       <div className={`sectionContainer`}>
         {/************************* CONTACT FORM SECTION  *****************************/}
@@ -104,6 +119,17 @@ const ContactUs = () => {
         <TipJar />
       </div>
     </section>
+    {modal && (
+     <Modal>
+          {isSubmitted ? (
+            <Success modalHandler={modalHandler} message={message} description="Your email has been received. Thank you for reaching out to us!"/>
+          ) : (
+            <Failed modalHandler={modalHandler} message={message}/>
+          )}
+        </Modal>
+      )}
+    </>
+    
   );
 };
 

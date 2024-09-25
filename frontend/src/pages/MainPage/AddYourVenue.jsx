@@ -10,6 +10,7 @@ import Failed from "../../components/general/Failed";
 import Modal from "../../components/general/Modal";
 
 const AddYourVenue = () => {
+  const [message, setMessage] = useState()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -81,18 +82,20 @@ const AddYourVenue = () => {
       try {
         await uploadUservenue(dataForm);
         setIssubmitted(true);
+        setMessage("Venue uploaded successfully!")
+        setError(false);
         modalHandler()
       } catch (e) {
-        console.log(e);
-        setError(e.message);
+        setMessage(e.response.data.detail);
         setIssubmitted(false);
+        setError(true);
+        console.error("error",e.response.data.detail)
         modalHandler()
         //inplement the catching error card here
       }
     } else {
-      console.error("error:", formErrors);
-      setError(formErrors);
-      setIssubmitted(false);
+      setError(true);
+      setMessage("Form validation failed");
       modalHandler()
       // implement the error rendering here
     }
@@ -103,6 +106,8 @@ const AddYourVenue = () => {
       <MultiFormPage
         sectionClass={`section p-0 transition`}
         containerClass={`sectionContainer`}
+        error = {error}
+        setError = {setError}
         stepContent={[
           <VenueForm
             key={"one"}
@@ -128,12 +133,12 @@ const AddYourVenue = () => {
       />
       {/* Conditionally render success or failure modal */}
       {modal && (
-     <Modal>
+        <Modal>
           {isSubmitted ? (
-            <Success modalHandler={modalHandler} />
-          ) : (
-            <Failed modalHandler={modalHandler} />
-          )}
+             <Success modalHandler={modalHandler} message={message} description="Venue under review, you will be notify via email once it approved"/>
+            ) : (
+              <Failed modalHandler={modalHandler} message={message}/>
+            )}
         </Modal>
       )}
     </>

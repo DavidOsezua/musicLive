@@ -153,8 +153,8 @@ const Table = ({
         return "bg-[#5BE97326] text-[#27993A]"; // Green for Approved
       case "Pending":
         return "bg-[#FFAC1C1A] text-[#FFAC1C]"; // Yellow for Pending
-      case "Inactive":
-        return "bg-[#FC9C9E26] text-[#FF1316]"; // Gray for Inactive
+      // case "Inactive":
+      //   return "bg-[#FC9C9E26] text-[#FF1316]"; // Gray for Inactive
       default:
         return "bg-white"; // Default color
     }

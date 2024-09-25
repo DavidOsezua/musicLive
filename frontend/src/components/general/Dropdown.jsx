@@ -20,7 +20,7 @@ const Dropdown = ({ setGenre, data, closeDropdown }) => {
   const handleSelect = () => {
     console.log("data",data)
     const selectedItems = data.filter((item) => selectedButtons.includes(item.ID));
-    console.log(selectedItems)
+    console.log("selected item", selectedItems)
     setGenre(selectedItems);
     closeDropdown(); 
   };

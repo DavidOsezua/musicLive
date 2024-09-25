@@ -72,7 +72,7 @@ const AdminBand = () => {
       { status: "Total", numbers: totalBand, colorID: "total" },
       { status: "Approve", numbers: totalApprove, colorID: "approve" },
       { status: "Pending", numbers: pending, colorID: "pending" },
-      { status: "Inactive", numbers: 0, colorID: "inactive" },
+      // { status: "Inactive", numbers: 0, colorID: "inactive" },
     ],
     status: ["All", "Approved", "Pending", "Inactive"],
     tableHead: [

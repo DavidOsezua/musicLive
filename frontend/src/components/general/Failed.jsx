@@ -5,7 +5,7 @@ import Close from "./Close";
 import Error from "../SVGcomponent/Error";
 import { useModal } from "../../App";
 
-const Failed = () => {
+const Failed = ({message}) => {
   const { modalHandler } = useModal();
   return (
     <div className={`${styles.successCard} relative`}>
@@ -16,7 +16,7 @@ const Failed = () => {
         <Close />
       </button>
       <Error />
-      <p>Submitted Unsuccessfully</p>
+      <p>{message}</p>
 
       <Button
         colored

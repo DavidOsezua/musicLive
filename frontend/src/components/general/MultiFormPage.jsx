@@ -20,6 +20,8 @@ const MultiFormPage = ({
   headerText,
   showTipJar = true,
   formHeaderText,
+  error,
+  setError
 }) => {
   const { steps, currentStep, next, step, stepNames, previous } =
     useMultistepForm(stepContent);
@@ -76,39 +78,41 @@ const MultiFormPage = ({
             <div className={`${styles.formWrapper}`}>
               {step}
 
-              {currentStep > 0 ? 
-              // validateStep(currentStep)?
-              // (
-              //   <Button
-              //     text={`Upload`}
-              //     width={`w-full`}
-              //     colored
-              //     radius={`rounded-sm`}
-              //     clickFunction={Upload}
-              //     // svg2={<ArrowLeft />}
-              //   />
-              // ) :
-              (
-                <Button
-                  text={`Upload`}
-                  width={`w-full`}
-                  colored
-                  radius={`rounded-sm`}
-                  clickFunction={Upload}
-                  // svg2={<ArrowLeft />}
-                />
-              ) : 
-              (
-                <Button
-                  text={`Next`}
-                  width={`w-full`}
-                  colored
-                  radius={`rounded-sm`}
-                  clickFunction={submitHandler}
-                  type={`submit`}
-                  svg={<ArrowRight />}
-                />
-              )}
+                {currentStep > 0 ? (
+                    error ? (
+                      <Button
+                        text={`Back`}
+                        width={`w-full`}
+                        colored
+                        radius={`rounded-sm`}
+                        clickFunction={() => {
+                          setError(false); // Set error to false
+                          backHandler();   // Call the back handler
+                        }}
+                        svg2={<ArrowLeft />}
+                      />
+                    ) : (
+                      <Button
+                        text={`Upload`}
+                        width={`w-full`}
+                        colored
+                        radius={`rounded-sm`}
+                        clickFunction={Upload}
+                        // svg2={<ArrowLeft />}
+                      />
+                    )
+                  ) : (
+                    <Button
+                      text={`Next`}
+                      width={`w-full`}
+                      colored
+                      radius={`rounded-sm`}
+                      clickFunction={submitHandler}
+                      type={`submit`}
+                      svg={<ArrowRight />}
+                    />
+                  )}
+
 
               {/* */}
             </div>

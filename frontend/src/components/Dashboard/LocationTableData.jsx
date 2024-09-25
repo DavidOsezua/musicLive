@@ -63,7 +63,7 @@ const LocationTableData = ({
           <SelectContent className="bg-[#E6ECF8]">
             <SelectItem value="Approved">Approved</SelectItem>
             <SelectItem value="Pending">Pending</SelectItem>
-            <SelectItem value="Inactive">Inactive</SelectItem>
+            {/* <SelectItem value="Inactive">Inactive</SelectItem> */}
           </SelectContent>
         </Select>
       </td>

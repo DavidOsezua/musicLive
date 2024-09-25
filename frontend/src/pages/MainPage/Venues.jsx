@@ -1,4 +1,4 @@
-
+import { genre, venueType } from "../../data/data";
 import { useEffect, useState } from "react";
 import { TipJar } from "../../components";
 import Search from "../../components/general/Search";
@@ -12,11 +12,33 @@ import {Url,api} from "../../services/api.route"
 
 
 const Venues = () => {
+  const [form,setForm] = useState(
+    {
+      venue_type:""
+    })
   const [dropdown, setDropDown] = useState(false);
   const [tokenState, setTokenState] = useState("USDT");
   const [venues, setVenues] = useState([])
 
+  const handleGenreSelect = (selectedGenres) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      genre_type: selectedGenres[0].genreOrType,
+    }));
+    closeDropdown(); 
+  };
+
+  const handleGenre = (selectedGenres) => {
+    setForm((prevData) => ({
+      ...prevData,
+      venue_type: selectedGenres[0].genreOrType,
+    }));
+    closeDropdown(); 
+  };
+
+
   useEffect(()=>{
+    console.log("The form state has been updated:", form);
     const getAlluserVenue = async ()=>{
       try{
         const response = await api.get("/api/v1/venue/approved")
@@ -29,7 +51,7 @@ const Venues = () => {
       }
     }
     getAlluserVenue()
-  }, [])
+  }, [form])
 
   const showDropdown = () => {
     setDropDown((prev) => !prev);
@@ -49,9 +71,9 @@ const Venues = () => {
           <Search showDropdown={showDropdown} />
           {dropdown && (
             <Dropdown
-              tokenStateHandler={tokenStateHandler}
-              closeDropdown={closeDropdown}
-              data={genre}
+            data={venueType}
+            setGenre={handleGenre}
+            closeDropdown={closeDropdown}
             />
           )}
         </div>

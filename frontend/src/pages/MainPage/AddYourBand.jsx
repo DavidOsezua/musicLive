@@ -10,6 +10,7 @@ import Failed from "../../components/general/Failed";
 
 const AddYourBand = () => {
   const { modal, modalHandler } = useModal();
+  const [message, setMessage] = useState()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,7 +26,7 @@ const AddYourBand = () => {
 
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(false);
 
   const validateStep = (currentStep) => {
     const errors = {};
@@ -51,7 +52,7 @@ const AddYourBand = () => {
   };
 
   const handleSubmit = async () => {
-    console.log(formData)
+    console.log(formErrors)
     if (validateStep(1)) {
       const dataForm = new FormData();
       Object.keys(formData).forEach((key) => {
@@ -60,14 +61,20 @@ const AddYourBand = () => {
       try {
         await uploadUserbrand(dataForm);
         setIsSubmitted(true);
+        setMessage("Band uploaded successfully!")
+        setError(false);
         modalHandler(); // Open modal on success
       } catch (e) {
-        setError(e.message);
+        setMessage(e.response.data.detail);
         setIsSubmitted(false);
+        setError(true);
+        console.error("error",e.response.data.detail)
         modalHandler(); // Open modal on failure
       }
     } else {
-      setError("Form validation failed");
+      console.error("error",error)
+      setError(true);
+      setMessage("Form validation failed");
       modalHandler(); // Open modal for validation failure
     }
   };
@@ -77,6 +84,8 @@ const AddYourBand = () => {
       <MultiFormPage
         sectionClass={`section p-0 transition`}
         containerClass={`sectionContainer`}
+        error = {error}
+        setError = {setError}
         stepContent={[
           <BrandForm
             key={"one"}
@@ -105,10 +114,10 @@ const AddYourBand = () => {
       {modal && (
         <Modal>
           {isSubmitted ? (
-            <Success modalHandler={modalHandler} />
-          ) : (
-            <Failed modalHandler={modalHandler} />
-          )}
+             <Success modalHandler={modalHandler} message={message} description="Band under review, you will be notify via email once it approved"/>
+            ) : (
+              <Failed modalHandler={modalHandler} message={message}/>
+            )}
         </Modal>
       )}
     </>

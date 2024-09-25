@@ -19,6 +19,7 @@ from bs4 import BeautifulSoup
 import requests
 from datetime import datetime, timezone
 from dateutil import parser
+import yagmail
 
 
 api_router = APIRouter(
@@ -317,40 +318,84 @@ async def contact_us(contact_info:Contact,
                      session: AsyncSession = Depends(get_session)):
     try:
         print(contact_info)
-    
-        sandbox =  'sandbox0afeee919af44d3c9876ba41ec8c06f4.mailgun.org'
-        key = 'cdb79b1d8175a70aa447ad9ff09069cc-a2dd40a3-0643ada7'
-        recipient = 'daretimileyin1@gmail.com'
-        html_content = f"""
-       <div>
-           <h2><span style="font-size: 16px;color:red;">Hi 👋, I am {str(contact_info.name).capitalize()}</span></h2><br><hr>
-           <p>{str(contact_info.description).capitalize()}</p>
-       </div>
-       """
-        soup = BeautifulSoup(html_content, 'html.parser')
-        text_content = soup.get_text(strip=False)
-        request_url = 'https://api.mailgun.net/v3/{0}/messages'.format(sandbox)
-        request_data = requests.post(request_url, auth=('api', key), data={
-           'from': contact_info.email,
-           'to': recipient,
-           'subject': str(contact_info.description[:20]).capitalize(),
-           'text': text_content})
-        
-        
-        print('Status: {0}'.format(request_data.status_code))
-        print('Body:   {0}'.format(request_data.text))
-        print(request_data)
-        print(request_data.status_code)
-        if request_data.status_code == 200:
-           return {"status":HTTPStatus.OK,"message":"Your message sent successfully!."}
-        else:
-            raise exceptions.BadRequest("Unexpected error occur,please try again")
+        to_email = "daretimileyin1@gmail.com"
+        app_password = 'jugj imek yype zdne'
+        yag = yagmail.SMTP(to_email, app_password)
 
+        html_content = f"""
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Help Support For Music Live</title>
+            <style>
+                body {{
+                    font-family: Arial, sans-serif;
+                    color: #333;
+                    background-color: #f4f4f4;
+                    padding: 20px;
+                }}
+                .container {{
+                    max-width: 600px;
+                    margin: 0 auto;
+                    background-color: #fff;
+                    padding: 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                }}
+                h1 {{
+                    font-size: 20px;
+                    color: #0066cc;
+                    text-align: center;
+                }}
+                p {{
+                    font-size: 16px;
+                    line-height: 1.6;
+                }}
+                .info {{
+                    margin-top: 20px;
+                    padding: 10px;
+                    background-color: #f9f9f9;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                }}
+                .info strong {{
+                    color: #333;
+                }}
+                .footer {{
+                    text-align: center;
+                    font-size: 12px;
+                    color: #aaa;
+                    margin-top: 30px;
+                }}
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>Help Support Request</h1>
+                <p>You have received a new support request for Music Live from:</p>
+                <div class="info">
+                    <p><strong>Name:</strong> {contact_info.name.capitalize()}</p>
+                    <p><strong>Email:</strong> {contact_info.email}</p>
+                    <p><strong>Phone Number:</strong> {contact_info.phone}</p>
+                </div>
+                <p><strong>Message:</strong></p>
+                <p>{contact_info.description}</p>
+                <p>Thank you for your attention!</p>
+                <p class="footer">This is an automated message. Please do not reply.</p>
+            </div>
+        </body>
+        </html>
+        """
+        yag.send(to_email, 'Help Support For Music Live', html_content)
+
+        return {'status':200, "message":"Email sent successfully"}
         
     except Exception as e:
         print(e)
         status_code = getattr(e, 'status', 400) 
-        raise HTTPException(status_code=status_code, detail=f"{str(e)}")
+        raise HTTPException(status_code=status_code, detail=f"Your email was not delivered due to a technical error,Please retry in a few moments.")
     
     
     

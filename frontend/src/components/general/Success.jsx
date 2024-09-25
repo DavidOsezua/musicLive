@@ -7,7 +7,7 @@ import { TiTimes } from "react-icons/ti";
 import Close from "./Close";
 import { useModal } from "../../App";
 
-const Success = () => {
+const Success = ({message,description}) => {
   const { modalHandler } = useModal();
   return (
     <div className={`${styles.successCard} relative`}>
@@ -15,9 +15,9 @@ const Success = () => {
         <Close />
       </button>
       <Check />
-      <p>Band created successfully</p>
+      <p>{message}</p>
       <p className="text-[0.8rem]">
-        Band under review, you will be <br /> notify via email once it approved
+        {description}
       </p>
 
       <Button
