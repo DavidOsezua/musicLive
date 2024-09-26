@@ -16,6 +16,7 @@ import os
 from src import exceptions
 from db.table import Venue,Band
 from bs4 import BeautifulSoup
+from sqlalchemy import func
 import requests
 from datetime import datetime, timezone
 from dateutil import parser
@@ -274,6 +275,8 @@ async def update_venue(
     return updated_venue
 
 
+
+
 @api_router.put("/band/", response_model=List[Band])
 async def update_band(
     user_id:int = Query(alias="ID"),
@@ -310,6 +313,79 @@ async def update_band(
 
     return updated_venue
 
+
+
+
+@api_router.put("/venue/approved/", response_model=List[Venue])
+async def update_venue(
+    venue_type: str = Query(..., alias="venue_type"),
+    Status: str = Query(..., alias="Status"),
+    session: AsyncSession = Depends(get_session)
+):
+    status_normalized = Status.strip().lower()
+    venue_type = venue_type.strip()
+    print(f"Incoming genre_type: {venue_type}")
+    print(f"Incoming status: {Status}")
+    query = select(Venue).where(func.lower(Venue.venue_type) == venue_type.lower())
+    print(f"Query: {query}")
+    result = await session.exec(query)
+    venues = result.fetchall()
+
+    if not venues:
+        raise HTTPException(status_code=404, detail="No venues found with this type")
+
+    is_approved = status_normalized == "approved"
+    update_query = (
+        update(Venue)
+        .where(func.lower(Venue.venue_type) == venue_type.lower())
+        .values(is_admin_approved=is_approved)
+    )
+    
+    await session.exec(update_query)
+    await session.commit()
+
+    updated_query = select(Venue)
+    result = await session.exec(updated_query)
+    updated_venues = result.fetchall()
+
+    if not updated_venues:
+        raise HTTPException(status_code=404, detail="Update failed")
+
+    return updated_venues
+
+
+
+@api_router.put("/band/approved/", response_model=List[Band])
+async def update_band(
+    genre_type: str = Query(..., alias="venue_type"),
+    Status: str = Query(..., alias="Status"),
+    session: AsyncSession = Depends(get_session)
+):
+    status_normalized = Status.strip().lower()
+    genre_type = genre_type.strip()
+    query = select(Band).where(Band.genre_type == genre_type)
+    result = await session.exec(query)
+    bands = result.fetchall()
+
+    if not bands:
+        raise HTTPException(status_code=404, detail="No bands found with this genre type")
+    is_approved = status_normalized == "approved"
+
+    update_query = (
+        update(Band)
+        .where(Band.genre_type == genre_type)
+        .values(is_admin_approved=is_approved)
+    )
+    await session.exec(update_query)
+    await session.commit()
+    updated_query = select(Band)
+    result = await session.exec(updated_query)
+    updated_bands = result.fetchall()
+
+    if not updated_bands:
+        raise HTTPException(status_code=404, detail="Update failed or no bands were updated")
+
+    return updated_bands
 
 
 

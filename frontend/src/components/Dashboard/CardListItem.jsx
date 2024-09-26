@@ -11,17 +11,14 @@ const CardListItem = ({ item, updateItemStatus, handleDelete }) => {
   const { modal, modalHandler } = useModal();
   const [isToggled, setIsToggled] = useState(false);
   const [status, setStatus] = useState(item.status);
-
   const handleToggle = async () => {
     setIsToggled(!isToggled);
 
     if (!isToggled) {
-      updateItemStatus(item.ID, "Approved");
-      console.log(item.ID);
-      console.log(item.genreOrType);
+      updateItemStatus(item.genreOrType, "Approved");
       setStatus("Approved");
     } else {
-      updateItemStatus(item.ID, "Inactive"); // Revert to another status
+      updateItemStatus(item.genreOrType, "Inactive"); 
       setStatus("Inactive");
     }
   };
