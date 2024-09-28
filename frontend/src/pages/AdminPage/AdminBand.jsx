@@ -16,6 +16,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import ConfirmDelete from "../../components/general/ConfirmDelete";
+import Success from "@/components/general/Success";
 
 const AdminBand = () => {
   const [locationPageData, setLocationPageData] = useState([]);
@@ -23,9 +25,7 @@ const AdminBand = () => {
   const [totalApprove, setTotalApprove] = useState(0);
   const [pending, setpending] = useState(0);
   const { modal, modalHandler } = useModal();
- 
 
-  
   const getAllUserBandData = async () => {
     try {
       const res = await api.get("/api/v1/band");
@@ -112,17 +112,16 @@ const AdminBand = () => {
         from={`Band`}
         totalBand={setTotalBand}
         setTotalApprove={setTotalApprove}
-        setpending = {setpending}
+        setpending={setpending}
       />
       {modal ? (
         <Modal modalHandler={modalHandler}>
           <AddBand />
+          {/* <ConfirmDelete modalHandler={modalHandler} /> */}
         </Modal>
       ) : (
         ""
       )}
-
-      
     </section>
   );
 };
