@@ -7,6 +7,12 @@ import { useModal } from "../../App";
 
 const Failed = ({message}) => {
   const { modalHandler } = useModal();
+
+  const displayMessage = typeof message === "object" && message?.msg
+  ? message.msg
+  : typeof message === "string"
+  ? message
+  : "An unexpected error occurred, please try again.";
   return (
     <div className={`${styles.successCard} relative`}>
       <button
@@ -16,7 +22,7 @@ const Failed = ({message}) => {
         <Close />
       </button>
       <Error />
-      <p>{message}</p>
+      <p>{displayMessage}</p>
 
       <Button
         colored

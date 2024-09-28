@@ -70,8 +70,8 @@ const AddYourVenue = () => {
       dataForm.append("genre_type", formData.genre_type);
       dataForm.append("venue_type", formData.venue_type);
       dataForm.append("address", formData.address);
-      dataForm.append("venue_date", formData.date);
-      dataForm.append("venue_time", formData.time);
+      dataForm.append("date", formData.date);
+      dataForm.append("time", formData.time);
       dataForm.append("email", formData.email);
       dataForm.append("homepage", formData.homepage);
       dataForm.append("facebook", formData.facebook);
@@ -86,7 +86,7 @@ const AddYourVenue = () => {
         setError(false);
         modalHandler()
       } catch (e) {
-        setMessage(e.response.data.detail);
+        setMessage(e.response.data.detail || "Form validation failed");
         setIssubmitted(false);
         setError(true);
         console.error("error",e.response.data.detail)

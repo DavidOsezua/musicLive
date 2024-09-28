@@ -65,7 +65,7 @@ const AddYourBand = () => {
         setError(false);
         modalHandler(); // Open modal on success
       } catch (e) {
-        setMessage(e.response.data.detail);
+        setMessage(e.response.data.detail || "Form validation failed");
         setIsSubmitted(false);
         setError(true);
         console.error("error",e.response.data.detail)

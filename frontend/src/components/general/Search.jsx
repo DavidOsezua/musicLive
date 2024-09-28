@@ -27,7 +27,7 @@ export const Line = () => {
   );
 };
 
-const Search = ({showDropdown}) => {
+const Search = ({showDropdown,searchData,handleInputChange}) => {
   
 
   return (
@@ -35,7 +35,10 @@ const Search = ({showDropdown}) => {
       {/* INPUT SECTION */}
       <div className={`${styles.inputContainer}`}>
         <SearchIcon />
-        <input placeholder="Search" className={`${styles.input}`} />
+        <input placeholder="Search by name..." name="search"
+        value={searchData.name || ""}
+        onChange={handleInputChange}
+         className={`${styles.input}`} />
       </div>
 
       <Line />

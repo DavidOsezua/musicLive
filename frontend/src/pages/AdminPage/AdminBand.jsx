@@ -22,6 +22,7 @@ import Success from "@/components/general/Success";
 const AdminBand = () => {
   const [locationPageData, setLocationPageData] = useState([]);
   const [totalBand, setTotalBand] = useState(0);
+  const [trackChanges, settrackChanges] = useState(false)
   const [totalApprove, setTotalApprove] = useState(0);
   const [pending, setpending] = useState(0);
   const { modal, modalHandler } = useModal();
@@ -93,7 +94,7 @@ const AdminBand = () => {
   useEffect(() => {
     getAllUserBandData();
     console.log("Updated locationPageData", locationPageData);
-  }, [totalBand]);
+  }, [totalBand,trackChanges]);
 
   return (
     <section className={` adminSection pageContainer`}>
@@ -116,8 +117,7 @@ const AdminBand = () => {
       />
       {modal ? (
         <Modal modalHandler={modalHandler}>
-          <AddBand />
-          {/* <ConfirmDelete modalHandler={modalHandler} /> */}
+          <AddBand settrackChanges={settrackChanges}/>
         </Modal>
       ) : (
         ""

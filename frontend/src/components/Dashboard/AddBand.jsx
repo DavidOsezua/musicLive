@@ -8,8 +8,9 @@ import { useModal } from "../../App";
 import Failed from "../general/Failed";
 import { Modal } from "@mui/material";
 
-const AddBand = () => {
+const AddBand = ({settrackChanges}) => {
   const { modal, modalHandler } = useModal();
+  const [message, setMessage] = useState()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -60,14 +61,20 @@ const AddBand = () => {
       try {
         await uploadUserbrand(dataForm);
         setIsSubmitted(true);
+        settrackChanges(true)
+        setMessage("Band uploaded successfully!")
         modalHandler(); // Open modal on success
       } catch (e) {
         setError(e.message);
+        settrackChanges(false)
         setIsSubmitted(false);
+        setMessage(e.response.data.detail || "Form validation failed");
         modalHandler(); // Open modal on failure
       }
     } else {
       setError("Form validation failed");
+      settrackChanges(false)
+      setMessage("Form validation failed");
       modalHandler(); // Open modal for validation failure
     }
   };
@@ -99,9 +106,9 @@ const AddBand = () => {
       {modal && (
         <Modal>
           {isSubmitted ? (
-            <Success modalHandler={modalHandler} />
+            <Success modalHandler={modalHandler} message={message} description="Band under review, you will be notify via email once it approved"/>
           ) : (
-            <Failed modalHandler={modalHandler} />
+            <Failed modalHandler={modalHandler} message={message}/>
           )}
         </Modal>
       )}

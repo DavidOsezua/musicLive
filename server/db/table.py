@@ -22,7 +22,8 @@ class Band(SQLModel, table=True):
     youtube_url: Optional[str] = Field(default=None, sa_column=Column(String(255)))
     image1: Optional[str] = Field(default=None, sa_column=Column(String(255)))
     image2: Optional[str] = Field(default=None, sa_column=Column(String(255)))
-    is_verified: bool = False
+    is_verified: bool = Field(default=False) 
+    is_admin_approved: bool = Field(default=False) 
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now)
     
@@ -47,7 +48,8 @@ class Venue(SQLModel, table=True):
     youtube_url: Optional[str] = Field(default=None, sa_column=Column(String(255)))
     image1: Optional[str] = Field(default=None, sa_column=Column(String(255)))
     image2: Optional[str] = Field(default=None, sa_column=Column(String(255)))
-    is_verified: bool = False
+    is_verified: bool = Field(default=False)  
+    is_admin_approved: bool = Field(default=False) 
     genre_type:str = Field(sa_column=Column(String(100)))
     venue_date:date
     venue_time:time

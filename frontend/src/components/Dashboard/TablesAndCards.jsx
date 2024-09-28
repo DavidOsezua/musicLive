@@ -31,13 +31,25 @@ const TablesAndCards = ({
   from,
   totalBand,
   setTotalApprove,
-  setpending
+  setpending,
+  musicType,
+  totalVenueType,
+  setApproved,
+  setinactive,
+  settotalVenueType
 }) => {
   const { tableOrCardData, status, tableHead, numberOfItem } = pageData;
   const [data, setData] = useState(tableOrCardData || []);
   const [active, setActive] = useState("All");
   const [filteredData, setFilteredData] = useState(tableOrCardData || []);
   const [currentPage, setCurrentPage] = useState(1);
+  const [venueStatus, setvenueStatus] = useState(
+    {
+      venue_type:"",
+      status:""
+    }
+  )
+  const [resultData, setResultData] = useState([])
 
   const itemsPerPage = numberOfItem || 10;
   const { modal, modalHandler } = useModal();
@@ -98,7 +110,7 @@ const TablesAndCards = ({
         setFilteredData(newData);
         totalBand(newData.length);
         setUserData((prevData) => prevData.filter((item) => item.ID !== id));
-        modalHandler();
+        // modalHandler();
       } else {
         await api.delete(`/api/v1/band/${id}`);
         const newData = data.filter((item) => item.ID !== id);
@@ -106,7 +118,7 @@ const TablesAndCards = ({
         setFilteredData(newData);
         totalBand(newData.length);
         setUserData((prevData) => prevData.filter((item) => item.ID !== id));
-        modalHandler();
+        // modalHandler();
       }
     } catch (err) {
       console.log(err);
@@ -161,15 +173,90 @@ const TablesAndCards = ({
   //   );
   // };
 
-  const updateItemStatus = (id, newStatus) => {
+
+  // try {
+  //   let endpoint = "";
+  //   if (tableType === "location") {
+  //     endpoint = "api/v1/venue/";
+  //   } else if (tableType === "band") {
+  //     endpoint = "api/v1/band/";
+  //   }
+
+  //   if (endpoint) {
+  //     const res = await api.put(endpoint, null, {
+  //       params: {
+  //         ID: itemID,
+  //         Status: statuses[itemID],
+  //       },
+  //     });
+  useEffect(() => {
+      console.log(venueStatus)
+      console.log(musicType)
+      if (!venueStatus.venue_type || !venueStatus.status || !musicType) {
+        return;
+      }
+      const setMusicStatus = async ()=>{  
+     try {
+        let endpoint = "";
+        if (musicType === "genre") {
+          endpoint = "api/v1/band/approved/";
+        } else if (musicType === "venue") {
+          endpoint = "api/v1/venue/approved/";
+        }
+        console.log(endpoint)
+        if (endpoint) {
+          const res = await api.put(endpoint, null, {
+            params: {
+              venue_type: venueStatus.venue_type,
+              Status: venueStatus.status,
+        },
+          })
+          const uniqueVenueTypes = [];
+          let approvedCount = 0;
+          res.data.map((venue)=>{
+            if (!uniqueVenueTypes.includes(venue.venue_type)) {
+              uniqueVenueTypes.push(venue.venue_type);
+      
+              if (venue.is_admin_approved) {
+                approvedCount += 1;
+              }
+             
+              
+              } })
+              settotalVenueType(uniqueVenueTypes.length)
+              setApproved(approvedCount)
+              setinactive(totalVenueType - approvedCount)
+          console.log("result",res.data)
+          setResultData(res.data)
+        };
+  }catch(e){
+      console.log(e)
+  }
+}
+setMusicStatus();
+      // genre
+      // venue
+    }, [venueStatus,musicType]);
+
+
+
+  const updateItemStatus = (type, newStatus) => {
+    setvenueStatus(prevState => ({
+      ...prevState, 
+      venue_type: type 
+    }));
+    setvenueStatus(prevState => ({
+      ...prevState, 
+      status:newStatus
+    }));
     setData((prevData) =>
       prevData.map((item) =>
-        item.ID === id ? { ...item, status: newStatus } : item
+        item.genreOrType === type ? { ...item, status: newStatus } : item
       )
     );
     setFilteredData((prevFilteredData) =>
       prevFilteredData.map((item) =>
-        item.ID === id ? { ...item, status: newStatus } : item
+        item.genreOrType === type ? { ...item, status: newStatus } : item
       )
     );
   };

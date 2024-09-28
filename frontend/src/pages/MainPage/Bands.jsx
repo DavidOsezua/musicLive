@@ -18,6 +18,29 @@ const Bands = () => {
     })
   const [dropdown, setDropDown] = useState(false);
   const [bands, setBands] = useState([])
+  const [isInputempty, setisInputempty] = useState(false)
+  const [searchData,setSearchData] = useState({
+    name:""
+  })
+
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    setSearchData((prevFormData) => ({
+      ...prevFormData,
+      name: value,
+    }));
+    if (value === "") {
+      console.log("Input is empty");
+      setisInputempty(true)
+      return
+    }
+    else{
+      setisInputempty(false)
+    }
+  };
+
 
   const handleGenre = (selectedGenres) => {
     setForm((prevData) => ({
@@ -27,8 +50,33 @@ const Bands = () => {
     closeDropdown(); 
   };
 
-  useEffect(()=>{
+  useEffect(() => {
+    console.log("The search data is:", searchData);
     console.log("The form state has been updated:", form);
+  
+    const getAllUserBandsWithAdminApproved = async () => {
+      try {
+        const response = await api.get("/api/v1/band/search", {
+          params: {
+            name: searchData.name || "",
+            genre_type: form.venue_type || ""
+          }
+        });
+        console.log(response.data);
+        setBands(response.data);
+      } catch (error) {
+        console.error("Error occurred when getting the user band:", error);
+        console.error(error || "An unexpected error occurred");
+        setBands([])
+      }
+    };
+  
+    getAllUserBandsWithAdminApproved();
+  }, [searchData, form]);
+  
+
+
+  useEffect(()=>{
     const getAlluserBand = async ()=>{
       try{
         const response = await api.get("/api/v1/band/approved")
@@ -38,10 +86,11 @@ const Bands = () => {
       }catch (error) {
         console.error("Error occur when getting the user band:", error);
         console.error(error|| "An unexpected error occurred");
+        
       }
     }
     getAlluserBand()
-  }, [form])
+  }, [isInputempty])
 
   const showDropdown = () => {
     setDropDown((prev) => !prev);
@@ -58,7 +107,7 @@ const Bands = () => {
         <PageHeader page={`Bands`} />
 
         <div className="mt-[-1rem] px-[1rem]">
-          <Search showDropdown={showDropdown}/>
+          <Search showDropdown={showDropdown} searchData={searchData} handleInputChange={handleInputChange}/>
           {dropdown && (
             <Dropdown
             data={genre}
@@ -80,7 +129,6 @@ const Bands = () => {
           </p>
           
           <div className={`${styles.bandDetailsContainer}`}>
-            {console.log(bands)}
             {bands.map((band) => (
               <div key={band.id} className={`${styles.bandDetail}`}>
                 <a href={`${band.homepage}`} target="_blank" rel="noopener noreferrer">
