@@ -47,8 +47,8 @@ async def upload_venue(
     name: str = Form(...),
     venue_type: str = Form(...),
     genre_type:str = Form(...),
-    venue_date:str= Form(...),
-    venue_time:str = Form(...),
+    date:str= Form(...),
+    time:str = Form(...),
     address: str = Form(...),
     email: str = Form(...),
     homepage: Optional[str] = Form(None),
@@ -75,8 +75,8 @@ async def upload_venue(
         with open(image2_path, "wb") as f:
             f.write(await image2.read())
             
-        venue_date = parser.parse(venue_date)
-        venue_time = parser.parse(venue_time)
+        venue_date = parser.parse(date)
+        venue_time = parser.parse(time)
         
         venue_data = Venue_(
             name=name,
@@ -492,5 +492,83 @@ async def get_venue_approved(session: AsyncSession = Depends(get_session))->Venu
     result = await session.exec(query)
     venues = result.fetchall()
     return [dict(row) for row in venues] 
+
+
+
+
+@api_router.get("/venue/search", response_model=List[Venue])
+async def search(
+    name: Optional[str] = Query(default=None),
+    venue_type: Optional[str] = Query(default=None),
+    # genre_type: Optional[str] = Query(default=None),
+    session: AsyncSession = Depends(get_session)
+):
+    query = select(Venue).where(Venue.is_admin_approved == True)
+    if name and venue_type:
+        name = name.strip().lower()
+        query = query.where(func.lower(Venue.name).contains(name), func.lower(Venue.venue_type) == venue_type)
+        
+    elif name:
+        name = name.strip().lower()
+        query = query.where(func.lower(Venue.name).contains(name))
+
+    elif venue_type:
+        venue_type = venue_type.strip().lower()
+        query = query.where(func.lower(Venue.venue_type) == venue_type)
+
+    if not (name or venue_type):
+        raise HTTPException(
+            status_code=HTTPStatus.BAD_REQUEST,
+            detail="You must provide at least one of the following: name, venue type, or genre type."
+        )
+
+    result = await session.exec(query)
+    venues = result.fetchall()
+    if not venues:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND,
+            detail="No venue found matching this search criteria."
+        )
+
+    return venues
+
+
+@api_router.get("/band/search", response_model=List[Band])
+async def search(
+    name: Optional[str] = Query(default=None),
+    # band_tag: Optional[str] = Query(default=None),
+    genre_type: Optional[str] = Query(default=None),
+    session: AsyncSession = Depends(get_session)
+):
+    query = select(Band).where(Band.is_admin_approved == True)
+    if name and genre_type:
+        name = name.strip().lower()
+        genre_type = genre_type.strip().lower()
+        query = query.where(func.lower(Band.genre_type) == genre_type,func.lower(Band.name).contains(name))
+        
+    elif name:
+        name = name.strip().lower()
+        query = query.where(func.lower(Band.name).contains(name))
+
+    elif genre_type:
+        genre_type = genre_type.strip().lower()
+        query = query.where(func.lower(Band.genre_type) == genre_type)
+
+    if not (name or genre_type):
+        raise HTTPException(
+            status_code=HTTPStatus.BAD_REQUEST,
+            detail="You must provide at least one of the following: name, band type, or genre type."
+        )
+
+    result = await session.exec(query)
+    band = result.fetchall()
+    if not band:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND,
+            detail="No venue found matching this search criteria."
+        )
+
+    return band
+
 
 

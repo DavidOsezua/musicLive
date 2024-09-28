@@ -12,6 +12,7 @@ const Location = () => {
   const [totalBand, setTotalBand] = useState(0)
   const [totalApprove, setTotalApprove] = useState(0)
   const [pending, setpending] = useState(0)
+  const [trackChanges, settrackChanges] = useState(false)
   const { modal, modalHandler } = useModal();
 
   const getAllUserVenueData = async () => {
@@ -48,7 +49,7 @@ const Location = () => {
   useEffect(() => {
     getAllUserVenueData();
     console.log("Updated locationPageData", locationPageData);
-  }, [totalBand]);
+  }, [totalBand,trackChanges]);
 
   useEffect(() => {
     console.log("Updated locationPageData", locationPageData);
@@ -98,7 +99,7 @@ const Location = () => {
       />
       {modal ? (
         <Modal modalHandler={modalHandler}>
-          <AddLocation />
+          <AddLocation settrackChanges={settrackChanges}/>
         </Modal>
       ) : (
         ""

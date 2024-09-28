@@ -19,6 +19,29 @@ const Venues = () => {
   const [dropdown, setDropDown] = useState(false);
   const [tokenState, setTokenState] = useState("USDT");
   const [venues, setVenues] = useState([])
+  const [isInputempty, setisInputempty] = useState(false)
+  const [searchData,setSearchData] = useState({
+    name:""
+  })
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    setSearchData((prevFormData) => ({
+      ...prevFormData,
+      name: value,
+    }));
+    if (value === "") {
+      console.log("Input is empty");
+      setisInputempty(true)
+      return
+    }
+    else{
+      setisInputempty(false)
+    }
+  };
+
+
 
   const handleGenreSelect = (selectedGenres) => {
     setFormData((prevData) => ({
@@ -28,6 +51,7 @@ const Venues = () => {
     closeDropdown(); 
   };
 
+
   const handleGenre = (selectedGenres) => {
     setForm((prevData) => ({
       ...prevData,
@@ -36,9 +60,36 @@ const Venues = () => {
     closeDropdown(); 
   };
 
+  
+  useEffect(() => {
+    console.log("The search data is:", searchData);
+    console.log("The form state has been updated:", form);
+  
+    const getAllUserBandsWithAdminApproved = async () => {
+      try {
+        const response = await api.get("/api/v1/venue/search", {
+          params: {
+            name: searchData.name || "",
+            venue_type: form.venue_type || ""
+          }
+        });
+        console.log(response.data);
+        setVenues(response.data);
+      } catch (error) {
+        console.error("Error occurred when getting the user band:", error);
+        console.error(error || "An unexpected error occurred");
+        setVenues([])
+      }
+    };
+  
+    getAllUserBandsWithAdminApproved();
+  }, [searchData, form]);
+
+
+
 
   useEffect(()=>{
-    console.log("The form state has been updated:", form);
+    
     const getAlluserVenue = async ()=>{
       try{
         const response = await api.get("/api/v1/venue/approved")
@@ -47,11 +98,12 @@ const Venues = () => {
        
       }catch (error) {
         console.error("Error occur when getting the user venue:", error);
+        setVenues([])
         // toast.error(error|| "An unexpected error occurred");
       }
     }
     getAlluserVenue()
-  }, [form])
+  }, [isInputempty])
 
   const showDropdown = () => {
     setDropDown((prev) => !prev);
@@ -68,7 +120,8 @@ const Venues = () => {
     <>
       <section className={`${styles.venueSection} transition`}>
         <div className={`${styles.search} px-[1rem] `}>
-          <Search showDropdown={showDropdown} />
+          <Search showDropdown={showDropdown} searchData={searchData} handleInputChange={handleInputChange}/>
+          
           {dropdown && (
             <Dropdown
             data={venueType}
@@ -79,7 +132,7 @@ const Venues = () => {
         </div>
 
         <div className={`${styles.map} px-0 `}>
-          <Map />
+          <Map venues={venues}/>
         </div>
 
         {/******** BANDS DETAILS  *********/}
