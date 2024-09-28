@@ -8,8 +8,8 @@ import Success from "../general/Success";
 import Failed from "../general/Failed";
 import Modal from "../general/Modal";
 
-const AddLocation = ({settrackChanges}) => {
-  const [message, setMessage] = useState()
+const AddLocation = ({ settrackChanges }) => {
+  const [message, setMessage] = useState();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -61,31 +61,31 @@ const AddLocation = ({settrackChanges}) => {
   };
 
   const handleSubmit = async () => {
-    console.log("the data from admin venue is:",formData)
+    console.log("the data from admin venue is:", formData);
     if (validateStep(1)) {
       const dataForm = new FormData();
       Object.keys(formData).forEach((key) => {
         dataForm.append(key, formData[key]);
       });
       try {
-        console.log(dataForm)
+        console.log(dataForm);
         await uploadUservenue(dataForm);
-        settrackChanges(true)
+        settrackChanges(true);
         setIsSubmitted(true);
-        setMessage("Venue uploaded successfully!")
+        setMessage("Venue uploaded successfully!");
         modalHandler();
       } catch (e) {
         setError(e.message);
         setIsSubmitted(false);
         setMessage(e.response.data.detail || "Form validation failed");
-        settrackChanges(false)
-        modalHandler(); 
+        settrackChanges(false);
+        modalHandler();
       }
     } else {
       setError("Form validation failed");
-      settrackChanges(false)
+      settrackChanges(false);
       setMessage("Form validation failed");
-      modalHandler(); 
+      modalHandler();
     }
   };
 
@@ -151,12 +151,16 @@ const AddLocation = ({settrackChanges}) => {
         showPageHeader={false}
         formHeaderText={`Tell Us About Your Band!`}
       />
-            {modal && (
+      {modal && (
         <Modal>
           {isSubmitted ? (
-            <Success modalHandler={modalHandler} message={message} description="Venue under review, you will be notify via email once it approved"/>
+            <Success
+              modalHandler={modalHandler}
+              message={message}
+              description="Venue under review, you will be notify via email once it approved"
+            />
           ) : (
-            <Failed modalHandler={modalHandler} message={message}/>
+            <Failed modalHandler={modalHandler} message={message} />
           )}
         </Modal>
       )}

@@ -1,19 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./DashBoard.module.css";
 import { dashboardSummary } from "../../data/data";
 import Button from "../../components/general/Button";
 import DashboardCard from "../../components/Dashboard/DashboardCard";
 import CsvRecent from "../../components/Dashboard/CsvRecent";
 import Mail from "../../components/SVGcomponent/Mail";
+import { useModal } from "@/App";
+import Modal from "@/components/general/Modal";
+import Modal2 from "@/components/general/Modal2";
 
 const DashBoard = () => {
+  const [selectedCard, setSelectedCard] = useState(null);
+
+  const handleSelection = (card) => {
+    setSelectedCard((curr) => (curr?.ID === card.ID ? "" : card));
+  };
+
+  const cardHandler = () => {
+    setSelectedCard((currentCard) => {
+      return null;
+    });
+  };
   return (
     <section
       className={`${styles.dashboardSection} adminSection adminContainer`}
     >
       <div className={`${styles.dashboardSummary}`}>
         {dashboardSummary.map((summary) => (
-          <DashboardCard key={``} summary={summary} />
+          <DashboardCard
+            summary={summary}
+            modalHandler={cardHandler}
+            key={summary.ID}
+            selectedCard={selectedCard}
+            onSelection={handleSelection}
+          />
         ))}
       </div>
 
@@ -65,6 +85,11 @@ const DashBoard = () => {
           />
         </div>
       </div>
+      {selectedCard ? (
+        <Modal2 selectedCard={selectedCard} modalHandler={cardHandler}></Modal2>
+      ) : (
+        ""
+      )}
     </section>
   );
 };

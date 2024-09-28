@@ -8,7 +8,7 @@ import ArrowLeft from "../../components/SVGcomponent/ArrowLeft";
 import ArrowRight from "../../components/SVGcomponent/ArrowRight";
 import { TipJar } from "../../components";
 import styles from "./MultiFormPage.module.css";
-import Upload from '../SVGcomponent/Upload';
+import Upload from "../SVGcomponent/Upload";
 
 const MultiFormPage = ({
   stepContent,
@@ -21,27 +21,27 @@ const MultiFormPage = ({
   showTipJar = true,
   formHeaderText,
   error,
-  setError
+  setError,
 }) => {
   const { steps, currentStep, next, step, stepNames, previous } =
     useMultistepForm(stepContent);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (validateStep(currentStep)){
-      console.log(currentStep)
+    if (validateStep(currentStep)) {
+      console.log(currentStep);
       next();
     }
   };
 
   const Upload = (e) => {
     e.preventDefault();
-      onSubmit()
+    onSubmit();
   };
 
   const backHandler = (e) => {
     e.preventDefault();
-    previous()
+    previous();
   };
 
   console.log(currentStep);
@@ -78,41 +78,40 @@ const MultiFormPage = ({
             <div className={`${styles.formWrapper}`}>
               {step}
 
-                {currentStep > 0 ? (
-                    error ? (
-                      <Button
-                        text={`Back`}
-                        width={`w-full`}
-                        colored
-                        radius={`rounded-sm`}
-                        clickFunction={() => {
-                          setError(false); // Set error to false
-                          backHandler();   // Call the back handler
-                        }}
-                        svg2={<ArrowLeft />}
-                      />
-                    ) : (
-                      <Button
-                        text={`Upload`}
-                        width={`w-full`}
-                        colored
-                        radius={`rounded-sm`}
-                        clickFunction={Upload}
-                        // svg2={<ArrowLeft />}
-                      />
-                    )
-                  ) : (
-                    <Button
-                      text={`Next`}
-                      width={`w-full`}
-                      colored
-                      radius={`rounded-sm`}
-                      clickFunction={submitHandler}
-                      type={`submit`}
-                      svg={<ArrowRight />}
-                    />
-                  )}
-
+              {currentStep > 0 ? (
+                error ? (
+                  <Button
+                    text={`Back`}
+                    width={`w-full`}
+                    colored
+                    radius={`rounded-sm`}
+                    clickFunction={() => {
+                      setError(false); // Set error to false
+                      backHandler(); // Call the back handler
+                    }}
+                    svg2={<ArrowLeft />}
+                  />
+                ) : (
+                  <Button
+                    text={`Upload`}
+                    width={`w-full`}
+                    colored
+                    radius={`rounded-sm`}
+                    clickFunction={Upload}
+                    // svg2={<ArrowLeft />}
+                  />
+                )
+              ) : (
+                <Button
+                  text={`Next`}
+                  width={`w-full`}
+                  colored
+                  radius={`rounded-sm`}
+                  clickFunction={submitHandler}
+                  type={`submit`}
+                  svg={<ArrowRight />}
+                />
+              )}
 
               {/* */}
             </div>

@@ -773,6 +773,8 @@ const genreSummary = calculateSummary(genrePageData.tableOrCardData);
 export const dashboardSummary = [
   {
     name: "Bands",
+    ID: crypto.randomUUID(),
+    path: "/admin/adminband",
     numbers: bandSummary.totalItems,
     image: Bands,
     status: [
@@ -797,6 +799,8 @@ export const dashboardSummary = [
   },
   {
     name: "Venue",
+    ID: crypto.randomUUID(),
+    path: "/admin/location",
     numbers: 200,
     image: venueImg,
     status: [
@@ -809,6 +813,8 @@ export const dashboardSummary = [
   },
   {
     name: "Genre",
+    ID: crypto.randomUUID(),
+    path: "/admin/admingenre",
     numbers: genreSummary.totalItems,
     image: genreImg,
     status: [
@@ -829,6 +835,8 @@ export const dashboardSummary = [
   },
   {
     name: "Advertisment",
+    ID: crypto.randomUUID(),
+    path: "/admin/ads",
     numbers: 5,
     image: ads,
     status: [
@@ -841,7 +849,9 @@ export const dashboardSummary = [
   },
   {
     name: "Venue Type",
-    numbers: 30,
+    ID: crypto.randomUUID(),
+    path: "/admin/type",
+    numbers: 30,  
     image: venueImg,
     status: [
       { state: "active", number: 1200, colorID: "active" },

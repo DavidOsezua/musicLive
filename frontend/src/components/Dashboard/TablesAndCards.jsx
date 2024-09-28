@@ -52,7 +52,7 @@ const TablesAndCards = ({
   const [resultData, setResultData] = useState([])
 
   const itemsPerPage = numberOfItem || 10;
-  const { modal, modalHandler } = useModal();
+  // const { modal, modalHandler } = useModal();
 
   useEffect(() => {
     setData(tableOrCardData || []);
