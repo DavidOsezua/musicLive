@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import GoogleMapReact from "google-map-react";
-// import { Icon } from '@iconify/react';
-// import mapMarker from '@iconify/icons-mdi/map-marker';
+import { Icon } from '@iconify/react';
+import mapMarker from '@iconify/icons-mdi/map-marker';
 import "./Map.css";
 
 const apiKey = import.meta.env.REACT_APP_MAP_API_KEY;
