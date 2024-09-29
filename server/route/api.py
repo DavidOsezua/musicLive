@@ -1,33 +1,26 @@
-from fastapi import FastAPI, File, Form, UploadFile, HTTPException,Depends,APIRouter,Query
-from fastapi.responses import JSONResponse
-from pydantic import BaseModel
+from fastapi import File, Form, UploadFile, HTTPException, Depends, APIRouter, Query
 from typing import Optional
 from PIL import Image
 import io
 from pydantic import ValidationError
 from sqlalchemy.exc import IntegrityError, OperationalError
-from sqlmodel import select,update
+from sqlmodel import select, update
 from db.database import get_session
 from sqlmodel.ext.asyncio.session import AsyncSession
-from src.schema import Band_, Venue_,Contact
-from typing import List,Optional,Union
+from src.schema import Band_, Venue_, Contact
+from src import uploads
+from typing import List, Optional
 from http import HTTPStatus
-import os
 from src import exceptions
-from db.table import Venue,Band
-from bs4 import BeautifulSoup
+from db.table import Venue, Band
 from sqlalchemy import func
-import requests
-from datetime import datetime, timezone
+from datetime import timezone
 from dateutil import parser
 import yagmail
+import shortuuid
+import datetime
 
-
-api_router = APIRouter(
-    prefix="/api/v1",
-    tags=["api"]
-)
-
+api_router = APIRouter(prefix="/api/v1", tags=["api"])
 
 
 def validate_image_size(image: UploadFile):
@@ -35,20 +28,18 @@ def validate_image_size(image: UploadFile):
         img = Image.open(io.BytesIO(image.file.read()))
         if img.size != (400, 400):
             raise exceptions.BadRequest(f"{image.filename} is not 400x400 pixels")
-        image.file.seek(0) 
+        image.file.seek(0)
     except Exception as e:
         raise exceptions.BadRequest(f"{str(e)}")
-
-
 
 
 @api_router.post("/venue")
 async def upload_venue(
     name: str = Form(...),
     venue_type: str = Form(...),
-    genre_type:str = Form(...),
-    date:str= Form(...),
-    time:str = Form(...),
+    genre_type: str = Form(...),
+    date: str = Form(...),
+    time: str = Form(...),
     address: str = Form(...),
     email: str = Form(...),
     homepage: Optional[str] = Form(None),
@@ -57,32 +48,22 @@ async def upload_venue(
     youtube: Optional[str] = Form(None),
     image1: UploadFile = File(...),
     image2: UploadFile = File(...),
-    session: AsyncSession = Depends(get_session)
-)->Venue_:
+    session: AsyncSession = Depends(get_session),
+) -> Venue_:
     try:
-        file_path = 'uploads/venue'
-        # file_path = os.path.join(os.path.dirname(__file__),DIR)
-        os.makedirs(file_path, exist_ok=True)
+        venue_id = shortuuid.uuid()
         validate_image_size(image1)
         validate_image_size(image2)
-        
-        image1_path = os.path.join(file_path, image1.filename)
-        image2_path = os.path.join(file_path, image2.filename)
+        image_paths = uploads.save_venue_images(venue_id, image1.file, image2.file)
 
-        with open(image1_path, "wb") as f:
-            f.write(await image1.read())
-        
-        with open(image2_path, "wb") as f:
-            f.write(await image2.read())
-            
         venue_date = parser.parse(date)
         venue_time = parser.parse(time)
-        
+
         venue_data = Venue_(
             name=name,
             venue_type=venue_type,
             genre_type=genre_type,
-            venue_date= venue_date.astimezone(timezone.utc).date().isoformat(),
+            venue_date=venue_date.astimezone(timezone.utc).date().isoformat(),
             venue_time=venue_time.astimezone(timezone.utc).time().isoformat(),
             address=address,
             email=email,
@@ -90,39 +71,39 @@ async def upload_venue(
             facebook_url=facebook,
             instagram_url=instagram,
             youtube_url=youtube,
-            image1=image1_path,
-            image2=image2_path
-            
+            image1=image_paths.path1,
+            image2=image_paths.path2,
         )
         try:
-            venue_db = Venue(**venue_data.model_dump(by_alias=True))
+            venue_db = Venue(id=venue_id, **venue_data.model_dump(by_alias=True))
             session.add(venue_db)
             await session.commit()
             await session.refresh(venue_db)
             return venue_data
-        
+
         except IntegrityError as ie:
-            if str('duplicate entry').lower() in str(ie.orig).lower():
+            if str("duplicate entry").lower() in str(ie.orig).lower():
                 raise exceptions.BadRequest("Email already exists.")
             else:
-                raise exceptions.BadRequest(f"Integrity error occurred.Entry correct data and try again")
-        
+                raise exceptions.BadRequest(
+                    f"Integrity error occurred.Entry correct data and try again"
+                )
+
         except OperationalError as oe:
-            raise exceptions.BadRequest(f"Operational error occurred: database not reachable")
-        
+            raise exceptions.BadRequest(
+                f"Operational error occurred: database not reachable"
+            )
+
         except ValidationError as ve:
             raise exceptions.BadRequest(f"Validation error: Unprocessed Identity")
-        
+
         except Exception as e:
             raise exceptions.BadRequest(f"Unable to upload data: {str(e)}")
 
     except Exception as e:
         print(e)
-        status_code = getattr(e, 'status', 400) 
+        status_code = getattr(e, "status", 400)
         raise HTTPException(status_code=status_code, detail=f"{str(e)}")
-
-
-
 
 
 @api_router.post("/band")
@@ -137,24 +118,11 @@ async def upload_band(
     youtube: Optional[str] = Form(None),
     image1: UploadFile = File(...),
     image2: UploadFile = File(...),
-    session: AsyncSession = Depends(get_session)
-)->Band_:
+    session: AsyncSession = Depends(get_session),
+) -> Band_:
     try:
-        file_path = 'uploads/bands'
-        # file_path = os.path.join(os.path.dirname(__file__),DIR)
-        os.makedirs(file_path, exist_ok=True)
-        validate_image_size(image1)
-        validate_image_size(image2)
-        
-        image1_path = os.path.join(file_path, image1.filename)
-        image2_path = os.path.join(file_path, image2.filename)
-
-        with open(image1_path, "wb") as f:
-            f.write(await image1.read())
-        
-        with open(image2_path, "wb") as f:
-            f.write(await image2.read())
-
+        band_id = shortuuid.uuid()
+        image_paths = uploads.save_band_images(band_id, image1.file, image2.file)
         venue_data = Band_(
             name=name,
             genre_type=genre_type,
@@ -164,73 +132,80 @@ async def upload_band(
             facebook_url=facebook,
             instagram_url=instagram,
             youtube_url=youtube,
-            image1=image1_path,
-            image2=image2_path
+            image1=image_paths.path1,
+            image2=image_paths.path2,
         )
         try:
-            venue_db = Band(**venue_data.model_dump(by_alias=True))
+            venue_db = Band(id=band_id, **venue_data.model_dump(by_alias=True))
             session.add(venue_db)
             await session.commit()
             await session.refresh(venue_db)
             return venue_data
-        
+
         except IntegrityError as ie:
             print(ie)
-            if str('duplicate entry').lower() in str(ie.orig).lower():
+            if str("duplicate entry").lower() in str(ie.orig).lower():
                 raise exceptions.BadRequest("Email already exists.")
             else:
-                raise exceptions.BadRequest(f"Integrity error occurred.correct data and try again")
-        
+                raise exceptions.BadRequest(
+                    f"Integrity error occurred.correct data and try again"
+                )
+
         except OperationalError as oe:
-            raise exceptions.BadRequest(f"Operational error occurred: database not reachable")
-        
+            raise exceptions.BadRequest(
+                f"Operational error occurred: database not reachable"
+            )
+
         except ValidationError as ve:
             raise exceptions.BadRequest(f"Validation error: Unprocessed Identity")
-        
+
         except Exception as e:
             raise exceptions.BadRequest(f"Unable to upload data: {str(e)}")
 
     except Exception as e:
         print(e)
-        status_code = getattr(e, 'status', 400) 
+        status_code = getattr(e, "status", 400)
         raise HTTPException(status_code=status_code, detail=f"{str(e)}")
-    
-    
-    
-@api_router.get("/band",response_model=List[Band])
-async def get_band(session: AsyncSession = Depends(get_session))->Band:
+
+
+@api_router.get("/band", response_model=List[Band])
+async def get_band(session: AsyncSession = Depends(get_session)) -> Band:
     query = select(Band)
     result = await session.exec(query)
     bands = result.fetchall()
     print(result)
-    return [dict(row) for row in bands] 
+    return [dict(row) for row in bands]
 
 
-
-@api_router.get("/venue",response_model=List[Venue])
-async def get_venue(session: AsyncSession = Depends(get_session))->Venue:
+@api_router.get("/venue", response_model=List[Venue])
+async def get_venue(session: AsyncSession = Depends(get_session)) -> Venue:
     query = select(Venue)
     result = await session.exec(query)
     venues = result.fetchall()
-    return [dict(row) for row in venues] 
+    return [dict(row) for row in venues]
 
 
-@api_router.delete("/venue/{user_id}", response_model=Venue)
-async def delete_user_venue(user_id: int, session: AsyncSession = Depends(get_session)):
-    venue = await session.get(Venue, user_id)
+@api_router.delete("/venue/{venue_id}", response_model=Venue)
+async def delete_user_venue(
+    venue_id: str, session: AsyncSession = Depends(get_session)
+):
+    venue = await session.get(Venue, venue_id)
     if not venue:
-        raise HTTPException(status_code=HTTPStatus.NO_CONTENT.value, detail="Book not found")
+        raise HTTPException(
+            status_code=HTTPStatus.NO_CONTENT.value, detail="Book not found"
+        )
     await session.delete(venue)
     await session.commit()
     return venue
 
 
-
-@api_router.delete("/band/{user_id}", response_model=Band)
-async def delete_user_band(user_id: int, session: AsyncSession = Depends(get_session)):
-    band = await session.get(Band, user_id)
+@api_router.delete("/band/{band_id}", response_model=Band)
+async def delete_user_band(band_id: str, session: AsyncSession = Depends(get_session)):
+    band = await session.get(Band, band_id)
     if not band:
-        raise HTTPException(status_code=HTTPStatus.NO_CONTENT.value, detail="Book not found")
+        raise HTTPException(
+            status_code=HTTPStatus.NO_CONTENT.value, detail="Book not found"
+        )
     await session.delete(band)
     await session.commit()
     return band
@@ -238,31 +213,27 @@ async def delete_user_band(user_id: int, session: AsyncSession = Depends(get_ses
 
 @api_router.put("/venue/", response_model=List[Venue])
 async def update_venue(
-    user_id:int = Query(alias="ID"),
-    Status:str = Query(alias="Status"),
-    session: AsyncSession = Depends(get_session)
+    venue_id: str = Query(alias="ID"),
+    Status: str = Query(alias="Status"),
+    session: AsyncSession = Depends(get_session),
 ):
-    query = select(Venue).where(Venue.id == user_id)
+    query = select(Venue).where(Venue.id == venue_id)
     result = await session.exec(query)
     venue = result.fetchall()
     print(Status)
-    print(user_id)
+
     if not venue:
         raise HTTPException(status_code=404, detail="Venue not found")
     if Status == "Approved":
-            
+
         update_query = (
-            update(Venue)
-            .where(Venue.id == user_id)
-            .values(is_verified=True)
+            update(Venue).where(Venue.id == venue_id).values(is_verified=True)
         )
     else:
-            update_query = (
-            update(Venue)
-            .where(Venue.id == user_id)
-            .values(is_verified=False)
+        update_query = (
+            update(Venue).where(Venue.id == venue_id).values(is_verified=False)
         )
-            
+
     await session.exec(update_query)
     await session.commit()
     updated_query = select(Venue).where(Venue.is_verified == True)
@@ -275,33 +246,23 @@ async def update_venue(
     return updated_venue
 
 
-
-
 @api_router.put("/band/", response_model=List[Band])
 async def update_band(
-    user_id:int = Query(alias="ID"),
-    Status:str = Query(alias="Status"),
-    session: AsyncSession = Depends(get_session)
+    band_id: str = Query(alias="ID"),
+    Status: str = Query(alias="Status"),
+    session: AsyncSession = Depends(get_session),
 ):
-    query = select(Band).where(Band.id == user_id)
+    query = select(Band).where(Band.id == band_id)
     result = await session.exec(query)
     venue = result.fetchall()
     if not venue:
         raise HTTPException(status_code=404, detail="Venue not found")
     if Status == "Approved":
-            
-        update_query = (
-            update(Band)
-            .where(Band.id == user_id)
-            .values(is_verified=True)
-        )
+
+        update_query = update(Band).where(Band.id == band_id).values(is_verified=True)
     else:
-            update_query = (
-            update(Band)
-            .where(Band.id == user_id)
-            .values(is_verified=False)
-        )
-            
+        update_query = update(Band).where(Band.id == band_id).values(is_verified=False)
+
     await session.exec(update_query)
     await session.commit()
     updated_query = select(Band).where(Band.is_verified == True)
@@ -314,13 +275,11 @@ async def update_band(
     return updated_venue
 
 
-
-
 @api_router.put("/venue/approved/", response_model=List[Venue])
-async def update_venue(
+async def approve_venue(
     venue_type: str = Query(..., alias="venue_type"),
     Status: str = Query(..., alias="Status"),
-    session: AsyncSession = Depends(get_session)
+    session: AsyncSession = Depends(get_session),
 ):
     status_normalized = Status.strip().lower()
     venue_type = venue_type.strip()
@@ -340,7 +299,7 @@ async def update_venue(
         .where(func.lower(Venue.venue_type) == venue_type.lower())
         .values(is_admin_approved=is_approved)
     )
-    
+
     await session.exec(update_query)
     await session.commit()
 
@@ -354,12 +313,11 @@ async def update_venue(
     return updated_venues
 
 
-
 @api_router.put("/band/approved/", response_model=List[Band])
-async def update_band(
+async def approve_band(
     genre_type: str = Query(..., alias="venue_type"),
     Status: str = Query(..., alias="Status"),
-    session: AsyncSession = Depends(get_session)
+    session: AsyncSession = Depends(get_session),
 ):
     status_normalized = Status.strip().lower()
     genre_type = genre_type.strip()
@@ -368,7 +326,9 @@ async def update_band(
     bands = result.fetchall()
 
     if not bands:
-        raise HTTPException(status_code=404, detail="No bands found with this genre type")
+        raise HTTPException(
+            status_code=404, detail="No bands found with this genre type"
+        )
     is_approved = status_normalized == "approved"
 
     update_query = (
@@ -383,19 +343,21 @@ async def update_band(
     updated_bands = result.fetchall()
 
     if not updated_bands:
-        raise HTTPException(status_code=404, detail="Update failed or no bands were updated")
+        raise HTTPException(
+            status_code=404, detail="Update failed or no bands were updated"
+        )
 
     return updated_bands
 
 
-
 @api_router.post("/contact")
-async def contact_us(contact_info:Contact,
-                     session: AsyncSession = Depends(get_session)):
+async def contact_us(
+    contact_info: Contact, session: AsyncSession = Depends(get_session)
+):
     try:
         print(contact_info)
         to_email = "your email to be sending the message"
-        app_password = 'You app password'
+        app_password = "You app password"
         yag = yagmail.SMTP(to_email, app_password)
 
         html_content = f"""
@@ -464,36 +426,37 @@ async def contact_us(contact_info:Contact,
         </body>
         </html>
         """
-        yag.send("email to receive the message", 'Help Support For Music Live', html_content)
+        yag.send(
+            "email to receive the message", "Help Support For Music Live", html_content
+        )
 
-        return {'status':200, "message":"Email sent successfully"}
-        
+        return {"status": 200, "message": "Email sent successfully"}
+
     except Exception as e:
         print(e)
-        status_code = getattr(e, 'status', 400) 
-        raise HTTPException(status_code=status_code, detail=f"Your email was not delivered due to a technical error,Please retry in a few moments.")
-    
-    
-    
-@api_router.get("/band/approved",response_model=List[Band])
-async def get_band_approved(session: AsyncSession = Depends(get_session))->Band:
+        status_code = getattr(e, "status", 400)
+        raise HTTPException(
+            status_code=status_code,
+            detail=f"Your email was not delivered due to a technical error,Please retry in a few moments.",
+        )
+
+
+@api_router.get("/band/approved", response_model=List[Band])
+async def get_band_approved(session: AsyncSession = Depends(get_session)) -> Band:
     # query = select(Band)
-    query =select(Band).where(Band.is_verified == True)
+    query = select(Band).where(Band.is_verified == True)
     result = await session.exec(query)
     bands = result.fetchall()
     print(result)
-    return [dict(row) for row in bands] 
+    return [dict(row) for row in bands]
 
 
-
-@api_router.get("/venue/approved",response_model=List[Venue])
-async def get_venue_approved(session: AsyncSession = Depends(get_session))->Venue:
-    query =select(Venue).where(Venue.is_verified == True)
+@api_router.get("/venue/approved", response_model=List[Venue])
+async def get_venue_approved(session: AsyncSession = Depends(get_session)) -> Venue:
+    query = select(Venue).where(Venue.is_verified == True)
     result = await session.exec(query)
     venues = result.fetchall()
-    return [dict(row) for row in venues] 
-
-
+    return [dict(row) for row in venues]
 
 
 @api_router.get("/venue/search", response_model=List[Venue])
@@ -501,13 +464,16 @@ async def search(
     name: Optional[str] = Query(default=None),
     venue_type: Optional[str] = Query(default=None),
     # genre_type: Optional[str] = Query(default=None),
-    session: AsyncSession = Depends(get_session)
+    session: AsyncSession = Depends(get_session),
 ):
     query = select(Venue).where(Venue.is_admin_approved == True)
     if name and venue_type:
         name = name.strip().lower()
-        query = query.where(func.lower(Venue.name).contains(name), func.lower(Venue.venue_type) == venue_type)
-        
+        query = query.where(
+            func.lower(Venue.name).contains(name),
+            func.lower(Venue.venue_type) == venue_type,
+        )
+
     elif name:
         name = name.strip().lower()
         query = query.where(func.lower(Venue.name).contains(name))
@@ -519,7 +485,7 @@ async def search(
     if not (name or venue_type):
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
-            detail="You must provide at least one of the following: name, venue type, or genre type."
+            detail="You must provide at least one of the following: name, venue type, or genre type.",
         )
 
     result = await session.exec(query)
@@ -527,7 +493,7 @@ async def search(
     if not venues:
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND,
-            detail="No venue found matching this search criteria."
+            detail="No venue found matching this search criteria.",
         )
 
     return venues
@@ -538,14 +504,17 @@ async def search(
     name: Optional[str] = Query(default=None),
     # band_tag: Optional[str] = Query(default=None),
     genre_type: Optional[str] = Query(default=None),
-    session: AsyncSession = Depends(get_session)
+    session: AsyncSession = Depends(get_session),
 ):
     query = select(Band).where(Band.is_admin_approved == True)
     if name and genre_type:
         name = name.strip().lower()
         genre_type = genre_type.strip().lower()
-        query = query.where(func.lower(Band.genre_type) == genre_type,func.lower(Band.name).contains(name))
-        
+        query = query.where(
+            func.lower(Band.genre_type) == genre_type,
+            func.lower(Band.name).contains(name),
+        )
+
     elif name:
         name = name.strip().lower()
         query = query.where(func.lower(Band.name).contains(name))
@@ -557,7 +526,7 @@ async def search(
     if not (name or genre_type):
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
-            detail="You must provide at least one of the following: name, band type, or genre type."
+            detail="You must provide at least one of the following: name, band type, or genre type.",
         )
 
     result = await session.exec(query)
@@ -565,10 +534,7 @@ async def search(
     if not band:
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND,
-            detail="No venue found matching this search criteria."
+            detail="No venue found matching this search criteria.",
         )
 
     return band
-
-
-
