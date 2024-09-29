@@ -64,6 +64,9 @@ const AddYourVenue = () => {
   const handleSubmit = async () => {
     console.log(formData);
 
+    console.log(formData.time)
+    console.log(formData.date)
+    // return 
     if (validateStep(1)) {
       const dataForm = new FormData();
       dataForm.append("name", formData.name);
