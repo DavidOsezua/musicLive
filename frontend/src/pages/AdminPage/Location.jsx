@@ -39,8 +39,8 @@ const Location = () => {
       };
     });
     setTotalApprove(approvedCount); 
-    setpending(totalBand - totalApprove)
     setLocationPageData(formattedData);
+    setpending(totalBand - totalApprove)
     } catch (err) {
       console.log(err);
     }

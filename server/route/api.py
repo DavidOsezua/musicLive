@@ -229,13 +229,13 @@ async def update_venue(
         update_query = (
             update(Venue).where(Venue.id == venue_id).values(is_verified=True)
         )
-    else:
-        update_query = (
-            update(Venue).where(Venue.id == venue_id).values(is_verified=False)
-        )
+    # else:
+    #     update_query = (
+    #         update(Venue).where(Venue.id == venue_id).values(is_verified=False)
+    #     )
 
-    await session.exec(update_query)
-    await session.commit()
+        await session.exec(update_query)
+        await session.commit()
     updated_query = select(Venue).where(Venue.is_verified == True)
     result = await session.exec(updated_query)
     updated_venue = result.fetchall()
@@ -260,11 +260,11 @@ async def update_band(
     if Status == "Approved":
 
         update_query = update(Band).where(Band.id == band_id).values(is_verified=True)
-    else:
-        update_query = update(Band).where(Band.id == band_id).values(is_verified=False)
+    # else:
+    #     update_query = update(Band).where(Band.id == band_id).values(is_verified=False)
 
-    await session.exec(update_query)
-    await session.commit()
+        await session.exec(update_query)
+        await session.commit()
     updated_query = select(Band).where(Band.is_verified == True)
     result = await session.exec(updated_query)
     updated_venue = result.fetchall()
