@@ -3,12 +3,13 @@ import "../../App.css";
 import styles from "./Home.module.css";
 import LocationAndDates from "../../components/Homepage/LocationAndDates";
 import Share from "../../components/SVGcomponent/Share";
-import { mobileHeroImage } from "../../assets";
+import { adImg, mobileHeroImage } from "../../assets";
 import { TipJar } from "../../components";
 import Button from "../../components/general/Button";
 import Hero from "../../components/Homepage/Hero";
 import SelectGenre from "../../components/SVGcomponent/SelectGenre";
 import GenreScroll from "../../components/general/GenreScroll";
+import Advert from "@/components/general/Advert";
 
 const Home = () => {
   return (
@@ -43,7 +44,11 @@ const Home = () => {
           <GenreScroll />
         </div>
 
-        <div className={`${styles.placeOrder}`}></div>
+        <div>
+          <Advert />
+        </div>
+
+        {/* <div className={`${styles.placeOrder}`}></div> */}
 
         <div className={`${styles.findContainer}`}>
           <p className={`${styles.findText}`}>Find your best live music.</p>
@@ -96,7 +101,12 @@ const Home = () => {
           {/******************* GENERE ICONS *******************/}
           <GenreScroll />
         </div>
-        <div className={`${styles.placeOrder}`}></div>
+
+        <div>
+          <Advert />
+        </div>
+
+        {/* <div className={`${styles.placeOrder}`}></div> */}
 
         {/*  */}
         <div className={`${styles.desktopFindContainer}`}>
