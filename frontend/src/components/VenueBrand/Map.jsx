@@ -21,7 +21,7 @@ const Map = ({ venues }) => {
   const [center, setCenter] = useState({ lat: 0, lng: 0 });
   const [zoom, setZoom] = useState(2); // Default world zoom level
   const [bounds, setBounds] = useState(null); // Store bounds for fitBounds
-  
+
   const getLatLngFromAddress = async (address, venue_type) => {
     const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json`;
     try {
@@ -29,18 +29,16 @@ const Map = ({ venues }) => {
       const data = await response.json();
       if (data && data.length > 0) {
         const location = data[0];
-        const image = venue_type === "Winery" ? wine :
-                      venue_type === "Resturant" ? resturant :
-                      venue_type === "Brewery" ? brewery :
-                      venue_type === "Bar" ? Bar :
-                      venue_type === "Night" ? night :
-                      venue_type === "Outdoor" ? outdoorStage :
-                      'path/to/default-placeholder-image.png'; // Default image
         return {
           lat: parseFloat(location.lat),
           lng: parseFloat(location.lon),
           name: address,
-          image: image,
+          image: venue_type === "Winery" ? wine :
+            venue_type === "Resturant" ? resturant :
+            venue_type === "Brewery" ? brewery :
+            venue_type === "Bar" ? Bar :
+            venue_type === "Night" ? night :
+            venue_type === "Outdoor" ? outdoorStage : "",
         };
       } else {
         console.error(`No results found for address: ${address}`);
@@ -53,6 +51,10 @@ const Map = ({ venues }) => {
 
   useEffect(() => {
     const fetchLatLngs = async () => {
+      setLocations([]); // Clear locations on new venue data
+      setFailedAddresses([]);
+      setLoading(true);
+
       const locationsData = [];
       const failedData = [];
 
@@ -71,7 +73,6 @@ const Map = ({ venues }) => {
 
       // Calculate map bounds for all locations
       if (locationsData.length > 0) {
-        console.log("location data", locationsData)
         const lats = locationsData.map(loc => loc.lat);
         const lngs = locationsData.map(loc => loc.lng);
 
@@ -86,17 +87,20 @@ const Map = ({ venues }) => {
           lng: (northEast.lng + southWest.lng) / 2,
         });
 
-        const zoomLevel = locationsData.length === 1 ? 10 : 5; 
+        const zoomLevel = locationsData.length === 1 ? 10 : 5; // Zoom closer for a single location
         setZoom(zoomLevel);
       }
     };
 
     if (venues.length > 0) {
       fetchLatLngs();
+    } else {
+      // If no venues are passed, reset map
+      setLocations([]);
+      setCenter({ lat: 0, lng: 0 });
+      setZoom(2);
     }
-    console.log("location", locations)
-    
-  }, [venues,loading]);
+  }, [venues]);
 
   return (
     <div className="w-full h-full">
