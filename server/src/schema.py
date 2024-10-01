@@ -36,6 +36,11 @@ class Venue_(BaseModel):
 
     class Config:
         allow_population_by_field_name = True
+        
+class Ads_(BaseModel):
+    image: Optional[str] = None
+    class Config:
+        allow_population_by_field_name = True
 
 
 class Contact(BaseModel):

@@ -21,16 +21,16 @@ import Success from "@/components/general/Success";
 
 const AdminBand = () => {
   const [locationPageData, setLocationPageData] = useState([]);
-  const [totalBand, setTotalBand] = useState(0);
+  const [totalData, setTotalData] = useState(0);
   const [trackChanges, settrackChanges] = useState(false)
   const [totalApprove, setTotalApprove] = useState(0);
-  const [pending, setpending] = useState(0);
+  // const [pending, setpending] = useState(0);
   const { modal, modalHandler } = useModal();
 
   const getAllUserBandData = async () => {
     try {
       const res = await api.get("/api/v1/band");
-      setTotalBand(res.data.length);
+      const resultData = res.data.length;
       console.log(res.data);
 
       let approvedCount = 0;
@@ -56,11 +56,10 @@ const AdminBand = () => {
       });
 
       setTotalApprove(approvedCount);
-      setpending(totalBand - totalApprove);
+      setTotalData(resultData)
       setLocationPageData(formattedData);
     } catch (err) {
       console.log(err);
-      console.log("hi");
     }
   };
   useEffect(() => {
@@ -68,9 +67,11 @@ const AdminBand = () => {
     // setpending(totalBand - approvedCount)
   }, [locationPageData]);
 
+  let pending = totalData - totalApprove
+
   const getuserBandData = {
     statusData: [
-      { status: "Total", numbers: totalBand, colorID: "total" },
+      { status: "Total", numbers: totalData, colorID: "total" },
       { status: "Approve", numbers: totalApprove, colorID: "approve" },
       { status: "Pending", numbers: pending, colorID: "pending" },
       // { status: "Inactive", numbers: 0, colorID: "inactive" },
@@ -94,7 +95,7 @@ const AdminBand = () => {
   useEffect(() => {
     getAllUserBandData();
     console.log("Updated locationPageData", locationPageData);
-  }, [totalBand,trackChanges]);
+  }, [totalData,trackChanges]);
 
   return (
     <section className={` adminSection pageContainer`}>
@@ -111,9 +112,9 @@ const AdminBand = () => {
         columnCount={7}
         setUserData={setLocationPageData}
         from={`Band`}
-        totalBand={setTotalBand}
+        setTotalData={setTotalData}
         setTotalApprove={setTotalApprove}
-        setpending={setpending}
+        settrackChanges = {settrackChanges}
       />
       {modal ? (
         <Modal modalHandler={modalHandler}>

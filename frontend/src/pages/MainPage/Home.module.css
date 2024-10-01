@@ -1,5 +1,5 @@
-.homeContainerMobile {
-}
+/* .homeContainerMobile {
+} */
 
 .homeContainerMobile > * + * {
   margin-top: 1rem;

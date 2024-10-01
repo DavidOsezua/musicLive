@@ -16,6 +16,21 @@ export const uploadUservenue = async (formData) => {
   }
 };
 
+export const uploadAdsimage = async (image)=>{
+  try {
+    const response = await api.post("/api/v1/ads", image, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error uploading user venue form:", error);
+    throw error|| "An unexpected error occurred";
+  }
+};
+
 
 export const uploadUserbrand = async (formData)=>{
     try {

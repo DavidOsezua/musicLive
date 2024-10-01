@@ -45,6 +45,15 @@ def save_band_images(
     return ImagePaths(path1=path_1, path2=path_2)
 
 
+def save_ads_images(
+    add_id: str,
+    image1: BinaryIO,
+):
+    img = Image.open(image1)
+    path_1 = save_image(img, settings.ADS_UPLOAD_DIR, add_id, "1")
+    return path_1
+
+
 def save_venue_images(
     venue_id: str,
     image1: BinaryIO,

@@ -1,0 +1,39 @@
+.check {
+    padding: 20px;
+  }
+  
+  .text {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .bandGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 400px); /* 4 items per row, each 400px wide */
+    grid-gap: 20px; /* Spacing between items */
+    justify-content: center; /* Center the grid */
+  }
+  
+  .bandDetail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .image {
+    width: 400px;
+    height: 112px;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+  
+  .socials {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .bandName {
+    font-size: 1.2rem;
+    margin: 10px 0;
+  }
+  

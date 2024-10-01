@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     UPLOAD_DIR: str = "uploads"
     BANDS_UPLOAD_DIR: str = "bands"
     VENUE_UPLOAD_DIR: str = "venues"
+    ADS_UPLOAD_DIR: str = "ads"
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 

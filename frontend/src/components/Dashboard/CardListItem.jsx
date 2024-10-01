@@ -15,10 +15,10 @@ const CardListItem = ({ item, updateItemStatus, handleDelete }) => {
     setIsToggled(!isToggled);
 
     if (!isToggled) {
-      updateItemStatus(item.genreOrType, "Approved");
+      updateItemStatus(item.genreOrType, "Approved",item.ID);
       setStatus("Approved");
     } else {
-      updateItemStatus(item.genreOrType, "Inactive"); 
+      updateItemStatus(item.genreOrType, "Inactive",item.ID); 
       setStatus("Inactive");
     }
   };

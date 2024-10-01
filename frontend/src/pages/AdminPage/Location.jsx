@@ -9,16 +9,16 @@ import { useModal } from "../../App";
 
 const Location = () => {
   const [locationPageData, setLocationPageData] = useState([]);
-  const [totalBand, setTotalBand] = useState(0)
+  const [totalData, setTotalData] = useState(0)
   const [totalApprove, setTotalApprove] = useState(0)
-  const [pending, setpending] = useState(0)
+  // const [pending, setpending] = useState(0)
   const [trackChanges, settrackChanges] = useState(false)
   const { modal, modalHandler } = useModal();
 
   const getAllUserVenueData = async () => {
     try {
       const res = await api.get("/api/v1/venue");
-      setTotalBand(res.data.length);
+      const resultData = res.data.length;
       let approvedCount = 0; 
   
       const formattedData = res.data.map((venue) => {
@@ -38,9 +38,10 @@ const Location = () => {
         status: venue.is_verified ? "Approved" : "Pending"
       };
     });
+    setTotalData(resultData)
     setTotalApprove(approvedCount); 
-    setpending(totalBand - totalApprove)
     setLocationPageData(formattedData);
+    // setpending(totalBand - totalApprove)
     } catch (err) {
       console.log(err);
     }
@@ -49,16 +50,15 @@ const Location = () => {
   useEffect(() => {
     getAllUserVenueData();
     console.log("Updated locationPageData", locationPageData);
-  }, [totalBand,trackChanges]);
+  }, [totalData,trackChanges]);
 
-  useEffect(() => {
-    console.log("Updated locationPageData", locationPageData);
-    
-  }, [locationPageData]);
+  
+ let pending = totalData - totalApprove
+
 
   const getuserVenueData = {
     statusData: [
-      { status: "Total", numbers: totalBand, colorID: "total" },
+      { status: "Total", numbers: totalData, colorID: "total" },
       { status: "Approve", numbers: totalApprove, colorID: "approve" },
       { status: "Pending", numbers: pending, colorID: "pending" },
       // { status: "Inactive", numbers: 0, colorID: "inactive" },
@@ -93,9 +93,11 @@ const Location = () => {
         pageType={`venue`}
         columnCount={8}
         setUserData = {setLocationPageData}
-        totalBand={setTotalBand}
+        setTotalData={setTotalData}
         setTotalApprove={setTotalApprove}
-        setpending = {setpending}
+        settrackChanges = {settrackChanges}
+        // setpending = {setpending}
+        from = {`venue`}
       />
       {modal ? (
         <Modal modalHandler={modalHandler}>

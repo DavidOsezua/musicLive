@@ -8,6 +8,18 @@ from pydantic import EmailStr
 from datetime import datetime, date, time
 
 
+
+class Ads(SQLModel, table=True):
+    __tablename__ = "Ads"
+    id: str = Field(default=None, primary_key=True)
+    image: Optional[str] = Field(default=None, sa_column=Column(String(255)))
+    is_admin_approved: bool = Field(default=False)
+    
+    def __repr__(self) -> str:
+        return f"Ads: images table created successfully!"
+    
+    
+    
 class Band(SQLModel, table=True):
     __tablename__ = "Band"
     id: str = Field(default=None, primary_key=True)

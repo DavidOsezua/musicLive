@@ -23,26 +23,26 @@ import {
 
 const AdminGenre = () => {
   const { modal, modalHandler } = useModal();
+  const [locationPageData, setLocationPageData] = useState([])
+  const [totalData, setTotalData] = useState(0)
+  const [totalApprove, setTotalApprove] = useState(0)
+  const [trackChanges, settrackChanges] = useState(false)
 
-  const [approve, setApproved] = useState(0);
-  const [inactive, setinactive] = useState(0);
-  const [totalVenueType, settotalVenueType] = useState(0);
-  const [totalVenueData, settotalVenueData] = useState();
-  const [venue_type_exist, setVenueTypeExist] = useState([]);
+
   const getAllBandData = async () => {
     try {
-      const res = await api.get("/api/v1/band"); // Check API response
-
+      const res = await api.get("/api/v1/band"); 
+      const adsData = res.data;
       let approvedCount = 0;
-      const uniqueVenueTypes = [];
+      const uniqueTypes = [];
 
       const formattedData = res.data
         .map((band) => {
-          if (!uniqueVenueTypes.includes(band.genre_type)) {
-            uniqueVenueTypes.push(band.genre_type);
+          if (!uniqueTypes.includes(band.genre_type)) {
+            uniqueTypes.push(band.genre_type);
 
             if (band.is_admin_approved) {
-              approvedCount += 1;
+              approvedCount++;
             }
 
             const image =
@@ -78,15 +78,9 @@ const AdminGenre = () => {
           return null; // Return null for duplicate entries
         })
         .filter(Boolean); // Remove null entries
-      setVenueTypeExist(uniqueVenueTypes);
-      const totalVenueType = uniqueVenueTypes.length;
-      settotalVenueType(totalVenueType);
-      setApproved(approvedCount);
-      setinactive(totalVenueType - approvedCount);
-      settotalVenueData(formattedData);
-      console.log("Approved Count:", approvedCount);
-      console.log("Total Venue Type:", totalVenueType);
-      console.log("Total Venue Data:", formattedData);
+        setTotalData(adsData.length);
+        setTotalApprove(approvedCount)
+        setLocationPageData(formattedData)
     } catch (err) {
       console.log(err);
     }
@@ -94,19 +88,22 @@ const AdminGenre = () => {
 
   useEffect(() => {
     getAllBandData();
-    console.log("Updated locationPageData", totalVenueData);
-  }, [totalVenueType, approve]);
+  }, [totalData,trackChanges]);
+
+
+
+  let inactive = totalData - totalApprove
 
   const getAllGenre = {
     statusData: [
-      { status: "Total", numbers: totalVenueType, colorID: "total" },
-      { status: "Approve", numbers: approve, colorID: "approve" },
+      { status: "Total", numbers: totalData, colorID: "total" },
+      { status: "Approve", numbers: totalApprove, colorID: "approve" },
       { status: "Inactive", numbers: inactive, colorID: "inactive" },
     ],
 
     status: ["All", "Approved", "Inactive"],
 
-    tableOrCardData: totalVenueData,
+    tableOrCardData: locationPageData,
     numberOfItem: 12,
     size: "genre",
   };
@@ -123,10 +120,10 @@ const AdminGenre = () => {
         pageData={getAllGenre}
         pageType={`cardList`}
         musicType="genre"
-        totalVenueType={totalVenueType}
-        setApproved={setApproved}
-        setinactive={setinactive}
-        settotalVenueType={settotalVenueType}
+        setUserData={setLocationPageData}
+        settrackChanges = {settrackChanges}
+        setTotalData={setTotalData}
+        setTotalApprove={setTotalApprove}
       />
       {modal ? (
         <Modal modalHandler={modalHandler}>
