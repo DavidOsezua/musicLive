@@ -10,6 +10,7 @@ import Modal from "../general/Modal";
 
 const AddLocation = ({ settrackChanges }) => {
   const [message, setMessage] = useState();
+  const [showResultModal, setShowResultModal] = useState(false); // New state to control result modal visibility
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -73,19 +74,19 @@ const AddLocation = ({ settrackChanges }) => {
         settrackChanges(true);
         setIsSubmitted(true);
         setMessage("Venue uploaded successfully!");
-        modalHandler();
+        setShowResultModal(true); // Show the result modal
       } catch (e) {
         setError(e.message);
         setIsSubmitted(false);
         setMessage(e.response.data.detail || "Form validation failed");
         settrackChanges(false);
-        modalHandler();
+        setShowResultModal(true); // Show the result modal
       }
     } else {
       setError("Form validation failed");
       settrackChanges(false);
       setMessage("Form validation failed");
-      modalHandler();
+      setShowResultModal(true); // Show the result modal
     }
   };
 
@@ -151,16 +152,20 @@ const AddLocation = ({ settrackChanges }) => {
         showPageHeader={false}
         formHeaderText={`Tell Us About Your Band!`}
       />
-      {modal && (
-        <Modal>
+
+      {showResultModal && (
+        <Modal modalHandler={() => setShowResultModal(false)}>
           {isSubmitted ? (
             <Success
-              modalHandler={modalHandler}
+              modalHandler={() => setShowResultModal(false)} // Close modal when Success is clicked
               message={message}
-              description="Venue under review, you will be notify via email once it approved"
+              description="Band under review, you will be notified via email once it is approved."
             />
           ) : (
-            <Failed modalHandler={modalHandler} message={message} />
+            <Failed
+              modalHandler={() => setShowResultModal(false)} // Close modal when Failed is clicked
+              message={message}
+            />
           )}
         </Modal>
       )}

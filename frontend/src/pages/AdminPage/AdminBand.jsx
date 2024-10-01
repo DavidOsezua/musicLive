@@ -22,7 +22,7 @@ import Success from "@/components/general/Success";
 const AdminBand = () => {
   const [locationPageData, setLocationPageData] = useState([]);
   const [totalData, setTotalData] = useState(0);
-  const [trackChanges, settrackChanges] = useState(false)
+  const [trackChanges, settrackChanges] = useState(false);
   const [totalApprove, setTotalApprove] = useState(0);
   // const [pending, setpending] = useState(0);
   const { modal, modalHandler } = useModal();
@@ -56,7 +56,7 @@ const AdminBand = () => {
       });
 
       setTotalApprove(approvedCount);
-      setTotalData(resultData)
+      setTotalData(resultData);
       setLocationPageData(formattedData);
     } catch (err) {
       console.log(err);
@@ -67,7 +67,7 @@ const AdminBand = () => {
     // setpending(totalBand - approvedCount)
   }, [locationPageData]);
 
-  let pending = totalData - totalApprove
+  let pending = totalData - totalApprove;
 
   const getuserBandData = {
     statusData: [
@@ -79,11 +79,10 @@ const AdminBand = () => {
     status: ["All", "Approved", "Pending", "Inactive"],
     tableHead: [
       "ID",
-      "Venue name/Genre",
-      "Address",
+      "Band name/Genre",
+      "Socials",
       "Email",
       "Date",
-      "Time",
       "Status",
       "Actions",
     ],
@@ -95,7 +94,7 @@ const AdminBand = () => {
   useEffect(() => {
     getAllUserBandData();
     console.log("Updated locationPageData", locationPageData);
-  }, [totalData,trackChanges]);
+  }, [totalData, trackChanges]);
 
   return (
     <section className={` adminSection pageContainer`}>
@@ -114,11 +113,11 @@ const AdminBand = () => {
         from={`Band`}
         setTotalData={setTotalData}
         setTotalApprove={setTotalApprove}
-        settrackChanges = {settrackChanges}
+        settrackChanges={settrackChanges}
       />
       {modal ? (
         <Modal modalHandler={modalHandler}>
-          <AddBand settrackChanges={settrackChanges}/>
+          <AddBand settrackChanges={settrackChanges} />
         </Modal>
       ) : (
         ""

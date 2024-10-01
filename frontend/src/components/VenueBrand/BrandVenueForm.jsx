@@ -1,24 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./BrandVenueForm.module.css";
 import Upload from "../SVGcomponent/Upload";
 
-const BrandVenueForm = ({ formData, setFormData,text1,text2}) => {
+const BrandVenueForm = ({ formData, setFormData, text1, text2 }) => {
+  const [image, setImage] = useState(null);
+  const [image2, setImage2] = useState(null);
+
+  const formHandler = (e) => {
+    const file = e.target.files[0];
+    setFormData((formData) => ({
+      ...formData,
+      image1: file, // Save file in formData
+    }));
+    setImage(file); // Directly set image for preview
+  };
+
+  const formHandler2 = (e) => {
+    const file = e.target.files[0];
+    setFormData((formData) => ({
+      ...formData,
+      image2: file, // Save file in formData
+    }));
+    setImage2(file); // Directly set image for preview
+  };
+
   return (
     <div className={`${styles.formContainer}`}>
       <form className={`${styles.form}`}>
         <div className={`${styles.inputContainer}`}>
           <div className="w-full">
             <label>Homepage</label>
-            <input placeholder="Add web link" className={`${styles.input}`} 
-            value={formData.homepage}
-            onChange={(e) =>
-              setFormData((formData) => ({
-                ...formData,
-                homepage: e.target.value,
-              }))
-            }
-            required
-              />
+            <input
+              placeholder="Add web link"
+              className={`${styles.input}`}
+              value={formData.homepage}
+              onChange={(e) =>
+                setFormData((formData) => ({
+                  ...formData,
+                  homepage: e.target.value,
+                }))
+              }
+              required
+            />
           </div>
 
           <div className="w-full">
@@ -76,37 +99,42 @@ const BrandVenueForm = ({ formData, setFormData,text1,text2}) => {
           <label className={styles.label}>Image 400px X 400px</label>
           <div className={`${styles.inputContainer}`}>
             <div className={`${styles.upload}`}>
-              <div className={styles.uploadContainer}>
-                <Upload />
-                <p className={styles.uploadText}>Upload image 1</p>
-              </div>
+              {image ? (
+                <img
+                  src={URL.createObjectURL(image)}
+                  className={`w-[100%] h-[70px] rounded-md  object-cover mx-auto`}
+                />
+              ) : (
+                <div className={styles.uploadContainer}>
+                  <Upload />
+                  <p className={styles.uploadText}>Upload image 1</p>
+                </div>
+              )}
+
               <input
                 type="file"
                 className={styles.uploadBox}
-                onChange={(e) =>
-                  setFormData((formData) => ({
-                    ...formData,
-                    image1: e.target.files[0], // Handle file selection
-                  }))
-                }
+                onChange={formHandler}
                 required
               />
             </div>
 
             <div className={`${styles.upload}`}>
-              <div className={styles.uploadContainer}>
-                <Upload />
-                <p className={styles.uploadText}>Upload image 2</p>
-              </div>
+              {image2 ? (
+                <img
+                  src={URL.createObjectURL(image2)}
+                  className={`w-[100%] h-[70px] rounded-md  object-cover mx-auto`}
+                />
+              ) : (
+                <div className={styles.uploadContainer}>
+                  <Upload />
+                  <p className={styles.uploadText}>Upload image 2</p>
+                </div>
+              )}
               <input
                 type="file"
                 className={styles.uploadBox}
-                onChange={(e) =>
-                  setFormData((formData) => ({
-                    ...formData,
-                    image2: e.target.files[0], // Handle file selection
-                  }))
-                }
+                onChange={formHandler2}
                 required
               />
             </div>
