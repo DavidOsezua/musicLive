@@ -7,12 +7,12 @@ from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlmodel import select, update
 from db.database import get_session
 from sqlmodel.ext.asyncio.session import AsyncSession
-from src.schema import Band_, Venue_, Contact
+from src.schema import Band_, Venue_, Contact,Ads_
 from src import uploads
 from typing import List, Optional
 from http import HTTPStatus
 from src import exceptions
-from db.table import Venue, Band
+from db.table import Venue, Band,Ads
 from sqlalchemy import func
 from datetime import timezone
 from dateutil import parser
@@ -23,15 +23,115 @@ import datetime
 api_router = APIRouter(prefix="/api/v1", tags=["api"])
 
 
-def validate_image_size(image: UploadFile):
+def validate_image_size(image: UploadFile,image_size:tuple):
     try:
         img = Image.open(io.BytesIO(image.file.read()))
-        if img.size != (400, 400):
-            raise exceptions.BadRequest(f"{image.filename} is not 400x400 pixels")
+        # if img.size != (400, 400):
+        if img.size != image_size:
+            raise exceptions.BadRequest(f"{image.filename} is not {image_size[0]}x{image_size[-1]} pixels")
         image.file.seek(0)
     except Exception as e:
         raise exceptions.BadRequest(f"{str(e)}")
+    
 
+
+@api_router.get("/ads", response_model=List[Ads])
+async def get_ads(session: AsyncSession = Depends(get_session)) -> Ads:
+    query = select(Ads)
+    result = await session.exec(query)
+    bands = result.fetchall()
+    return [dict(row) for row in bands]
+
+
+@api_router.delete("/ads/{ads_id}", response_model=Ads)
+async def delete_user_ads(
+    ads_id: str, session: AsyncSession = Depends(get_session)
+):
+    ads = await session.get(Ads, ads_id)
+    if not ads:
+        raise HTTPException(
+            status_code=HTTPStatus.NO_CONTENT.value, detail="Ads not found"
+        )
+    await session.delete(ads)
+    await session.commit()
+    return ads
+
+
+
+@api_router.put("/ads/approved/", response_model=List[Ads])
+async def approve_ads(
+    ads_id: str = Query(..., alias="venue_type"),
+    Status: str = Query(..., alias="Status"),
+    session: AsyncSession = Depends(get_session),
+):
+    status_normalized = Status.strip().lower()
+    print(f"Incoming genre_type: {ads_id}")
+    print(f"Incoming status: {Status}")
+    query = select(Ads).where(Ads.id == ads_id)
+    result = await session.exec(query)
+    ads = result.fetchall()
+
+    if not ads:
+        raise HTTPException(status_code=404, detail="No ads found with this type")
+
+    is_approved = status_normalized == "approved"
+    update_query = (
+        update(Ads)
+        .where(Ads.id == ads_id)
+        .values(is_admin_approved=is_approved)
+    )
+
+    await session.exec(update_query)
+    await session.commit()
+
+    updated_query = select(Ads)
+    result = await session.exec(updated_query)
+    updated_ads = result.fetchall()
+
+    if not updated_ads:
+        raise HTTPException(status_code=404, detail="Update failed")
+
+    return updated_ads
+ 
+    
+@api_router.post("/ads")
+async def upload_venue(image1: UploadFile = File(...),
+                       session: AsyncSession = Depends(get_session)):
+    try:
+        image_size = (400, 112)
+        ads_id = shortuuid.uuid()
+        validate_image_size(image1, image_size)
+        image_path = uploads.save_ads_images(ads_id, image1.file)
+        try:
+            ads_data = Ads(id=ads_id, image=image_path)
+            session.add(ads_data)
+            await session.commit()
+            await session.refresh(ads_data)
+            return ads_data
+
+        except OperationalError as oe:
+            await session.rollback()
+            raise HTTPException(status_code=503, detail="Database is currently unreachable.")
+        
+        except ValidationError as ve:
+            await session.rollback()
+            raise HTTPException(status_code=400, detail="Validation error: Unprocessed identity.")
+        
+        except IntegrityError as ie:
+            await session.rollback()
+            raise HTTPException(status_code=400, detail="Database integrity error occurred.")
+        
+        except Exception as e:
+            await session.rollback()
+            raise HTTPException(status_code=400, detail=f"Unable to upload data: {str(e)}")
+    
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=400, detail=f"Error: {str(e)}")
+
+
+
+    
 
 @api_router.post("/venue")
 async def upload_venue(
@@ -51,9 +151,10 @@ async def upload_venue(
     session: AsyncSession = Depends(get_session),
 ) -> Venue_:
     try:
+        image_size = (400, 400)
         venue_id = shortuuid.uuid()
-        validate_image_size(image1)
-        validate_image_size(image2)
+        validate_image_size(image1, image_size)
+        validate_image_size(image2, image_size)
         image_paths = uploads.save_venue_images(venue_id, image1.file, image2.file)
 
         venue_date = parser.parse(date)
@@ -104,6 +205,7 @@ async def upload_venue(
         print(e)
         status_code = getattr(e, "status", 400)
         raise HTTPException(status_code=status_code, detail=f"{str(e)}")
+    
 
 
 @api_router.post("/band")
@@ -121,6 +223,9 @@ async def upload_band(
     session: AsyncSession = Depends(get_session),
 ) -> Band_:
     try:
+        image_size = (400, 400)
+        validate_image_size(image1, image_size)
+        validate_image_size(image2, image_size)
         band_id = shortuuid.uuid()
         image_paths = uploads.save_band_images(band_id, image1.file, image2.file)
         venue_data = Band_(
@@ -192,7 +297,7 @@ async def delete_user_venue(
     venue = await session.get(Venue, venue_id)
     if not venue:
         raise HTTPException(
-            status_code=HTTPStatus.NO_CONTENT.value, detail="Book not found"
+            status_code=HTTPStatus.NO_CONTENT.value, detail="venue not found"
         )
     await session.delete(venue)
     await session.commit()
@@ -204,7 +309,7 @@ async def delete_user_band(band_id: str, session: AsyncSession = Depends(get_ses
     band = await session.get(Band, band_id)
     if not band:
         raise HTTPException(
-            status_code=HTTPStatus.NO_CONTENT.value, detail="Book not found"
+            status_code=HTTPStatus.NO_CONTENT.value, detail="band not found"
         )
     await session.delete(band)
     await session.commit()

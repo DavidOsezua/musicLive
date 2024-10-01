@@ -71,7 +71,7 @@ const Table = ({
   tableHead,
   tableBody,
   setData,
-  totalBand,
+  setTotalData,
   setUserData,
   data,
   currentPage,
@@ -80,7 +80,7 @@ const Table = ({
   handleDelete,
   setFilteredData,
   setTotalApprove,
-  setpending
+  // setpending
 }) => {
   const rowNumber = (currentPage - 1) * itemsPerPage;
   const [statuses, setStatuses] = useState({}); 
@@ -122,20 +122,20 @@ const Table = ({
             setTotalApprove(totalApproved);
   
             const totalDataCount = data.length || 0;
-            totalBand(totalDataCount);
+            setTotalData(totalDataCount);
             
             const pendingCount = totalDataCount - totalApproved;
-            setpending(pendingCount >= 0 ? pendingCount : 0);
+            // setpending(pendingCount >= 0 ? pendingCount : 0);
           } else {
             console.error("No valid data returned from the server.");
             setTotalApprove(0); 
-            setpending(data.length || 0); 
+            // setpending(data.length || 0); 
           }
         }
       } catch (err) {
         console.error("Error updating venue:", err);
         setTotalApprove(0);
-        setpending(data.length || 0);
+        // setpending(data.length || 0);
       }
     };
   

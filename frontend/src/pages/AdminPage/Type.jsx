@@ -18,16 +18,15 @@ import {
 
 const Type = () => {
   const { modal, modalHandler } = useModal();
-  const [approve, setApproved] = useState(0)
-  const [inactive, setinactive] = useState(0)
-  const [totalVenueType, settotalVenueType] = useState(0)
-  const [totalVenueData, settotalVenueData] = useState()
-  const [venue_type_exist, setVenueTypeExist] = useState([]);
+  const [locationPageData, setLocationPageData] = useState([])
+  const [totalData, setTotalData] = useState(0)
+  const [totalApprove, setTotalApprove] = useState(0)
+  const [trackChanges, settrackChanges] = useState(false)
 
   const getAllVenueData = async () => {
     try {
       const res = await api.get("/api/v1/venue");
-      console.log(res.data); // Check API response
+      const adsData = res.data;
   
       let approvedCount = 0;
       const uniqueVenueTypes = [];
@@ -37,7 +36,7 @@ const Type = () => {
           uniqueVenueTypes.push(venue.venue_type);
   
           if (venue.is_admin_approved) {
-            approvedCount += 1;
+            approvedCount++;
           }
   
           const image = venue.venue_type === "Winery" ? wine :
@@ -54,17 +53,11 @@ const Type = () => {
             status: venue.is_admin_approved ? "Approved" : "Inactive"
           };
         }
-        return null; // Return null for duplicate entries
-      }).filter(Boolean); // Remove null entries
-      setVenueTypeExist(uniqueVenueTypes); 
-      const totalVenueType = uniqueVenueTypes.length;
-      settotalVenueType(totalVenueType);
-      setApproved(approvedCount);
-      setinactive(totalVenueType - approvedCount); 
-      settotalVenueData(formattedData);
-      console.log("Approved Count:", approvedCount);
-      console.log("Total Venue Type:", totalVenueType);
-      console.log("Total Venue Data:", formattedData);
+        return null; 
+      }).filter(Boolean); 
+      setTotalData(adsData.length);
+      setTotalApprove(approvedCount)
+      setLocationPageData(formattedData)
     } catch (err) {
       console.log(err);
     }
@@ -73,19 +66,20 @@ const Type = () => {
 
       useEffect(() => {
         getAllVenueData();
-        console.log("Updated locationPageData", totalVenueData);
-      }, [totalVenueType]);
+      }, [totalData,trackChanges]);
+
+  let inactive = totalData - totalApprove
 
   const venueFormData = {
     statusData: [
-      { status: "Total", numbers:totalVenueType , colorID: "total" },
-      { status: "Approve", numbers: approve, colorID: "approve" },
+      { status: "Total", numbers:totalData , colorID: "total" },
+      { status: "Approve", numbers: totalApprove, colorID: "approve" },
       { status: "Inactive", numbers: inactive, colorID: "inactive" },
     ],
   
     status: ["All", "Approved", "Inactive"],
   
-    tableOrCardData:totalVenueData,
+    tableOrCardData:locationPageData,
     numberOfItem: 12,
 };
 
@@ -100,8 +94,13 @@ const Type = () => {
         data={venueFormData}
       />
 
-      <TablesAndCards pageData={venueFormData} pageType={`cardList`} musicType="venue" totalVenueType= {totalVenueType}
-       setApproved={setApproved} setinactive={setinactive} settotalVenueType={settotalVenueType} />
+      <TablesAndCards pageData={venueFormData} 
+      pageType={`cardList`}
+       musicType="venue" 
+       setUserData={setLocationPageData}
+       settrackChanges = {settrackChanges}
+       setTotalData={setTotalData}
+       setTotalApprove={setTotalApprove} />
       {modal ? (
         <Modal modalHandler={modalHandler} component={""}>
           <AddType />

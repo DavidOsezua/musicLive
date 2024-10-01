@@ -14,7 +14,7 @@ asyc_engine = create_async_engine(
 
 async def init_db() -> None:
     async with asyc_engine.begin() as conn:
-        from .table import Band, Venue
+        from .table import Band, Venue,Ads
 
         await conn.run_sync(SQLModel.metadata.create_all)
 

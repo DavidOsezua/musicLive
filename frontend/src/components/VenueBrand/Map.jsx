@@ -80,14 +80,12 @@ const Map = ({ venues }) => {
         const southWest = { lat: Math.min(...lats), lng: Math.min(...lngs) };
 
         setBounds({ northEast, southWest });
-
-        // Center the map between all locations
         setCenter({
           lat: (northEast.lat + southWest.lat) / 2,
           lng: (northEast.lng + southWest.lng) / 2,
         });
 
-        const zoomLevel = locationsData.length === 1 ? 10 : 5; // Zoom closer for a single location
+        const zoomLevel = locationsData.length === 1 ? 10 : 5; 
         setZoom(zoomLevel);
       }
     };
@@ -95,8 +93,8 @@ const Map = ({ venues }) => {
     if (venues.length > 0) {
       fetchLatLngs();
     } else {
-      // If no venues are passed, reset map
       setLocations([]);
+      setLoading(true);
       setCenter({ lat: 0, lng: 0 });
       setZoom(2);
     }

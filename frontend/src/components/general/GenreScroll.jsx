@@ -1,13 +1,17 @@
-import React from 'react'
+import React from 'react';
 import Genre from './Genre';
-import styles from './GenreScroll.module.css'
+import styles from './GenreScroll.module.css';
+import { bands } from '../../data/data';
+import { facebook, instagram, website } from '@/assets';
+import "./ads.css"
 
 const GenreScroll = () => {
   return (
     <div className={styles.check}>
-      <Genre/>
+      <Genre />
+
     </div>
   );
 }
 
-export default GenreScroll
+export default GenreScroll;
