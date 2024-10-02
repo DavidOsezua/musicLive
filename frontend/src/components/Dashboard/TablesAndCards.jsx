@@ -33,24 +33,20 @@ const TablesAndCards = ({
   setTotalApprove,
   settrackChanges,
   musicType,
-
 }) => {
   const { tableOrCardData, status, tableHead, numberOfItem } = pageData;
   const [data, setData] = useState(tableOrCardData || []);
   const [active, setActive] = useState("All");
   const [filteredData, setFilteredData] = useState(tableOrCardData || []);
   const [currentPage, setCurrentPage] = useState(1);
-  const [venueStatus, setvenueStatus] = useState(
-    {
-      venue_type:"",
-      status:"",
-      ID: ""
-    }
-  )
-  const [resultData, setResultData] = useState([])
+  const [venueStatus, setvenueStatus] = useState({
+    venue_type: "",
+    status: "",
+    ID: "",
+  });
+  const [resultData, setResultData] = useState([]);
 
   const itemsPerPage = numberOfItem || 10;
-  // const { modal, modalHandler } = useModal();
 
   useEffect(() => {
     setData(tableOrCardData || []);
@@ -58,12 +54,15 @@ const TablesAndCards = ({
   }, [tableOrCardData]);
 
   // Calculate total number of pages
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  let totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   // Get current items for the current page
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  if (totalPages === 0 && currentPage === 1) {
+    totalPages = 1;
+  }
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -100,32 +99,30 @@ const TablesAndCards = ({
   };
 
   const handleDelete = async (id) => {
-    if (!id ){
-      return
+    if (!id) {
+      return;
     }
     try {
-      let endpoint = ""
+      let endpoint = "";
       if (from === "Band") {
-        endpoint = "/api/v1/band/"
+        endpoint = "/api/v1/band/";
+      } else if (from === "ads") {
+        endpoint = "/api/v1/ads/";
+      } else if (from === "venue") {
+        endpoint = "/api/v1/venue/";
       }
-      else if (from === 'ads'){
-        endpoint = "/api/v1/ads/"
-      }
-      else if (from === "venue"){
-        endpoint = "/api/v1/venue/"
-      }
-    
+
       await api.delete(`${endpoint}${id}`);
       const newData = data.filter((item) => item.ID !== id);
       setData(newData);
       setFilteredData(newData);
       setTotalData(newData.length);
       setUserData((prevData) => prevData.filter((item) => item.ID !== id));
-      settrackChanges(true)
+      settrackChanges(true);
     } catch (err) {
       console.log(err);
       setTotalData(0);
-      settrackChanges(false)
+      settrackChanges(false);
     }
   };
 
@@ -141,19 +138,6 @@ const TablesAndCards = ({
     setPreviewItem(null);
     setIsEditingPreview(false); // Reset editing state when closing
   };
-
-  // const updateItemStatus = (id, newStatus) => {
-  //   setData((prevData) =>
-  //     prevData.map((item) =>
-  //       item.ID === id ? { ...item, status: newStatus } : item
-  //     )
-  //   );
-  //   setFilteredData((prevFilteredData) =>
-  //     prevFilteredData.map((item) =>
-  //       item.ID === id ? { ...item, status: newStatus } : item
-  //     )
-  //   );
-  // };
 
   // Save edited name and details in preview modal
   const handleSavePreview = () => {
@@ -177,7 +161,6 @@ const TablesAndCards = ({
   //   );
   // };
 
-
   // try {
   //   let endpoint = "";
   //   if (tableType === "location") {
@@ -194,73 +177,68 @@ const TablesAndCards = ({
   //       },
   //     });
   useEffect(() => {
-      console.log(venueStatus)
-      console.log(musicType)
-      // if (!venueStatus.venue_type || !venueStatus.status || !venueStatus.ID || !musicType) {
-      //   return;
-      // }
-      const setMusicStatus = async ()=>{  
-     try {
+    console.log(venueStatus);
+    console.log(musicType);
+    // if (!venueStatus.venue_type || !venueStatus.status || !venueStatus.ID || !musicType) {
+    //   return;
+    // }
+    const setMusicStatus = async () => {
+      try {
         let endpoint = "";
         if (musicType === "genre") {
           endpoint = "api/v1/band/approved/";
         } else if (musicType === "venue") {
           endpoint = "api/v1/venue/approved/";
-        }
-        else if (musicType === 'ads'){
+        } else if (musicType === "ads") {
           endpoint = "api/v1/ads/approved/";
         }
-        console.log(endpoint)
+        console.log(endpoint);
         if (endpoint) {
           const res = await api.put(endpoint, null, {
             params: {
-              venue_type: venueStatus.venue_type ? venueStatus.venue_type : venueStatus.ID,
+              venue_type: venueStatus.venue_type
+                ? venueStatus.venue_type
+                : venueStatus.ID,
               Status: venueStatus.status,
-        },
-          })
+            },
+          });
           const uniqueTypes = [];
           let approvedCount = 0;
-          res.data.map((data)=>{
+          res.data.map((data) => {
             if (!uniqueTypes.includes(data.venue_type)) {
               uniqueTypes.push(data.venue_type);
-      
+
               if (data.is_admin_approved) {
                 approvedCount++;
               }
-             
-              
-              } })
-              setTotalData(uniqueTypes.length)
-              setTotalApprove(approvedCount)
-              settrackChanges(true)
-          console.log("result",res.data)
-          setResultData(res.data)
-        };
-  }catch(e){
-      console.log(e)
-      settrackChanges(false)
-  }
-}
-setMusicStatus();
+            }
+          });
+          setTotalData(uniqueTypes.length);
+          setTotalApprove(approvedCount);
+          settrackChanges(true);
+          console.log("result", res.data);
+          setResultData(res.data);
+        }
+      } catch (e) {
+        console.log(e);
+        settrackChanges(false);
+      }
+    };
+    setMusicStatus();
+  }, [venueStatus, musicType]);
 
-    }, [venueStatus,musicType]);
-
-
-
-  const updateItemStatus = (type, newStatus,id) => {
-    setvenueStatus(prevState => ({
-      ...prevState, 
-      venue_type: type
-
+  const updateItemStatus = (type, newStatus, id) => {
+    setvenueStatus((prevState) => ({
+      ...prevState,
+      venue_type: type,
     }));
-    setvenueStatus(prevState => ({
-      ...prevState, 
-      status:newStatus
+    setvenueStatus((prevState) => ({
+      ...prevState,
+      status: newStatus,
     }));
-    setvenueStatus(prevState => ({
-      ...prevState, 
-      ID: id
-
+    setvenueStatus((prevState) => ({
+      ...prevState,
+      ID: id,
     }));
     setData((prevData) =>
       prevData.map((item) =>
@@ -295,11 +273,11 @@ setMusicStatus();
             columnCount={columnCount}
             handleDelete={handleDelete}
             data={data}
-            setUserData = {setUserData}
-            setTotalData = {setTotalData}
-            setData = {setData}
-            setFilteredData = {setFilteredData}
-            setTotalApprove ={setTotalApprove}
+            setUserData={setUserData}
+            setTotalData={setTotalData}
+            setData={setData}
+            setFilteredData={setFilteredData}
+            setTotalApprove={setTotalApprove}
             // setpending={setpending}
           />
         </div>

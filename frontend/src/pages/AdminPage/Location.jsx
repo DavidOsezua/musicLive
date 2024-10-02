@@ -13,7 +13,7 @@ const Location = () => {
   const [totalApprove, setTotalApprove] = useState(0)
   // const [pending, setpending] = useState(0)
   const [trackChanges, settrackChanges] = useState(false)
-  const { modal, modalHandler } = useModal();
+  const { modal, modalHandler } = useModal() || {};
 
   const getAllUserVenueData = async () => {
     try {

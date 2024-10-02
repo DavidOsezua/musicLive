@@ -6,7 +6,7 @@ import Error from "../SVGcomponent/Error";
 import { useModal } from "../../App";
 
 const Failed = ({message}) => {
-  const { modalHandler } = useModal();
+  const { modalHandler } = useModal() || {};
 
   const displayMessage = typeof message === "object" && message?.msg
   ? message.msg

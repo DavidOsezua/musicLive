@@ -17,7 +17,7 @@ import {
 } from "../../assets";
 
 const Type = () => {
-  const { modal, modalHandler } = useModal();
+  const { modal, modalHandler } = useModal() || {};
   const [locationPageData, setLocationPageData] = useState([])
   const [totalData, setTotalData] = useState(0)
   const [totalApprove, setTotalApprove] = useState(0)

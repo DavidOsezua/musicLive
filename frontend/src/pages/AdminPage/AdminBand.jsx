@@ -25,7 +25,7 @@ const AdminBand = () => {
   const [trackChanges, settrackChanges] = useState(false);
   const [totalApprove, setTotalApprove] = useState(0);
   // const [pending, setpending] = useState(0);
-  const { modal, modalHandler } = useModal();
+  const { modal, modalHandler } = useModal() || {};
 
   const getAllUserBandData = async () => {
     try {
