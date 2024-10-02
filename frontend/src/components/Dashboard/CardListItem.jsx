@@ -6,9 +6,25 @@ import styles from "./CardListItem.module.css";
 import { api } from "../../services/api.route";
 import { useModal } from "../../App";
 import Modal from "../general/Modal";
+import ConfirmDelete from "../general/ConfirmDelete";
 
 const CardListItem = ({ item, updateItemStatus, handleDelete }) => {
-  const { modal, modalHandler } = useModal();
+   const [deleteModal, setDeleteModal] = useState(false);
+
+   const deleteHandler = () => {
+     setDeleteModal(true);
+   };
+
+   const cancelDelete = () => {
+     setDeleteModal(false);
+   };
+
+   
+
+   const confirmDelete = () => {
+     handleDelete(item.ID);
+     setDeleteModal(false);
+   };
   const [isToggled, setIsToggled] = useState(false);
   const [status, setStatus] = useState(item.status);
   const handleToggle = async () => {
@@ -46,11 +62,18 @@ const CardListItem = ({ item, updateItemStatus, handleDelete }) => {
 
       <p className="text-center">{item.genreOrType}</p>
 
-      <button className={styles.delete} onClick={() => handleDelete(item.ID)}>
+      <button className={styles.delete} onClick={deleteHandler}>
         <Delete />
       </button>
 
-      {modal && <Modal></Modal>}
+      {deleteModal && (
+        <Modal>
+          <ConfirmDelete
+            confirmDelete={confirmDelete}
+            cancelDelete={cancelDelete}
+          />
+        </Modal>
+      )}
     </div>
   );
 };

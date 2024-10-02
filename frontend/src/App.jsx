@@ -26,9 +26,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 const ModalContext = createContext();
 
 export const useModal = () => useContext(ModalContext);
+export const useDeleteModal = () => useContext(ModalContext);
 
 const App = () => {
   const [modal, setModal] = useState(false);
+
 
   const modalHandler = () => {
     setModal(!modal);
@@ -38,7 +40,12 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <ModalContext.Provider value={{ modal, modalHandler }}>
+      <ModalContext.Provider
+        value={{
+          modal,
+          modalHandler,
+        }}
+      >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Routes>
             {/*********************** MAIN WEBSITE   ******************************/}

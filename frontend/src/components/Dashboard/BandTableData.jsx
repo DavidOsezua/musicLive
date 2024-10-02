@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Table.module.css";
 import Settings from "../SVGcomponent/Settings";
 import Delete from "../SVGcomponent/Delete";
@@ -11,6 +11,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import ConfirmDelete from "../general/ConfirmDelete";
+import { useModal } from "@/App";
+import Modal from "../general/Modal";
 
 const BandTableData = ({
   item,
@@ -21,6 +24,20 @@ const BandTableData = ({
   getBackgroundColor,
   status,
 }) => {
+  const [deleteModal, setDeleteModal] = useState(false);
+
+  const deleteHandler = () => {
+    setDeleteModal(true);
+  };
+
+  const cancelDelete = () => {
+    setDeleteModal(false);
+  };
+
+  const confirmDelete = () => {
+    handleDelete(item.ID);
+    setDeleteModal(false);
+  };
   return (
     <>
       <td className={`${styles.tdStyle}`}>{rowNumber + index + 1}</td>
@@ -51,7 +68,10 @@ const BandTableData = ({
       </td>
 
       <td className={`${styles.tdStyle}`}>
-        <Select onValueChange={(value) => handleSelectChange(value, item,"band")} className="">
+        <Select
+          onValueChange={(value) => handleSelectChange(value, item, "band")}
+          className=""
+        >
           <SelectTrigger className={`${getBackgroundColor()} p-2 rounded-md`}>
             <SelectValue placeholder={status} />
           </SelectTrigger>
@@ -68,7 +88,7 @@ const BandTableData = ({
           <button>
             <Settings />
           </button>
-          <button onClick={() => handleDelete(item.ID)}>
+          <button onClick={deleteHandler}>
             <Delete />
           </button>
           <button>
@@ -76,6 +96,14 @@ const BandTableData = ({
           </button>
         </div>
       </td>
+      {deleteModal && (
+        <Modal>
+          <ConfirmDelete
+            confirmDelete={confirmDelete}
+            cancelDelete={cancelDelete}
+          />
+        </Modal>
+      )}
     </>
   );
 };

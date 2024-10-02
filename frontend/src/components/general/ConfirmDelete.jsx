@@ -4,12 +4,12 @@ import Close from "./Close";
 import Error from "../SVGcomponent/Error";
 import Button from "./Button";
 
-const ConfirmDelete = ({ modalHandler }) => {
+const ConfirmDelete = ({ confirmDelete, cancelDelete }) => {
   return (
     <div className={`${styles.successCard} relative`}>
       <button
         className={`absolute top-[20px] right-[20px]`}
-        onClick={modalHandler}
+        onClick={cancelDelete}
       >
         <Close />
       </button>
@@ -22,13 +22,13 @@ const ConfirmDelete = ({ modalHandler }) => {
           text={`Yes`}
           width={`w-[165px]`}
           radius={`rounded-md`}
-          clickFunction={modalHandler}
+          clickFunction={confirmDelete}
         />
         <Button
           text={`No`}
           width={`w-[165px]`}
           radius={`rounded-md`}
-          clickFunction={modalHandler}
+          clickFunction={cancelDelete}
         />
       </div>
     </div>

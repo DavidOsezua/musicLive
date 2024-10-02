@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Table.module.css";
 import Delete from "../SVGcomponent/Delete";
 import Settings from "../SVGcomponent/Settings";
@@ -11,6 +11,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useModal } from "@/App";
+import Modal from "../general/Modal";
+import ConfirmDelete from "../general/ConfirmDelete";
 
 const LocationTableData = ({
   item,
@@ -21,6 +24,21 @@ const LocationTableData = ({
   getBackgroundColor,
   status,
 }) => {
+  const [deleteModal, setDeleteModal] = useState(false);
+
+  const deleteHandler = () => {
+    setDeleteModal(true);
+  };
+
+  const cancelDelete = () => {
+    setDeleteModal(false);
+  };
+
+  const confirmDelete = () => {
+    handleDelete(item.ID);
+    setDeleteModal(false);
+  };
+
   return (
     <>
       <td className={`${styles.tdStyle}`}>{rowNumber + index + 1}</td>
@@ -54,7 +72,7 @@ const LocationTableData = ({
 
       <td className={`${styles.tdStyle} text-[#FF6665]`}>
         <Select
-          onValueChange={(value) => handleSelectChange(value, item,"location")}
+          onValueChange={(value) => handleSelectChange(value, item, "location")}
           className=""
         >
           <SelectTrigger className={`${getBackgroundColor()} p-2 rounded-md`}>
@@ -73,7 +91,7 @@ const LocationTableData = ({
           <button aria-label="Settings">
             <Settings />
           </button>
-          <button onClick={() => handleDelete(item.ID)} aria-label="Delete">
+          <button onClick={deleteHandler} aria-label="Delete">
             <Delete />
           </button>
           <button aria-label="Preview">
@@ -81,6 +99,15 @@ const LocationTableData = ({
           </button>
         </div>
       </td>
+
+      {deleteModal && (
+        <Modal>
+          <ConfirmDelete
+            confirmDelete={confirmDelete}
+            cancelDelete={cancelDelete}
+          />
+        </Modal>
+      )}
     </>
   );
 };
