@@ -33,11 +33,19 @@ def validate_image_size(image: UploadFile,image_size:tuple):
     except Exception as e:
         raise exceptions.BadRequest(f"{str(e)}")
     
-
-
+    
 @api_router.get("/ads", response_model=List[Ads])
-async def get_ads(session: AsyncSession = Depends(get_session)) -> Ads:
+async def get_ads(session: AsyncSession = Depends(get_session)) -> List[Ads]:
     query = select(Ads)
+    result = await session.exec(query)
+    bands = result.fetchall()
+    return [dict(row) for row in bands]
+
+
+
+@api_router.get("/ads/admin_approved", response_model=List[Ads])
+async def get_approved_ads(session: AsyncSession = Depends(get_session)) -> List[Ads]:
+    query = select(Ads).where(Ads.is_admin_approved == True)
     result = await session.exec(query)
     bands = result.fetchall()
     return [dict(row) for row in bands]
@@ -552,7 +560,6 @@ async def get_band_approved(session: AsyncSession = Depends(get_session)) -> Ban
     query = select(Band).where(Band.is_verified == True)
     result = await session.exec(query)
     bands = result.fetchall()
-    print(result)
     return [dict(row) for row in bands]
 
 
