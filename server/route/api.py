@@ -4,7 +4,7 @@ from PIL import Image
 import io
 from pydantic import ValidationError
 from sqlalchemy.exc import IntegrityError, OperationalError
-from sqlmodel import select, update
+from sqlmodel import select, update,MetaData,and_
 from db.database import get_session
 from sqlmodel.ext.asyncio.session import AsyncSession
 from src.schema import Band_, Venue_, Contact,Ads_
@@ -17,10 +17,41 @@ from sqlalchemy import func
 from datetime import timezone
 from dateutil import parser
 import yagmail
+from db.database import asyc_engine
 import shortuuid
 import datetime
 
 api_router = APIRouter(prefix="/api/v1", tags=["api"])
+
+
+
+@api_router.get("/tables_verified_lengths")
+async def get_tables_verified_lengths(session: AsyncSession = Depends(get_session)):
+    metadata = MetaData()
+    async with asyc_engine.begin() as conn:
+        await conn.run_sync(metadata.reflect)
+
+    table_lengths = {}
+    for table_name, table_obj in metadata.tables.items():
+        total_count_query = select(func.count()).select_from(table_obj)
+        total_count = await session.execute(total_count_query)
+        table_lengths[table_name] = {
+            'total': total_count.scalar()
+        }
+
+        if 'is_admin_approved' in table_obj.c:
+            admin_approved_query = select(func.count()).select_from(table_obj).where(
+                table_obj.c.is_admin_approved == True)
+            admin_approved_count = await session.execute(admin_approved_query)
+            table_lengths[table_name]['admin_approved'] = admin_approved_count.scalar()
+        if 'is_verified' in table_obj.c:
+            verified_query = select(func.count()).select_from(table_obj).where(
+                table_obj.c.is_verified == True)
+            verified_count = await session.execute(verified_query)
+            table_lengths[table_name]['is_verified'] = verified_count.scalar()
+
+    return {key:value for key,value in table_lengths.items()}
+
 
 
 def validate_image_size(image: UploadFile,image_size:tuple):
@@ -136,6 +167,7 @@ async def upload_venue(image1: UploadFile = File(...),
     except Exception as e:
         print(e)
         raise HTTPException(status_code=400, detail=f"Error: {str(e)}")
+    
 
 
 
@@ -390,15 +422,16 @@ async def update_band(
 
 @api_router.put("/venue/approved/", response_model=List[Venue])
 async def approve_venue(
-    venue_type: str = Query(..., alias="venue_type"),
+    # venue_type: str = Query(..., alias="venue_type"),
+    venue_id:str = Query(...,alias="venue_type"),
     Status: str = Query(..., alias="Status"),
     session: AsyncSession = Depends(get_session),
 ):
     status_normalized = Status.strip().lower()
-    venue_type = venue_type.strip()
-    print(f"Incoming genre_type: {venue_type}")
+    venue_id = venue_id.strip()
+    print(f"Incoming genre_type: {venue_id}")
     print(f"Incoming status: {Status}")
-    query = select(Venue).where(func.lower(Venue.venue_type) == venue_type.lower())
+    query = select(Venue).where(func.lower(Venue.id) == venue_id.lower())
     print(f"Query: {query}")
     result = await session.exec(query)
     venues = result.fetchall()
@@ -409,7 +442,7 @@ async def approve_venue(
     is_approved = status_normalized == "approved"
     update_query = (
         update(Venue)
-        .where(func.lower(Venue.venue_type) == venue_type.lower())
+        .where(func.lower(Venue.id) == venue_id.lower())
         .values(is_admin_approved=is_approved)
     )
 
@@ -428,13 +461,13 @@ async def approve_venue(
 
 @api_router.put("/band/approved/", response_model=List[Band])
 async def approve_band(
-    genre_type: str = Query(..., alias="venue_type"),
+    genre_id: str = Query(..., alias="venue_type"),
     Status: str = Query(..., alias="Status"),
     session: AsyncSession = Depends(get_session),
 ):
     status_normalized = Status.strip().lower()
-    genre_type = genre_type.strip()
-    query = select(Band).where(Band.genre_type == genre_type)
+    genre_id = genre_id.strip()
+    query = select(Band).where(Band.id == genre_id)
     result = await session.exec(query)
     bands = result.fetchall()
 
@@ -446,7 +479,7 @@ async def approve_band(
 
     update_query = (
         update(Band)
-        .where(Band.genre_type == genre_type)
+        .where(Band.id == genre_id)
         .values(is_admin_approved=is_approved)
     )
     await session.exec(update_query)

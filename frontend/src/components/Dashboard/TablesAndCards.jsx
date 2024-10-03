@@ -179,7 +179,7 @@ const TablesAndCards = ({
   useEffect(() => {
     console.log(venueStatus);
     console.log(musicType);
-    if (!venueStatus.venue_type || !venueStatus.status || !venueStatus.ID || !musicType) {
+    if (!venueStatus.status || !venueStatus.ID || !musicType) {
       return;
     }
     const setMusicStatus = async () => {
@@ -196,9 +196,7 @@ const TablesAndCards = ({
         if (endpoint) {
           const res = await api.put(endpoint, null, {
             params: {
-              venue_type: venueStatus.venue_type
-                ? venueStatus.venue_type
-                : venueStatus.ID,
+              venue_type: venueStatus.ID,
               Status: venueStatus.status,
             },
           });
