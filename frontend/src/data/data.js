@@ -62,7 +62,7 @@ export const sideBarLinks = [
   { link: "Bands", path: "adminband" },
   { link: "Genre", path: "admingenre" },
   { link: "Ads", path: "ads" },
-  { link: "Email Templates", path: "emailtemplates" },
+  
 ];
 
 export const footerLinks = [
