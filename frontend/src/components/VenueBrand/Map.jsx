@@ -38,10 +38,10 @@ const Map = ({ venues }) => {
           name: address,
           image: venue_type === "Winery" ? wine :
             venue_type === "Resturant" ? resturant :
-            venue_type === "Brewery" ? brewery :
-            venue_type === "Bar" ? Bar :
-            venue_type === "Night" ? night :
-            venue_type === "Outdoor" ? outdoorStage : "",
+              venue_type === "Brewery" ? brewery :
+                venue_type === "Bar" ? Bar :
+                  venue_type === "Night" ? night :
+                    venue_type === "Outdoor" ? outdoorStage : "",
         };
       } else {
         console.error(`No results found for address: ${address}`);
@@ -54,7 +54,7 @@ const Map = ({ venues }) => {
 
   useEffect(() => {
     const fetchLatLngs = async () => {
-      setLocations([]); // Clear locations on new venue data
+      setLocations([]);
       setFailedAddresses([]);
       setLoading(true);
 
@@ -63,6 +63,7 @@ const Map = ({ venues }) => {
 
       for (const venue of venues) {
         const latLng = await getLatLngFromAddress(venue.address, venue.venue_type);
+        console.log(latLng)
         if (latLng) {
           locationsData.push(latLng);
         } else {
@@ -88,7 +89,7 @@ const Map = ({ venues }) => {
           lng: (northEast.lng + southWest.lng) / 2,
         });
 
-        const zoomLevel = locationsData.length === 1 ? 10 : 5; 
+        const zoomLevel = locationsData.length === 1 ? 10 : 5;
         setZoom(zoomLevel);
       }
     };
@@ -105,47 +106,43 @@ const Map = ({ venues }) => {
 
   return (
     <div className="w-full h-full">
-      {loading ? (
-        <p>Loading venue locations...</p>
-      ) : (
-        <>
-          {failedAddresses.length > 0 && (
-            <div className="error-message">
-              <p>The following addresses could not be located:</p>
-              <ul>
-                {failedAddresses.map((address, index) => (
-                  <li key={index}>{address}</li>
-                ))}
-              </ul>
-            </div>
-          )}
+      <>
+        {/* {failedAddresses.length > 0 && (
+          <div className="error-message">
+            <p>The following addresses could not be located:</p>
+            <ul>
+              {failedAddresses.map((address, index) => (
+                <li key={index}>{address}</li>
+              ))}
+            </ul>
+          </div>
+        )} */}
 
-          <GoogleMapReact
-            bootstrapURLKeys={{ key: apiKey }}
-            center={center}
-            zoom={zoom}
-            yesIWantToUseGoogleMapApiInternals
-            onGoogleApiLoaded={({ map, maps }) => {
-              if (bounds) {
-                const googleBounds = new maps.LatLngBounds();
-                googleBounds.extend(new maps.LatLng(bounds.northEast.lat, bounds.northEast.lng));
-                googleBounds.extend(new maps.LatLng(bounds.southWest.lat, bounds.southWest.lng));
-                map.fitBounds(googleBounds); // Fit all locations within the map
-              }
-            }}
-          >
-            {locations.map((loc, index) => (
-              <LocationPin
-                key={index}
-                lat={loc.lat}
-                lng={loc.lng}
-                text={loc.name}
-                image={loc.image}
-              />
-            ))}
-          </GoogleMapReact>
-        </>
-      )}
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: apiKey }}
+          center={center}
+          zoom={zoom}
+          yesIWantToUseGoogleMapApiInternals
+          onGoogleApiLoaded={({ map, maps }) => {
+            if (bounds) {
+              const googleBounds = new maps.LatLngBounds();
+              googleBounds.extend(new maps.LatLng(bounds.northEast.lat, bounds.northEast.lng));
+              googleBounds.extend(new maps.LatLng(bounds.southWest.lat, bounds.southWest.lng));
+              map.fitBounds(googleBounds); // Fit all locations within the map
+            }
+          }}
+        >
+          {locations.map((loc, index) => (
+            <LocationPin
+              key={index}
+              lat={loc.lat}
+              lng={loc.lng}
+              text={loc.name}
+              image={loc.image}
+            />
+          ))}
+        </GoogleMapReact>
+      </>
     </div>
   );
 };

@@ -628,18 +628,12 @@ async def search(
         query = query.where(func.lower(Venue.venue_type) == venue_type)
 
     if not (name or venue_type):
-        raise HTTPException(
-            status_code=HTTPStatus.BAD_REQUEST,
-            detail="You must provide at least one of the following: name, venue type, or genre type.",
-        )
+        return []
 
     result = await session.exec(query)
     venues = result.fetchall()
     if not venues:
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND,
-            detail="No venue found matching this search criteria.",
-        )
+        return []
 
     return venues
 
@@ -669,17 +663,11 @@ async def search(
         query = query.where(func.lower(Band.genre_type) == genre_type)
 
     if not (name or genre_type):
-        raise HTTPException(
-            status_code=HTTPStatus.BAD_REQUEST,
-            detail="You must provide at least one of the following: name, band type, or genre type.",
-        )
+        return []
 
     result = await session.exec(query)
     band = result.fetchall()
     if not band:
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND,
-            detail="No venue found matching this search criteria.",
-        )
+       return []
 
     return band

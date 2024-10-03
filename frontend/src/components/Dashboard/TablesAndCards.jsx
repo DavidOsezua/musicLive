@@ -179,7 +179,7 @@ const TablesAndCards = ({
   useEffect(() => {
     console.log(venueStatus);
     console.log(musicType);
-    if (!venueStatus.status || !venueStatus.ID || !musicType) {
+    if (!venueStatus.status || !venueStatus.ID) {
       return;
     }
     const setMusicStatus = async () => {
