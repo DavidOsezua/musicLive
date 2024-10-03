@@ -179,9 +179,9 @@ const TablesAndCards = ({
   useEffect(() => {
     console.log(venueStatus);
     console.log(musicType);
-    // if (!venueStatus.venue_type || !venueStatus.status || !venueStatus.ID || !musicType) {
-    //   return;
-    // }
+    if (!venueStatus.venue_type || !venueStatus.status || !venueStatus.ID || !musicType) {
+      return;
+    }
     const setMusicStatus = async () => {
       try {
         let endpoint = "";
@@ -278,7 +278,7 @@ const TablesAndCards = ({
             setData={setData}
             setFilteredData={setFilteredData}
             setTotalApprove={setTotalApprove}
-            // setpending={setpending}
+          // setpending={setpending}
           />
         </div>
       ) : (

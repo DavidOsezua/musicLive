@@ -31,15 +31,15 @@ const AdminGenre = () => {
 
   const getAllBandData = async () => {
     try {
-      const res = await api.get("/api/v1/band"); 
+      const res = await api.get("/api/v1/band");
       const adsData = res.data;
       let approvedCount = 0;
       const uniqueTypes = [];
 
       const formattedData = res.data
         .map((band) => {
-          if (!uniqueTypes.includes(band.genre_type)) {
-            uniqueTypes.push(band.genre_type);
+          if (true) {
+            // uniqueTypes.push(band.genre_type);
 
             if (band.is_admin_approved) {
               approvedCount++;
@@ -49,24 +49,24 @@ const AdminGenre = () => {
               band.genre_type === "Rock"
                 ? rock
                 : band.genre_type === "Jazz"
-                ? jazz
-                : band.genre_type === "Blues"
-                ? blues
-                : band.genre_type === "Pop"
-                ? pop
-                : band.genre_type === "Urban"
-                ? urban
-                : band.genre_type === "Acoustic"
-                ? Acoustic
-                : band.genre_type === "Raggae"
-                ? raggae
-                : band.genre_type === "Country"
-                ? country
-                : band.genre_type === "Metal"
-                ? metal
-                : band.genre_type === "Dance"
-                ? dance
-                : "";
+                  ? jazz
+                  : band.genre_type === "Blues"
+                    ? blues
+                    : band.genre_type === "Pop"
+                      ? pop
+                      : band.genre_type === "Urban"
+                        ? urban
+                        : band.genre_type === "Acoustic"
+                          ? Acoustic
+                          : band.genre_type === "Raggae"
+                            ? raggae
+                            : band.genre_type === "Country"
+                              ? country
+                              : band.genre_type === "Metal"
+                                ? metal
+                                : band.genre_type === "Dance"
+                                  ? dance
+                                  : "";
 
             return {
               ID: band.id,
@@ -78,9 +78,9 @@ const AdminGenre = () => {
           return null; // Return null for duplicate entries
         })
         .filter(Boolean); // Remove null entries
-        setTotalData(adsData.length);
-        setTotalApprove(approvedCount)
-        setLocationPageData(formattedData)
+      setTotalData(adsData.length);
+      setTotalApprove(approvedCount)
+      setLocationPageData(formattedData)
     } catch (err) {
       console.log(err);
     }
@@ -88,7 +88,7 @@ const AdminGenre = () => {
 
   useEffect(() => {
     getAllBandData();
-  }, [totalData,trackChanges]);
+  }, [totalData, trackChanges]);
 
 
 
@@ -121,7 +121,7 @@ const AdminGenre = () => {
         pageType={`cardList`}
         musicType="genre"
         setUserData={setLocationPageData}
-        settrackChanges = {settrackChanges}
+        settrackChanges={settrackChanges}
         setTotalData={setTotalData}
         setTotalApprove={setTotalApprove}
       />
