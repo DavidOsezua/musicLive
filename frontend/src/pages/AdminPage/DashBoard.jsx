@@ -158,8 +158,8 @@ const DashBoard = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <p className="text-[2rem] font-semibold">5000</p>
-            <p className="text-[#437CF3]">+30</p>
+            <p className="text-[2rem] font-semibold">0</p>
+            <p className="text-[#437CF3]">+0</p>
             <p className="text-[#437CF3]">New</p>
           </div>
 
@@ -177,8 +177,8 @@ const DashBoard = () => {
 
         <div className={`${styles.csvRecent}`}>
           <h3>Recents</h3>
-          <CsvRecent title={`Bands`} buttonText={`Send Details`} numberOfRequests={`+42 new request`} />
-          <CsvRecent title={`Venue`} buttonText={`Send Details`} numberOfRequests={`+42 new request`} />
+          <CsvRecent title={`Bands`} buttonText={`Send Details`} numberOfRequests={`+0 new request`} />
+          <CsvRecent title={`Venue`} buttonText={`Send Details`} numberOfRequests={`+0 new request`} />
         </div>
       </div>
       {selectedCard && <Modal2 selectedCard={selectedCard} modalHandler={cardHandler} />}

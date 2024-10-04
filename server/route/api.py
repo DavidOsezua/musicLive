@@ -19,7 +19,7 @@ from dateutil import parser
 import yagmail
 from db.database import asyc_engine
 import shortuuid
-import datetime
+from datetime import datetime
 
 api_router = APIRouter(prefix="/api/v1", tags=["api"])
 
@@ -608,15 +608,51 @@ async def get_venue_approved(session: AsyncSession = Depends(get_session)) -> Ve
 async def search(
     name: Optional[str] = Query(default=None),
     venue_type: Optional[str] = Query(default=None),
-    # genre_type: Optional[str] = Query(default=None),
+    location: Optional[str] = Query(default=None),
+    date: Optional[str] = Query(default=None),
     session: AsyncSession = Depends(get_session),
 ):
     query = select(Venue).where(Venue.is_admin_approved == True)
+    
     if name and venue_type:
         name = name.strip().lower()
+        venue_type = venue_type.strip().lower()
         query = query.where(
             func.lower(Venue.name).contains(name),
             func.lower(Venue.venue_type) == venue_type,
+        )
+
+    # elif location and date:
+        
+    #     try:
+    #         dt = parser.isoparse(date.strip("'"))
+    #         formatted_date = dt.strftime("%Y-%m-%d 00:00:00") 
+    #     except ValueError as e:
+    #         print(e)
+    #         return []
+        
+    #     location = location.strip().lower()
+    #     query = query.where(
+    #         func.lower(Venue.address).contains(location),
+    #         func.lower(Venue.venue_date).contains(formatted_date)   
+    #     )
+    
+    elif location:
+        location = location.strip().lower()
+        query = query.where(func.lower(Venue.address).contains(location))
+        
+        
+        
+    elif date:
+        try: 
+            dt = parser.isoparse(date.strip("'"))
+            formatted_date = dt.strftime("%Y-%m-%d 00:00:00") 
+            print("formated date", formatted_date)
+        except ValueError as e:
+            print(e)
+            return []
+        query = query.where(
+            func.lower(Venue.venue_date).contains(formatted_date)
         )
 
     elif name:
@@ -626,16 +662,17 @@ async def search(
     elif venue_type:
         venue_type = venue_type.strip().lower()
         query = query.where(func.lower(Venue.venue_type) == venue_type)
-
-    if not (name or venue_type):
+        
+    if not (name or venue_type or location or date):
         return []
+
 
     result = await session.exec(query)
     venues = result.fetchall()
-    if not venues:
-        return []
+    print(venues)
+    return venues if venues else []
 
-    return venues
+
 
 
 @api_router.get("/band/search", response_model=List[Band])

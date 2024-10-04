@@ -7,22 +7,26 @@ import Button from "../../components/general/Button";
 // import { desktopMap } from "../../assets";
 import Map from "../../components/VenueBrand/Map";
 import Dropdown from "../../components/general/Dropdown";
-import { facebook,instagram,website } from "../../assets";
-import {Url,api} from "../../services/api.route"
+import { facebook, instagram, website } from "../../assets";
+import { Url, api } from "../../services/api.route"
+import { useLocation } from "react-router-dom";
 
 
 const Venues = () => {
-  const [form,setForm] = useState(
+  const [form, setForm] = useState(
     {
-      venue_type:""
+      venue_type: ""
     })
   const [dropdown, setDropDown] = useState(false);
   const [tokenState, setTokenState] = useState("USDT");
   const [venues, setVenues] = useState([])
   const [isInputempty, setisInputempty] = useState(false)
-  const [searchData,setSearchData] = useState({
-    name:""
+  const [searchData, setSearchData] = useState({
+    name: ""
   })
+  const location = useLocation();
+  const { date, location: selectedLocation } = location.state || {};
+  console.log(date, selectedLocation)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -36,7 +40,7 @@ const Venues = () => {
       setisInputempty(true)
       return
     }
-    else{
+    else {
       setisInputempty(false)
     }
   };
@@ -48,7 +52,7 @@ const Venues = () => {
       ...prevData,
       genre_type: selectedGenres[0].genreOrType,
     }));
-    closeDropdown(); 
+    closeDropdown();
   };
 
 
@@ -57,20 +61,22 @@ const Venues = () => {
       ...prevData,
       venue_type: selectedGenres[0].genreOrType,
     }));
-    closeDropdown(); 
+    closeDropdown();
   };
 
-  
+
   useEffect(() => {
     console.log("The search data is:", searchData);
     console.log("The form state has been updated:", form);
-  
+
     const getAllUserBandsWithAdminApproved = async () => {
       try {
         const response = await api.get("/api/v1/venue/search", {
           params: {
             name: searchData.name || "",
-            venue_type: form.venue_type || ""
+            venue_type: form.venue_type || "",
+            location: selectedLocation,
+            date: date
           }
         });
         console.log(response.data);
@@ -81,22 +87,22 @@ const Venues = () => {
         setVenues([])
       }
     };
-  
+
     getAllUserBandsWithAdminApproved();
   }, [searchData, form]);
 
 
 
 
-  useEffect(()=>{
-    
-    const getAlluserVenue = async ()=>{
-      try{
+  useEffect(() => {
+
+    const getAlluserVenue = async () => {
+      try {
         const response = await api.get("/api/v1/venue/approved")
         console.log(response.data)
         setVenues(response.data)
-       
-      }catch (error) {
+
+      } catch (error) {
         console.error("Error occur when getting the user venue:", error);
         setVenues([])
         // toast.error(error|| "An unexpected error occurred");
@@ -120,19 +126,19 @@ const Venues = () => {
     <>
       <section className={`${styles.venueSection} transition`}>
         <div className={`${styles.search} px-[1rem] `}>
-          <Search showDropdown={showDropdown} searchData={searchData} handleInputChange={handleInputChange}/>
-          
+          <Search showDropdown={showDropdown} searchData={searchData} handleInputChange={handleInputChange} />
+
           {dropdown && (
             <Dropdown
-            data={venueType}
-            setGenre={handleGenre}
-            closeDropdown={closeDropdown}
+              data={venueType}
+              setGenre={handleGenre}
+              closeDropdown={closeDropdown}
             />
           )}
         </div>
 
         <div className={`${styles.map} px-0 `}>
-          <Map venues={venues}/>
+          <Map venues={venues} />
         </div>
 
         {/******** BANDS DETAILS  *********/}
@@ -151,34 +157,34 @@ const Venues = () => {
             </div>
           ))}
         </div> */}
-            <div className={`${styles.bandDetailsContainer}`}>
-            {venues.map((venue) => (
-              <div key={venue.id} className={`${styles.bandDetail}`}>
-                <a href={`${venue.homepage}`} target="_blank" rel="noopener noreferrer">
+        <div className={`${styles.bandDetailsContainer}`}>
+          {venues.map((venue) => (
+            <div key={venue.id} className={`${styles.bandDetail}`}>
+              <a href={`${venue.homepage}`} target="_blank" rel="noopener noreferrer">
                 <img
                   src={`${Url}/${venue.image1}`}
                   alt={`${venue.name} image 1`}
                   className={`${Url}/${styles.image}`}
                 />
-                 </a>
+              </a>
 
-                <span>{venue.venue_type}</span>
-                <h1 className={`${styles.bandName}`}>{String(venue.name).charAt(0).toUpperCase() + String(venue.name.slice(1))}</h1>
+              <span>{venue.venue_type}</span>
+              <h1 className={`${styles.bandName}`}>{String(venue.name).charAt(0).toUpperCase() + String(venue.name.slice(1))}</h1>
 
-                <div className={`${styles.socials}`}>
-                  <a href={venue.facebook_url} target="_blank" rel="noopener noreferrer">
-                    <img src={facebook} alt="Facebook" key={1} />
-                  </a>
-                  <a href={venue.instagram_url} target="_blank" rel="noopener noreferrer">
-                    <img src={instagram} alt="Instagram" key={2} />
-                  </a>
-                  <a href={venue.youtube_url} target="_blank" rel="noopener noreferrer">
-                    <img src={website} alt="YouTube" key={3}/>
-                  </a>
-                </div>
+              <div className={`${styles.socials}`}>
+                <a href={venue.facebook_url} target="_blank" rel="noopener noreferrer">
+                  <img src={facebook} alt="Facebook" key={1} />
+                </a>
+                <a href={venue.instagram_url} target="_blank" rel="noopener noreferrer">
+                  <img src={instagram} alt="Instagram" key={2} />
+                </a>
+                <a href={venue.youtube_url} target="_blank" rel="noopener noreferrer">
+                  <img src={website} alt="YouTube" key={3} />
+                </a>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
 
         <div className={`flex flex-col items-center ${styles.showMore}`}>
           <p className={`text-[#0A2259] pb-4`}>
