@@ -26,7 +26,7 @@ const Venues = () => {
   })
   const location = useLocation();
   const { date, location: selectedLocation } = location.state || {};
-  console.log(date, selectedLocation)
+  // console.log(date, selectedLocation)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -66,8 +66,8 @@ const Venues = () => {
 
 
   useEffect(() => {
-    console.log("The search data is:", searchData);
-    console.log("The form state has been updated:", form);
+    // console.log("The search data is:", searchData);
+    // console.log("The form state has been updated:", form);
 
     const getAllUserBandsWithAdminApproved = async () => {
       try {
@@ -79,7 +79,7 @@ const Venues = () => {
             date: date
           }
         });
-        console.log(response.data);
+        // console.log(response.data);
         setVenues(response.data);
       } catch (error) {
         console.error("Error occurred when getting the user band:", error);
@@ -99,7 +99,7 @@ const Venues = () => {
     const getAlluserVenue = async () => {
       try {
         const response = await api.get("/api/v1/venue/approved")
-        console.log(response.data)
+        // console.log(response.data)
         setVenues(response.data)
 
       } catch (error) {
