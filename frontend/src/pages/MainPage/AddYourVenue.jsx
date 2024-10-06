@@ -8,9 +8,11 @@ import { useModal } from "../../App";
 import Success from "../../components/general/Success";
 import Failed from "../../components/general/Failed";
 import Modal from "../../components/general/Modal";
+import Loader from "@/components/general/Loader";
 
 const AddYourVenue = () => {
-  const [message, setMessage] = useState()
+  const [message, setMessage] = useState();
+  const [loader, setLoader] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -64,9 +66,10 @@ const AddYourVenue = () => {
   const handleSubmit = async () => {
     console.log(formData);
 
-    console.log(formData.time)
-    console.log(formData.date)
-    // return 
+    console.log(formData.time);
+    console.log(formData.date);
+    setLoader(true);
+    // return
     if (validateStep(1)) {
       const dataForm = new FormData();
       dataForm.append("name", formData.name);
@@ -85,21 +88,21 @@ const AddYourVenue = () => {
       try {
         await uploadUservenue(dataForm);
         setIssubmitted(true);
-        setMessage("Venue uploaded successfully!")
+        setMessage("Venue uploaded successfully!");
         setError(false);
-        modalHandler()
+        modalHandler();
       } catch (e) {
         setMessage(e.response.data.detail || "Form validation failed");
         setIssubmitted(false);
         setError(true);
-        console.error("error",e.response.data.detail)
-        modalHandler()
+        console.error("error", e.response.data.detail);
+        modalHandler();
         //inplement the catching error card here
       }
     } else {
       setError(true);
       setMessage("Form validation failed");
-      modalHandler()
+      modalHandler();
       // implement the error rendering here
     }
   };
@@ -109,8 +112,8 @@ const AddYourVenue = () => {
       <MultiFormPage
         sectionClass={`section p-0 transition`}
         containerClass={`sectionContainer`}
-        error = {error}
-        setError = {setError}
+        error={error}
+        setError={setError}
         stepContent={[
           <VenueForm
             key={"one"}
@@ -134,14 +137,24 @@ const AddYourVenue = () => {
         headerText={`Add your venue`}
         formHeaderText={`Tell Us About Your Venue!`}
       />
+
+      {loader && (
+        <Modal>
+          <Loader />
+        </Modal>
+      )}
       {/* Conditionally render success or failure modal */}
       {modal && (
         <Modal>
           {isSubmitted ? (
-             <Success modalHandler={modalHandler} message={message} description="Venue under review, you will be notify via email once it approved"/>
-            ) : (
-              <Failed modalHandler={modalHandler} message={message}/>
-            )}
+            <Success
+              modalHandler={modalHandler}
+              message={message}
+              description="Venue under review, you will be notify via email once it approved"
+            />
+          ) : (
+            <Failed modalHandler={modalHandler} message={message} />
+          )}
         </Modal>
       )}
     </>

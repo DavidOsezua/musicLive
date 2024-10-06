@@ -35,26 +35,7 @@ const ProgressBar = ({ progress, currentProgress, stepNames }) => {
                 i !== currentProgress && i < currentProgress ? "completed" : ""
               }`}
             ></div>
-            <div
-              className={`progress-line ${
-                i !== currentProgress && i < currentProgress ? "completed" : ""
-              }`}
-            ></div>
-            <div
-              className={`progress-line ${
-                i !== currentProgress && i < currentProgress ? "completed" : ""
-              }`}
-            ></div>
-            <div
-              className={`progress-line ${
-                i !== currentProgress && i < currentProgress ? "completed" : ""
-              }`}
-            ></div>
-            <div
-              className={`progress-line ${
-                i !== currentProgress && i < currentProgress ? "completed" : ""
-              }`}
-            ></div>
+
             <div
               className={`progress-line ${
                 i !== currentProgress && i < currentProgress ? "completed" : ""

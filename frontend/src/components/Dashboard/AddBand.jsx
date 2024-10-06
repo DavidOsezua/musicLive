@@ -129,10 +129,12 @@ import { uploadUserbrand } from "../../pages/MainPage/router";
 import Modal from "../../components/general/Modal";
 import { useModal } from "../../App";
 import Failed from "../../components/general/Failed";
+import Loader from "../general/Loader";
 
 const AddBand = ({ settrackChanges }) => {
-  const { modal, modalHandler } = useModal();
+  const { modal, modalHandler } = useModal() || {};
   const [message, setMessage] = useState();
+  const [loader, setLoader] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -176,6 +178,7 @@ const AddBand = ({ settrackChanges }) => {
 
   const handleSubmit = async () => {
     console.log(formData);
+    setLoader(true);
     if (validateStep(1)) {
       const dataForm = new FormData();
       Object.keys(formData).forEach((key) => {
@@ -184,12 +187,13 @@ const AddBand = ({ settrackChanges }) => {
       try {
         await uploadUserbrand(dataForm);
         setIsSubmitted(true);
-        settrackChanges(true);
+        if (settrackChanges) settrackChanges(true);
         setMessage("Band uploaded successfully!");
         setShowResultModal(true); // Show the result modal
+        setLoader(false);
       } catch (e) {
         setError(e.message);
-        settrackChanges(false);
+        if (settrackChanges) settrackChanges(false);
         setIsSubmitted(false);
         setMessage(e.response?.data?.detail || "Form validation failed");
         setShowResultModal(true); // Show the result modal on failure as well
@@ -227,6 +231,12 @@ const AddBand = ({ settrackChanges }) => {
         onSubmit={handleSubmit}
         validateStep={validateStep}
       />
+
+      {loader && (
+        <Modal modalHandler={modalHandler}>
+          <Loader />
+        </Modal>
+      )}
 
       {showResultModal && (
         <Modal modalHandler={() => setShowResultModal(false)}>

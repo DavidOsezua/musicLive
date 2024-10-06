@@ -7,6 +7,7 @@ import { useModal } from "../../App";
 import Success from "../general/Success";
 import Failed from "../general/Failed";
 import Modal from "../general/Modal";
+import Loader from "../general/Loader";
 
 const AddLocation = ({ settrackChanges }) => {
   const [message, setMessage] = useState();
@@ -26,10 +27,11 @@ const AddLocation = ({ settrackChanges }) => {
     image1: "",
     image2: "",
   });
-  const { modal, modalHandler } = useModal();
+  const { modal, modalHandler } = useModal() || {};
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [loader, setLoader] = useState(false);
 
   const validateStep = (currentStep) => {
     const errors = {};
@@ -63,6 +65,7 @@ const AddLocation = ({ settrackChanges }) => {
 
   const handleSubmit = async () => {
     console.log("the data from admin venue is:", formData);
+    setLoader(true);
     if (validateStep(1)) {
       const dataForm = new FormData();
       Object.keys(formData).forEach((key) => {
@@ -152,6 +155,11 @@ const AddLocation = ({ settrackChanges }) => {
         showPageHeader={false}
         formHeaderText={`Tell Us About Your Band!`}
       />
+      {loader && (
+        <Modal>
+          <Loader />
+        </Modal>
+      )}
 
       {showResultModal && (
         <Modal modalHandler={() => setShowResultModal(false)}>

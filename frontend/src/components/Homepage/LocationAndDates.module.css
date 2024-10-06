@@ -3,8 +3,9 @@
   display: flex;
   align-items: center;
   font-size: 0.7rem;
-  padding: 0.7rem 1rem;
+  padding: 1rem 1rem;
   gap: 10px;
+  position: relative;
 
   background: #ffffff;
   border: 1px solid rgba(38, 89, 195, 0.5);
@@ -25,8 +26,26 @@
 }
 
 .search {
+  /* Ellipse 2 */
+
   position: absolute;
-  right: 1px;
+  width: 45px;
+  height: 45px;
+  right: 0;
+  top: 0;
+  border-radius: 50px;
+  transform: translate(-13%, 13%);
+
+  background: #2659c3;
+}
+
+@media screen and (max-width: 400px) {
+  /* .search {
+    width: 35px;
+    height: 35px;
+
+    transform: translate(-%, %);
+  } */
 }
 
 @media screen and (min-width: 1024px) {
@@ -35,7 +54,7 @@
     max-width: 918px;
     margin-left: auto;
     margin-right: auto;
-     font-size: 1rem;
-  padding: 1rem 1.3rem;
+    font-size: 1rem;
+    padding: 1rem 1.3rem;
   }
 }

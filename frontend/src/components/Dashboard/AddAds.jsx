@@ -1,7 +1,7 @@
 import React from "react";
 import UploadForm from "../general/UploadForm";
 
-const AddAds = () => {
+const AddAds = ({ getAlladsData }) => {
   return (
     <UploadForm
       label1={`Genre`}
@@ -9,6 +9,7 @@ const AddAds = () => {
       iconSize={`Icon 400px X 112px`}
       uploadInstruction={`Upload Ads icon with required information`}
       firstLayer={false}
+      getAlladsData={getAlladsData}
     />
   );
 };

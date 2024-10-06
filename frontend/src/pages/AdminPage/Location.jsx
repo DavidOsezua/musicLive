@@ -80,7 +80,7 @@ const Location = () => {
   };
 
   return (
-    <section className={`adminSection pageContainer`}>
+    <section className={`adminSection pageContainer transition`}>
       <TitleAndStatus
         title={`Venue Location`}
         buttonText={`Add Location`}
@@ -92,16 +92,16 @@ const Location = () => {
         pageData={getuserVenueData}
         pageType={`venue`}
         columnCount={8}
-        setUserData = {setLocationPageData}
+        setUserData={setLocationPageData}
         setTotalData={setTotalData}
         setTotalApprove={setTotalApprove}
-        settrackChanges = {settrackChanges}
+        settrackChanges={settrackChanges}
         // setpending = {setpending}
-        from = {`venue`}
+        from={`venue`}
       />
       {modal ? (
         <Modal modalHandler={modalHandler}>
-          <AddLocation settrackChanges={settrackChanges}/>
+          <AddLocation settrackChanges={settrackChanges} />
         </Modal>
       ) : (
         ""

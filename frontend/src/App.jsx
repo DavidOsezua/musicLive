@@ -30,8 +30,6 @@ export const useDeleteModal = () => useContext(ModalContext);
 
 const App = () => {
   const [modal, setModal] = useState(false);
-
-
   const modalHandler = () => {
     setModal(!modal);
   };
@@ -44,6 +42,7 @@ const App = () => {
         value={{
           modal,
           modalHandler,
+          setModal,
         }}
       >
         <LocalizationProvider dateAdapter={AdapterDayjs}>

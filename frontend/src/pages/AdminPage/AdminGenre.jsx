@@ -108,7 +108,7 @@ const AdminGenre = () => {
     size: "genre",
   };
   return (
-    <section className={` adminSection pageContainer`}>
+    <section className={` adminSection pageContainer transition`}>
       <TitleAndStatus
         title={`Genre`}
         buttonText={`Add genre`}

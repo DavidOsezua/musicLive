@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
 import GoogleMapReact from "google-map-react";
-import { Icon } from '@iconify/react';
-import mapMarker from '@iconify/icons-mdi/map-marker';
+import { Icon } from "@iconify/react";
+import mapMarker from "@iconify/icons-mdi/map-marker";
 // import "./Map.css";
 import "./Map.css";
 import {
-  wine, resturant, Bar, night, outdoorStage, brewery
+  wine,
+  resturant,
+  Bar,
+  night,
+  outdoorStage,
+  brewery,
 } from "../../assets";
 
 const apiKey = import.meta.env.REACT_APP_MAP_API_KEY;
 
 const LocationPin = ({ text, image }) => (
   <div className="pin">
-    <img src={image || ''} className="pin-icon" alt="Venue icon" />
+    <img src={image || ""} className="pin-icon" alt="Venue icon" />
     <p className="pin-text">{text}</p>
   </div>
 );
@@ -26,7 +31,9 @@ const Map = ({ venues }) => {
   const [bounds, setBounds] = useState(null); // Store bounds for fitBounds
 
   const getLatLngFromAddress = async (address, venue_type) => {
-    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json`;
+    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+      address
+    )}&format=json`;
     try {
       const response = await fetch(url);
       const data = await response.json();
@@ -36,12 +43,20 @@ const Map = ({ venues }) => {
           lat: parseFloat(location.lat),
           lng: parseFloat(location.lon),
           name: address,
-          image: venue_type === "Winery" ? wine :
-            venue_type === "Resturant" ? resturant :
-            venue_type === "Brewery" ? brewery :
-            venue_type === "Bar" ? Bar :
-            venue_type === "Night" ? night :
-            venue_type === "Outdoor" ? outdoorStage : "",
+          image:
+            venue_type === "Winery"
+              ? wine
+              : venue_type === "Resturant"
+              ? resturant
+              : venue_type === "Brewery"
+              ? brewery
+              : venue_type === "Bar"
+              ? Bar
+              : venue_type === "Night"
+              ? night
+              : venue_type === "Outdoor"
+              ? outdoorStage
+              : "",
         };
       } else {
         console.error(`No results found for address: ${address}`);
@@ -62,7 +77,10 @@ const Map = ({ venues }) => {
       const failedData = [];
 
       for (const venue of venues) {
-        const latLng = await getLatLngFromAddress(venue.address, venue.venue_type);
+        const latLng = await getLatLngFromAddress(
+          venue.address,
+          venue.venue_type
+        );
         if (latLng) {
           locationsData.push(latLng);
         } else {
@@ -76,8 +94,8 @@ const Map = ({ venues }) => {
 
       // Calculate map bounds for all locations
       if (locationsData.length > 0) {
-        const lats = locationsData.map(loc => loc.lat);
-        const lngs = locationsData.map(loc => loc.lng);
+        const lats = locationsData.map((loc) => loc.lat);
+        const lngs = locationsData.map((loc) => loc.lng);
 
         const northEast = { lat: Math.max(...lats), lng: Math.max(...lngs) };
         const southWest = { lat: Math.min(...lats), lng: Math.min(...lngs) };
@@ -88,7 +106,7 @@ const Map = ({ venues }) => {
           lng: (northEast.lng + southWest.lng) / 2,
         });
 
-        const zoomLevel = locationsData.length === 1 ? 10 : 5; 
+        const zoomLevel = locationsData.length === 1 ? 10 : 5;
         setZoom(zoomLevel);
       }
     };
@@ -128,8 +146,12 @@ const Map = ({ venues }) => {
             onGoogleApiLoaded={({ map, maps }) => {
               if (bounds) {
                 const googleBounds = new maps.LatLngBounds();
-                googleBounds.extend(new maps.LatLng(bounds.northEast.lat, bounds.northEast.lng));
-                googleBounds.extend(new maps.LatLng(bounds.southWest.lat, bounds.southWest.lng));
+                googleBounds.extend(
+                  new maps.LatLng(bounds.northEast.lat, bounds.northEast.lng)
+                );
+                googleBounds.extend(
+                  new maps.LatLng(bounds.southWest.lat, bounds.southWest.lng)
+                );
                 map.fitBounds(googleBounds); // Fit all locations within the map
               }
             }}

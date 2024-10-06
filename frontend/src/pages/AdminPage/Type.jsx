@@ -13,15 +13,15 @@ import {
   Bar,
   night,
   outdoorStage,
-  brewery
+  brewery,
 } from "../../assets";
 
 const Type = () => {
   const { modal, modalHandler } = useModal() || {};
-  const [locationPageData, setLocationPageData] = useState([])
-  const [totalData, setTotalData] = useState(0)
-  const [totalApprove, setTotalApprove] = useState(0)
-  const [trackChanges, settrackChanges] = useState(false)
+  const [locationPageData, setLocationPageData] = useState([]);
+  const [totalData, setTotalData] = useState(0);
+  const [totalApprove, setTotalApprove] = useState(0);
+  const [trackChanges, settrackChanges] = useState(false);
 
   const getAllVenueData = async () => {
     try {
@@ -31,44 +31,53 @@ const Type = () => {
       let approvedCount = 0;
       const uniqueVenueTypes = [];
 
-      const formattedData = res.data.map((venue) => {
-        if (true) {
-          // uniqueVenueTypes.push(venue.venue_type);
+      const formattedData = res.data
+        .map((venue) => {
+          if (true) {
+            // uniqueVenueTypes.push(venue.venue_type);
 
-          if (venue.is_admin_approved) {
-            approvedCount++;
+            if (venue.is_admin_approved) {
+              approvedCount++;
+            }
+
+            const image =
+              venue.venue_type === "Winery"
+                ? wine
+                : venue.venue_type === "Resturant"
+                ? resturant
+                : venue.venue_type === "Brewery"
+                ? brewery
+                : venue.venue_type === "Bar"
+                ? Bar
+                : venue.venue_type === "Night"
+                ? night
+                : venue.venue_type === "Outdoor"
+                ? outdoorStage
+                : "";
+
+            return {
+              ID: venue.id,
+              image: image,
+              genreOrType: venue.venue_type || "",
+              status: venue.is_admin_approved ? "Approved" : "Inactive",
+            };
           }
-
-          const image = venue.venue_type === "Winery" ? wine :
-            venue.venue_type === "Resturant" ? resturant :
-              venue.venue_type === "Brewery" ? brewery :
-                venue.venue_type === "Bar" ? Bar :
-                  venue.venue_type === "Night" ? night :
-                    venue.venue_type === "Outdoor" ? outdoorStage : "";
-
-          return {
-            ID: venue.id,
-            image: image,
-            genreOrType: venue.venue_type || "",
-            status: venue.is_admin_approved ? "Approved" : "Inactive"
-          };
-        }
-        return null;
-      }).filter(Boolean);
+          return null;
+        })
+        .filter(Boolean);
       setTotalData(adsData.length);
-      setTotalApprove(approvedCount)
-      setLocationPageData(formattedData)
+      setTotalApprove(approvedCount);
+      setLocationPageData(formattedData);
     } catch (err) {
       console.log(err);
     }
   };
 
-
   useEffect(() => {
     getAllVenueData();
   }, [totalData, trackChanges]);
 
-  let inactive = totalData - totalApprove
+  let inactive = totalData - totalApprove;
 
   const venueFormData = {
     statusData: [
@@ -83,10 +92,8 @@ const Type = () => {
     numberOfItem: 12,
   };
 
-
-
   return (
-    <section className={` adminSection pageContainer`}>
+    <section className={` adminSection pageContainer transition`}>
       <TitleAndStatus
         title={`Venue Type`}
         buttonText={`Add Type`}
@@ -94,13 +101,15 @@ const Type = () => {
         data={venueFormData}
       />
 
-      <TablesAndCards pageData={venueFormData}
+      <TablesAndCards
+        pageData={venueFormData}
         pageType={`cardList`}
         musicType="venue"
         setUserData={setLocationPageData}
         settrackChanges={settrackChanges}
         setTotalData={setTotalData}
-        setTotalApprove={setTotalApprove} />
+        setTotalApprove={setTotalApprove}
+      />
       {modal ? (
         <Modal modalHandler={modalHandler} component={""}>
           <AddType />

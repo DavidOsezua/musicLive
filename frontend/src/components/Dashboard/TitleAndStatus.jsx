@@ -16,7 +16,7 @@ const TitleAndStatus = ({ data, title, buttonText, modalHandler }) => {
 
         {data.statusData.map((componentData) => (
           <div
-            key={``}
+            key={componentData.status}
             className={`${styles.card} ${styles[componentData.colorID]}`}
           >
             <h3>{componentData.status}</h3>

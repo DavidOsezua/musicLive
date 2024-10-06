@@ -10,7 +10,7 @@
   padding: 24px 0px;
   display: grid;
   grid-template-columns: repeat(
-    auto-fit,
+    auto-fill,
     minmax(100px, 1fr)
   ); 
   gap: 1rem;

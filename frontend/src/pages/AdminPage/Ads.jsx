@@ -33,6 +33,7 @@ const Ads = () => {
       setTotalData(adsData.length);
       setTotalApprove(totalAddsApproved);
       setLocationPageData(totalAdsData);
+      console.log(adsData);
       console.log("SUCESSFULL");
     } catch (e) {
       console.log(e);
@@ -60,7 +61,7 @@ const Ads = () => {
   };
 
   return (
-    <section className={` adminSection pageContainer`}>
+    <section className={` adminSection pageContainer transition`}>
       <TitleAndStatus
         title={`Ads`}
         buttonText={`Add Banner`}
@@ -80,7 +81,7 @@ const Ads = () => {
       />
       {modal ? (
         <Modal modalHandler={modalHandler}>
-          <AddAds />
+          <AddAds getAlladsData={getAlladsData} />
         </Modal>
       ) : (
         ""

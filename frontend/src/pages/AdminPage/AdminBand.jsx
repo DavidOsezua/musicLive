@@ -97,7 +97,7 @@ const AdminBand = () => {
   }, [totalData, trackChanges]);
 
   return (
-    <section className={` adminSection pageContainer`}>
+    <section className={` adminSection pageContainer transition`}>
       <TitleAndStatus
         title={`Bands`}
         buttonText={`Add band`}

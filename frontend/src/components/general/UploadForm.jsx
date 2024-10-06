@@ -8,18 +8,21 @@ import { uploadAdsimage } from "../../pages/MainPage/router";
 import Modal from "./Modal";
 import Success from "./Success";
 import Failed from "./Failed";
+import Loader from "./Loader";
 const UploadForm = ({
   label1,
   label2,
   iconSize,
   uploadInstruction,
   firstLayer = true,
+  getAlladsData,
 }) => {
   const { modalHandler } = useModal() || {};
   const [image, setImage] = useState(null);
   const [showResultModal, setShowResultModal] = useState(false); // New state to control result modal visibility
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [message, setMessage] = useState();
+  const [loader, setLoader] = useState(false);
   const [imageForm, setImageform] = useState({
     AdsImage: "",
   });
@@ -38,6 +41,7 @@ const UploadForm = ({
 
   const clickFunction = async (e) => {
     e.preventDefault();
+    setLoader(true);
 
     if (!imageForm.AdsImage) {
       console.log("Please select an image.");
@@ -53,6 +57,11 @@ const UploadForm = ({
       setMessage("Ads uploaded successfully");
       console.log("Ads uploaded successfully");
       setShowResultModal(true);
+      if (getAlladsData) {
+        getAlladsData().catch((e) => {
+          console.log(e);
+        });
+      }
     } catch (e) {
       setMessage(e.response?.data?.detail || "Upload failed");
       setIsSubmitted(false);
@@ -112,6 +121,12 @@ const UploadForm = ({
           clickFunction={clickFunction}
         />
       </form>
+
+      {loader && (
+        <Modal>
+          <Loader />
+        </Modal>
+      )}
 
       {showResultModal && (
         <Modal modalHandler={() => setShowResultModal(false)}>

@@ -4,12 +4,13 @@ import BrandVenueForm from "../../components/VenueBrand/BrandVenueForm";
 import MultiFormPage from "../../components/general/MultiFormPage";
 import Success from "../../components/general/Success";
 import { uploadUserbrand } from "./router";
-import Modal from "../../components/general/Modal";
+// import Modal from "../../components/general/Modal";
 import { useModal } from "../../App";
 import Failed from "../../components/general/Failed";
+import Modal from "@/components/general/Modal";
 
 const AddYourBand = () => {
-  const { modal, modalHandler } = useModal();
+  const { modal, modalHandler } = useModal() ||{};
   const [message, setMessage] = useState()
   const [formData, setFormData] = useState({
     name: "",
