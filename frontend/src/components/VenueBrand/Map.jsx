@@ -1,174 +1,122 @@
-import React, { useEffect, useState } from "react";
-import GoogleMapReact from "google-map-react";
+import React, { useEffect, useState, useRef } from "react";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  MarkerF,
+  InfoWindow,
+} from "@react-google-maps/api";
 import { Icon } from "@iconify/react";
 import mapMarker from "@iconify/icons-mdi/map-marker";
 // import "./Map.css";
 import "./Map.css";
-import {
-  wine,
-  resturant,
-  Bar,
-  night,
-  outdoorStage,
-  brewery,
-} from "../../assets";
+import { getVenueImage } from "@/venueImages";
+import { LocationPin } from "../Map/LocationPin";
+import { getFullImageUrl, getLatLngFromAddress } from "@/lib/utils";
 
 const apiKey = import.meta.env.REACT_APP_MAP_API_KEY;
 
-const LocationPin = ({ text, image }) => (
-  <div className="pin">
-    <img src={image || ""} className="pin-icon" alt="Venue icon" />
-    <p className="pin-text">{text}</p>
-  </div>
-);
+const defaultCenter = {
+  lat: 38.56,
+  lng: -121.62,
+};
+
+const testLocations = [
+  {
+    id: 1,
+    lat: 38.56,
+    lng: -121.62,
+    name: "Stone",
+    image: getVenueImage("Bar"),
+  },
+  {
+    id: 2,
+    lat: 43.56,
+    lng: -121.62,
+    name: "Sand",
+    image: getVenueImage("Winery"),
+  },
+  {
+    id: 3,
+    lat: 58.56,
+    lng: -110.62,
+    name: "Fire",
+    image: getVenueImage("Winery"),
+  },
+];
+
+const containerStyle = {
+  width: "100%",
+  height: "100%",
+};
 
 const Map = ({ venues }) => {
   const [locations, setLocations] = useState([]);
   const [failedAddresses, setFailedAddresses] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [center, setCenter] = useState({ lat: 0, lng: 0 });
-  const [zoom, setZoom] = useState(2); // Default world zoom level
-  const [bounds, setBounds] = useState(null); // Store bounds for fitBounds
+  const [center, setCenter] = useState(defaultCenter); // Default center
+  const [zoom, setZoom] = useState(7);
+  const [map, setMap] = useState(null);
 
-  const getLatLngFromAddress = async (address, venue_type) => {
-    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
-      address
-    )}&format=json`;
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      if (data && data.length > 0) {
-        const location = data[0];
-        return {
-          lat: parseFloat(location.lat),
-          lng: parseFloat(location.lon),
-          name: address,
-          image:
-            venue_type === "Winery"
-              ? wine
-              : venue_type === "Resturant"
-              ? resturant
-              : venue_type === "Brewery"
-              ? brewery
-              : venue_type === "Bar"
-              ? Bar
-              : venue_type === "Night"
-              ? night
-              : venue_type === "Outdoor"
-              ? outdoorStage
-              : "",
-        };
-      } else {
-        console.error(`No results found for address: ${address}`);
-      }
-    } catch (error) {
-      console.error(`Error fetching geocode data for ${address}:`, error);
-    }
-    return null;
+  const handleLocationClicked = (e) => {
+    const lat = e.latLng.lat();
+    const lng = e.latLng.lng();
+    setZoom((zoom) => zoom + 1);
+    setCenter({ lat, lng });
   };
 
   useEffect(() => {
-    const fetchLatLngs = async () => {
-      setLocations([]); // Clear locations on new venue data
-      setFailedAddresses([]);
-      setLoading(true);
-
-      const locationsData = [];
-      const failedData = [];
-
-      for (const venue of venues) {
-        const latLng = await getLatLngFromAddress(
-          venue.address,
-          venue.venue_type
-        );
-        if (latLng) {
-          locationsData.push(latLng);
-        } else {
-          failedData.push(venue.address);
-        }
-      }
-
-      setLocations(locationsData);
-      setFailedAddresses(failedData);
-      setLoading(false);
-
-      // Calculate map bounds for all locations
-      if (locationsData.length > 0) {
-        const lats = locationsData.map((loc) => loc.lat);
-        const lngs = locationsData.map((loc) => loc.lng);
-
-        const northEast = { lat: Math.max(...lats), lng: Math.max(...lngs) };
-        const southWest = { lat: Math.min(...lats), lng: Math.min(...lngs) };
-
-        setBounds({ northEast, southWest });
-        setCenter({
-          lat: (northEast.lat + southWest.lat) / 2,
-          lng: (northEast.lng + southWest.lng) / 2,
-        });
-
-        const zoomLevel = locationsData.length === 1 ? 10 : 5;
-        setZoom(zoomLevel);
-      }
-    };
-
-    if (venues.length > 0) {
-      fetchLatLngs();
-    } else {
-      setLocations([]);
-      setLoading(true);
-      setCenter({ lat: 0, lng: 0 });
-      setZoom(2);
-    }
+    // console.log(venues)
+    Promise.all(
+      venues.map(async (venue) => {
+        const latLng = await getLatLngFromAddress(venue.address);
+        if (!latLng) return null;
+        console.log(latLng);
+        return { ...latLng, ...venue };
+      })
+    ).then((parsed) => {
+      const filtered = parsed.filter((parse) => parse != null);
+      // console.log(parsed)
+      setLocations(filtered);
+    });
+    //  console.log(parsed)
   }, [venues]);
 
-  return (
-    <div className="w-full h-full">
-      {loading ? (
-        <p>Loading venue locations...</p>
-      ) : (
-        <>
-          {failedAddresses.length > 0 && (
-            <div className="error-message">
-              <p>The following addresses could not be located:</p>
-              <ul>
-                {failedAddresses.map((address, index) => (
-                  <li key={index}>{address}</li>
-                ))}
-              </ul>
-            </div>
-          )}
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: apiKey,
+  });
 
-          <GoogleMapReact
-            bootstrapURLKeys={{ key: apiKey }}
-            center={center}
-            zoom={zoom}
-            yesIWantToUseGoogleMapApiInternals
-            onGoogleApiLoaded={({ map, maps }) => {
-              if (bounds) {
-                const googleBounds = new maps.LatLngBounds();
-                googleBounds.extend(
-                  new maps.LatLng(bounds.northEast.lat, bounds.northEast.lng)
-                );
-                googleBounds.extend(
-                  new maps.LatLng(bounds.southWest.lat, bounds.southWest.lng)
-                );
-                map.fitBounds(googleBounds); // Fit all locations within the map
-              }
-            }}
-          >
-            {locations.map((loc, index) => (
-              <LocationPin
-                key={index}
-                lat={loc.lat}
-                lng={loc.lng}
-                text={loc.name}
-                image={loc.image}
-              />
-            ))}
-          </GoogleMapReact>
-        </>
-      )}
-    </div>
+  return isLoaded ? (
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={center}
+      zoom={zoom}
+      onZoomChanged={() => {
+        if (!map) return;
+        const newZoom = map.getZoom();
+        setZoom(newZoom);
+      }}
+      onLoad={(mapInstance) => setMap(mapInstance)}
+      // onLoad={onLoad}
+      // onUnmount={onUnmount}
+    >
+      {locations.map((marker) => (
+        <MarkerF
+          key={marker.id}
+          position={{ lat: marker.lat, lng: marker.lng }}
+          icon={{
+            url: getVenueImage(marker.venue_type),
+            scaledSize: new window.google.maps.Size(40, 40),
+            labelOrigin: new window.google.maps.Point(45, 45),
+          }}
+          onClick={handleLocationClicked}
+          // label={{color : "blue", text : marker.name, fontSize : "16px"}}
+          title={marker.name}
+        ></MarkerF>
+      ))}
+    </GoogleMap>
+  ) : (
+    <></>
   );
 };
 
