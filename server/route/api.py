@@ -248,6 +248,144 @@ async def upload_venue(
         print(e)
         status_code = getattr(e, "status", 400)
         raise HTTPException(status_code=status_code, detail=f"{str(e)}")
+    
+    
+
+@api_router.put("/venue/{venue_id}")
+async def update_venue(
+    venue_id: str,
+    name: str = Form(...),
+    venue_type: str = Form(...),
+    genre_type: str = Form(...),
+    date: str = Form(...),
+    time: str = Form(...),
+    address: str = Form(...),
+    email: str = Form(...),
+    homepage: Optional[str] = Form(None),
+    facebook: Optional[str] = Form(None),
+    instagram: Optional[str] = Form(None),
+    youtube: Optional[str] = Form(None),
+    image1: Optional[UploadFile] = File(None),  
+    image2: Optional[UploadFile] = File(None),
+    session: AsyncSession = Depends(get_session),
+) -> Venue_:
+    try:
+        existing_venue = await session.get(Venue, venue_id)
+        if not existing_venue:
+            raise HTTPException(status_code=404, detail="Venue not found")
+
+        image_paths = {}
+        if image1:
+            image_size = (400, 400)
+            validate_image_size(image1, image_size)
+            image_paths['image1'] = uploads.save_venue_images(venue_id, image1.file).path1
+
+        if image2:
+            image_size = (400, 400)
+            validate_image_size(image2, image_size)
+            image_paths['image2'] = uploads.save_venue_images(venue_id, image2.file).path2
+
+        venue_date = parser.parse(date)
+        venue_time = parser.parse(time)
+        existing_venue.name = name
+        existing_venue.venue_type = venue_type
+        existing_venue.genre_type = genre_type
+        existing_venue.venue_date = venue_date.astimezone(timezone.utc).date()
+        existing_venue.venue_time = venue_time.astimezone(timezone.utc).time()
+        existing_venue.address = address
+        existing_venue.email = email
+        existing_venue.homepage = homepage
+        existing_venue.facebook_url = facebook
+        existing_venue.instagram_url = instagram
+        existing_venue.youtube_url = youtube
+        if 'image1' in image_paths:
+            existing_venue.image1 = image_paths['image1']
+        if 'image2' in image_paths:
+            existing_venue.image2 = image_paths['image2']
+
+        await session.commit()
+        await session.refresh(existing_venue)
+
+        return existing_venue
+
+    except IntegrityError as ie:
+        if str("duplicate entry").lower() in str(ie.orig).lower():
+            raise HTTPException(status_code=400, detail="Email already exists.")
+        else:
+            raise HTTPException(status_code=400, detail="Integrity error occurred, correct data and try again.")
+
+    except OperationalError as oe:
+        raise HTTPException(status_code=503, detail="Operational error occurred: database not reachable")
+
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Unable to update data: {str(e)}")
+    
+    
+    
+    
+@api_router.put("/band/{band_id}")
+async def update_band(
+    band_id: str,
+    name: str = Form(...),
+    genre_type: str = Form(...),
+    band_tag: str = Form(...),
+    email: str = Form(...),
+    homepage: Optional[str] = Form(None),
+    facebook: Optional[str] = Form(None),
+    instagram: Optional[str] = Form(None),
+    youtube: Optional[str] = Form(None),
+    image1: Optional[UploadFile] = File(None), 
+    image2: Optional[UploadFile] = File(None),
+    session: AsyncSession = Depends(get_session),
+) -> Band_:
+    try:
+        existing_band = await session.get(Band, band_id)
+        if not existing_band:
+            raise HTTPException(status_code=404, detail="Band not found")
+        image_paths = {}
+        if image1:
+            image_size = (400, 400)
+            validate_image_size(image1, image_size)
+            image_paths['image1'] = uploads.save_band_images(band_id, image1.file).path1
+
+        if image2:
+            image_size = (400, 400)
+            validate_image_size(image2, image_size)
+            image_paths['image2'] = uploads.save_band_images(band_id, image2.file).path2
+
+        existing_band.name = name
+        existing_band.genre_type = genre_type
+        existing_band.band_tag = band_tag
+        existing_band.email = email
+        existing_band.homepage = homepage
+        existing_band.facebook_url = facebook
+        existing_band.instagram_url = instagram
+        existing_band.youtube_url = youtube
+
+        if 'image1' in image_paths:
+            existing_band.image1 = image_paths['image1']
+        if 'image2' in image_paths:
+            existing_band.image2 = image_paths['image2']
+
+        await session.commit()
+        await session.refresh(existing_band)
+
+        return existing_band
+
+    except IntegrityError as ie:
+        print(ie)
+        if str("duplicate entry").lower() in str(ie.orig).lower():
+            raise HTTPException(status_code=400, detail="Email already exists.")
+        else:
+            raise HTTPException(status_code=400, detail="Integrity error occurred, correct data and try again.")
+
+    except OperationalError as oe:
+        raise HTTPException(status_code=503, detail="Operational error occurred: database not reachable")
+
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Unable to update data: {str(e)}")
+    
+    
 
 
 @api_router.post("/band")
