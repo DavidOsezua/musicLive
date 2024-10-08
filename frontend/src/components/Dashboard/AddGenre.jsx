@@ -1,15 +1,16 @@
 import React from "react";
 import UploadForm from "../general/UploadForm";
+import UploadForm2 from "../general/UploadForm2";
 
 const AddGenre = () => {
-  return (
-    <UploadForm
-      label1={`Genre`}
-      label2={`Upload Genre Icon`}
-      iconSize={`Icon 64px X 64px`}
-      uploadInstruction={`Upload Genre icon with required information`}
-    />
-  );
+  const { modal, modalHandler } = useModal() || {};
+  const [message, setMessage] = useState();
+  const [loader, setLoader] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    image: "",
+  });
+  return <UploadForm2 />;
 };
 
 export default AddGenre;

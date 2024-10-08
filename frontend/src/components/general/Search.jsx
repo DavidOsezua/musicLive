@@ -27,33 +27,32 @@ export const Line = () => {
   );
 };
 
-const Search = ({showDropdown,searchData,handleInputChange}) => {
-  
-
+const Search = ({ showDropdown, searchData, handleInputChange }) => {
   return (
     <div className={`${styles.searchContainer}`}>
       {/* INPUT SECTION */}
       <div className={`${styles.inputContainer}`}>
         <SearchIcon />
-        <input placeholder="Search by name..." name="search"
-        value={searchData.name || ""}
-        onChange={handleInputChange}
-         className={`${styles.input}`} />
+        <input
+          placeholder="Search by name..."
+          name="search"
+          value={searchData.name || ""}
+          onChange={handleInputChange}
+          className={`${styles.input}`}
+        />
       </div>
 
       <Line />
 
       {/* DROPDOWN SECTION */}
       <div className="flex items-center gap-2">
-        <h1 className="text-[#00103380]">Genre</h1>
+        <button onClick={showDropdown} className="flex items-center gap-3">
+          <h1 className="text-[#00103380] ">Type</h1>
 
-        <button onClick={showDropdown}>
           <ArrowDown />
         </button>
 
-        <div>
-         
-        </div>
+        <div></div>
       </div>
     </div>
   );

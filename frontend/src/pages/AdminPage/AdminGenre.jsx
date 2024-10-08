@@ -23,76 +23,50 @@ import {
 
 const AdminGenre = () => {
   const { modal, modalHandler } = useModal() || {};
-  const [locationPageData, setLocationPageData] = useState([])
-  const [totalData, setTotalData] = useState(0)
-  const [totalApprove, setTotalApprove] = useState(0)
-  const [trackChanges, settrackChanges] = useState(false)
+  const [locationPageData, setLocationPageData] = useState([]);
+  const [totalData, setTotalData] = useState(0);
+  const [totalApprove, setTotalApprove] = useState(0);
+  const [trackChanges, settrackChanges] = useState(false);
 
-
-  const getAllBandData = async () => {
+  const getAllGenreData = async () => {
     try {
-      const res = await api.get("/api/v1/band");
-      const adsData = res.data;
+      const res = await api.get("/api/v1/genre");
+      const genreData = res.data;
       let approvedCount = 0;
       const uniqueTypes = [];
 
       const formattedData = res.data
-        .map((band) => {
+        .map((genre) => {
           if (true) {
             // uniqueTypes.push(band.genre_type);
 
-            if (band.is_admin_approved) {
+            if (genre.is_admin_approved) {
               approvedCount++;
             }
 
-            const image =
-              band.genre_type === "Rock"
-                ? rock
-                : band.genre_type === "Jazz"
-                  ? jazz
-                  : band.genre_type === "Blues"
-                    ? blues
-                    : band.genre_type === "Pop"
-                      ? pop
-                      : band.genre_type === "Urban"
-                        ? urban
-                        : band.genre_type === "Acoustic"
-                          ? Acoustic
-                          : band.genre_type === "Raggae"
-                            ? raggae
-                            : band.genre_type === "Country"
-                              ? country
-                              : band.genre_type === "Metal"
-                                ? metal
-                                : band.genre_type === "Dance"
-                                  ? dance
-                                  : "";
-
             return {
-              ID: band.id,
-              image: image,
-              genreOrType: band.genre_type || "",
-              status: band.is_admin_approved ? "Approved" : "Inactive",
+              ID: genre.id,
+              image: genre.image ? Url + "/" + genre.image : "",
+              genreOrType: genre.genre_type || "",
+              status: genre.is_admin_approved ? "Approved" : "Inactive",
             };
           }
-          return null; // Return null for duplicate entries
+          // return null;
         })
         .filter(Boolean); // Remove null entries
       setTotalData(adsData.length);
-      setTotalApprove(approvedCount)
-      setLocationPageData(formattedData)
+      setTotalApprove(approvedCount);
+      setLocationPageData(formattedData);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    getAllBandData();
+    getAllGenreData();
   }, [totalData, trackChanges]);
 
-
-
-  let inactive = totalData - totalApprove
+  let inactive = totalData - totalApprove;
 
   const getAllGenre = {
     statusData: [

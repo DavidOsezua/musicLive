@@ -40,20 +40,20 @@ const Type = () => {
               approvedCount++;
             }
 
-            const image =
-              venue.venue_type === "Winery"
-                ? wine
-                : venue.venue_type === "Resturant"
-                ? resturant
-                : venue.venue_type === "Brewery"
-                ? brewery
-                : venue.venue_type === "Bar"
-                ? Bar
-                : venue.venue_type === "Night"
-                ? night
-                : venue.venue_type === "Outdoor"
-                ? outdoorStage
-                : "";
+            // const image =
+            //   venue.venue_type === "Winery"
+            //     ? wine
+            //     : venue.venue_type === "Resturant"
+            //     ? resturant
+            //     : venue.venue_type === "Brewery"
+            //     ? brewery
+            //     : venue.venue_type === "Bar"
+            //     ? Bar
+            //     : venue.venue_type === "Night"
+            //     ? night
+            //     : venue.venue_type === "Outdoor"
+            //     ? outdoorStage
+            //     : "";
 
             return {
               ID: venue.id,

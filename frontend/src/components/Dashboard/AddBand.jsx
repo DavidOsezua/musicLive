@@ -153,10 +153,7 @@ const AddBand = ({ settrackChanges, isEdit, bandId }) => {
   const [error, setError] = useState("");
   const [showResultModal, setShowResultModal] = useState(false); // New state to control result modal visibility
 
-  // useEffect(() => {
-  //   if (!isEdit || !bandId) return;
 
-  // }, [bandId, isEdit]);
 
   const validateStep = (currentStep) => {
     const errors = {};
