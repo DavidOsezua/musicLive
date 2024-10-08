@@ -844,7 +844,7 @@ async def create_genre(
     session: AsyncSession = Depends(get_session),
 ):
     try:
-        image_size = (400, 400)
+        image_size = (64, 64)
         validate_image_size(image, image_size)
         genre_id = shortuuid.uuid()
         image_path =uploads.save_images(genre_id, image.file)
@@ -906,7 +906,7 @@ async def create_venue_type(
     session: AsyncSession = Depends(get_session),
 ):
     try:
-        image_size = (400, 400)
+        image_size = (64, 64)
         validate_image_size(image, image_size)
         genre_id = shortuuid.uuid()
         image_path =uploads.save_images(genre_id, image.file)
@@ -973,6 +973,41 @@ async def get_venue_type(session: AsyncSession = Depends(get_session)) -> Venuet
     result = await session.exec(query)
     venue_types = result.fetchall()
     return [dict(row) for row in venue_types]
+
+
+@api_router.put("/genre/approved/", response_model=List[Genre])
+async def approve_band(
+    genre_id: str = Query(..., alias="venue_type"),
+    Status: str = Query(..., alias="Status"),
+    session: AsyncSession = Depends(get_session),
+):
+    status_normalized = Status.strip().lower()
+    genre_id = genre_id.strip()
+    query = select(Genre).where(Genre.id == genre_id)
+    result = await session.exec(query)
+    bands = result.fetchall()
+
+    if not bands:
+        raise HTTPException(
+            status_code=404, detail="No genre found with this genre type"
+        )
+    is_approved = status_normalized == "approved"
+
+    update_query = (
+        update(Genre).where(Genre.id == genre_id).values(is_admin_approved=is_approved)
+    )
+    await session.exec(update_query)
+    await session.commit()
+    updated_query = select(Genre)
+    result = await session.exec(updated_query)
+    updated_genre = result.fetchall()
+
+    if not updated_genre:
+        raise HTTPException(
+            status_code=404, detail="Update failed or no genre were updated"
+        )
+
+    return updated_genre
 
 
 
