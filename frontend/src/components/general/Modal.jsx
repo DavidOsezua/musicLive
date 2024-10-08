@@ -2,6 +2,7 @@ import React from "react";
 import ReactDom from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./Modal.module.css";
+import { FaTimes } from "react-icons/fa";
 
 const backdropVariants = {
   visible: { opacity: 1 },
@@ -42,6 +43,9 @@ const Modal = ({ modalHandler, children }) => {
           exit="exit"
           transition={{ duration: 1, ease: "easeInOut" }}
         >
+          {/* <button className="absolute top-0 right-">
+            <FaTimes />
+          </button> */}
           {children}
         </motion.div>
       </AnimatePresence>

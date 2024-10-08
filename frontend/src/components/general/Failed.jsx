@@ -3,16 +3,16 @@ import Button from "./Button";
 import styles from "./Failed.module.css";
 import Close from "./Close";
 import Error from "../SVGcomponent/Error";
-import { useModal } from "../../App";
+import { useDeleteModal, useModal } from "../../App";
 
-const Failed = ({message}) => {
-  const { modalHandler } = useModal() || {};
-
-  const displayMessage = typeof message === "object" && message?.msg
-  ? message.msg
-  : typeof message === "string"
-  ? message
-  : "An unexpected error occurred, please try again.";
+const Failed = ({ message, modalHandler }) => {
+  // const { modalHandler } = useModal() || {};
+  const displayMessage =
+    typeof message === "object" && message?.msg
+      ? message.msg
+      : typeof message === "string"
+      ? message
+      : "An unexpected error occurred, please try again.";
   return (
     <div className={`${styles.successCard} relative`}>
       <button

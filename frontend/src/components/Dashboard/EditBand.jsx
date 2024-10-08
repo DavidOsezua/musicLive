@@ -174,7 +174,7 @@ const EditBand = ({ item, data }) => {
             />
           ) : (
             <Failed
-              modalHandler={() => setShowResultModal(false)} // Close modal when Failed is clicked
+              modalHandler={modalHandler} // Close modal when Failed is clicked
               message={message}
             />
           )}

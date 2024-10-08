@@ -43,6 +43,8 @@ const BandTableData = ({
     handleDelete(item.ID);
     setDeleteModal(false);
   };
+
+  console.log(settingsModal);
   return (
     <>
       <td className={`${styles.tdStyle}`}>{rowNumber + index + 1}</td>
@@ -109,6 +111,7 @@ const BandTableData = ({
           />
         </Modal>
       )}
+
       {settingsModal && (
         <Modal modalHandler={settingsHandler}>
           <EditBand item={item} data={data} setDeleteModal={settingsModal} />

@@ -93,43 +93,6 @@ const AddLocation = ({ settrackChanges }) => {
     }
   };
 
-  // const handleSubmit = async () => {
-  //   console.log(formData);
-
-  //   if (validateStep(1)) {
-  //     const dataForm = new FormData();
-  //     dataForm.append("name", formData.name);
-  //     dataForm.append("genre_type", formData.genre_type);
-  //     dataForm.append("venue_type", formData.venue_type);
-  //     dataForm.append("address", formData.address);
-  //     dataForm.append("venue_date", formData.date);
-  //     dataForm.append("venue_time", formData.time);
-  //     dataForm.append("email", formData.email);
-  //     dataForm.append("homepage", formData.homepage);
-  //     dataForm.append("facebook", formData.facebook);
-  //     dataForm.append("instagram", formData.instagram);
-  //     dataForm.append("youtube", formData.youtube);
-  //     dataForm.append("image1", formData.image1);
-  //     dataForm.append("image2", formData.image2);
-  //     try {
-  //       await uploadUservenue(dataForm);
-  //       setIssubmitted(true);
-  //       modalHandler();
-  //     } catch (e) {
-  //       console.log(e);
-  //       setError(e.message);
-  //       setIssubmitted(false);
-  //       modalHandler();
-  //       //inplement the catching error card here
-  //     }
-  //   } else {
-  //     console.error("error:", formErrors);
-  //     setError(formErrors);
-  //     setIssubmitted(false);
-  //     modalHandler();
-  //     // implement the error rendering here
-  //   }
-  // };
   return (
     <>
       <MultiFormPage
