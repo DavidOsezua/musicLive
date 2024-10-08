@@ -274,16 +274,11 @@ async def update_venue(
         if not existing_venue:
             raise HTTPException(status_code=404, detail="Venue not found")
 
-        image_paths = {}
-        if image1:
-            image_size = (400, 400)
-            validate_image_size(image1, image_size)
-            image_paths['image1'] = uploads.save_venue_images(venue_id, image1.file).path1
-
-        if image2:
-            image_size = (400, 400)
-            validate_image_size(image2, image_size)
-            image_paths['image2'] = uploads.save_venue_images(venue_id, image2.file).path2
+        image_size = (400, 400)
+        venue_id = shortuuid.uuid()
+        validate_image_size(image1, image_size)
+        validate_image_size(image2, image_size)
+        image_paths = uploads.save_venue_images(venue_id, image1.file, image2.file)
 
         venue_date = parser.parse(date)
         venue_time = parser.parse(time)
@@ -298,10 +293,8 @@ async def update_venue(
         existing_venue.facebook_url = facebook
         existing_venue.instagram_url = instagram
         existing_venue.youtube_url = youtube
-        if 'image1' in image_paths:
-            existing_venue.image1 = image_paths['image1']
-        if 'image2' in image_paths:
-            existing_venue.image2 = image_paths['image2']
+        existing_venue.image1 = image_paths.path1
+        existing_venue.image2 = image_paths.path2,
 
         await session.commit()
         await session.refresh(existing_venue)
@@ -342,16 +335,11 @@ async def update_band(
         existing_band = await session.get(Band, band_id)
         if not existing_band:
             raise HTTPException(status_code=404, detail="Band not found")
-        image_paths = {}
-        if image1:
-            image_size = (400, 400)
-            validate_image_size(image1, image_size)
-            image_paths['image1'] = uploads.save_band_images(band_id, image1.file).path1
-
-        if image2:
-            image_size = (400, 400)
-            validate_image_size(image2, image_size)
-            image_paths['image2'] = uploads.save_band_images(band_id, image2.file).path2
+        image_size = (400, 400)
+        validate_image_size(image1, image_size)
+        validate_image_size(image2, image_size)
+        band_id = shortuuid.uuid()
+        image_paths = uploads.save_band_images(band_id, image1.file, image2.file)
 
         existing_band.name = name
         existing_band.genre_type = genre_type
@@ -361,11 +349,8 @@ async def update_band(
         existing_band.facebook_url = facebook
         existing_band.instagram_url = instagram
         existing_band.youtube_url = youtube
-
-        if 'image1' in image_paths:
-            existing_band.image1 = image_paths['image1']
-        if 'image2' in image_paths:
-            existing_band.image2 = image_paths['image2']
+        existing_band.image1 = image_paths.path1,
+        existing_band.image2 = image_paths.path2,
 
         await session.commit()
         await session.refresh(existing_band)
