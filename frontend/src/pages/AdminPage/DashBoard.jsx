@@ -177,9 +177,9 @@ const DashBoard = () => {
     setSelectedCard((curr) => (curr?.ID === card.ID ? "" : card));
   };
 
-  // const cardHandler = () => {
-  //   setSelectedCard(null);
-  // };
+  const cardHandler = () => {
+    setSelectedCard(null);
+  };
 
   console.log(selectedCard);
 
@@ -248,7 +248,7 @@ const DashBoard = () => {
         </div>
       </div>
       {selectedCard && (
-        <Modal modalHandler={modalHandler}>{selectedCard.component}</Modal>
+        <Modal modalHandler={cardHandler}>{selectedCard.component}</Modal>
       )}
     </section>
   );

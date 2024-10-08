@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import AddAds from "../Dashboard/AddAds";
 import AddGenre from "../Dashboard/AddGenre";
 import AddType from "../Dashboard/AddType";
+import { useModal } from "@/App";
 
 const backdropVariants = {
   visible: { opacity: 1 },
@@ -21,22 +22,6 @@ const modalVariants = {
 };
 
 const Modal2 = ({ selectedCard, modalHandler }) => {
-  const renderContent = () => {
-    switch (selectedCard.name) {
-      case "Bands":
-        return <AddBand />;
-      case "Venue":
-        return <AddLocation />;
-      case "Advertisment":
-        return <AddAds />;
-      case "Genre":
-        return <AddGenre />;
-      case "Venue Type":
-        return <AddType />;
-      default:
-        return <div>Default Component</div>;
-    }
-  };
   return ReactDom.createPortal(
     <>
       {/* Framer Motion's AnimatePresence ensures smooth unmounting */}
@@ -49,7 +34,6 @@ const Modal2 = ({ selectedCard, modalHandler }) => {
           animate="visible"
           exit="exit"
           transition={{ duration: 0.3 }}
-          onClick={modalHandler}
         ></motion.div>
 
         {/* Modal Content */}
@@ -61,7 +45,7 @@ const Modal2 = ({ selectedCard, modalHandler }) => {
           exit="exit"
           transition={{ duration: 0.5, ease: "easeInOut" }}
         >
-          {renderContent()}
+          <div onClick={modalHandler}>close</div>
         </motion.div>
       </AnimatePresence>
     </>,

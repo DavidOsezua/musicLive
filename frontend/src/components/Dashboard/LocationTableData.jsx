@@ -14,6 +14,8 @@ import {
 import { useModal } from "@/App";
 import Modal from "../general/Modal";
 import ConfirmDelete from "../general/ConfirmDelete";
+import EditLocation from "./EditLocation";
+import PreviewLocation from "./PreviewLocation";
 
 const LocationTableData = ({
   item,
@@ -25,6 +27,11 @@ const LocationTableData = ({
   status,
 }) => {
   const [deleteModal, setDeleteModal] = useState(false);
+  const [settingsModal, setSettingsModal] = useState(false);
+  const [previewModal, setPreviewModal] = useState(false);
+
+  const settingsHandler = () => setSettingsModal(!settingsModal);
+  const previewHandler = () => setPreviewModal(!previewModal);
 
   const deleteHandler = () => {
     setDeleteModal(true);
@@ -88,13 +95,13 @@ const LocationTableData = ({
 
       <td className={`${styles.tdStyle} text-[#FF6665]`}>
         <div className="flex items-center gap-3">
-          <button aria-label="Settings">
+          <button aria-label="Settings" onClick={settingsHandler}>
             <Settings />
           </button>
           <button onClick={deleteHandler} aria-label="Delete">
             <Delete />
           </button>
-          <button aria-label="Preview">
+          <button aria-label="Preview" onClick={previewHandler}>
             <Preview />
           </button>
         </div>
@@ -106,6 +113,17 @@ const LocationTableData = ({
             confirmDelete={confirmDelete}
             cancelDelete={cancelDelete}
           />
+        </Modal>
+      )}
+
+      {settingsModal && (
+        <Modal modalHandler={settingsHandler}>
+          <EditLocation item={item} setDeleteModal={settingsModal} />
+        </Modal>
+      )}
+      {previewModal && (
+        <Modal modalHandler={previewHandler}>
+          <PreviewLocation item={item} modalHandler={previewHandler} />
         </Modal>
       )}
     </>

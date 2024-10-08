@@ -9,32 +9,30 @@ import Modal from "../general/Modal";
 import ConfirmDelete from "../general/ConfirmDelete";
 
 const CardListItem = ({ item, updateItemStatus, handleDelete }) => {
-   const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
 
-   const deleteHandler = () => {
-     setDeleteModal(true);
-   };
+  const deleteHandler = () => {
+    setDeleteModal(true);
+  };
 
-   const cancelDelete = () => {
-     setDeleteModal(false);
-   };
+  const cancelDelete = () => {
+    setDeleteModal(false);
+  };
 
-   
-
-   const confirmDelete = () => {
-     handleDelete(item.ID);
-     setDeleteModal(false);
-   };
+  const confirmDelete = () => {
+    handleDelete(item.ID);
+    setDeleteModal(false);
+  };
   const [isToggled, setIsToggled] = useState(false);
   const [status, setStatus] = useState(item.status);
   const handleToggle = async () => {
     setIsToggled(!isToggled);
 
     if (!isToggled) {
-      updateItemStatus(item.genreOrType, "Approved",item.ID);
+      updateItemStatus(item.genreOrType, "Approved", item.ID);
       setStatus("Approved");
     } else {
-      updateItemStatus(item.genreOrType, "Inactive",item.ID); 
+      updateItemStatus(item.genreOrType, "Inactive", item.ID);
       setStatus("Inactive");
     }
   };

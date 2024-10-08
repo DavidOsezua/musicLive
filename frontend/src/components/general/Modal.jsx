@@ -3,6 +3,7 @@ import ReactDom from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./Modal.module.css";
 import { FaTimes } from "react-icons/fa";
+import { useModal } from "@/App";
 
 const backdropVariants = {
   visible: { opacity: 1 },
@@ -16,7 +17,8 @@ const modalVariants = {
   exit: { scale: 0.95, opacity: 0 },
 };
 
-const Modal = ({ modalHandler, children }) => {
+const Modal = ({ children, modalHandler }) => {
+  // const { modal, modalHandler } = useModal() || {};
   return ReactDom.createPortal(
     <>
       {/* Framer Motion's AnimatePresence ensures smooth unmounting */}
@@ -29,8 +31,8 @@ const Modal = ({ modalHandler, children }) => {
           initial="hidden"
           animate="visible"
           exit="exit"
-          transition={{ duration: 1 }}
           onClick={modalHandler}
+          transition={{ duration: 1 }}
         ></motion.div>
 
         {/* Modal Content */}

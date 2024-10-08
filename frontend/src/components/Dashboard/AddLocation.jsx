@@ -78,6 +78,7 @@ const AddLocation = ({ settrackChanges }) => {
         setIsSubmitted(true);
         setMessage("Venue uploaded successfully!");
         setShowResultModal(true); // Show the result modal
+        setLoader(false);
       } catch (e) {
         setError(e.message);
         setIsSubmitted(false);

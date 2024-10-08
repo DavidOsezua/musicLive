@@ -48,6 +48,7 @@ const AddAds = ({ getAlladsData }) => {
       setMessage("Ads uploaded successfully");
       console.log("Ads uploaded successfully");
       setShowResultModal(true);
+      setLoader(false);
       if (getAlladsData) {
         getAlladsData().catch((e) => {
           console.log(e);

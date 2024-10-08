@@ -15,6 +15,7 @@ import ConfirmDelete from "../general/ConfirmDelete";
 import { useModal } from "@/App";
 import Modal from "../general/Modal";
 import EditBand from "./EditBand";
+import PreviexBand from "./PreviexBand";
 
 const BandTableData = ({
   item,
@@ -28,8 +29,10 @@ const BandTableData = ({
 }) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [settingsModal, setSettingsModal] = useState(false);
+  const [previewModal, setPreviewModal] = useState(false);
 
   const settingsHandler = () => setSettingsModal(!settingsModal);
+  const previewHandler = () => setPreviewModal(!previewModal);
 
   const deleteHandler = () => {
     setDeleteModal(true);
@@ -98,7 +101,7 @@ const BandTableData = ({
           <button onClick={deleteHandler}>
             <Delete />
           </button>
-          <button>
+          <button onClick={previewHandler}>
             <Preview />
           </button>
         </div>
@@ -115,6 +118,12 @@ const BandTableData = ({
       {settingsModal && (
         <Modal modalHandler={settingsHandler}>
           <EditBand item={item} data={data} setDeleteModal={settingsModal} />
+        </Modal>
+      )}
+
+      {previewModal && (
+        <Modal modalHandler={previewHandler}>
+          <PreviexBand item={item} modalHandler={previewHandler} />
         </Modal>
       )}
     </>
