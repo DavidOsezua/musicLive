@@ -69,10 +69,8 @@ const EditBand = ({ item, data }) => {
         console.log(band);
         if (band) {
           console.log("Band:", band);
-
-          // Set the formData state with the data from the band object
           setFormData({
-            name: band.name || "", // Default to empty if not available
+            name: band.name || "",
             email: band.email || "",
             genre_type: band.genre_type || "",
             band_tag: band.band_tag || "",
@@ -101,6 +99,7 @@ const EditBand = ({ item, data }) => {
   const handleSave = async () => {
     setLoader(true);
     if (validateStep(1)) {
+      console.log("the user form:", formData)
       const dataForm = new FormData();
       Object.keys(formData).forEach((key) => {
         dataForm.append(key, formData[key]);
