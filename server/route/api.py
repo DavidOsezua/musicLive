@@ -7,12 +7,12 @@ from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlmodel import select, update, MetaData, and_
 from db.database import get_session
 from sqlmodel.ext.asyncio.session import AsyncSession
-from src.schema import Band_, Venue_, Contact, Ads_
+from src.schema import Band_, Venue_, Contact, Ads_,Genre_,Type_
 from src import uploads
 from typing import List, Optional
 from http import HTTPStatus
 from src import exceptions
-from db.table import Venue, Band, Ads
+from db.table import Venue, Band, Ads,Genre,Venuetype
 from sqlalchemy import func
 from datetime import timezone
 from dateutil import parser
@@ -56,6 +56,8 @@ async def get_tables_verified_lengths(session: AsyncSession = Depends(get_sessio
     return {key: value for key, value in table_lengths.items()}
 
 
+
+
 def validate_image_size(image: UploadFile, image_size: tuple):
     try:
         img = Image.open(io.BytesIO(image.file.read()))
@@ -67,6 +69,7 @@ def validate_image_size(image: UploadFile, image_size: tuple):
         image.file.seek(0)
     except Exception as e:
         raise exceptions.BadRequest(f"{str(e)}")
+    
 
 
 @api_router.get("/ads", response_model=List[Ads])
@@ -831,3 +834,156 @@ async def search(
         return []
 
     return band
+
+
+
+@api_router.post("/genre/")
+async def create_genre(
+    name:str = Form(...),
+    image:UploadFile = File(...),
+    session: AsyncSession = Depends(get_session),
+):
+    try:
+        image_size = (400, 400)
+        validate_image_size(image, image_size)
+        genre_id = shortuuid.uuid()
+        image_path =uploads.save_images(genre_id, image.file)
+        
+                
+        try: 
+            genre_data = Genre_(name=name, image=image_path)
+            try:
+                genre_data = Genre(id=genre_id,**genre_data.model_dump(by_alias=True))
+                session.add(genre_data)
+                await session.commit()
+                await session.refresh(genre_data)
+                return genre_data
+
+            except OperationalError as oe:
+                await session.rollback()
+                raise HTTPException(
+                    status_code=503, detail="Database is currently unreachable."
+                )
+
+            except ValidationError as ve:
+                await session.rollback()
+                raise HTTPException(
+                    status_code=400, detail="Validation error: Unprocessed identity."
+                )
+
+            except IntegrityError as ie:
+                await session.rollback()
+                raise HTTPException(
+                    status_code=400, detail="Database integrity error occurred."
+                )
+
+            except Exception as e:
+                await session.rollback()
+                raise HTTPException(
+                    status_code=400, detail=f"Unable to upload data: {str(e)}"
+                )
+
+        except Exception as e:
+            print(e)
+            raise HTTPException(status_code=400, detail=f"Error: {str(e)}")
+
+    
+    
+    except Exception as e:
+        print(e)
+        status_code = getattr(e, "status", 400)
+        raise HTTPException(status_code=status_code, detail=f"{str(e)}")
+
+
+
+
+
+
+@api_router.post("/type/")
+async def create_venue_type(
+    name:str = Form(...),
+    image:UploadFile = File(...),
+    session: AsyncSession = Depends(get_session),
+):
+    try:
+        image_size = (400, 400)
+        validate_image_size(image, image_size)
+        genre_id = shortuuid.uuid()
+        image_path =uploads.save_images(genre_id, image.file)
+        
+                
+        try: 
+            type_data = Type_(name=name, image=image_path)
+            try:
+                type_data = Venuetype(id=genre_id,**type_data.model_dump(by_alias=True))
+                session.add(type_data)
+                await session.commit()
+                await session.refresh(type_data)
+                return type_data
+
+            except OperationalError as oe:
+                await session.rollback()
+                raise HTTPException(
+                    status_code=503, detail="Database is currently unreachable."
+                )
+
+            except ValidationError as ve:
+                await session.rollback()
+                raise HTTPException(
+                    status_code=400, detail="Validation error: Unprocessed identity."
+                )
+
+            except IntegrityError as ie:
+                await session.rollback()
+                raise HTTPException(
+                    status_code=400, detail="Database integrity error occurred."
+                )
+
+            except Exception as e:
+                await session.rollback()
+                raise HTTPException(
+                    status_code=400, detail=f"Unable to upload data: {str(e)}"
+                )
+
+        except Exception as e:
+            print(e)
+            raise HTTPException(status_code=400, detail=f"Error: {str(e)}")
+
+    
+    
+    except Exception as e:
+        status_code = getattr(e, "status", 400)
+        raise HTTPException(status_code=status_code, detail=f"{str(e)}")
+    
+    
+    
+    
+@api_router.get("/genre", response_model=List[Genre])
+async def get_genres(session: AsyncSession = Depends(get_session)) -> Genre:
+    query = select(Genre)
+    result = await session.exec(query)
+    genres = result.fetchall()
+    return [dict(row) for row in genres]
+
+
+
+@api_router.get("/type", response_model=List[Venuetype])
+async def get_venue_type(session: AsyncSession = Depends(get_session)) -> Venuetype:
+    query = select(Venuetype)
+    result = await session.exec(query)
+    venue_types = result.fetchall()
+    return [dict(row) for row in venue_types]
+
+
+
+
+
+
+
+
+
+
+
+
+
+

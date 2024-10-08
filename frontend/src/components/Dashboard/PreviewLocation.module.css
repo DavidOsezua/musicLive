@@ -15,8 +15,6 @@
   margin-top: 1rem;
 }
 
-
-
 .bandContainer > * + * {
   margin-top: 1rem;
 }
@@ -70,27 +68,24 @@
     gap: 10px;
   }
 
-  .image {
-    /* width: 200px;
-    height: 200px; */
-  }
+  /* .image {
+    width: 200px;
+    height: 200px;
+  } */
 }
 @media screen and (min-width: 579px) {
   .bandDetailsContainer {
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
   }
-
 }
 @media screen and (min-width: 900px) {
   .bandDetailsContainer {
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
   }
 
-  .image{
+  .image {
     height: 280px;
   }
-  
 }
-

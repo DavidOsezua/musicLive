@@ -54,6 +54,15 @@ def save_ads_images(
     return path_1
 
 
+def save_images(
+    id: str,
+    image1: BinaryIO,
+):
+    img = Image.open(image1)
+    path_1 = save_image(img, settings.ADS_UPLOAD_DIR, id, "1")
+    return path_1
+
+
 def save_venue_images(
     venue_id: str,
     image1: BinaryIO,

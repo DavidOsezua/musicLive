@@ -56,3 +56,12 @@ class Contact(BaseModel):
 class ImagePaths(BaseModel):
     path1: str
     path2: str
+    
+    
+class Genre_(BaseModel):
+    name:str
+    image:Optional[str] = None
+    
+class Type_(BaseModel):
+    name:str
+    image:Optional[str] = None
