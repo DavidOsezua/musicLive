@@ -8,13 +8,23 @@ import Modal2 from "@/components/general/Modal2";
 import { api } from "@/services/api.route";
 import { ads, Bands, genreImg, venueImg } from "../../assets";
 import Loader from "@/components/general/Loader";
+import { useModal } from "@/App";
+import AddBand from "@/components/Dashboard/AddBand";
+import AddLocation from "@/components/Dashboard/AddLocation";
+import AddGenre from "@/components/Dashboard/AddGenre";
+import AddAds from "@/components/Dashboard/AddAds";
+import AddType from "@/components/Dashboard/AddType";
+import Modal from "@/components/general/Modal";
 
 const DashBoard = () => {
   const [selectedCard, setSelectedCard] = useState(null);
+  const { modal, modalHandler } = useModal() || {};
   const [totalResultData, setTotalResultData] = useState({});
   const [totalresultAdsData, setTotalResultAdsData] = useState({});
   const [totalresultBandData, setTotalResultBandData] = useState({});
   const [totalresultVenueData, setTotalResultVenueData] = useState({});
+
+  console.log(modal);
 
   const fetchTotalResult = async () => {
     try {
@@ -39,6 +49,7 @@ const DashBoard = () => {
       path: "/admin/adminband",
       numbers: totalresultBandData.total || 0,
       image: Bands,
+      component: <AddBand />,
       status: [
         {
           state: "active",
@@ -67,6 +78,7 @@ const DashBoard = () => {
       path: "/admin/location",
       numbers: totalresultVenueData.total || 0,
       image: venueImg,
+      component: <AddLocation />,
       status: [
         {
           state: "active",
@@ -91,6 +103,7 @@ const DashBoard = () => {
       path: "/admin/admingenre",
       numbers: totalresultBandData.is_verified || 0,
       image: genreImg,
+      component: <AddGenre />,
       status: [
         {
           state: "active",
@@ -114,6 +127,7 @@ const DashBoard = () => {
       path: "/admin/ads",
       numbers: totalresultAdsData.total || 0,
       image: ads,
+      component: <AddAds />,
       status: [
         {
           state: "active",
@@ -138,6 +152,7 @@ const DashBoard = () => {
       path: "/admin/type",
       numbers: totalresultVenueData.total || 0,
       image: venueImg,
+      component: <AddType />,
       status: [
         {
           state: "active",
@@ -162,9 +177,11 @@ const DashBoard = () => {
     setSelectedCard((curr) => (curr?.ID === card.ID ? "" : card));
   };
 
-  const cardHandler = () => {
-    setSelectedCard(null);
-  };
+  // const cardHandler = () => {
+  //   setSelectedCard(null);
+  // };
+
+  console.log(selectedCard);
 
   return (
     <section
@@ -174,7 +191,7 @@ const DashBoard = () => {
         {dashboardSummary.map((summary) => (
           <DashboardCard
             summary={summary}
-            modalHandler={cardHandler}
+            // modalHandler={cardHandler}
             key={summary.ID}
             selectedCard={selectedCard}
             onSelection={handleSelection}
@@ -231,7 +248,7 @@ const DashBoard = () => {
         </div>
       </div>
       {selectedCard && (
-        <Modal2 selectedCard={selectedCard} modalHandler={cardHandler} />
+        <Modal modalHandler={modalHandler}>{selectedCard.component}</Modal>
       )}
     </section>
   );

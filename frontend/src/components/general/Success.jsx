@@ -7,18 +7,16 @@ import { TiTimes } from "react-icons/ti";
 import Close from "./Close";
 import { useModal } from "../../App";
 
-const Success = ({message,description}) => {
+const Success = ({ message, description }) => {
   const { modalHandler } = useModal() || {};
   return (
     <div className={`${styles.successCard} relative`}>
-      <button className={`absolute top-[20px] right-[20px]`} onClick={modalHandler}>
+      <button className={`absolute top-[20px] right-[20px]`}>
         <Close />
       </button>
       <Check />
       <p>{message}</p>
-      <p className="text-[0.8rem]">
-        {description}
-      </p>
+      <p className="text-[0.8rem]">{description}</p>
 
       <Button
         colored

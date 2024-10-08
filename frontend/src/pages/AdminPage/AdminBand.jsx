@@ -62,6 +62,7 @@ const AdminBand = () => {
       console.log(err);
     }
   };
+
   useEffect(() => {
     console.log("Updated locationPageData", locationPageData);
     // setpending(totalBand - approvedCount)

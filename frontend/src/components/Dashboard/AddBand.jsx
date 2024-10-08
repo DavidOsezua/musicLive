@@ -131,7 +131,7 @@ import { useModal } from "../../App";
 import Failed from "../../components/general/Failed";
 import Loader from "../general/Loader";
 
-const AddBand = ({ settrackChanges }) => {
+const AddBand = ({ settrackChanges, isEdit, bandId }) => {
   const { modal, modalHandler } = useModal() || {};
   const [message, setMessage] = useState();
   const [loader, setLoader] = useState(false);
@@ -152,6 +152,11 @@ const AddBand = ({ settrackChanges }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
   const [showResultModal, setShowResultModal] = useState(false); // New state to control result modal visibility
+
+  // useEffect(() => {
+  //   if (!isEdit || !bandId) return;
+
+  // }, [bandId, isEdit]);
 
   const validateStep = (currentStep) => {
     const errors = {};
@@ -205,6 +210,10 @@ const AddBand = ({ settrackChanges }) => {
       setShowResultModal(true); // Show result modal on validation failure
     }
   };
+
+  console.log(formData);
+
+  console.log(showResultModal);
 
   return (
     <>

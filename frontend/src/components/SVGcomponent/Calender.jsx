@@ -14,10 +14,7 @@ const Calender = ({ onDateChange }) => {
 
   return (
     <div style={{ position: "relative", display: "inline-block" }}>
-      <span
-        onClick={() => setIsOpen(!isOpen)}
-        style={{ cursor: "pointer" }}
-      >
+      <span onClick={() => setIsOpen(!isOpen)} style={{ cursor: "pointer" }}>
         <svg
           width="16"
           height="16"
@@ -35,11 +32,7 @@ const Calender = ({ onDateChange }) => {
 
       {isOpen && (
         <div style={{ position: "absolute", zIndex: 1 }}>
-          <DatePicker
-            selected={startDate}
-            onChange={handleDateChange}
-            inline
-          />
+          <DatePicker selected={startDate} onChange={handleDateChange} inline />
         </div>
       )}
     </div>

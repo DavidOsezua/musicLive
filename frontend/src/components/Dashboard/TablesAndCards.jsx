@@ -9,20 +9,6 @@ import CardList from "./CardList";
 import { api } from "../../services/api.route";
 import { useModal } from "../../App";
 
-// const TablesAndCards = ({ pageData, pageType, columnCount }) => {
-//   const { tableOrCardData, status, tableHead, numberOfItem } = pageData;
-//   const [data, setData] = useState(tableOrCardData);
-//   const [active, setActive] = useState("All");
-//   const [filteredData, setFilteredData] = useState(tableOrCardData);
-//   const [currentPage, setCurrentPage] = useState(1);
-//   const [editId, setEditId] = useState(null);
-//   const [editName, setEditName] = useState("");
-//   const [previewItem, setPreviewItem] = useState(null);
-//   const [editDetails, setEditDetails] = useState("");
-//   const [isEditingPreview, setIsEditingPreview] = useState(false);
-
-//   const itemsPerPage = numberOfItem;
-
 const TablesAndCards = ({
   pageData,
   pageType,
@@ -63,6 +49,8 @@ const TablesAndCards = ({
   if (totalPages === 0 && currentPage === 1) {
     totalPages = 1;
   }
+
+  console.log(tableOrCardData);
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -126,56 +114,6 @@ const TablesAndCards = ({
     }
   };
 
-  // Preview functionality
-  const handlePreview = (item) => {
-    setPreviewItem(item);
-    setEditName(item.name); // Set initial name for editing
-    setEditDetails(item.details); // Set initial details for editing
-    setIsEditingPreview(false); // Start in non-edit mode
-  };
-
-  const closePreview = () => {
-    setPreviewItem(null);
-    setIsEditingPreview(false); // Reset editing state when closing
-  };
-
-  // Save edited name and details in preview modal
-  const handleSavePreview = () => {
-    const newData = data.map((item) =>
-      item.ID === previewItem.ID
-        ? { ...item, name: editName, details: editDetails }
-        : item
-    );
-    setData(newData);
-    setFilteredData(newData);
-    setPreviewItem({ ...previewItem, name: editName, details: editDetails });
-    setIsEditingPreview(false);
-  };
-
-  // const updateItemStatus = (id, newStatus) => {
-  //   console.log(`Updating item with id: ${id} to status: ${newStatus}`);
-  //   setData((prevData) =>
-  //     prevData.map((item) =>
-  //       item.ID === id ? { ...item, status: newStatus } : item
-  //     )
-  //   );
-  // };
-
-  // try {
-  //   let endpoint = "";
-  //   if (tableType === "location") {
-  //     endpoint = "api/v1/venue/";
-  //   } else if (tableType === "band") {
-  //     endpoint = "api/v1/band/";
-  //   }
-
-  //   if (endpoint) {
-  //     const res = await api.put(endpoint, null, {
-  //       params: {
-  //         ID: itemID,
-  //         Status: statuses[itemID],
-  //       },
-  //     });
   useEffect(() => {
     console.log(venueStatus);
     console.log(musicType);
@@ -276,7 +214,7 @@ const TablesAndCards = ({
             setData={setData}
             setFilteredData={setFilteredData}
             setTotalApprove={setTotalApprove}
-          // setpending={setpending}
+            // setpending={setpending}
           />
         </div>
       ) : (

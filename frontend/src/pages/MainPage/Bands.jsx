@@ -12,10 +12,10 @@ import { facebook, instagram, website } from "../../assets";
 import { Url, api } from "../../services/api.route";
 
 const Bands = () => {
+  const [dropdown, setDropDown] = useState(false);
   const [form, setForm] = useState({
     venue_type: "",
   });
-  const [dropdown, setDropDown] = useState(false);
   const [bands, setBands] = useState([]);
   const [isInputempty, setisInputempty] = useState(false);
   const [searchData, setSearchData] = useState({
@@ -38,6 +38,8 @@ const Bands = () => {
     }
   };
 
+
+
   const handleGenre = (selectedGenres) => {
     setForm((prevData) => ({
       ...prevData,
@@ -45,6 +47,9 @@ const Bands = () => {
     }));
     closeDropdown();
   };
+
+ 
+ 
 
   useEffect(() => {
     console.log("The search data is:", searchData);
@@ -126,52 +131,56 @@ const Bands = () => {
           </p>
 
           <div className={`${styles.bandDetailsContainer}`}>
-            {bands.map((band) => (
-              <div key={band.id} className={`${styles.bandDetail}`}>
-                <a
-                  href={`${band.homepage}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`${Url}/${band.image1}`}
-                    alt={`${band.name} image 1`}
-                    className={`${Url}/${styles.image}`}
-                  />
-                  {console.log(Url, band.image1)}
-                </a>
+            {bands.length === 0 ? (
+              <p>No bands found</p>
+            ) : (
+              bands.map((band) => (
+                <div key={band.id} className={`${styles.bandDetail}`}>
+                  <a
+                    href={`${band.homepage}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      src={`${Url}/${band.image1}`}
+                      alt={`${band.name} image 1`}
+                      className={`${Url}/ ${styles.image}`}
+                    />
+                    {console.log(Url, band.image1)}
+                  </a>
 
-                <span>{band.genre_type}</span>
-                <h1 className={`${styles.bandName}`}>
-                  {String(band.name).charAt(0).toUpperCase() +
-                    String(band.name.slice(1))}
-                </h1>
+                  <span>{band.genre_type}</span>
+                  <h1 className={`${styles.bandName}`}>
+                    {String(band.name).charAt(0).toUpperCase() +
+                      String(band.name.slice(1))}
+                  </h1>
 
-                <div className={`${styles.socials}`}>
-                  <a
-                    href={band.facebook_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img src={facebook} alt="Facebook" key={1} />
-                  </a>
-                  <a
-                    href={band.instagram_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img src={instagram} alt="Instagram" key={2} />
-                  </a>
-                  <a
-                    href={band.youtube_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img src={website} alt="YouTube" key={3} />
-                  </a>
+                  <div className={`${styles.socials}`}>
+                    <a
+                      href={band.facebook_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img src={facebook} alt="Facebook" key={1} />
+                    </a>
+                    <a
+                      href={band.instagram_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img src={instagram} alt="Instagram" key={2} />
+                    </a>
+                    <a
+                      href={band.youtube_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img src={website} alt="YouTube" key={3} />
+                    </a>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
 

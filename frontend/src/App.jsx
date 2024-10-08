@@ -23,7 +23,7 @@ import AdminDashboardLayout from "./Layout/AdminDashboardLayout";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-const ModalContext = createContext();
+const ModalContext = createContext({});
 
 export const useModal = () => useContext(ModalContext);
 export const useDeleteModal = () => useContext(ModalContext);

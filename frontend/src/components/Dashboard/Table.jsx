@@ -1,5 +1,5 @@
 // /* eslint-disable react/prop-types */
-import React, { useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 // import { useEffect, useState } from "react";
 
 // import styles from "./Table.module.css";
@@ -63,9 +63,8 @@ import React, { useState,useEffect} from "react";
 import styles from "./Table.module.css";
 import BandTableData from "./BandTableData";
 import LocationTableData from "./LocationTableData";
-import {api} from "../../services/api.route"
+import { api } from "../../services/api.route";
 import { control } from "leaflet";
-
 
 const Table = ({
   tableHead,
@@ -83,9 +82,9 @@ const Table = ({
   // setpending
 }) => {
   const rowNumber = (currentPage - 1) * itemsPerPage;
-  const [statuses, setStatuses] = useState({}); 
-  const [itemID, setItemId] = useState()
-  const [tableType,setTableType] = useState()
+  const [statuses, setStatuses] = useState({});
+  const [itemID, setItemId] = useState();
+  const [tableType, setTableType] = useState();
 
   const handleSelectChange = (value, item, pageType) => {
     setStatuses((prevStatuses) => ({
@@ -95,11 +94,11 @@ const Table = ({
     setItemId(item.ID);
     setTableType(pageType);
   };
-  
+
   useEffect(() => {
     const updateVenue = async () => {
       if (!itemID || !statuses[itemID]) return;
-  
+
       try {
         let endpoint = "";
         if (tableType === "location") {
@@ -107,7 +106,7 @@ const Table = ({
         } else if (tableType === "band") {
           endpoint = "api/v1/band/";
         }
-  
+
         if (endpoint) {
           const res = await api.put(endpoint, null, {
             params: {
@@ -115,21 +114,21 @@ const Table = ({
               Status: statuses[itemID],
             },
           });
-  
+
           if (res.data && Array.isArray(res.data)) {
             console.log("data", res.data);
             const totalApproved = res.data.length || 0;
             setTotalApprove(totalApproved);
-  
+
             const totalDataCount = data.length || 0;
             setTotalData(totalDataCount);
-            
+
             const pendingCount = totalDataCount - totalApproved;
             // setpending(pendingCount >= 0 ? pendingCount : 0);
           } else {
             console.error("No valid data returned from the server.");
-            setTotalApprove(0); 
-            // setpending(data.length || 0); 
+            setTotalApprove(0);
+            // setpending(data.length || 0);
           }
         }
       } catch (err) {
@@ -138,16 +137,13 @@ const Table = ({
         // setpending(data.length || 0);
       }
     };
-  
+
     updateVenue();
   }, [itemID, statuses[itemID], tableType]);
-  
-  
-  
-  
+
   const getBackgroundColor = (status) => {
-    console.log("status", status)
-    console.log("itemID",itemID)
+    console.log("status", status);
+    console.log("itemID", itemID);
     switch (status) {
       case "Approved":
         return "bg-[#5BE97326] text-[#27993A]"; // Green for Approved
@@ -177,12 +173,15 @@ const Table = ({
             <tr key={item.id} className={"bg-[#ffffff]"}>
               {columnCount === 7 ? (
                 <BandTableData
+                  data={data}
                   item={item}
                   rowNumber={rowNumber}
                   index={index}
                   handleDelete={handleDelete}
-                  getBackgroundColor={() =>getBackgroundColor(statuses[item.ID] || item.status)}
-                  status={statuses[item.ID] || item.status} 
+                  getBackgroundColor={() =>
+                    getBackgroundColor(statuses[item.ID] || item.status)
+                  }
+                  status={statuses[item.ID] || item.status}
                   handleSelectChange={handleSelectChange}
                 />
               ) : (
@@ -191,9 +190,11 @@ const Table = ({
                   rowNumber={rowNumber}
                   index={index}
                   handleDelete={handleDelete}
-                  getBackgroundColor={() => getBackgroundColor(statuses[item.ID] || item.status)}
+                  getBackgroundColor={() =>
+                    getBackgroundColor(statuses[item.ID] || item.status)
+                  }
                   handleSelectChange={handleSelectChange}
-                  status={statuses[item.ID] || item.status} 
+                  status={statuses[item.ID] || item.status}
                 />
               )}
             </tr>

@@ -14,9 +14,11 @@ import {
 import ConfirmDelete from "../general/ConfirmDelete";
 import { useModal } from "@/App";
 import Modal from "../general/Modal";
+import EditBand from "./EditBand";
 
 const BandTableData = ({
   item,
+  data,
   rowNumber,
   index,
   handleDelete,
@@ -25,6 +27,9 @@ const BandTableData = ({
   status,
 }) => {
   const [deleteModal, setDeleteModal] = useState(false);
+  const [settingsModal, setSettingsModal] = useState(false);
+
+  const settingsHandler = () => setSettingsModal(!settingsModal);
 
   const deleteHandler = () => {
     setDeleteModal(true);
@@ -85,7 +90,7 @@ const BandTableData = ({
 
       <td className={`${styles.tdStyle} text-[#FF6665]`}>
         <div className="flex items-center gap-3">
-          <button>
+          <button onClick={settingsHandler}>
             <Settings />
           </button>
           <button onClick={deleteHandler}>
@@ -102,6 +107,11 @@ const BandTableData = ({
             confirmDelete={confirmDelete}
             cancelDelete={cancelDelete}
           />
+        </Modal>
+      )}
+      {settingsModal && (
+        <Modal modalHandler={settingsHandler}>
+          <EditBand item={item} data={data} setDeleteModal={settingsModal} />
         </Modal>
       )}
     </>
