@@ -9,24 +9,28 @@ import Map from "../../components/VenueBrand/Map";
 import Dropdown from "../../components/general/Dropdown";
 import { facebook, instagram, website } from "../../assets";
 import { Url, api } from "../../services/api.route"
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 
 const Venues = () => {
-  const [form, setForm] = useState(
-    {
-      venue_type: ""
-    })
+  
+  const [searchParams] = useSearchParams()
+  const query = searchParams.get('query');
+  
+ 
   const [dropdown, setDropDown] = useState(false);
-  const [tokenState, setTokenState] = useState("USDT");
+  
   const [venues, setVenues] = useState([])
-  const [isInputempty, setisInputempty] = useState(false)
+  
   const [searchData, setSearchData] = useState({
-    name: ""
+    name: "",
+    genre : query || "",
+    type : []
   })
+
+
   const location = useLocation();
   const { date, location: selectedLocation } = location.state || {};
-  // console.log(date, selectedLocation)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -35,32 +39,14 @@ const Venues = () => {
       ...prevFormData,
       name: value,
     }));
-    if (value === "") {
-      console.log("Input is empty");
-      setisInputempty(true)
-      return
-    }
-    else {
-      setisInputempty(false)
-    }
-  };
-
-
-
-  const handleGenreSelect = (selectedGenres) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      genre_type: selectedGenres[0].genreOrType,
-    }));
-    closeDropdown();
   };
 
 
   const handleGenre = (selectedGenres) => {
-    setForm((prevData) => ({
-      ...prevData,
-      venue_type: selectedGenres[0].genreOrType,
-    }));
+    const genres = selectedGenres.map((gnr) => gnr.genreOrType)
+    setSearchData((prevData) => {
+      return {...prevData, type : genres}
+    })
     closeDropdown();
   };
 
@@ -68,48 +54,32 @@ const Venues = () => {
   useEffect(() => {
     // console.log("The search data is:", searchData);
     // console.log("The form state has been updated:", form);
+    console.log(searchData)
+    // const getAllUserBandsWithAdminApproved = async () => {
+    //   try {
+    //     const response = await api.get("/api/v1/venue/search", {
+    //       params: {
+    //         name: searchData.name || "",
+    //         venue_type: form.venue_type || "",
+    //         location: selectedLocation,
+    //         date: date
+    //       }
+    //     });
+    //     // console.log(response.data);
+    //     setVenues(response.data);
+    //   } catch (error) {
+    //     console.error("Error occurred when getting the user band:", error);
+    //     console.error(error || "An unexpected error occurred");
+    //     setVenues([])
+    //   }
+    // };
 
-    const getAllUserBandsWithAdminApproved = async () => {
-      try {
-        const response = await api.get("/api/v1/venue/search", {
-          params: {
-            name: searchData.name || "",
-            venue_type: form.venue_type || "",
-            location: selectedLocation,
-            date: date
-          }
-        });
-        // console.log(response.data);
-        setVenues(response.data);
-      } catch (error) {
-        console.error("Error occurred when getting the user band:", error);
-        console.error(error || "An unexpected error occurred");
-        setVenues([])
-      }
-    };
-
-    getAllUserBandsWithAdminApproved();
-  }, [searchData, form]);
-
-
+    // getAllUserBandsWithAdminApproved();
+  }, [searchData]);
 
 
-  useEffect(() => {
 
-    const getAlluserVenue = async () => {
-      try {
-        const response = await api.get("/api/v1/venue/approved")
-        // console.log(response.data)
-        setVenues(response.data)
 
-      } catch (error) {
-        console.error("Error occur when getting the user venue:", error);
-        setVenues([])
-        // toast.error(error|| "An unexpected error occurred");
-      }
-    }
-    getAlluserVenue()
-  }, [isInputempty])
 
   const showDropdown = () => {
     setDropDown((prev) => !prev);
@@ -119,9 +89,7 @@ const Venues = () => {
     setDropDown(false);
   };
 
-  const tokenStateHandler = (currentToken) => {
-    setTokenState(currentToken);
-  };
+  
   return (
     <>
       <section className={`${styles.venueSection} transition `}>

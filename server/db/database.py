@@ -6,6 +6,8 @@ from src.config import settings
 
 
 print(settings.DATABASE_URL)
+assert settings.DATABASE_URL
+
 asyc_engine = create_async_engine(
     settings.DATABASE_URL,
     echo=False,
@@ -14,7 +16,7 @@ asyc_engine = create_async_engine(
 
 async def init_db() -> None:
     async with asyc_engine.begin() as conn:
-        from .table import Band, Venue,Ads,Venuetype,Genre
+        from .table import Band, Venue, Ads, Venuetype, Genre
 
         await conn.run_sync(SQLModel.metadata.create_all)
 

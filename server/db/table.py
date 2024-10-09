@@ -8,18 +8,16 @@ from pydantic import EmailStr
 from datetime import datetime, date, time
 
 
-
 class Ads(SQLModel, table=True):
     __tablename__ = "Ads"
     id: str = Field(default=None, primary_key=True)
     image: Optional[str] = Field(default=None, sa_column=Column(String(255)))
     is_admin_approved: bool = Field(default=False)
-    
+
     def __repr__(self) -> str:
         return f"Ads: images table created successfully!"
-    
-    
-    
+
+
 class Band(SQLModel, table=True):
     __tablename__ = "Band"
     id: str = Field(default=None, primary_key=True)
@@ -68,33 +66,31 @@ class Venue(SQLModel, table=True):
 
     model_config = {"arbitrary_types_allowed": True}
 
-    def __repr__(self) -> str:
-        return f"Venue: {self.name} created successfully!"
-    
+    # def __repr__(self) -> str:
+    #     return f"Venue: {self.name} created successfully!"
+
 
 class Genre(SQLModel, table=True):
     __tablename__ = "Genre"
-    id:str = Field(default=None, primary_key=True)
+    id: str = Field(default=None, primary_key=True)
     name: str = Field(sa_column=Column(String(100)))
-    image:Optional[str] = Field(default=None, sa_column=Column(String(255)))
+    image: Optional[str] = Field(default=None, sa_column=Column(String(255)))
     is_admin_approved: bool = Field(default=False)
-    
-    
+
     model_config = {"arbitrary_types_allowed": True}
 
     def __repr__(self) -> str:
         return f"Genre: {self.name} created successfully!"
-    
-    
+
+
 class Venuetype(SQLModel, table=True):
     __tablename__ = "Venuetype"
-    id:str = Field(default=None, primary_key=True)
+    id: str = Field(default=None, primary_key=True)
     name: str = Field(sa_column=Column(String(100)))
-    image:Optional[str] = Field(default=None, sa_column=Column(String(255)))
+    image: Optional[str] = Field(default=None, sa_column=Column(String(255)))
     is_admin_approved: bool = Field(default=False)
-    
+
     model_config = {"arbitrary_types_allowed": True}
 
     def __repr__(self) -> str:
         return f"Venuetype: {self.name} created successfully!"
-    

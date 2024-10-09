@@ -30,12 +30,14 @@ const Genre = () => {
   return (
     <div className={`${styles.genre}`}>
       {genre.map((list) => (
+        <Link to={`/venues?query=${list.genreOrType}`} >
         <div key={list.genre} className="flex flex-col  items-center">
           <img src={`${Url}/${list.image}`} className={styles.image} />
           <h1 className="text-[0.7rem] font-[400] text-[#0A225980]">
             {list.genre}
           </h1>
         </div>
+        </Link>
       ))}
     </div>
   );

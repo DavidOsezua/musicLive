@@ -7,12 +7,12 @@ from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlmodel import select, update, MetaData, and_
 from db.database import get_session
 from sqlmodel.ext.asyncio.session import AsyncSession
-from src.schema import Band_, Venue_, Contact, Ads_,Genre_,Type_
+from src.schema import Band_, Venue_, Contact, Ads_, Genre_, Type_
 from src import uploads
 from typing import List, Optional
 from http import HTTPStatus
 from src import exceptions
-from db.table import Venue, Band, Ads,Genre,Venuetype
+from db.table import Venue, Band, Ads, Genre, Venuetype
 from sqlalchemy import func
 from datetime import timezone
 from dateutil import parser
@@ -20,6 +20,7 @@ import yagmail
 from db.database import asyc_engine
 import shortuuid
 from datetime import datetime
+from src import search
 
 api_router = APIRouter(prefix="/api/v1", tags=["api"])
 
@@ -56,8 +57,6 @@ async def get_tables_verified_lengths(session: AsyncSession = Depends(get_sessio
     return {key: value for key, value in table_lengths.items()}
 
 
-
-
 def validate_image_size(image: UploadFile, image_size: tuple):
     try:
         img = Image.open(io.BytesIO(image.file.read()))
@@ -69,7 +68,6 @@ def validate_image_size(image: UploadFile, image_size: tuple):
         image.file.seek(0)
     except Exception as e:
         raise exceptions.BadRequest(f"{str(e)}")
-    
 
 
 @api_router.get("/ads", response_model=List[Ads])
@@ -251,8 +249,7 @@ async def upload_venue(
         print(e)
         status_code = getattr(e, "status", 400)
         raise HTTPException(status_code=status_code, detail=f"{str(e)}")
-    
-    
+
 
 @api_router.put("/venue/{venue_id}")
 async def update_venue(
@@ -268,7 +265,7 @@ async def update_venue(
     facebook: Optional[str] = Form(None),
     instagram: Optional[str] = Form(None),
     youtube: Optional[str] = Form(None),
-    image1: Optional[UploadFile] = File(None),  
+    image1: Optional[UploadFile] = File(None),
     image2: Optional[UploadFile] = File(None),
     session: AsyncSession = Depends(get_session),
 ) -> Venue_:
@@ -297,7 +294,7 @@ async def update_venue(
         existing_venue.instagram_url = instagram
         existing_venue.youtube_url = youtube
         existing_venue.image1 = image_paths.path1
-        existing_venue.image2 = image_paths.path2,
+        existing_venue.image2 = (image_paths.path2,)
 
         await session.commit()
         await session.refresh(existing_venue)
@@ -308,17 +305,20 @@ async def update_venue(
         if str("duplicate entry").lower() in str(ie.orig).lower():
             raise HTTPException(status_code=400, detail="Email already exists.")
         else:
-            raise HTTPException(status_code=400, detail="Integrity error occurred, correct data and try again.")
+            raise HTTPException(
+                status_code=400,
+                detail="Integrity error occurred, correct data and try again.",
+            )
 
     except OperationalError as oe:
-        raise HTTPException(status_code=503, detail="Operational error occurred: database not reachable")
+        raise HTTPException(
+            status_code=503, detail="Operational error occurred: database not reachable"
+        )
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Unable to update data: {str(e)}")
-    
-    
-    
-    
+
+
 @api_router.put("/band/{band_id}")
 async def update_band(
     band_id: str,
@@ -330,7 +330,7 @@ async def update_band(
     facebook: Optional[str] = Form(None),
     instagram: Optional[str] = Form(None),
     youtube: Optional[str] = Form(None),
-    image1: Optional[UploadFile] = File(None), 
+    image1: Optional[UploadFile] = File(None),
     image2: Optional[UploadFile] = File(None),
     session: AsyncSession = Depends(get_session),
 ) -> Band_:
@@ -352,8 +352,8 @@ async def update_band(
         existing_band.facebook_url = facebook
         existing_band.instagram_url = instagram
         existing_band.youtube_url = youtube
-        existing_band.image1 = image_paths.path1,
-        existing_band.image2 = image_paths.path2,
+        existing_band.image1 = (image_paths.path1,)
+        existing_band.image2 = (image_paths.path2,)
 
         await session.commit()
         await session.refresh(existing_band)
@@ -365,15 +365,18 @@ async def update_band(
         if str("duplicate entry").lower() in str(ie.orig).lower():
             raise HTTPException(status_code=400, detail="Email already exists.")
         else:
-            raise HTTPException(status_code=400, detail="Integrity error occurred, correct data and try again.")
+            raise HTTPException(
+                status_code=400,
+                detail="Integrity error occurred, correct data and try again.",
+            )
 
     except OperationalError as oe:
-        raise HTTPException(status_code=503, detail="Operational error occurred: database not reachable")
+        raise HTTPException(
+            status_code=503, detail="Operational error occurred: database not reachable"
+        )
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Unable to update data: {str(e)}")
-    
-    
 
 
 @api_router.post("/band")
@@ -731,78 +734,18 @@ async def get_venue_approved(session: AsyncSession = Depends(get_session)) -> Ve
 
 
 @api_router.get("/venue/search", response_model=List[Venue])
-async def search(
-    name: Optional[str] = Query(default=None),
-    venue_type: Optional[str] = Query(default=None),
-    location: Optional[str] = Query(default=None),
-    date: Optional[str] = Query(default=None),
+async def search_venue(
+    name: str | None = Query(default=None),
+    genre: str | None = Query(default=None),
+    types: list[str] | None = Query(default=None),
     session: AsyncSession = Depends(get_session),
 ):
-    query = select(Venue).where(Venue.is_admin_approved == True)
-    
-    if name and venue_type:
-        name = name.strip().lower()
-        venue_type = venue_type.strip().lower()
-        query = query.where(
-            func.lower(Venue.name).contains(name),
-            func.lower(Venue.venue_type) == venue_type,
-        )
-
-    # elif location and date:
-        
-    #     try:
-    #         dt = parser.isoparse(date.strip("'"))
-    #         formatted_date = dt.strftime("%Y-%m-%d 00:00:00") 
-    #     except ValueError as e:
-    #         print(e)
-    #         return []
-        
-    #     location = location.strip().lower()
-    #     query = query.where(
-    #         func.lower(Venue.address).contains(location),
-    #         func.lower(Venue.venue_date).contains(formatted_date)   
-    #     )
-    
-    elif location:
-        location = location.strip().lower()
-        query = query.where(func.lower(Venue.address).contains(location))
-        
-        
-        
-    elif date:
-        try: 
-            dt = parser.isoparse(date.strip("'"))
-            formatted_date = dt.strftime("%Y-%m-%d 00:00:00") 
-            print("formated date", formatted_date)
-        except ValueError as e:
-            print(e)
-            return []
-        query = query.where(
-            func.lower(Venue.venue_date).contains(formatted_date)
-        )
-
-    elif name:
-        name = name.strip().lower()
-        query = query.where(func.lower(Venue.name).contains(name))
-
-    elif venue_type:
-        venue_type = venue_type.strip().lower()
-        query = query.where(func.lower(Venue.venue_type) == venue_type)
-        
-    if not (name or venue_type or location or date):
-        return []
-
-
-    result = await session.exec(query)
-    venues = result.fetchall()
-    print(venues)
-    return venues if venues else []
-
-
+    venues = await search.search_venue(name, genre, types, session)
+    return venues
 
 
 @api_router.get("/band/search", response_model=List[Band])
-async def search(
+async def search_band(
     name: Optional[str] = Query(default=None),
     # band_tag: Optional[str] = Query(default=None),
     genre_type: Optional[str] = Query(default=None),
@@ -836,24 +779,22 @@ async def search(
     return band
 
 
-
 @api_router.post("/genre/")
 async def create_genre(
-    name:str = Form(...),
-    image:UploadFile = File(...),
+    name: str = Form(...),
+    image: UploadFile = File(...),
     session: AsyncSession = Depends(get_session),
 ):
     try:
         image_size = (64, 64)
         validate_image_size(image, image_size)
         genre_id = shortuuid.uuid()
-        image_path =uploads.save_images(genre_id, image.file)
-        
-                
-        try: 
+        image_path = uploads.save_images(genre_id, image.file)
+
+        try:
             genre_data = Genre_(name=name, image=image_path)
             try:
-                genre_data = Genre(id=genre_id,**genre_data.model_dump(by_alias=True))
+                genre_data = Genre(id=genre_id, **genre_data.model_dump(by_alias=True))
                 session.add(genre_data)
                 await session.commit()
                 await session.refresh(genre_data)
@@ -887,35 +828,30 @@ async def create_genre(
             print(e)
             raise HTTPException(status_code=400, detail=f"Error: {str(e)}")
 
-    
-    
     except Exception as e:
         print(e)
         status_code = getattr(e, "status", 400)
         raise HTTPException(status_code=status_code, detail=f"{str(e)}")
 
 
-
-
-
-
 @api_router.post("/type/")
 async def create_venue_type(
-    name:str = Form(...),
-    image:UploadFile = File(...),
+    name: str = Form(...),
+    image: UploadFile = File(...),
     session: AsyncSession = Depends(get_session),
 ):
     try:
         image_size = (64, 64)
         validate_image_size(image, image_size)
         genre_id = shortuuid.uuid()
-        image_path =uploads.save_images(genre_id, image.file)
-        
-                
-        try: 
+        image_path = uploads.save_images(genre_id, image.file)
+
+        try:
             type_data = Type_(name=name, image=image_path)
             try:
-                type_data = Venuetype(id=genre_id,**type_data.model_dump(by_alias=True))
+                type_data = Venuetype(
+                    id=genre_id, **type_data.model_dump(by_alias=True)
+                )
                 session.add(type_data)
                 await session.commit()
                 await session.refresh(type_data)
@@ -949,22 +885,17 @@ async def create_venue_type(
             print(e)
             raise HTTPException(status_code=400, detail=f"Error: {str(e)}")
 
-    
-    
     except Exception as e:
         status_code = getattr(e, "status", 400)
         raise HTTPException(status_code=status_code, detail=f"{str(e)}")
-    
-    
-    
-    
+
+
 @api_router.get("/genre", response_model=List[Genre])
 async def get_genres(session: AsyncSession = Depends(get_session)) -> Genre:
     query = select(Genre)
     result = await session.exec(query)
     genres = result.fetchall()
     return [dict(row) for row in genres]
-
 
 
 @api_router.get("/type", response_model=List[Venuetype])
@@ -1010,7 +941,6 @@ async def approve_genre(
     return updated_genre
 
 
-
 @api_router.put("/type/approved/", response_model=List[Venuetype])
 async def venue_type(
     type_id: str = Query(..., alias="venue_type"),
@@ -1030,7 +960,9 @@ async def venue_type(
     is_approved = status_normalized == "approved"
 
     update_query = (
-        update(Venuetype).where(Venuetype.id == type_id).values(is_admin_approved=is_approved)
+        update(Venuetype)
+        .where(Venuetype.id == type_id)
+        .values(is_admin_approved=is_approved)
     )
     await session.exec(update_query)
     await session.commit()
@@ -1046,10 +978,10 @@ async def venue_type(
     return updated_type
 
 
-
-
 @api_router.delete("/genre/{genre_id}", response_model=Genre)
-async def delete_user_genre(genre_id: str, session: AsyncSession = Depends(get_session)):
+async def delete_user_genre(
+    genre_id: str, session: AsyncSession = Depends(get_session)
+):
     genre = await session.get(Genre, genre_id)
     if not genre:
         raise HTTPException(
@@ -1070,17 +1002,3 @@ async def delete_user_type(type_id: str, session: AsyncSession = Depends(get_ses
     await session.delete(type_)
     await session.commit()
     return type_
-
-
-
-
-
-
-
-
-
-
-
-
-
-
