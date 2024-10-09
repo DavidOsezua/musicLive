@@ -98,6 +98,10 @@ const TablesAndCards = ({
         endpoint = "/api/v1/ads/";
       } else if (from === "venue") {
         endpoint = "/api/v1/venue/";
+      } else if (from === "Genre") {
+        endpoint = "/api/v1/genre/";
+      } else if (from === "Type") {
+        endpoint = "/api/v1/type/";
       }
 
       await api.delete(`${endpoint}${id}`);
@@ -129,6 +133,10 @@ const TablesAndCards = ({
           endpoint = "api/v1/venue/approved/";
         } else if (musicType === "ads") {
           endpoint = "api/v1/ads/approved/";
+        } else if (musicType === "venueType") {
+          endpoint = "/api/v1/type/approved/";
+        } else if (musicType == "genreType") {
+          endpoint = "/api/v1/genre/approved/";
         }
         console.log(endpoint);
         if (endpoint) {

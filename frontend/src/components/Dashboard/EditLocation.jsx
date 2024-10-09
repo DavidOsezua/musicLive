@@ -1,4 +1,3 @@
-import { Modal } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Loader from "../general/Loader";
 import Failed from "../general/Failed";
@@ -8,6 +7,7 @@ import MultiFormPage from "../general/MultiFormPage";
 import BrandVenueForm from "../VenueBrand/BrandVenueForm";
 import VenueForm from "../VenueBrand/VenueForm";
 import { api } from "@/services/api.route";
+import Modal from "../general/Modal";
 
 const EditLocation = ({ item }) => {
   const { modal, modalHandler } = useModal() || {};

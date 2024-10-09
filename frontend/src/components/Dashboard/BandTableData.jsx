@@ -54,7 +54,7 @@ const BandTableData = ({
 
       <td className={`${styles.tdStyle}`}>
         <div className="flex gap-3 items-center">
-          <img src={item.image} className={`w-[40px] rounded-md`} />
+          <img src={item.image} className={`w-[40px] h-[40px] object-cover rounded-md`} />
           <div>
             <h2>{item.venueOrBandName}</h2>
             <span>{item.genreOrType}</span>

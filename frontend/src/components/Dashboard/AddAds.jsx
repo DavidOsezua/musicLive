@@ -30,6 +30,8 @@ const AddAds = ({ getAlladsData }) => {
     setImage(selectedFile);
   };
 
+  
+
   const clickFunction = async (e) => {
     e.preventDefault();
     setLoader(true);

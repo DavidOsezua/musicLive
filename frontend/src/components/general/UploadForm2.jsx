@@ -5,8 +5,18 @@ import styles from "./UploadForm.module.css";
 import Close from "./Close";
 import { useModal } from "@/App";
 
-const UploadForm2 = ({image}) => {
-  const { modalHandler } = useModal() || {};
+const UploadForm2 = ({
+  image,
+  label1,
+  label2,
+  clickFunction,
+  iconSize,
+  handleAddImage,
+  uploadInstruction,
+  formData,
+  modalHandler,
+  setFormData,
+}) => {
   return (
     <div className={styles.formContainer}>
       <button className={styles.btn} onClick={modalHandler}>
@@ -16,7 +26,17 @@ const UploadForm2 = ({image}) => {
       <form className={styles.formWrapper}>
         <div className={`${styles.inputContainer}`}>
           <label>{label1}</label>
-          <input placeholder="Enter Venue Name" className={`${styles.input}`} />
+          <input
+            placeholder="Enter Venue Name"
+            className={`${styles.input}`}
+            value={formData.name || ""}
+            onChange={(e) =>
+              setFormData((prevFormData) => ({
+                ...prevFormData,
+                name: e.target.value,
+              }))
+            }
+          />
         </div>
 
         <p>{label2}</p>

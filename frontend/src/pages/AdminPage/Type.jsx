@@ -6,7 +6,7 @@ import Modal from "../../components/general/Modal";
 import AddType from "../../components/Dashboard/AddType";
 import { useState, useEffect } from "react";
 import { useModal } from "../../App";
-import { api } from "../../services/api.route";
+import { api, Url } from "../../services/api.route";
 import {
   wine,
   resturant,
@@ -18,63 +18,42 @@ import {
 
 const Type = () => {
   const { modal, modalHandler } = useModal() || {};
-  const [locationPageData, setLocationPageData] = useState([]);
+  const [typePageData, settypePageData] = useState([]);
   const [totalData, setTotalData] = useState(0);
   const [totalApprove, setTotalApprove] = useState(0);
   const [trackChanges, settrackChanges] = useState(false);
 
-  const getAllVenueData = async () => {
+  const getAllVenueTypeData = async () => {
     try {
-      const res = await api.get("/api/v1/venue");
-      const adsData = res.data;
+      const res = await api.get("/api/v1/type");
+      const venueTypesData = res.data;
+
+      console.log(venueTypesData);
 
       let approvedCount = 0;
-      const uniqueVenueTypes = [];
 
-      const formattedData = res.data
-        .map((venue) => {
-          if (true) {
-            // uniqueVenueTypes.push(venue.venue_type);
+      const formattedData = venueTypesData.map((venue) => {
+        if (venue.is_admin_approved) {
+          approvedCount++;
+        }
 
-            if (venue.is_admin_approved) {
-              approvedCount++;
-            }
-
-            // const image =
-            //   venue.venue_type === "Winery"
-            //     ? wine
-            //     : venue.venue_type === "Resturant"
-            //     ? resturant
-            //     : venue.venue_type === "Brewery"
-            //     ? brewery
-            //     : venue.venue_type === "Bar"
-            //     ? Bar
-            //     : venue.venue_type === "Night"
-            //     ? night
-            //     : venue.venue_type === "Outdoor"
-            //     ? outdoorStage
-            //     : "";
-
-            return {
-              ID: venue.id,
-              image: image,
-              genreOrType: venue.venue_type || "",
-              status: venue.is_admin_approved ? "Approved" : "Inactive",
-            };
-          }
-          return null;
-        })
-        .filter(Boolean);
-      setTotalData(adsData.length);
+        return {
+          ID: venue.id,
+          image: venue.image ? `${Url}/${venue.image}` : "",
+          genreOrType: venue.name || "",
+          status: venue.is_admin_approved ? "Approved" : "Inactive",
+        };
+      });
+      setTotalData(venueTypesData.length);
       setTotalApprove(approvedCount);
-      setLocationPageData(formattedData);
+      settypePageData(formattedData);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    getAllVenueData();
+    getAllVenueTypeData();
   }, [totalData, trackChanges]);
 
   let inactive = totalData - totalApprove;
@@ -88,9 +67,11 @@ const Type = () => {
 
     status: ["All", "Approved", "Inactive"],
 
-    tableOrCardData: locationPageData,
+    tableOrCardData: typePageData,
     numberOfItem: 12,
   };
+
+  console.log(typePageData);
 
   return (
     <section className={` adminSection pageContainer transition`}>
@@ -104,15 +85,16 @@ const Type = () => {
       <TablesAndCards
         pageData={venueFormData}
         pageType={`cardList`}
-        musicType="venue"
-        setUserData={setLocationPageData}
+        musicType="venueType"
+        from={`Type`}
+        setUserData={settypePageData}
         settrackChanges={settrackChanges}
         setTotalData={setTotalData}
         setTotalApprove={setTotalApprove}
       />
       {modal ? (
         <Modal modalHandler={modalHandler} component={""}>
-          <AddType />
+          <AddType getAllVenueTypeData={getAllVenueTypeData} />
         </Modal>
       ) : (
         ""

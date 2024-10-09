@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TitleAndStatus from "../../components/Dashboard/TitleAndStatus";
 import { genrePageData } from "../../data/data";
 import Switch from "../../components/general/Switch";
-import { api } from "../../services/api.route";
+import { api, Url } from "../../services/api.route";
 import TablesAndCards from "../../components/Dashboard/TablesAndCards";
 
 import Modal from "../../components/general/Modal";
@@ -33,28 +33,20 @@ const AdminGenre = () => {
       const res = await api.get("/api/v1/genre");
       const genreData = res.data;
       let approvedCount = 0;
-      const uniqueTypes = [];
 
-      const formattedData = res.data
-        .map((genre) => {
-          if (true) {
-            // uniqueTypes.push(band.genre_type);
+      const formattedData = genreData.map((genre) => {
+        if (genre.is_admin_approved) {
+          approvedCount++;
+        }
 
-            if (genre.is_admin_approved) {
-              approvedCount++;
-            }
-
-            return {
-              ID: genre.id,
-              image: genre.image ? Url + "/" + genre.image : "",
-              genreOrType: genre.genre_type || "",
-              status: genre.is_admin_approved ? "Approved" : "Inactive",
-            };
-          }
-          // return null;
-        })
-        .filter(Boolean); // Remove null entries
-      setTotalData(adsData.length);
+        return {
+          ID: genre.id,
+          image: genre.image ? Url + "/" + genre.image : "",
+          genreOrType: genre.name || "",
+          status: genre.is_admin_approved ? "Approved" : "Inactive",
+        };
+      });
+      setTotalData(genreData.length);
       setTotalApprove(approvedCount);
       setLocationPageData(formattedData);
     } catch (err) {
@@ -81,6 +73,8 @@ const AdminGenre = () => {
     numberOfItem: 12,
     size: "genre",
   };
+
+  console.log(locationPageData);
   return (
     <section className={` adminSection pageContainer transition`}>
       <TitleAndStatus
@@ -93,7 +87,8 @@ const AdminGenre = () => {
       <TablesAndCards
         pageData={getAllGenre}
         pageType={`cardList`}
-        musicType="genre"
+        musicType="genreType"
+        from={`Genre`}
         setUserData={setLocationPageData}
         settrackChanges={settrackChanges}
         setTotalData={setTotalData}
@@ -101,7 +96,7 @@ const AdminGenre = () => {
       />
       {modal ? (
         <Modal modalHandler={modalHandler}>
-          <AddGenre />
+          <AddGenre getAllGenreData={getAllGenreData} />
         </Modal>
       ) : (
         ""

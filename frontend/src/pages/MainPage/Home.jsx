@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.css";
 import styles from "./Home.module.css";
 import LocationAndDates from "../../components/Homepage/LocationAndDates";
@@ -10,6 +10,7 @@ import Hero from "../../components/Homepage/Hero";
 import SelectGenre from "../../components/SVGcomponent/SelectGenre";
 import GenreScroll from "../../components/general/GenreScroll";
 import Advert from "@/components/general/Advert";
+import { api } from "@/services/api.route";
 
 const Home = () => {
   return (

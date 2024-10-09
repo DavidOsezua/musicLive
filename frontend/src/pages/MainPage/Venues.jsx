@@ -124,7 +124,7 @@ const Venues = () => {
   };
   return (
     <>
-      <section className={`${styles.venueSection} transition`}>
+      <section className={`${styles.venueSection} transition `}>
         <div className={`${styles.search} px-[1rem] `}>
           <Search showDropdown={showDropdown} searchData={searchData} handleInputChange={handleInputChange} />
 
@@ -164,7 +164,7 @@ const Venues = () => {
                 <img
                   src={`${Url}/${venue.image1}`}
                   alt={`${venue.name} image 1`}
-                  className={`${Url}/${styles.image}`}
+                  className={`${Url}/ ${styles.image}`}
                 />
               </a>
 

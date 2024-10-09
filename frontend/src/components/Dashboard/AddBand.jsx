@@ -131,7 +131,7 @@ import { useModal } from "../../App";
 import Failed from "../../components/general/Failed";
 import Loader from "../general/Loader";
 
-const AddBand = ({ settrackChanges, isEdit, bandId }) => {
+const AddBand = ({ settrackChanges, isEdit, bandId, getAllUserBandData }) => {
   const { modal, modalHandler } = useModal() || {};
   const [message, setMessage] = useState();
   const [loader, setLoader] = useState(false);
@@ -152,8 +152,6 @@ const AddBand = ({ settrackChanges, isEdit, bandId }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
   const [showResultModal, setShowResultModal] = useState(false); // New state to control result modal visibility
-
-
 
   const validateStep = (currentStep) => {
     const errors = {};
@@ -190,6 +188,7 @@ const AddBand = ({ settrackChanges, isEdit, bandId }) => {
         await uploadUserbrand(dataForm);
         setIsSubmitted(true);
         if (settrackChanges) settrackChanges(true);
+        if(getAllUserBandData) getAllUserBandData()
         setMessage("Band uploaded successfully!");
         setShowResultModal(true); // Show the result modal
         setLoader(false);

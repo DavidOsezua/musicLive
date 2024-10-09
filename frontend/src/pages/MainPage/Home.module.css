@@ -125,6 +125,7 @@
 .genrebtn {
   display: flex;
   align-items: center;
+  margin-left: auto;
   gap: 5px;
   font-size: 10px;
   border: 1px solid rgba(10, 34, 89, 0.3);

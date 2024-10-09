@@ -118,7 +118,10 @@ const AdminBand = () => {
       />
       {modal ? (
         <Modal modalHandler={modalHandler}>
-          <AddBand settrackChanges={settrackChanges} />
+          <AddBand
+            settrackChanges={settrackChanges}
+            getAllUserBandData={getAllUserBandData}
+          />
         </Modal>
       ) : (
         ""

@@ -90,6 +90,7 @@ const AddYourVenue = () => {
         setIssubmitted(true);
         setMessage("Venue uploaded successfully!");
         setError(false);
+        setLoader(false);
         modalHandler();
       } catch (e) {
         setMessage(e.response.data.detail || "Form validation failed");
@@ -97,13 +98,11 @@ const AddYourVenue = () => {
         setError(true);
         console.error("error", e.response.data.detail);
         modalHandler();
-        //inplement the catching error card here
       }
     } else {
       setError(true);
       setMessage("Form validation failed");
       modalHandler();
-      // implement the error rendering here
     }
   };
 

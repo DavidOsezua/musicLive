@@ -34,7 +34,7 @@ const LocationAndDates = () => {
         <div>
           <label></label>
           <input
-            placeholder="Great Sacramento"
+            placeholder="Greater Sacramento"
             className={`${styles.input}`}
             value={selectedLocation}
             onChange={(e) => setSelectedLocation(e.target.value)}

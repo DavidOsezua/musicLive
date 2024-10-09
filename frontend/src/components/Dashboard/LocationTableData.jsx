@@ -55,7 +55,7 @@ const LocationTableData = ({
           <img
             src={item.image}
             alt={`${item.venueOrBandName} image`}
-            className={`w-[40px] rounded-md`}
+            className={`w-[40px] h-[40px] object-cover rounded-md`}
           />
           <div>
             <h2>{item.venueOrBandName}</h2>

@@ -11,6 +11,8 @@ import ConfirmDelete from "../general/ConfirmDelete";
 const CardListItem = ({ item, updateItemStatus, handleDelete }) => {
   const [deleteModal, setDeleteModal] = useState(false);
 
+  console.log(item);
+
   const deleteHandler = () => {
     setDeleteModal(true);
   };
@@ -55,7 +57,7 @@ const CardListItem = ({ item, updateItemStatus, handleDelete }) => {
       </div>
 
       <div className="flex justify-center w-full">
-        <img src={item.image} />
+        <img src={item.image} className="" />
       </div>
 
       <p className="text-center">{item.genreOrType}</p>

@@ -23,18 +23,27 @@ const DashBoard = () => {
   const [totalresultAdsData, setTotalResultAdsData] = useState({});
   const [totalresultBandData, setTotalResultBandData] = useState({});
   const [totalresultVenueData, setTotalResultVenueData] = useState({});
+  const [totalresultVenueTypeData, setTotalResultVenueTypeData] = useState({});
+  const [totalresultGenreData, setTotalResultGenreData] = useState({});
+
+  console.log(totalresultVenueTypeData);
 
   console.log(modal);
 
   const fetchTotalResult = async () => {
     try {
       const res = await api.get("/api/v1/tables_verified_lengths");
-      setTotalResultData(res.data);
-      setTotalResultAdsData(res.data["Ads"] || {});
-      setTotalResultBandData(res.data["Band"] || {});
-      setTotalResultVenueData(res.data["Venue"] || {});
+      const total = res.data;
+
+      console.log(total);
+      setTotalResultData(total);
+      setTotalResultAdsData(total["Ads"] || {});
+      setTotalResultBandData(total["Band"] || {});
+      setTotalResultVenueData(total["Venue"] || {});
+      setTotalResultVenueTypeData(total["Venuetype"]);
+      setTotalResultGenreData(total["Genre"]);
     } catch (e) {
-      console.error("Error fetching data:", e);
+      console.error("Error fetchtotal:", e);
     }
   };
 
@@ -101,20 +110,20 @@ const DashBoard = () => {
       name: "Genre",
       ID: crypto.randomUUID(),
       path: "/admin/admingenre",
-      numbers: totalresultBandData.is_verified || 0,
+      numbers: totalresultGenreData.total || 0,
       image: genreImg,
       component: <AddGenre />,
       status: [
         {
           state: "active",
-          number: totalresultBandData.admin_approved || 0,
+          number: totalresultGenreData.admin_approved || 0,
           colorID: "active",
         },
         {
           state: "inactive",
           number:
-            (totalresultBandData.total || 0) -
-            (totalresultBandData.admin_approved || 0),
+            (totalresultGenreData.total || 0) -
+            (totalresultGenreData.admin_approved || 0),
           colorID: "inactive",
         },
       ],
@@ -150,20 +159,20 @@ const DashBoard = () => {
       name: "Venue Type",
       ID: crypto.randomUUID(),
       path: "/admin/type",
-      numbers: totalresultVenueData.total || 0,
+      numbers: totalresultVenueTypeData.total || 0,
       image: venueImg,
       component: <AddType />,
       status: [
         {
           state: "active",
-          number: totalresultVenueData.admin_approved || 0,
+          number: totalresultVenueTypeData.admin_approved || 0,
           colorID: "active",
         },
         {
           state: "Pending",
           number:
-            (totalresultVenueData.total || 0) -
-            (totalresultVenueData.admin_approved || 0),
+            (totalresultVenueTypeData.total || 0) -
+            (totalresultVenueTypeData.admin_approved || 0),
           colorID: "pending",
         },
         { state: "inactive", number: 0, colorID: "inactive" },

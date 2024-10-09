@@ -58,39 +58,39 @@ const EditBand = ({ item, data }) => {
     return Object.keys(errors).length === 0;
   };
 
-  useEffect(() => {
-    async function getAllUserBand() {
-      try {
-        const res = await api.get("api/v1/band");
-        const data = await res.data;
-        const bandId = item.ID;
-        const band = data.find((b) => b.id === bandId);
-        console.log(data);
-        console.log(band);
-        if (band) {
-          console.log("Band:", band);
-          setFormData({
-            name: band.name || "",
-            email: band.email || "",
-            genre_type: band.genre_type || "",
-            band_tag: band.band_tag || "",
-            homepage: band.homepage || "",
-            facebook: band.facebook_url || "",
-            instagram: band.instagram_url || "",
-            youtube: band.youtube_url || "",
-            image1: band.image1 || "", // Assuming these are URLs or image data
-            image2: band.image2 || "",
-          });
+  async function getAllUserBand() {
+    try {
+      const res = await api.get("api/v1/band");
+      const data = await res.data;
+      const bandId = item.ID;
+      const band = data.find((b) => b.id === bandId);
+      console.log(data);
+      console.log(band);
+      if (band) {
+        console.log("Band:", band);
+        setFormData({
+          name: band.name || "",
+          email: band.email || "",
+          genre_type: band.genre_type || "",
+          band_tag: band.band_tag || "",
+          homepage: band.homepage || "",
+          facebook: band.facebook_url || "",
+          instagram: band.instagram_url || "",
+          youtube: band.youtube_url || "",
+          image1: band.image1 || "", // Assuming these are URLs or image data
+          image2: band.image2 || "",
+        });
 
-          setdataObj(band);
-        } else {
-          console.log("Band not found");
-        }
-      } catch (error) {
-        console.log(error);
+        setdataObj(band);
+      } else {
+        console.log("Band not found");
       }
+    } catch (error) {
+      console.log(error);
     }
+  }
 
+  useEffect(() => {
     getAllUserBand();
   }, []);
 
@@ -99,7 +99,7 @@ const EditBand = ({ item, data }) => {
   const handleSave = async () => {
     setLoader(true);
     if (validateStep(1)) {
-      console.log("the user form:", formData)
+      console.log("the user form:", formData);
       const dataForm = new FormData();
       Object.keys(formData).forEach((key) => {
         dataForm.append(key, formData[key]);
@@ -117,6 +117,7 @@ const EditBand = ({ item, data }) => {
       } catch (error) {
         setError(error.message);
         setMessage(error.response?.data?.detail || "Failed to update band.");
+        getAllUserBand();
         setIsSubmitted(false);
         setShowResultModal(true);
       } finally {
