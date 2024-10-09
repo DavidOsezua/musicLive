@@ -3,6 +3,7 @@ import SelectGenre from "../SVGcomponent/SelectGenre";
 // import { genre } from "../../data/data";
 import styles from "./Genre.module.css";
 import { api, Url } from "@/services/api.route";
+import { Link } from "react-router-dom";
 
 const Genre = () => {
   const [genre, setGenre] = useState([]);
@@ -30,11 +31,11 @@ const Genre = () => {
   return (
     <div className={`${styles.genre}`}>
       {genre.map((list) => (
-        <Link to={`/venues?query=${list.genreOrType}`} >
-        <div key={list.genre} className="flex flex-col  items-center">
+        <Link to={`/venues?query=${list.name}`} >
+        <div key={list.id} className="flex flex-col  items-center">
           <img src={`${Url}/${list.image}`} className={styles.image} />
           <h1 className="text-[0.7rem] font-[400] text-[#0A225980]">
-            {list.genre}
+            {list.name}
           </h1>
         </div>
         </Link>

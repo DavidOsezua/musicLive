@@ -52,29 +52,27 @@ const Venues = () => {
 
 
   useEffect(() => {
-    // console.log("The search data is:", searchData);
-    // console.log("The form state has been updated:", form);
     console.log(searchData)
-    // const getAllUserBandsWithAdminApproved = async () => {
-    //   try {
-    //     const response = await api.get("/api/v1/venue/search", {
-    //       params: {
-    //         name: searchData.name || "",
-    //         venue_type: form.venue_type || "",
-    //         location: selectedLocation,
-    //         date: date
-    //       }
-    //     });
-    //     // console.log(response.data);
-    //     setVenues(response.data);
-    //   } catch (error) {
-    //     console.error("Error occurred when getting the user band:", error);
-    //     console.error(error || "An unexpected error occurred");
-    //     setVenues([])
-    //   }
-    // };
-
-    // getAllUserBandsWithAdminApproved();
+    const getVenues = async () => {
+      try {
+        const params = {}
+        Object.entries(searchData).forEach(([key, value]) => {
+          if(value) params[key] = value
+        })
+        console.log(params)
+        
+        const response = await api.get("/api/v1/venue/search", {
+          params: params
+        });
+        console.log(response.data);
+        setVenues(response.data);
+      } catch (error) {
+        console.error("Error occurred when getting the user band:", error);
+        console.error(error || "An unexpected error occurred");
+        setVenues([])
+      }
+    };
+    getVenues();
   }, [searchData]);
 
 
