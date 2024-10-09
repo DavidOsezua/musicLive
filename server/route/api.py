@@ -197,10 +197,10 @@ async def upload_venue(
     session: AsyncSession = Depends(get_session),
 ) -> Venue_:
     try:
-        image_size = (400, 400)
+        # image_size = (400, 400)
         venue_id = shortuuid.uuid()
-        validate_image_size(image1, image_size)
-        validate_image_size(image2, image_size)
+        # validate_image_size(image1, image_size)
+        # validate_image_size(image2, image_size)
         image_paths = uploads.save_venue_images(venue_id, image1.file, image2.file)
 
         venue_date = parser.parse(date)
@@ -277,10 +277,10 @@ async def update_venue(
         if not existing_venue:
             raise HTTPException(status_code=404, detail="Venue not found")
 
-        image_size = (400, 400)
+        # image_size = (400, 400)
         venue_id = shortuuid.uuid()
-        validate_image_size(image1, image_size)
-        validate_image_size(image2, image_size)
+        # validate_image_size(image1, image_size)
+        # validate_image_size(image2, image_size)
         image_paths = uploads.save_venue_images(venue_id, image1.file, image2.file)
 
         venue_date = parser.parse(date)
@@ -338,9 +338,9 @@ async def update_band(
         existing_band = await session.get(Band, band_id)
         if not existing_band:
             raise HTTPException(status_code=404, detail="Band not found")
-        image_size = (400, 400)
-        validate_image_size(image1, image_size)
-        validate_image_size(image2, image_size)
+        # image_size = (400, 400)
+        # validate_image_size(image1, image_size)
+        # validate_image_size(image2, image_size)
         band_id = shortuuid.uuid()
         image_paths = uploads.save_band_images(band_id, image1.file, image2.file)
 
@@ -391,9 +391,9 @@ async def upload_band(
     session: AsyncSession = Depends(get_session),
 ) -> Band_:
     try:
-        image_size = (400, 400)
-        validate_image_size(image1, image_size)
-        validate_image_size(image2, image_size)
+        # image_size = (400, 400)
+        # validate_image_size(image1, image_size)
+        # validate_image_size(image2, image_size)
         band_id = shortuuid.uuid()
         image_paths = uploads.save_band_images(band_id, image1.file, image2.file)
         venue_data = Band_(
