@@ -976,7 +976,7 @@ async def get_venue_type(session: AsyncSession = Depends(get_session)) -> Venuet
 
 
 @api_router.put("/genre/approved/", response_model=List[Genre])
-async def approve_band(
+async def approve_genre(
     genre_id: str = Query(..., alias="venue_type"),
     Status: str = Query(..., alias="Status"),
     session: AsyncSession = Depends(get_session),
@@ -985,9 +985,9 @@ async def approve_band(
     genre_id = genre_id.strip()
     query = select(Genre).where(Genre.id == genre_id)
     result = await session.exec(query)
-    bands = result.fetchall()
+    genre = result.fetchall()
 
-    if not bands:
+    if not genre:
         raise HTTPException(
             status_code=404, detail="No genre found with this genre type"
         )
@@ -1008,6 +1008,68 @@ async def approve_band(
         )
 
     return updated_genre
+
+
+
+@api_router.put("/type/approved/", response_model=List[Venuetype])
+async def venue_type(
+    type_id: str = Query(..., alias="venue_type"),
+    Status: str = Query(..., alias="Status"),
+    session: AsyncSession = Depends(get_session),
+):
+    status_normalized = Status.strip().lower()
+    type_id = type_id.strip()
+    query = select(Venuetype).where(Venuetype.id == type_id)
+    result = await session.exec(query)
+    type_band = result.fetchall()
+
+    if not type_band:
+        raise HTTPException(
+            status_code=404, detail="No type found with this genre type"
+        )
+    is_approved = status_normalized == "approved"
+
+    update_query = (
+        update(Venuetype).where(Venuetype.id == type_id).values(is_admin_approved=is_approved)
+    )
+    await session.exec(update_query)
+    await session.commit()
+    updated_query = select(Venuetype)
+    result = await session.exec(updated_query)
+    updated_type = result.fetchall()
+
+    if not updated_type:
+        raise HTTPException(
+            status_code=404, detail="Update failed or no type were updated"
+        )
+
+    return updated_type
+
+
+
+
+@api_router.delete("/genre/{genre_id}", response_model=Genre)
+async def delete_user_genre(genre_id: str, session: AsyncSession = Depends(get_session)):
+    genre = await session.get(Genre, genre_id)
+    if not genre:
+        raise HTTPException(
+            status_code=HTTPStatus.NO_CONTENT.value, detail="genre not found"
+        )
+    await session.delete(genre)
+    await session.commit()
+    return genre
+
+
+@api_router.delete("/type/{type_id}", response_model=Venuetype)
+async def delete_user_type(type_id: str, session: AsyncSession = Depends(get_session)):
+    type_ = await session.get(Venuetype, type_id)
+    if not type_:
+        raise HTTPException(
+            status_code=HTTPStatus.NO_CONTENT.value, detail="type not found"
+        )
+    await session.delete(type_)
+    await session.commit()
+    return type_
 
 
 
