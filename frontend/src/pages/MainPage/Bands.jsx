@@ -48,8 +48,8 @@ const Bands = () => {
     closeDropdown();
   };
 
- 
- 
+
+
 
   useEffect(() => {
     console.log("The search data is:", searchData);
@@ -137,8 +137,7 @@ const Bands = () => {
               bands.map((band) => (
                 <div key={band.id} className={`${styles.bandDetail}`}>
                   <a
-                    href={`${band.homepage}`}
-                    target="_blank"
+                    href="#"
                     rel="noopener noreferrer"
                   >
                     <img

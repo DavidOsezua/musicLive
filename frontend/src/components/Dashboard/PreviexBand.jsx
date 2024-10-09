@@ -4,6 +4,7 @@ import Close from "../general/Close";
 import { facebook, instagram, website } from "@/assets";
 
 const PreviexBand = ({ item, modalHandler }) => {
+  console.log("the item are:", item)
   return (
     <div className={`${styles.successCard} relative rounded-lg`}>
       <button
@@ -28,13 +29,13 @@ const PreviexBand = ({ item, modalHandler }) => {
           {item.venueOrBandName}
         </h1>
         <div className={`${styles.socials}`}>
-          <a href={""} target="_blank" rel="noopener noreferrer">
+          <a href="#" rel="noopener noreferrer">
             <img src={facebook} alt="Facebook" />
           </a>
-          <a href={""} target="_blank" rel="noopener noreferrer">
+          <a href="#" rel="noopener noreferrer">
             <img src={instagram} alt="Instagram" />
           </a>
-          <a href={""} target="_blank" rel="noopener noreferrer">
+          <a href="#" rel="noopener noreferrer">
             <img src={website} alt="YouTube" />
           </a>
         </div>

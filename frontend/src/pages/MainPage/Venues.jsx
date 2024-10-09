@@ -13,19 +13,19 @@ import { useLocation, useSearchParams } from "react-router-dom";
 
 
 const Venues = () => {
-  
+
   const [searchParams] = useSearchParams()
   const query = searchParams.get('query');
-  
- 
+
+
   const [dropdown, setDropDown] = useState(false);
-  
+
   const [venues, setVenues] = useState([])
-  
+
   const [searchData, setSearchData] = useState({
     name: "",
-    genre : query || "",
-    type : []
+    genre: query || "",
+    type: []
   })
 
 
@@ -45,7 +45,7 @@ const Venues = () => {
   const handleGenre = (selectedGenres) => {
     const genres = selectedGenres.map((gnr) => gnr.genreOrType)
     setSearchData((prevData) => {
-      return {...prevData, type : genres}
+      return { ...prevData, type: genres }
     })
     closeDropdown();
   };
@@ -57,10 +57,10 @@ const Venues = () => {
       try {
         const params = {}
         Object.entries(searchData).forEach(([key, value]) => {
-          if(value) params[key] = value
+          if (value) params[key] = value
         })
         console.log(params)
-        
+
         const response = await api.get("/api/v1/venue/search", {
           params: params
         });
@@ -87,7 +87,7 @@ const Venues = () => {
     setDropDown(false);
   };
 
-  
+
   return (
     <>
       <section className={`${styles.venueSection} transition `}>
@@ -126,7 +126,7 @@ const Venues = () => {
         <div className={`${styles.bandDetailsContainer}`}>
           {venues.map((venue) => (
             <div key={venue.id} className={`${styles.bandDetail}`}>
-              <a href={`${venue.homepage}`} target="_blank" rel="noopener noreferrer">
+              <a href="#" rel="noopener noreferrer">
                 <img
                   src={`${Url}/${venue.image1}`}
                   alt={`${venue.name} image 1`}
