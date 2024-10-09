@@ -1,6 +1,6 @@
-.venueSection {
-  /* padding-left: 1rem; */
-}
+/* .venueSection {
+  padding-left: 1rem;
+} */
 
 .venueSection > * + * {
   margin-top: 1rem;
