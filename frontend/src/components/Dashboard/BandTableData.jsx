@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Table.module.css";
 import Settings from "../SVGcomponent/Settings";
 import Delete from "../SVGcomponent/Delete";
@@ -16,6 +16,8 @@ import { useModal } from "@/App";
 import Modal from "../general/Modal";
 import EditBand from "./EditBand";
 import PreviexBand from "./PreviexBand";
+import { facebook, instagram, website, youtube } from "@/assets";
+import { api } from "@/services/api.route";
 
 const BandTableData = ({
   item,
@@ -30,6 +32,44 @@ const BandTableData = ({
   const [deleteModal, setDeleteModal] = useState(false);
   const [settingsModal, setSettingsModal] = useState(false);
   const [previewModal, setPreviewModal] = useState(false);
+
+  const getAllUserBandData = async () => {
+    try {
+      const res = await api.get("/api/v1/band");
+      const resultData = res.data.length;
+      console.log(res.data);
+
+      let approvedCount = 0;
+
+      const formattedData = res.data.map((band) => {
+        if (band.is_verified) {
+          approvedCount += 1;
+        }
+
+        return {
+          ID: band.id,
+          image: band.image1 ? Url + "/" + band.image1 : "",
+          venueOrBandName: band.name || "",
+          genreOrType: band.genre_type || "",
+          socials: [website, facebook, instagram, youtube],
+          changeStatus: ["Approve", "Pending", "Inactive"],
+          email: band.email || "",
+          date: band.venue_date
+            ? dayjs(band.venue_date).format("DD MMM YYYY")
+            : "",
+          status: band.is_verified ? "Approved" : "Pending",
+        };
+      });
+
+      setTotalApprove(approvedCount);
+      setTotalData(resultData);
+      setLocationPageData(formattedData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  console.log(item, data);
 
   const settingsHandler = () => setSettingsModal(!settingsModal);
   const previewHandler = () => setPreviewModal(!previewModal);
@@ -54,7 +94,10 @@ const BandTableData = ({
 
       <td className={`${styles.tdStyle}`}>
         <div className="flex gap-3 items-center">
-          <img src={item.image} className={`w-[40px] h-[40px] object-cover rounded-md`} />
+          <img
+            src={item.image}
+            className={`w-[40px] h-[40px] object-cover rounded-md`}
+          />
           <div>
             <h2>{item.venueOrBandName}</h2>
             <span>{item.genreOrType}</span>
@@ -64,9 +107,37 @@ const BandTableData = ({
 
       <td className={`${styles.tdStyle}`}>
         <div className="flex gap-3 items-center">
-          {item.socials.map((social, i) => (
-            <img key={i} src={social} />
-          ))}
+          {item.homepage === "" ? (
+            ""
+          ) : (
+            <a href={item.homepage} target="_blank">
+              <img src={website} />
+            </a>
+          )}
+
+          {item.facebook === "" ? (
+            ""
+          ) : (
+            <a href={item.facebook} target="_blank">
+              <img src={facebook} />
+            </a>
+          )}
+
+          {item.youtube === "" ? (
+            ""
+          ) : (
+            <a href={item.youtube} target="_blank">
+              <img src={youtube} />
+            </a>
+          )}
+
+          {item.instagram == "" ? (
+            ""
+          ) : (
+            <a href={item.instagram} target="_blank">
+              <img src={instagram} />
+            </a>
+          )}
         </div>
       </td>
 
@@ -117,7 +188,12 @@ const BandTableData = ({
 
       {settingsModal && (
         <Modal modalHandler={settingsHandler}>
-          <EditBand item={item} data={data} setDeleteModal={settingsModal} />
+          <EditBand
+            item={item}
+            data={data}
+            setDeleteModal={settingsModal}
+            getAllUserBandData={getAllUserBandData}
+          />
         </Modal>
       )}
 

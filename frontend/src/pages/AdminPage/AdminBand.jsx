@@ -45,9 +45,13 @@ const AdminBand = () => {
           image: band.image1 ? Url + "/" + band.image1 : "",
           venueOrBandName: band.name || "",
           genreOrType: band.genre_type || "",
-          socials: [website, facebook, instagram, youtube],
+          socials: [band.homepage, facebook, instagram, youtube],
           changeStatus: ["Approve", "Pending", "Inactive"],
           email: band.email || "",
+          facebook: band.facebook_url || "",
+          youtube: band.youtube_url || "",
+          instagram: band.instagram_url || "",
+          homepage: band.homepage || "",
           date: band.venue_date
             ? dayjs(band.venue_date).format("DD MMM YYYY")
             : "",

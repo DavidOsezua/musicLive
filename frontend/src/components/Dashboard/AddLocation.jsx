@@ -11,6 +11,8 @@ import Loader from "../general/Loader";
 
 const AddLocation = ({ settrackChanges }) => {
   const [message, setMessage] = useState();
+  const [image, setImage] = useState(null);
+  const [image2, setImage2] = useState(null);
   const [showResultModal, setShowResultModal] = useState(false); // New state to control result modal visibility
   const [formData, setFormData] = useState({
     name: "",
@@ -27,7 +29,6 @@ const AddLocation = ({ settrackChanges }) => {
     image1: "",
     image2: "",
   });
-  const { modal, modalHandler } = useModal() || {};
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -63,6 +64,24 @@ const AddLocation = ({ settrackChanges }) => {
     return Object.keys(errors).length === 0;
   };
 
+  const formHandler = (e) => {
+    const file = e.target.files[0];
+    setFormData((formData) => ({
+      ...formData,
+      image1: file, // Save file in formData
+    }));
+    setImage(URL.createObjectURL(file)); // Directly set image for preview
+  };
+
+  const formHandler2 = (e) => {
+    const file = e.target.files[0];
+    setFormData((formData) => ({
+      ...formData,
+      image2: file, // Save file in formData
+    }));
+    setImage2(URL.createObjectURL(file)); // Directly set image for preview
+  };
+
   const handleSubmit = async () => {
     console.log("the data from admin venue is:", formData);
     setLoader(true);
@@ -77,20 +96,24 @@ const AddLocation = ({ settrackChanges }) => {
         settrackChanges(true);
         setIsSubmitted(true);
         setMessage("Venue uploaded successfully!");
-        setShowResultModal(true); // Show the result modal
         setLoader(false);
+        setShowResultModal(true); // Show the result modal
       } catch (e) {
         setError(e.message);
         setIsSubmitted(false);
         setMessage(e.response.data.detail || "Form validation failed");
         settrackChanges(false);
-        setShowResultModal(true); // Show the result modal
+        setLoader(false);
+        setShowResultModal(true);
+        // Show the result modal
       }
     } else {
       setError("Form validation failed");
       settrackChanges(false);
       setMessage("Form validation failed");
-      setShowResultModal(true); // Show the result modal
+      setShowResultModal(true);
+      setLoader(false);
+      setLoader(false); // Show the result modal
     }
   };
 
@@ -111,6 +134,10 @@ const AddLocation = ({ settrackChanges }) => {
             formData={formData}
             setFormData={setFormData}
             formErrors={formErrors}
+            image={image}
+            image2={image2}
+            formHandler={formHandler}
+            formHandler2={formHandler2}
           />,
         ]}
         onSubmit={handleSubmit}
@@ -120,7 +147,7 @@ const AddLocation = ({ settrackChanges }) => {
         formHeaderText={`Tell Us About Your Band!`}
       />
       {loader && (
-        <Modal>
+        <Modal modalHandler={() => setLoader(false)}>
           <Loader />
         </Modal>
       )}

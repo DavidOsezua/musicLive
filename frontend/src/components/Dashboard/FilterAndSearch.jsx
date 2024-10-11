@@ -20,7 +20,7 @@ const FilterAndSearch = ({ data, pageType, handleFilter, active }) => {
       </div>
 
       <div className={`${styles.secondColumn}`}>
-        {pageType === "bands" || pageType === "venue" ? <div className="w-full">Export</div> : ""}
+        {/* {pageType === "bands" || pageType === "venue" ? <div className="w-full">Export</div> : ""} */}
 
         <div className={`${styles.inputContainer}`}>
           <SearchIcon width={`20`} height={`18`} />

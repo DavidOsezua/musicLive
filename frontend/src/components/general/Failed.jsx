@@ -3,10 +3,8 @@ import Button from "./Button";
 import styles from "./Failed.module.css";
 import Close from "./Close";
 import Error from "../SVGcomponent/Error";
-import { useDeleteModal, useModal } from "../../App";
 
 const Failed = ({ message, modalHandler }) => {
-  // const { modalHandler } = useModal() || {};
   const displayMessage =
     typeof message === "object" && message?.msg
       ? message.msg

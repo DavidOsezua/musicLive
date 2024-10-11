@@ -8,25 +8,16 @@ import { uploadUserbrand } from "../../pages/MainPage/router";
 import MultiFormPage from "../general/MultiFormPage";
 import BrandForm from "../VenueBrand/BrandForm";
 import BrandVenueForm from "../VenueBrand/BrandVenueForm";
-import { api } from "@/services/api.route";
+import { Url, api } from "@/services/api.route";
 
 const EditBand = ({ item, data }) => {
-  const { modal, modalHandler } = useModal() || {};
+  const { modalHandler } = useModal() || {};
   const [message, setMessage] = useState();
   const [loader, setLoader] = useState(false);
   const [dataObj, setdataObj] = useState({});
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    genre_type: "",
-    band_tag: "",
-    homepage: "",
-    facebook: "",
-    instagram: "",
-    youtube: "",
-    image1: "",
-    image2: "",
-  });
+  const [image, setImage] = useState("");
+  const [image2, setImage2] = useState("");
+  const [formData, setFormData] = useState({});
 
   console.log(item);
 
@@ -58,7 +49,7 @@ const EditBand = ({ item, data }) => {
     return Object.keys(errors).length === 0;
   };
 
-  async function getAllUserBand() {
+  async function getOneUserBandDta() {
     try {
       const res = await api.get("api/v1/band");
       const data = await res.data;
@@ -77,9 +68,12 @@ const EditBand = ({ item, data }) => {
           facebook: band.facebook_url || "",
           instagram: band.instagram_url || "",
           youtube: band.youtube_url || "",
-          image1: band.image1 || "", // Assuming these are URLs or image data
-          image2: band.image2 || "",
+          image1: band.image1 ? `${Url}/${band.image1}` : "", // Assuming these are URLs or image data
+          image2: band.image2 ? `${Url}/${band.image2}` : "",
         });
+
+        setImage(band.image1 ? `${Url}/${band.image1}` : "");
+        setImage2(band.image2 ? `${Url}/${band.image2}` : "");
 
         setdataObj(band);
       } else {
@@ -91,10 +85,28 @@ const EditBand = ({ item, data }) => {
   }
 
   useEffect(() => {
-    getAllUserBand();
+    getOneUserBandDta();
   }, []);
 
   console.log(dataObj);
+
+  const formHandler = (e) => {
+    const file = e.target.files[0];
+    setFormData((formData) => ({
+      ...formData,
+      image1: file, // Save file in formData
+    }));
+    setImage(URL.createObjectURL(file)); // Directly set image for preview
+  };
+
+  const formHandler2 = (e) => {
+    const file = e.target.files[0];
+    setFormData((formData) => ({
+      ...formData,
+      image2: file, // Save file in formData
+    }));
+    setImage2(URL.createObjectURL(file)); // Directly set image for preview
+  };
 
   const handleSave = async () => {
     setLoader(true);
@@ -104,6 +116,15 @@ const EditBand = ({ item, data }) => {
       Object.keys(formData).forEach((key) => {
         dataForm.append(key, formData[key]);
       });
+
+      // Conditionally append files to formData
+      if (formData.image1 instanceof File) {
+        dataForm.append("image1", formData.image1);
+      }
+
+      if (formData.image2 instanceof File) {
+        dataForm.append("image2", formData.image2);
+      }
 
       try {
         await api.put(`api/v1/band/${item.ID}`, dataForm, {
@@ -117,7 +138,7 @@ const EditBand = ({ item, data }) => {
       } catch (error) {
         setError(error.message);
         setMessage(error.response?.data?.detail || "Failed to update band.");
-        getAllUserBand();
+
         setIsSubmitted(false);
         setShowResultModal(true);
       } finally {
@@ -130,6 +151,8 @@ const EditBand = ({ item, data }) => {
       setLoader(false);
     }
   };
+
+  console.log(image);
 
   console.log(showResultModal);
   return (
@@ -148,7 +171,12 @@ const EditBand = ({ item, data }) => {
             text2={`Send to: addMyBand@findmelivemusic.com`}
             formData={formData}
             setFormData={setFormData}
+            error={`Upload a new image.The current image is for preview only`}
             formErrors={formErrors}
+            image={image} // Use file URL or existing image URL
+            image2={image2}
+            formHandler={formHandler}
+            formHandler2={formHandler2}
           />,
         ]}
         showTipJar={false}
@@ -159,7 +187,7 @@ const EditBand = ({ item, data }) => {
       />
 
       {loader && (
-        <Modal modalHandler={modalHandler}>
+        <Modal modalHandler={() => setLoader(false)}>
           <Loader />
         </Modal>
       )}
@@ -174,7 +202,7 @@ const EditBand = ({ item, data }) => {
             />
           ) : (
             <Failed
-              modalHandler={modalHandler} // Close modal when Failed is clicked
+              modalHandler={() => setShowResultModal(false)} // Close modal when Failed is clicked
               message={message}
             />
           )}

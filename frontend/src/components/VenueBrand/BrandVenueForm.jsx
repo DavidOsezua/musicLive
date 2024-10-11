@@ -2,28 +2,17 @@ import React, { useState } from "react";
 import styles from "./BrandVenueForm.module.css";
 import Upload from "../SVGcomponent/Upload";
 
-const BrandVenueForm = ({ formData, setFormData, text1, text2 }) => {
-  const [image, setImage] = useState(null);
-  const [image2, setImage2] = useState(null);
-
-  const formHandler = (e) => {
-    const file = e.target.files[0];
-    setFormData((formData) => ({
-      ...formData,
-      image1: file, // Save file in formData
-    }));
-    setImage(file); // Directly set image for preview
-  };
-
-  const formHandler2 = (e) => {
-    const file = e.target.files[0];
-    setFormData((formData) => ({
-      ...formData,
-      image2: file, // Save file in formData
-    }));
-    setImage2(file); // Directly set image for preview
-  };
-
+const BrandVenueForm = ({
+  formData,
+  setFormData,
+  text1,
+  text2,
+  image,
+  image2,
+  formHandler,
+  error,
+  formHandler2,
+}) => {
   return (
     <div className={`${styles.formContainer}`}>
       <form className={`${styles.form}`}>
@@ -61,7 +50,7 @@ const BrandVenueForm = ({ formData, setFormData, text1, text2 }) => {
           </div>
         </div>
 
-        <div className={`${styles.inputContainer}`}>
+        <div className={`${styles.inputContainer} mb-[1rem]`}>
           <div className="w-full">
             <label>Instagram</label>
             <input
@@ -96,12 +85,12 @@ const BrandVenueForm = ({ formData, setFormData, text1, text2 }) => {
         </div>
 
         <div className={`${styles.inputFileContainer}`}>
-          <label className={styles.label}>Image 400px X 400px</label>
+          <label className={styles.label}>{error}</label>
           <div className={`${styles.inputContainer}`}>
             <div className={`${styles.upload}`}>
               {image ? (
                 <img
-                  src={URL.createObjectURL(image)}
+                  src={image}
                   className={`w-[100%] h-[70px] rounded-md  object-cover mx-auto`}
                 />
               ) : (
@@ -122,7 +111,7 @@ const BrandVenueForm = ({ formData, setFormData, text1, text2 }) => {
             <div className={`${styles.upload}`}>
               {image2 ? (
                 <img
-                  src={URL.createObjectURL(image2)}
+                  src={image2}
                   className={`w-[100%] h-[70px] rounded-md  object-cover mx-auto`}
                 />
               ) : (
