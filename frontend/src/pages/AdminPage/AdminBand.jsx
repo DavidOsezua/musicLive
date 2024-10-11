@@ -93,7 +93,7 @@ const AdminBand = () => {
     ],
 
     tableOrCardData: locationPageData,
-    numberOfItem: 5,
+    numberOfItem: 10,
   };
 
   useEffect(() => {

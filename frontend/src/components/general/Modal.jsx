@@ -25,7 +25,7 @@ const Modal = ({ children, modalHandler }) => {
       <AnimatePresence>
         {/* Backdrop */}
         <motion.div
-          className={styles.overlay2}
+          className={`${styles.overlay2}`}
           key="overlay"
           variants={backdropVariants}
           initial="hidden"
@@ -35,6 +35,18 @@ const Modal = ({ children, modalHandler }) => {
           transition={{ duration: 1 }}
         ></motion.div>
 
+        <motion.button
+          className="absolute top-[10%] right-[5%] z-[1000] "
+          key="overlay"
+          variants={backdropVariants}
+          initial="hidden"
+          transition={{ duration: 1 }}
+          animate="visible"
+          exit="exit"
+          onClick={modalHandler}
+        >
+          <FaTimes className="text-[2rem]" />
+        </motion.button>
         {/* Modal Content */}
         <motion.div
           className={`z-[1000] w-full  lg:w-[50%] ${styles.modal}`}

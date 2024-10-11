@@ -38,8 +38,6 @@ const Bands = () => {
     }
   };
 
-
-
   const handleGenre = (selectedGenres) => {
     setForm((prevData) => ({
       ...prevData,
@@ -47,9 +45,6 @@ const Bands = () => {
     }));
     closeDropdown();
   };
-
-
-
 
   useEffect(() => {
     console.log("The search data is:", searchData);
@@ -136,10 +131,7 @@ const Bands = () => {
             ) : (
               bands.map((band) => (
                 <div key={band.id} className={`${styles.bandDetail}`}>
-                  <a
-                    href="#"
-                    rel="noopener noreferrer"
-                  >
+                  <a href="#" rel="noopener noreferrer">
                     <img
                       src={`${Url}/${band.image1}`}
                       alt={`${band.name} image 1`}
@@ -155,27 +147,39 @@ const Bands = () => {
                   </h1>
 
                   <div className={`${styles.socials}`}>
-                    <a
-                      href={band.facebook_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <img src={facebook} alt="Facebook" key={1} />
-                    </a>
-                    <a
-                      href={band.instagram_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <img src={instagram} alt="Instagram" key={2} />
-                    </a>
-                    <a
-                      href={band.youtube_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <img src={website} alt="YouTube" key={3} />
-                    </a>
+                    {band.facebook_url === "" ? (
+                      ""
+                    ) : (
+                      <a
+                        href={band.facebook_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <img src={facebook} alt="Facebook" key={1} />
+                      </a>
+                    )}
+                    {band.instagram_url === "" ? (
+                      ""
+                    ) : (
+                      <a
+                        href={band.instagram_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <img src={instagram} alt="Instagram" key={2} />
+                      </a>
+                    )}
+                    {band.youtube_url === "" ? (
+                      ""
+                    ) : (
+                      <a
+                        href={band.youtube_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <img src={website} alt="YouTube" key={3} />
+                      </a>
+                    )}
                   </div>
                 </div>
               ))

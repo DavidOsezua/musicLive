@@ -4,44 +4,44 @@ import TitleAndStatus from "../../components/Dashboard/TitleAndStatus";
 import Modal from "../../components/general/Modal";
 import AddLocation from "../../components/Dashboard/AddLocation";
 import { api, Url } from "../../services/api.route";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 import { useModal } from "../../App";
 
 const Location = () => {
   const [locationPageData, setLocationPageData] = useState([]);
-  const [totalData, setTotalData] = useState(0)
-  const [totalApprove, setTotalApprove] = useState(0)
+  const [totalData, setTotalData] = useState(0);
+  const [totalApprove, setTotalApprove] = useState(0);
   // const [pending, setpending] = useState(0)
-  const [trackChanges, settrackChanges] = useState(false)
+  const [trackChanges, settrackChanges] = useState(false);
   const { modal, modalHandler } = useModal() || {};
 
   const getAllUserVenueData = async () => {
     try {
       const res = await api.get("/api/v1/venue");
       const resultData = res.data.length;
-      let approvedCount = 0; 
-  
+      let approvedCount = 0;
+
       const formattedData = res.data.map((venue) => {
         if (venue.is_verified) {
-          approvedCount += 1; 
+          approvedCount += 1;
         }
         return {
-        ID: venue.id,
-        image: venue.image1 ? Url +'/'+ venue.image1 : "",
-        venueOrBandName: venue.name || "",
-        genreOrType: venue.genre_type || "",
-        changeStatus: ["Approve", "Pending", "Inactive"],
-        address: venue.address || "",
-        email: venue.email || "",
-        date: dayjs(venue.venue_date).format('DD MMM YYYY') || "",
-        time: dayjs(venue.venue_time, 'HH:mm:ss').format('h:mm A') || "",
-        status: venue.is_verified ? "Approved" : "Pending"
-      };
-    });
-    setTotalData(resultData)
-    setTotalApprove(approvedCount); 
-    setLocationPageData(formattedData);
-    // setpending(totalBand - totalApprove)
+          ID: venue.id,
+          image: venue.image1 ? Url + "/" + venue.image1 : "",
+          venueOrBandName: venue.name || "",
+          genreOrType: venue.genre_type || "",
+          changeStatus: ["Approve", "Pending", "Inactive"],
+          address: venue.address || "",
+          email: venue.email || "",
+          date: dayjs(venue.venue_date).format("DD MMM YYYY") || "",
+          time: dayjs(venue.venue_time, "HH:mm:ss").format("h:mm A") || "",
+          status: venue.is_verified ? "Approved" : "Pending",
+        };
+      });
+      setTotalData(resultData);
+      setTotalApprove(approvedCount);
+      setLocationPageData(formattedData);
+      // setpending(totalBand - totalApprove)
     } catch (err) {
       console.log(err);
     }
@@ -50,11 +50,9 @@ const Location = () => {
   useEffect(() => {
     getAllUserVenueData();
     console.log("Updated locationPageData", locationPageData);
-  }, [totalData,trackChanges]);
+  }, [totalData, trackChanges]);
 
-  
- let pending = totalData - totalApprove
-
+  let pending = totalData - totalApprove;
 
   const getuserVenueData = {
     statusData: [
@@ -74,9 +72,9 @@ const Location = () => {
       "Status",
       "Actions",
     ],
-    
+
     tableOrCardData: locationPageData,
-    numberOfItem: 5,
+    numberOfItem: 10,
   };
 
   return (
