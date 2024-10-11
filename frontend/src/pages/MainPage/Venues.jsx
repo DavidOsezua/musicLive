@@ -25,7 +25,7 @@ const Venues = () => {
   const [searchData, setSearchData] = useState({
     name: "",
     genre: query || "",
-    type: []
+    types: []
   })
 
 
@@ -44,8 +44,10 @@ const Venues = () => {
 
   const handleGenre = (selectedGenres) => {
     const genres = selectedGenres.map((gnr) => gnr.genreOrType)
+    console.log("checking genres")
+    console.log(genres)
     setSearchData((prevData) => {
-      return { ...prevData, type: genres }
+      return { ...prevData, types: genres }
     })
     closeDropdown();
   };
@@ -53,14 +55,18 @@ const Venues = () => {
 
   useEffect(() => {
     console.log(searchData)
+    const searchParams = {...searchData}
+    searchParams.types = searchParams.types.join(",")
+    
     const getVenues = async () => {
       try {
         const params = {}
-        Object.entries(searchData).forEach(([key, value]) => {
+        Object.entries(searchParams).forEach(([key, value]) => {
           if (value) params[key] = value
         })
+        
         console.log(params)
-
+        
         const response = await api.get("/api/v1/venue/search", {
           params: params
         });
