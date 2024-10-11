@@ -4,25 +4,24 @@ import styles from "./Dropdown.module.css";
 import DropdownItem from "./DropdownItem";
 import Button from "./Button";
 
-const Dropdown = ({ setGenre, data, closeDropdown }) => {
+const Dropdown = ({ setGenre, data, closeDropdown, setSelectVenue }) => {
   const [selectedButtons, setSelectedButtons] = useState([]);
 
   const selectedButtonHandler = (id) => {
-
     setSelectedButtons((prev) =>
-      
-      prev.includes(id)
-        ? prev.filter((item) => item !== id)
-        : [...prev, id]
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
   };
 
   const handleSelect = () => {
-    console.log("data",data)
-    const selectedItems = data.filter((item) => selectedButtons.includes(item.ID));
-    console.log("selected item", selectedItems)
+    console.log("data", data);
+    const selectedItems = data.filter((item) =>
+      selectedButtons.includes(item.ID)
+    );
+    console.log("selected item", selectedItems);
     setGenre(selectedItems);
-    closeDropdown(); 
+    setSelectVenue(selectedItems);
+    closeDropdown();
   };
 
   return (

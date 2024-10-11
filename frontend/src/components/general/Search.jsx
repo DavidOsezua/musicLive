@@ -51,8 +51,6 @@ const Search = ({ showDropdown, searchData, handleInputChange }) => {
 
           <ArrowDown />
         </button>
-
-        <div></div>
       </div>
     </div>
   );
