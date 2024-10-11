@@ -11,7 +11,7 @@ async def search_venue(
     session: AsyncSession,
 ):
     query = select(Venue)
-
+    print(types)
     if types:
         print("filtering")
         types_ = [typ.lower() for typ in types]

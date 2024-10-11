@@ -737,10 +737,11 @@ async def get_venue_approved(session: AsyncSession = Depends(get_session)) -> Ve
 async def search_venue(
     name: str | None = Query(default=None),
     genre: str | None = Query(default=None),
-    types: list[str] | None = Query(default=None),
+    types: str | None = Query(default=None),
     session: AsyncSession = Depends(get_session),
 ):
-    venues = await search.search_venue(name, genre, types, session)
+    types_ = types.split(",") if types else None
+    venues = await search.search_venue(name, genre, types_, session)
     return venues
 
 
