@@ -189,7 +189,7 @@ const Venues = () => {
   return (
     <>
       <section className={`${styles.venueSection} transition `}>
-        <div className={`${styles.search} px-[1rem] `}>
+        <div className={`${styles.search} px-[1rem] relative`}>
           <Search
             showDropdown={showDropdown}
             searchData={searchData}
@@ -197,12 +197,14 @@ const Venues = () => {
           />
 
           {dropdown && (
-            <Dropdown
-              data={venueType}
-              setGenre={handleGenre}
-              closeDropdown={closeDropdown}
-              setSelectVenue={setSelectVenue}
-            />
+            <div className="absolute bg-slate-100 w-full px-[2rem] py-[1rem] z-[10] top-[50px] rounded-md">
+              <Dropdown
+                data={venueType}
+                setGenre={handleGenre}
+                closeDropdown={closeDropdown}
+                setSelectVenue={setSelectVenue}
+              />
+            </div>
           )}
 
           <div className={`${styles.card} `}>
