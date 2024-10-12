@@ -205,20 +205,20 @@ const Venues = () => {
             />
           )}
 
-          <div className={`${styles.card}`}>
+          <div className={`${styles.card} `}>
             {selectVenue.length > 0
               ? selectVenue.map((item) => (
-                  <div key={item.ID} className={`${styles.dropItem}`}>
+                  <div key={item.ID} className={`${styles.dropItem} relative`}>
                     <img
                       src={item.image}
                       alt={item.genreOrType}
                       className="w-[15px]"
                     />
-                    <p>{item.genreOrType}</p>
+                    <p className="text-[0.8rem]">{item.genreOrType}</p>
                     {/* Cancel button to remove the venue */}
                     <button
                       onClick={() => handleRemoveVenue(item.ID)}
-                      className="cancel-button"
+                      className="absolute top-[50%] transform translate-y-[-50%] right-[5%]"
                     >
                       <FaTimes className="font-light" />
                     </button>
@@ -267,27 +267,39 @@ const Venues = () => {
               </h1>
 
               <div className={`${styles.socials}`}>
-                <a
-                  href={venue.facebook_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img src={facebook} alt="Facebook" key={1} />
-                </a>
-                <a
-                  href={venue.instagram_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img src={instagram} alt="Instagram" key={2} />
-                </a>
-                <a
-                  href={venue.youtube_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img src={website} alt="YouTube" key={3} />
-                </a>
+                {venue.facebook_url === "" ? (
+                  ""
+                ) : (
+                  <a
+                    href={venue.facebook_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img src={facebook} alt="Facebook" key={1} />
+                  </a>
+                )}
+                {venue.instagram_url === "" ? (
+                  ""
+                ) : (
+                  <a
+                    href={venue.instagram_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img src={instagram} alt="Instagram" key={2} />
+                  </a>
+                )}
+                {venue.youtube_url === "" ? (
+                  ""
+                ) : (
+                  <a
+                    href={venue.youtube_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img src={website} alt="YouTube" key={3} />
+                  </a>
+                )}
               </div>
             </div>
           ))}
