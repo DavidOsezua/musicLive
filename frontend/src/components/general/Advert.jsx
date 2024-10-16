@@ -29,7 +29,12 @@ const AdvertItem = () => {
       {loading && <p>Loading ads...</p>}
       {error && <p className="text-red-500">{error}</p>}
       {adsImage.map((ads) => (
-        <img key={ads.id} src={Url + "/" + ads.image} alt="Advertisement" className={` mx-auto`} />
+        <img
+          key={ads.id}
+          src={Url + "/" + ads.image}
+          alt="Advertisement"
+          className={` mx-auto w-[400px] h-[112px] object-cover`}
+        />
       ))}
     </div>
   );
