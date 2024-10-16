@@ -137,9 +137,9 @@ async def upload_venue(
     image1: UploadFile = File(...), session: AsyncSession = Depends(get_session)
 ):
     try:
-        image_size = (400, 112)
+        # image_size = (400, 112)
+        # validate_image_size(image1, image_size)
         ads_id = shortuuid.uuid()
-        validate_image_size(image1, image_size)
         image_path = uploads.save_ads_images(ads_id, image1.file)
         try:
             ads_data = Ads(id=ads_id, image=image_path)
