@@ -28,6 +28,7 @@ const EachVenue = () => {
 
         <button onClick={() => {}} className={`${styles.btn}`}>
           See Details <GreaterThan />
+          {/* Lets check something */}
         </button>
       </div>
     </div>
