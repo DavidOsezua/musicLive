@@ -11,6 +11,7 @@ import { facebook, instagram, website } from "../../assets";
 import { Url, api } from "../../services/api.route";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
+import EachVenue from "./EachVenue";
 
 const Venues = () => {
   // const [searchParams] = useSearchParams();
@@ -235,23 +236,8 @@ const Venues = () => {
         </div>
 
         {/******** BANDS DETAILS  *********/}
+
         {/* <div className={`${styles.bandDetailsContainer}`}>
-          {bands.map((band) => (
-            <div key={``} className={`${styles.bandDetail}`}>
-              <img src={band.image} className={`${styles.image}`} />
-
-              <span>{band.genre}</span>
-              <h1 className={`${styles.bandName}`}>{band.bandName}</h1>
-              <div className={`${styles.socials}`}>
-                {band.socials.map((social, i) => (
-                  <img src={social} key={i} />
-                ))}
-              </div>
-            </div>
-          ))}
-        </div> */}
-
-        <div className={`${styles.bandDetailsContainer}`}>
           {venues.map((venue) => (
             <div key={venue.id} className={`${styles.bandDetail}`}>
               <a href="#" rel="noopener noreferrer">
@@ -305,7 +291,19 @@ const Venues = () => {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
+
+        {/* Venue Details  */}
+
+      
+          <div className={`${styles.bandDetailsContainer}`}>
+            {Array.from({ length: 12 }).map((item) => (
+              <>
+                <EachVenue />
+              </>
+            ))}
+          </div>
+        
 
         <div className={`flex flex-col items-center ${styles.showMore}`}>
           <p className={`text-[#0A2259] pb-4`}>

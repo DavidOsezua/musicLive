@@ -22,6 +22,7 @@ import MainLayout from "./Layout/MainLayout";
 import AdminDashboardLayout from "./Layout/AdminDashboardLayout";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import Event from "./pages/AdminPage/Event";
 
 const ModalContext = createContext({});
 
@@ -65,6 +66,7 @@ const App = () => {
               <Route path="location" element={<Location />} />
               <Route path="type" element={<Type />} />
               <Route path="adminband" element={<AdminBand />} />
+              <Route path="adminevent" element={<Event />} />
               <Route path="admingenre" element={<AdminGenre />} />
               <Route path="ads" element={<Ads />} />
               <Route path="emailtemplates" element={<EmailTemplates />} />

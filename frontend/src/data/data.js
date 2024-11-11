@@ -59,10 +59,10 @@ export const sideBarLinks = [
       { link: "Type", path: "type" },
     ],
   },
-  { link: "Bands", path: "adminband" },
+  { link: "Event", path: "adminevent" },
   { link: "Genre", path: "admingenre" },
+  { link: "Bands", path: "adminband" },
   { link: "Ads", path: "ads" },
-  
 ];
 
 export const footerLinks = [
@@ -851,7 +851,7 @@ export const dashboardSummary = [
     name: "Venue Type",
     ID: crypto.randomUUID(),
     path: "/admin/type",
-    numbers: 30,  
+    numbers: 30,
     image: venueImg,
     status: [
       { state: "active", number: 1200, colorID: "active" },

@@ -34,7 +34,7 @@ const Modal = ({ children, modalHandler }) => {
           onClick={modalHandler}
           transition={{ duration: 1 }}
         ></motion.div>
-
+        {/* 
         <motion.button
           className="absolute top-[10%] right-[5%] z-[1000] "
           key="overlay"
@@ -46,7 +46,7 @@ const Modal = ({ children, modalHandler }) => {
           onClick={modalHandler}
         >
           <FaTimes className="text-[2rem]" />
-        </motion.button>
+        </motion.button> */}
         {/* Modal Content */}
         <motion.div
           className={`z-[1000] w-full  lg:w-[50%] ${styles.modal}`}

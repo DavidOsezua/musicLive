@@ -3,6 +3,7 @@ import React from "react";
 import Search from "../SVGcomponent/Search";
 import SearchIcon from "../SVGcomponent/SearchIcon";
 import styles from "./FilterAndSearch.module.css";
+import AdminSearch from "./AdminSearch";
 
 const FilterAndSearch = ({ data, pageType, handleFilter, active }) => {
   return (
@@ -22,10 +23,7 @@ const FilterAndSearch = ({ data, pageType, handleFilter, active }) => {
       <div className={`${styles.secondColumn}`}>
         {/* {pageType === "bands" || pageType === "venue" ? <div className="w-full">Export</div> : ""} */}
 
-        <div className={`${styles.inputContainer}`}>
-          <SearchIcon width={`20`} height={`18`} />
-          <input placeholder="Search" className={`${styles.input}`} />
-        </div>
+        <AdminSearch />
       </div>
     </div>
   );
