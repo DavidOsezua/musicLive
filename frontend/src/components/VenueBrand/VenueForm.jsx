@@ -127,7 +127,7 @@ const VenueForm = ({ formData, setFormData }) => {
 
         {/* GENRE INPUT */}
 
-        <div className="w-full">
+        {/* <div className="w-full">
           <label>Genre type</label>
 
           <div className="relative">
@@ -162,7 +162,7 @@ const VenueForm = ({ formData, setFormData }) => {
               </div>
             )}
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className={`${styles.inputContainer}`}>

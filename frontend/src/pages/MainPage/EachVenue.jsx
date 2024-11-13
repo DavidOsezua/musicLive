@@ -20,7 +20,9 @@ const EachVenue = () => {
         2200 Harvard St, Sacramento, CA 95815
       </p>
 
-      <div className={`flex items-center justify-between gap-1`}>
+      <div
+        className={`${styles.socialsAndDetails}`}
+      >
         <div className={`flex items-center gap-1`}>
           <Facebook />
           <Instagram />
