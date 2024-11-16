@@ -5,21 +5,30 @@ import io
 from pydantic import ValidationError
 from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlmodel import select, update, MetaData, and_
+from sqlalchemy.orm import selectinload
 from db.database import get_session
 from sqlmodel.ext.asyncio.session import AsyncSession
-from src.schema import Band_, Venue_, Contact, Ads_, Genre_, Type_
+from src.schema import (
+    Band_,
+    Venue_,
+    Contact,
+    Ads_,
+    Genre_,
+    Type_,
+    CreateEventSchema,
+    EventsSchema,
+)
 from src import uploads
 from typing import List, Optional
 from http import HTTPStatus
 from src import exceptions
-from db.table import Venue, Band, Ads, Genre, Venuetype
+from db.table import Venue, Band, Ads, Genre, Venuetype, Event
 from sqlalchemy import func
 from datetime import timezone
 from dateutil import parser
 import yagmail
 from db.database import asyc_engine
 import shortuuid
-from datetime import datetime
 from src import search
 
 api_router = APIRouter(prefix="/api/v1", tags=["api"])
@@ -133,7 +142,7 @@ async def approve_ads(
 
 
 @api_router.post("/ads")
-async def upload_venue(
+async def upload__ads(
     image1: UploadFile = File(...), session: AsyncSession = Depends(get_session)
 ):
     try:
@@ -252,7 +261,7 @@ async def upload_venue(
 
 
 @api_router.put("/venue/{venue_id}")
-async def update_venue(
+async def update_venue_id(
     venue_id: str,
     name: str = Form(...),
     venue_type: str = Form(...),
@@ -320,7 +329,7 @@ async def update_venue(
 
 
 @api_router.put("/band/{band_id}")
-async def update_band(
+async def update_band_by_id(
     band_id: str,
     name: str = Form(...),
     genre_type: str = Form(...),
@@ -1003,3 +1012,111 @@ async def delete_user_type(type_id: str, session: AsyncSession = Depends(get_ses
     await session.delete(type_)
     await session.commit()
     return type_
+
+
+@api_router.post("/events")
+async def create_event(
+    event: CreateEventSchema,
+    session: AsyncSession = Depends(get_session),
+):
+
+    try:
+
+        new_event = Event(
+            name=event.name,
+            venue_id=event.venue_id,
+            band_id=event.band_id,
+            date=event.date,
+            time=event.time,
+        )
+        session.add(new_event)
+        await session.commit()
+        await session.refresh(new_event)
+        return new_event
+
+    except IntegrityError as ie:
+        error_message = str(ie.orig)
+        column_name = None
+        if ie.orig.args[0] == 1062:
+            raise HTTPException(
+                status_code=400, detail="No venue with the given venue id"
+            )
+        if "FOREIGN KEY" in error_message:
+
+            try:
+                column_name = error_message.split("FOREIGN KEY (`")[1].split("`)")[0]
+            except IndexError:
+                column_name = "Unknown (parsing failed)"
+
+        if column_name == "venue_id":
+            raise HTTPException(
+                status_code=400, detail="No venue with the given venue id"
+            )
+        elif column_name == "band_id":
+            raise HTTPException(
+                status_code=400, detail="No band with the given band id"
+            )
+        else:
+            print(error_message[0])
+            raise HTTPException(
+                status_code=400, detail="Error creating event, please check your inputs"
+            )
+    except Exception as e:
+        raise HTTPException(status_code=400, detail="Error creating event")
+
+
+@api_router.get("/events/all")
+async def get_event(session: AsyncSession = Depends(get_session)):
+    try:
+        query = (
+            select(Event)
+            .options(selectinload(Event.band))
+            .options(selectinload(Event.venue))
+        )
+        result = await session.exec(query)
+        events = result.all()
+
+        events_parsed = [
+            EventsSchema.model_validate(
+                {
+                    **event.dict(),
+                    "venue": event.venue.dict() if event.venue else None,
+                    "band": event.band.dict() if event.band else None,
+                }
+            )
+            for event in events
+        ]
+        return events_parsed
+    except Exception as e:
+        return []
+
+
+@api_router.get("/events")
+async def get_events(venue_id: str, session: AsyncSession = Depends(get_session)):
+    try:
+        query = (
+            select(Event)
+            .options(selectinload(Event.band))
+            .options(selectinload(Event.venue))
+            .where(Event.venue_id == venue_id)
+        )
+        result = await session.exec(query)
+        events = result.all()
+
+        events_parsed = [
+            EventsSchema.model_validate(
+                {
+                    **event.dict(),
+                    "venue": event.venue.dict() if event.venue else None,
+                    "band": event.band.dict() if event.band else None,
+                }
+            )
+            for event in events
+        ]
+        return events_parsed
+
+    except Exception as e:
+        print(e)
+        return None
+
+    pass

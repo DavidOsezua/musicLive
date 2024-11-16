@@ -1,7 +1,7 @@
-from sqlmodel import SQLModel, Field, Column, Integer, String
+from sqlmodel import SQLModel, Field, Column, Integer, String, Relationship
 from uuid import UUID, uuid4
 from sqlalchemy.dialects.mysql import CHAR
-
+import shortuuid
 from datetime import datetime
 from typing import Optional
 from pydantic import EmailStr
@@ -85,6 +85,7 @@ class Genre(SQLModel, table=True):
 
 class Venuetype(SQLModel, table=True):
     __tablename__ = "Venuetype"
+
     id: str = Field(default=None, primary_key=True)
     name: str = Field(sa_column=Column(String(100)))
     image: Optional[str] = Field(default=None, sa_column=Column(String(255)))
@@ -94,3 +95,17 @@ class Venuetype(SQLModel, table=True):
 
     def __repr__(self) -> str:
         return f"Venuetype: {self.name} created successfully!"
+
+
+class Event(SQLModel, table=True):
+    __tablename__ = "events"
+
+    id: str = Field(primary_key=True, default_factory=shortuuid.uuid)
+    name: str = Field(nullable=False, unique=True)
+    venue_id: str = Field(default=None, foreign_key="Venue.id")
+    band_id: str = Field(default=None, foreign_key="Band.id")
+    date: date
+    time: time
+    venue: "Venue" = Relationship(sa_relationship_kwargs={"uselist": False})
+    band: "Band" = Relationship(sa_relationship_kwargs={"uselist": False})
+    status: str = Field(default="approved")

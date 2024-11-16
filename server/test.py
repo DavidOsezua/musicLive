@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import create_async_engine
 from src.config import settings
 from src.search import search_venue
 import asyncio
-
+from db.table import Event
 
 assert settings.DATABASE_URL
 
@@ -17,7 +17,10 @@ asyc_engine = create_async_engine(
 
 # session = get_session()
 
-name = "dun"
+# name = "dun"
+# venue_id = "KNVp7ZyuXJUSTC7tVuUNYL"
+# band_id = "6iLysZb7g2QAb3R4u87EH6"
+# event = Event(name="Test 1", venue_id=venue_id, band_id=band_id)
 
 
 # session = asnyc_session()
