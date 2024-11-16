@@ -34,7 +34,7 @@ import Bands from "./Bands.svg";
 import venueImg from "./Venue.svg";
 import ads from "./ADS.svg";
 import genreImg from "./Genre.svg";
-import adImg from "./adImg.png";
+import adImg from "./Genre.svg";
 import wine from "./wine.svg";
 import night from "./night.svg";
 import outdoorStage from "./outdoorStage.svg";

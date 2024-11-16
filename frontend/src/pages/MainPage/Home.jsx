@@ -3,7 +3,7 @@ import "../../App.css";
 import styles from "./Home.module.css";
 import LocationAndDates from "../../components/Homepage/LocationAndDates";
 import Share from "../../components/SVGcomponent/Share";
-import { adImg, mobileHeroImage } from "../../assets";
+import {  mobileHeroImage } from "../../assets";
 import { TipJar } from "../../components";
 import Button from "../../components/general/Button";
 import Hero from "../../components/Homepage/Hero";

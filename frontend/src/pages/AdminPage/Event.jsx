@@ -18,25 +18,26 @@ const Event = () => {
 
   const getAllUserVenueData = async () => {
     try {
-      const res = await api.get("/api/v1/venue");
+      const res = await api.get("/api/v1/events/all");
       const resultData = res.data.length;
       let approvedCount = 0;
 
-      const formattedData = res.data.map((venue) => {
-        if (venue.is_verified) {
+      const formattedData = res.data.map((event) => {
+        console.log(event)
+        if (event.status == "approved") {
           approvedCount += 1;
         }
         return {
-          ID: venue.id,
-          image: venue.image1 ? Url + "/" + venue.image1 : "",
-          venueOrBandName: venue.name || "",
-          genreOrType: venue.genre_type || "",
+          ID: event.id,
+          image: event.venue.image1 ? Url + "/" + event.venue.image1 : "",
+          venueOrBandName: event.venue.name || "",
+          genreOrType: event.venue.genre_type || "",
           changeStatus: ["Approve", "Pending", "Inactive"],
-          address: venue.address || "",
-          email: venue.email || "",
-          date: dayjs(venue.venue_date).format("DD MMM YYYY") || "",
-          time: dayjs(venue.venue_time, "HH:mm:ss").format("h:mm A") || "",
-          status: venue.is_verified ? "Approved" : "Pending",
+          address: event.venue.address || "",
+          email: event.venue.email || "",
+          date: dayjs(event.date).format("DD MMM YYYY") || "",
+          time: dayjs(event.time, "HH:mm:ss").format("h:mm A") || "",
+          status: event.status.charAt(0).toUpperCase() + event.status.slice(1)
         };
       });
       setTotalData(resultData);

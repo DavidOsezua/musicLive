@@ -297,9 +297,9 @@ const Venues = () => {
 
       
           <div className={`${styles.bandDetailsContainer}`}>
-            {Array.from({ length: 12 }).map((item) => (
+            {venues.map((item) => (
               <>
-                <EachVenue />
+                <EachVenue data={item}/>
               </>
             ))}
           </div>

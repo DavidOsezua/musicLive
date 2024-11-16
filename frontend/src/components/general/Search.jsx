@@ -35,7 +35,7 @@ const Search = ({ showDropdown, searchData, handleInputChange }) => {
         <SearchIcon />
         <input
           placeholder="Search by name..."
-          name="search"
+          name="name"
           value={searchData.name || ""}
           onChange={handleInputChange}
           className={`${styles.input}`}
