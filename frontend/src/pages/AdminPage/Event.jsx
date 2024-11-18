@@ -31,7 +31,7 @@ const Event = () => {
           ID: event.id,
           image: event.venue.image1 ? Url + "/" + event.venue.image1 : "",
           venueOrBandName: event.venue.name || "",
-          genreOrType: event.venue.genre_type || "",
+          genreOrType: event.venue.venue_type || "",
           changeStatus: ["Approve", "Pending", "Inactive"],
           address: event.venue.address || "",
           email: event.venue.email || "",

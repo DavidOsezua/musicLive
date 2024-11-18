@@ -102,7 +102,6 @@ const Venues = () => {
 
   const [searchData, setSearchData] = useState({
     name: "",
-    genre: query || "",
     types: [], // To store the types of venues selected
     selectedVenues: [], // Track selected venues
   });
