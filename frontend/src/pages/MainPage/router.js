@@ -60,6 +60,19 @@ export const createEvent = async (formData) => {
   }
 };
 
+export const createSubcriber = async (data) => {
+  try {
+    const response = await api.post("/api/v1/subscribers", data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error || "An unexpected error occured";
+  }
+};
 
 // export const edit
 

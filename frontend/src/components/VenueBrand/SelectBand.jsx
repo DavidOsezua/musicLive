@@ -37,6 +37,7 @@ const EachBand = ({ band, onBandSelection }) => {
 
 const SelectBand = ({ close, onBandSelection }) => {
   const [bands, setBands] = useState([]); // State to hold band data
+  const [filteredData, setFilteredData] = useState([]); // state that holds the filtered data
   const [loading, setLoading] = useState(true); // State to show a loader while fetching data
   const [error, setError] = useState(null); // State to handle errors
 
@@ -59,6 +60,18 @@ const SelectBand = ({ close, onBandSelection }) => {
     getAllUserBandData();
   }, []);
 
+  const handleSearch = (query) => {
+    if (query === "") return setFilteredData(bands);
+    const queryLowercase = query.toLowerCase();
+    const filtered = bands.filter(
+      (band) =>
+        band.name.includes(queryLowercase) ||
+        band.genre_type.includes(queryLowercase)
+    );
+
+    setFilteredData(filtered);
+  };
+
   return (
     <div className={`${styles.cardContainer}`}>
       <div className={`flex justify-between items-center`}>
@@ -68,7 +81,7 @@ const SelectBand = ({ close, onBandSelection }) => {
           <Close />
         </button>
       </div>
-      <AdminSearch />
+      <AdminSearch onSearch={handleSearch} />
 
       {/* Content Section */}
       <div className={`${styles.allBands}`}>
@@ -79,7 +92,7 @@ const SelectBand = ({ close, onBandSelection }) => {
         ) : bands.length === 0 ? (
           <p>No bands available</p> // Message when no bands are found
         ) : (
-          bands.map((band) => (
+          filteredData.map((band) => (
             <React.Fragment key={band.id}>
               <EachBand band={band} onBandSelection={onBandSelection} />
               {/* Pass band data to the child component */}

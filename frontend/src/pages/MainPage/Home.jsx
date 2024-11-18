@@ -3,16 +3,53 @@ import "../../App.css";
 import styles from "./Home.module.css";
 import LocationAndDates from "../../components/Homepage/LocationAndDates";
 import Share from "../../components/SVGcomponent/Share";
-import {  mobileHeroImage } from "../../assets";
+import { mobileHeroImage } from "../../assets";
 import { TipJar } from "../../components";
 import Button from "../../components/general/Button";
 import Hero from "../../components/Homepage/Hero";
 import SelectGenre from "../../components/SVGcomponent/SelectGenre";
 import GenreScroll from "../../components/general/GenreScroll";
 import Advert from "@/components/general/Advert";
+import { createSubcriber } from "./router";
 import { api } from "@/services/api.route";
 
 const Home = () => {
+  const [data, setData] = useState({ email: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleInputChange = (e) => {
+    setData({ ...data, email: e.target.value });
+  };
+
+  const subcribeHandler = async (e) => {
+    e.preventDefault();
+
+    if (!data.email) {
+      setMessage("Email is required");
+      return;
+    }
+
+    const formdata = {
+      email: data.email,
+    };
+
+    try {
+      setIsSubmitting(true);
+      await createSubcriber(formdata);
+      setMessage("Subscription successful! Thank you.");
+      setData({ email: "" }); // Clear the input field
+    } catch (error) {
+      setMessage(error || "Failed to subscribe. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  console.log("Data being sent:", data);
+
+  console.log(message);
+
   return (
     <section className={`section pt-0 ${styles.homeSection} transition`}>
       <div className={`${styles.ellipse1}`}></div>
@@ -71,12 +108,16 @@ const Home = () => {
           <div className={`${styles.subscribeInput}`}>
             <input
               placeholder="Enter Email here"
+              value={data.email}
+              onChange={handleInputChange}
               className={`bg-transparent w-full py-2 px-3 outline-none`}
             />
             <Button
               width={`w-[101px]`}
               colored
-              text={`Subscribe`}
+              clickFunction={subcribeHandler}
+              type={`submit`}
+              text={isSubmitting ? "Submitting..." : "Subscribe"}
               radius={`rounded-md`}
             />
           </div>
@@ -123,12 +164,16 @@ const Home = () => {
               <div className={`${styles.subscribeInput}`}>
                 <input
                   placeholder="Enter Email here"
+                  value={data.email}
+                  onChange={handleInputChange}
                   className={`bg-transparent w-full py-2 px-3 outline-none`}
                 />
                 <Button
                   width={`w-[101px]`}
                   colored
-                  text={`Subscribe`}
+                  clickFunction={subcribeHandler}
+                  text={isSubmitting ? "Submitting..." : "Subscribe"}
+                  type={`submit`}
                   radius={`rounded-md`}
                 />
               </div>

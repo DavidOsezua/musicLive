@@ -113,7 +113,7 @@
   .bandWrapper {
     grid-row: 2/3;
     grid-column: 1/2;
-        height: 700px;
+    height: 700px;
   }
   .bandDetailsContainer {
     /* margin-top: -10rem; */

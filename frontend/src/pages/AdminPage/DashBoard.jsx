@@ -15,6 +15,7 @@ import AddGenre from "@/components/Dashboard/AddGenre";
 import AddAds from "@/components/Dashboard/AddAds";
 import AddType from "@/components/Dashboard/AddType";
 import Modal from "@/components/general/Modal";
+import { CSVLink } from "react-csv";
 
 const DashBoard = () => {
   const [selectedCard, setSelectedCard] = useState(null);
@@ -25,10 +26,22 @@ const DashBoard = () => {
   const [totalresultVenueData, setTotalResultVenueData] = useState({});
   const [totalresultVenueTypeData, setTotalResultVenueTypeData] = useState({});
   const [totalresultGenreData, setTotalResultGenreData] = useState({});
+  const [totalSubscribers, setTotalSubcribers] = useState([]);
 
   console.log(totalresultVenueTypeData);
 
   console.log(modal);
+
+  const getAllSubcribers = async () => {
+    try {
+      const res = await api.get("/api/v1/subscribers");
+      const data = res.data;
+
+      setTotalSubcribers(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const fetchTotalResult = async () => {
     try {
@@ -50,6 +63,12 @@ const DashBoard = () => {
   useEffect(() => {
     fetchTotalResult();
   }, []);
+
+  useEffect(() => {
+    getAllSubcribers();
+  }, []);
+
+  console.log(totalSubscribers);
 
   const dashboardSummary = [
     {
@@ -216,17 +235,17 @@ const DashBoard = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <p className="text-[2rem] font-semibold">0</p>
-            <p className="text-[#437CF3]">+0</p>
-            <p className="text-[#437CF3]">New</p>
+            <p className="text-[2rem] font-semibold">
+              {totalSubscribers.length}
+            </p>
+            {/* <p className="text-[#437CF3]">+0</p>
+            <p className="text-[#437CF3]">New</p> */}
           </div>
 
           <div className="flex gap-3 w-full">
-            <Button
-              text={`Export Email`}
-              width={`w-full`}
-              radius={`rounded-[5px]`}
-            />
+            <button className={`${styles.colored}`}>
+              <CSVLink data={totalSubscribers}>Export Email</CSVLink>
+            </button>
             <Button
               colored
               text={`See Details`}
