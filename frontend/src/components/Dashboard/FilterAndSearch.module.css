@@ -54,6 +54,8 @@
 
 .input {
   background-color: transparent;
+  width: 100%;
+  outline-style: none;
 }
 
 @media screen and (min-width: 965px) {

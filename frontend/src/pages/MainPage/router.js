@@ -45,6 +45,21 @@ export const uploadUserbrand = async (formData) => {
     throw error || "An unexpected error occurred";
   }
 };
+
+export const createEvent = async (formData) => {
+  try {
+    const response = await api.post("/api/v1/events", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error || "An unexpected error occured";
+  }
+};
+
 // export const saveUserbrand = async (formData) => {
 //   try {
 //     const response = await api.put(`/api/v1/band/${id}`, formData, {

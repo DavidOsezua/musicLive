@@ -9,21 +9,21 @@ import { useModal } from "../../App";
 import EventForm from "@/components/VenueBrand/EventForm";
 
 const Event = () => {
-  const [locationPageData, setLocationPageData] = useState([]);
+  const [eventPageData, seteventPageData] = useState([]);
   const [totalData, setTotalData] = useState(0);
   const [totalApprove, setTotalApprove] = useState(0);
   // const [pending, setpending] = useState(0)
   const [trackChanges, settrackChanges] = useState(false);
   const { modal, modalHandler } = useModal() || {};
 
-  const getAllUserVenueData = async () => {
+  const getAllEventData = async () => {
     try {
       const res = await api.get("/api/v1/events/all");
       const resultData = res.data.length;
       let approvedCount = 0;
 
       const formattedData = res.data.map((event) => {
-        console.log(event)
+        console.log(event);
         if (event.status == "approved") {
           approvedCount += 1;
         }
@@ -37,12 +37,12 @@ const Event = () => {
           email: event.venue.email || "",
           date: dayjs(event.date).format("DD MMM YYYY") || "",
           time: dayjs(event.time, "HH:mm:ss").format("h:mm A") || "",
-          status: event.status.charAt(0).toUpperCase() + event.status.slice(1)
+          status: event.status.charAt(0).toUpperCase() + event.status.slice(1),
         };
       });
       setTotalData(resultData);
       setTotalApprove(approvedCount);
-      setLocationPageData(formattedData);
+      seteventPageData(formattedData);
       // setpending(totalBand - totalApprove)
     } catch (err) {
       console.log(err);
@@ -50,8 +50,8 @@ const Event = () => {
   };
 
   useEffect(() => {
-    getAllUserVenueData();
-    console.log("Updated locationPageData", locationPageData);
+    getAllEventData();
+    console.log("Updated eventPageData", eventPageData);
   }, [totalData, trackChanges]);
 
   let pending = totalData - totalApprove;
@@ -66,7 +66,7 @@ const Event = () => {
     status: ["All", "Approved", "Pending", "Inactive"],
     tableHead: ["ID", "Venue", "Band", "Date", "Time", "Status", "Actions"],
 
-    tableOrCardData: locationPageData,
+    tableOrCardData: eventPageData,
     numberOfItem: 10,
   };
 
@@ -83,16 +83,16 @@ const Event = () => {
         pageData={eventData}
         pageType={`venue`}
         columnCount={9}
-        setUserData={setLocationPageData}
+        setUserData={seteventPageData}
         setTotalData={setTotalData}
         setTotalApprove={setTotalApprove}
         settrackChanges={settrackChanges}
         // setpending = {setpending}
-        from={`venue`}
+        from={`event`}
       />
       {modal ? (
         <Modal modalHandler={modalHandler}>
-          <EventForm cancel={modalHandler} />
+          <EventForm cancel={modalHandler} getAllEventData={getAllEventData} />
         </Modal>
       ) : (
         ""

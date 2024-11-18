@@ -138,7 +138,7 @@ const AddBand = ({ settrackChanges, isEdit, bandId, getAllUserBandData }) => {
         <Modal modalHandler={() => setLoader(false)}>
           <Loader />
         </Modal>
-      )}
+      )} 
 
       {showResultModal && (
         <Modal modalHandler={() => setShowResultModal(false)}>

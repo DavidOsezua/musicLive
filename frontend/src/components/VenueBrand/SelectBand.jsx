@@ -1,23 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./SelectBand.module.css";
 import AdminSearch from "../Dashboard/AdminSearch";
 import { band1, venueImage } from "@/assets";
 import Close from "../general/Close";
 import ArrowRight from "../SVGcomponent/ArrowRight";
 import GreaterThan from "../SVGcomponent/GreaterThan";
+import Loader from "../general/Loader";
+import { api, Url } from "@/services/api.route";
 
-const EachBand = () => {
+const EachBand = ({ band, onBandSelection }) => {
+  console.log(band);
+
   return (
-    <div className={`flex gap-4 items-center justify-between`}>
+    <div
+      className={`flex gap-4 items-center justify-between`}
+      onClick={() => onBandSelection(band)}
+    >
       <div className={`flex gap-4 items-center`}>
         <img
-          src={band1}
+          src={`${Url}/${band.image1}`}
           className={`w-[40px] h-[40px] rounded-md object-cover`}
         />
 
         <div className={`flex flex-col gap-0`}>
-          <p className={`text-[#0A2259]`}>Demi3D Bands</p>
-          <span className={`text-[#C32FB4]`}>Blues</span>
+          <p className={`text-[#0A2259]`}>{band.name}</p>
+          <span className={`text-[#C32FB4]`}>{band.genre_type}</span>
         </div>
       </div>
 
@@ -28,7 +35,30 @@ const EachBand = () => {
   );
 };
 
-const SelectBand = ({ close }) => {
+const SelectBand = ({ close, onBandSelection }) => {
+  const [bands, setBands] = useState([]); // State to hold band data
+  const [loading, setLoading] = useState(true); // State to show a loader while fetching data
+  const [error, setError] = useState(null); // State to handle errors
+
+  // Fetch Bands from the API
+  const getAllUserBandData = async () => {
+    try {
+      const res = await api.get("/api/v1/band");
+      console.log(res.data);
+      setBands(res.data); // Update state with fetched data
+      setError(null);
+    } catch (error) {
+      setError("Failed to fetch bands");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Use useEffect to fetch data on component mount
+  useEffect(() => {
+    getAllUserBandData();
+  }, []);
+
   return (
     <div className={`${styles.cardContainer}`}>
       <div className={`flex justify-between items-center`}>
@@ -40,14 +70,23 @@ const SelectBand = ({ close }) => {
       </div>
       <AdminSearch />
 
-      {/* ALL BAND DATA GOES HERE. CURRENTLY IT DISPLAYS MOCK DATA */}
+      {/* Content Section */}
       <div className={`${styles.allBands}`}>
-        {Array.from({ length: 10 }).map((item) => (
-          <>
-            <EachBand />
-            <div className={`${styles.hr}`}></div>
-          </>
-        ))}
+        {loading ? (
+          <Loader /> // Loader while data is fetching
+        ) : error ? (
+          <p className="text-red-500">{error}</p> // Display error if any
+        ) : bands.length === 0 ? (
+          <p>No bands available</p> // Message when no bands are found
+        ) : (
+          bands.map((band) => (
+            <React.Fragment key={band.id}>
+              <EachBand band={band} onBandSelection={onBandSelection} />
+              {/* Pass band data to the child component */}
+              <div className={`${styles.hr}`}></div>
+            </React.Fragment>
+          ))
+        )}
       </div>
     </div>
   );

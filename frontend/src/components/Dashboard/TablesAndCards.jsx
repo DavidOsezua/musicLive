@@ -102,6 +102,8 @@ const TablesAndCards = ({
         endpoint = "/api/v1/genre/";
       } else if (from === "Type") {
         endpoint = "/api/v1/type/";
+      } else if (from === "event") {
+        endpoint = "/api/v1/events/";
       }
 
       await api.delete(`${endpoint}${id}`);

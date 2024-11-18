@@ -218,7 +218,7 @@ const Venues = () => {
                       className="w-[15px]"
                     />
                     <p className="text-[0.8rem]">{item.genreOrType}</p>
-                    {/* Cancel button to remove the venue */}
+
                     <button
                       onClick={() => handleRemoveVenue(item.ID)}
                       className="absolute top-[50%] transform translate-y-[-50%] right-[5%]"
@@ -295,15 +295,15 @@ const Venues = () => {
 
         {/* Venue Details  */}
 
-      
+        <div className={`${styles.bandWrapper}`}>
           <div className={`${styles.bandDetailsContainer}`}>
             {venues.map((item) => (
               <>
-                <EachVenue data={item}/>
+                <EachVenue data={item} />
               </>
             ))}
           </div>
-        
+        </div>
 
         <div className={`flex flex-col items-center ${styles.showMore}`}>
           <p className={`text-[#0A2259] pb-4`}>

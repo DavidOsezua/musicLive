@@ -13,10 +13,10 @@ import {
 import ConfirmDelete from "../general/ConfirmDelete";
 import { useModal } from "@/App";
 import Modal from "../general/Modal";
-import EditBand from "./EditBand";
-import PreviexBand from "./PreviexBand";
 import { facebook, instagram, website, youtube } from "@/assets";
 import { api } from "@/services/api.route";
+import PreviewEvent from "./PreviewEvent";
+import EditEvent from "./EditEvent";
 
 const EventTable = ({
   item,
@@ -28,6 +28,27 @@ const EventTable = ({
   getBackgroundColor,
   status,
 }) => {
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [settingsModal, setSettingsModal] = useState(false);
+  const [previewModal, setPreviewModal] = useState(false);
+
+  const settingsHandler = () => setSettingsModal(!settingsModal);
+  const previewHandler = () => setPreviewModal(!previewModal);
+
+  const deleteHandler = () => {
+    setDeleteModal(true);
+  };
+
+  const cancelDelete = () => {
+    setDeleteModal(false);
+  };
+
+  const confirmDelete = () => {
+    handleDelete(item.ID);
+    setDeleteModal(false);
+  };
+
+  console.log(item);
   return (
     <>
       <td className={`${styles.tdStyle}`}>{rowNumber + index + 1}</td>
@@ -82,42 +103,37 @@ const EventTable = ({
 
       <td className={`${styles.tdStyle} text-[#FF6665]`}>
         <div className="flex items-center gap-3">
-          <button onClick={() => {}}>
+          <button onClick={settingsHandler}>
             <Settings />
           </button>
-          <button onClick={() => {}}>
+          <button onClick={deleteHandler}>
             <Delete />
           </button>
-          <button onClick={() => {}}>
+          <button onClick={previewHandler}>
             <Preview />
           </button>
         </div>
       </td>
-      {/* {deleteModal && (
+      {deleteModal && (
         <Modal>
           <ConfirmDelete
-            // confirmDelete={confirmDelete}
-            // cancelDelete={cancelDelete}
+            confirmDelete={confirmDelete}
+            cancelDelete={cancelDelete}
           />
         </Modal>
-      )} */}
+      )}
 
-      {/* {settingsModal && (
-        <Modal modalHandler={()=>{}}>
-          <EditBand
-            item={item}
-            data={data}
-            setDeleteModal={settingsModal}
-            getAllUserBandData={getAllUserBandData}
-          />
+      {settingsModal && (
+        <Modal modalHandler={settingsHandler}>
+          <EditEvent item={item} />
         </Modal>
       )}
 
       {previewModal && (
         <Modal modalHandler={previewHandler}>
-          <PreviexBand item={item} modalHandler={previewHandler} />
+          <PreviewEvent item={item} modalHandler={previewHandler} />
         </Modal>
-      )} */}
+      )}
     </>
   );
 };
