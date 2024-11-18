@@ -35,6 +35,7 @@ const EachVenue = ({ venue, onVenueSelection }) => {
 };
 const SelectVenue = ({ close, onVenueSelection }) => {
   const [venues, setVenues] = useState([]); // State to hold venue data
+  const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true); // State to show a loader while fetching data
   const [error, setError] = useState(null); // State to handle errors
 
@@ -44,6 +45,7 @@ const SelectVenue = ({ close, onVenueSelection }) => {
       const res = await api.get("/api/v1/venue");
       console.log(res.data);
       setVenues(res.data); // Update state with fetched data
+      setFilteredData(res.data);
       setError(null);
     } catch (error) {
       setError("Failed to fetch venues");
@@ -57,6 +59,19 @@ const SelectVenue = ({ close, onVenueSelection }) => {
     getAllUserVenueData();
   }, []);
 
+  const handleSearch = (query) => {
+    if (query === "") return setFilteredData(venues);
+
+    const queryLowercase = query.toLowerCase();
+    const filtered = venues.filter(
+      (venue) =>
+        venue.name.includes(queryLowercase) ||
+        venue.venue_type.includes(queryLowercase)
+    );
+
+    setFilteredData(filtered);
+  };
+
   return (
     <div className={`${styles.cardContainer}`}>
       {/* Header Section */}
@@ -68,7 +83,7 @@ const SelectVenue = ({ close, onVenueSelection }) => {
       </div>
 
       {/* Search Component */}
-      <AdminSearch />
+      <AdminSearch onSearch={handleSearch} />
 
       {/* Content Section */}
       <div className={`${styles.allBands}`}>
@@ -76,10 +91,10 @@ const SelectVenue = ({ close, onVenueSelection }) => {
           <Loader /> // Loader while data is fetching
         ) : error ? (
           <p className="text-red-500">{error}</p> // Display error if any
-        ) : venues.length === 0 ? (
+        ) : filteredData.length === 0 ? (
           <p>No venues available</p> // Message when no venues are found
         ) : (
-          venues.map((venue) => (
+          filteredData.map((venue) => (
             <React.Fragment key={venue.id}>
               <EachVenue venue={venue} onVenueSelection={onVenueSelection} />
               {/* Pass venue data to the child component */}
