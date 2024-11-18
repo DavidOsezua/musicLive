@@ -17,11 +17,8 @@ const AddLocation = ({ settrackChanges }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    genre_type: "",
     venue_type: "",
     address: "",
-    date: "",
-    time: "",
     homepage: "",
     facebook: "",
     instagram: "",
@@ -40,12 +37,9 @@ const AddLocation = ({ settrackChanges }) => {
     if (currentStep === 0) {
       if (!formData.name) errors.name = "venue name is required";
       if (!formData.email) errors.email = "Email is required";
-      if (!formData.genre_type) errors.genre_type = "Genre type is required";
       if (!formData.venue_type)
         errors.venue_type = "venue type tag is required";
       if (!formData.address) errors.address = "address is required";
-      // if (!formData.date) errors.date = "venue date is required";
-      // if (!formData.time) errors.date = "venue time is required";
     }
 
     if (currentStep === 1) {

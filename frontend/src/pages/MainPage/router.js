@@ -60,6 +60,9 @@ export const createEvent = async (formData) => {
   }
 };
 
+
+// export const edit
+
 // export const saveUserbrand = async (formData) => {
 //   try {
 //     const response = await api.put(`/api/v1/band/${id}`, formData, {

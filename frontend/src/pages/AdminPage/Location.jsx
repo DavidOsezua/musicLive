@@ -29,12 +29,10 @@ const Location = () => {
           ID: venue.id,
           image: venue.image1 ? Url + "/" + venue.image1 : "",
           venueOrBandName: venue.name || "",
-          genreOrType: venue.genre_type || "",
+          genreOrType: venue.venue_type || "",
           changeStatus: ["Approve", "Pending", "Inactive"],
           address: venue.address || "",
           email: venue.email || "",
-          date: dayjs(venue.venue_date).format("DD MMM YYYY") || "",
-          time: dayjs(venue.venue_time, "HH:mm:ss").format("h:mm A") || "",
           status: venue.is_verified ? "Approved" : "Pending",
         };
       });
@@ -64,7 +62,7 @@ const Location = () => {
     status: ["All", "Approved", "Pending", "Inactive"],
     tableHead: [
       "ID",
-      "Venue name/Genre",
+      "Venue name/Type",
       "Address",
       "Email",
       "Date",

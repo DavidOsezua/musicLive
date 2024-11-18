@@ -22,7 +22,7 @@ const EachVenue = ({ venue, onVenueSelection }) => {
         />
 
         <div className={`flex flex-col gap-0`}>
-          <p className={`text-[#0A2259]`}>{venue.address}</p>
+          <p className={`text-[#0A2259]`}>{venue.name}</p>
           <span className={`text-[#3D69C5]`}>{venue.venue_type}</span>
         </div>
       </div>

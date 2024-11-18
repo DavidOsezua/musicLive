@@ -46,6 +46,8 @@ const LocationTableData = ({
     setDeleteModal(false);
   };
 
+  console.log(item)
+
   return (
     <>
       <td className={`${styles.tdStyle}`}>{rowNumber + index + 1}</td>
