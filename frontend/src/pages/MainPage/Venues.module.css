@@ -8,7 +8,7 @@
 
 .bandDetailsContainer {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+
   gap: 0.3rem;
   width: 100%;
   padding: 1rem;
@@ -113,10 +113,12 @@
   .bandWrapper {
     grid-row: 2/3;
     grid-column: 1/2;
-    height: 700px;
+    height: 600px;
+    overflow: auto;
   }
   .bandDetailsContainer {
     /* margin-top: -10rem; */
+    grid-template-columns: repeat(2, 1fr);
 
     overflow: auto;
   }

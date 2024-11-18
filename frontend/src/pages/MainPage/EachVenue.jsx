@@ -59,9 +59,29 @@ const EachVenue = ({ data }) => {
           </p>
         </div>
 
-        <p className={`text-[#0A2259] text-[13px]`}>{data.address}</p>
+        <div className={`${styles.mobile} `}>
+          <div className={`flex gap-3 items-center justify-between`}>
+            <p className={`text-[#0A2259] text-[13px] ${styles.mobile}`}>
+              {data.address}
+            </p>
 
-        <div className={`${styles.socialsAndDetails}`}>
+            <div className={`flex items-center gap-1`}>
+              <Facebook />
+              <Instagram />
+            </div>
+          </div>
+
+          <button onClick={popUpHandler} className={`${styles.btn}`}>
+            See Details <GreaterThan />
+            {/* Lets check something */}
+          </button>
+        </div>
+
+        <p className={`text-[#0A2259] text-[13px] ${styles.desktop}`}>
+          {data.address}
+        </p>
+
+        <div className={` ${styles.socialsAndDetails} `}>
           <div className={`flex items-center gap-1`}>
             <Facebook />
             <Instagram />

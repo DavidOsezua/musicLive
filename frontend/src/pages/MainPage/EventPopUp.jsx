@@ -60,9 +60,7 @@ const EventPopUp = ({ data, cancel, events, loading }) => {
                     </div>
                   </div>
                   <p className={`text-[0.8rem]`}>{event.name}</p>
-                  <p className={`text-[0.8rem]`}>
-                    Saturday, October 19 - 7:00PM
-                  </p>
+                  <p className={`text-[0.8rem]`}>{event.date}</p>
                 </div>
               ))
             ) : (
