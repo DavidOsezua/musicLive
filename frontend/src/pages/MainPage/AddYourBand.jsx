@@ -10,8 +10,10 @@ import Failed from "../../components/general/Failed";
 import Modal from "@/components/general/Modal";
 
 const AddYourBand = () => {
-  const { modal, modalHandler } = useModal() ||{};
-  const [message, setMessage] = useState()
+  const { modal, modalHandler } = useModal() || {};
+  const [image, setImage] = useState(null);
+  const [image2, setImage2] = useState(null);
+  const [message, setMessage] = useState();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -52,8 +54,26 @@ const AddYourBand = () => {
     return Object.keys(errors).length === 0;
   };
 
+  const formHandler = (e) => {
+    const file = e.target.files[0];
+    setFormData((formData) => ({
+      ...formData,
+      image1: file, // Save file in formData
+    }));
+    setImage(URL.createObjectURL(file)); // Directly set image for preview
+  };
+
+  const formHandler2 = (e) => {
+    const file = e.target.files[0];
+    setFormData((formData) => ({
+      ...formData,
+      image2: file, // Save file in formData
+    }));
+    setImage2(URL.createObjectURL(file)); // Directly set image for preview
+  };
+
   const handleSubmit = async () => {
-    console.log(formErrors)
+    console.log(formErrors);
     if (validateStep(1)) {
       const dataForm = new FormData();
       Object.keys(formData).forEach((key) => {
@@ -62,18 +82,18 @@ const AddYourBand = () => {
       try {
         await uploadUserbrand(dataForm);
         setIsSubmitted(true);
-        setMessage("Band uploaded successfully!")
+        setMessage("Band uploaded successfully!");
         setError(false);
         modalHandler(); // Open modal on success
       } catch (e) {
         setMessage(e.response.data.detail || "Form validation failed");
         setIsSubmitted(false);
         setError(true);
-        console.error("error",e.response.data.detail)
+        console.error("error", e.response.data.detail);
         modalHandler(); // Open modal on failure
       }
     } else {
-      console.error("error",error)
+      console.error("error", error);
       setError(true);
       setMessage("Form validation failed");
       modalHandler(); // Open modal for validation failure
@@ -85,8 +105,8 @@ const AddYourBand = () => {
       <MultiFormPage
         sectionClass={`section p-0 transition`}
         containerClass={`sectionContainer`}
-        error = {error}
-        setError = {setError}
+        error={error}
+        setError={setError}
         stepContent={[
           <BrandForm
             key={"one"}
@@ -101,6 +121,10 @@ const AddYourBand = () => {
             formErrors={formErrors}
             text1={`Pending Gigs? E-mail us the Venue names and Dates we will help you.`}
             text2={`Send to: addMyBand@findmelivemusic.com`}
+            image={image}
+            image2={image2}
+            formHandler={formHandler}
+            formHandler2={formHandler2}
           />,
         ]}
         onSubmit={handleSubmit}
@@ -115,10 +139,14 @@ const AddYourBand = () => {
       {modal && (
         <Modal>
           {isSubmitted ? (
-             <Success modalHandler={modalHandler} message={message} description="Band under review, you will be notify via email once it approved"/>
-            ) : (
-              <Failed modalHandler={modalHandler} message={message}/>
-            )}
+            <Success
+              modalHandler={modalHandler}
+              message={message}
+              description="Band under review, you will be notify via email once it approved"
+            />
+          ) : (
+            <Failed modalHandler={modalHandler} message={message} />
+          )}
         </Modal>
       )}
     </>
