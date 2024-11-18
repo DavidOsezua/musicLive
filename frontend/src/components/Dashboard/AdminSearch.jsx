@@ -8,8 +8,7 @@ const AdminSearch = ({ onSearch }) => {
     e.preventDefault();
     const value = e.target.value;
     setQuery(value);
-    onSearch(query);
-    // setQuery("");
+    onSearch(value);
   };
   return (
     <div className={`${styles.inputContainer}`}>
