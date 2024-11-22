@@ -15,7 +15,7 @@ const Event = () => {
   // const [pending, setpending] = useState(0)
   const [trackChanges, settrackChanges] = useState(false);
   const { modal, modalHandler } = useModal() || {};
-
+  const [showModal, setShowModal] = useState(false);
   const getAllEventData = async () => {
     try {
       const res = await api.get("/api/v1/events/all");
@@ -70,6 +70,11 @@ const Event = () => {
     numberOfItem: 10,
   };
 
+  const allModalHandler = () => {
+    modalHandler();
+    setShowModal((prev) => !prev);
+  };
+
   return (
     <section className={`adminSection pageContainer transition`}>
       <TitleAndStatus
@@ -91,8 +96,13 @@ const Event = () => {
         from={`event`}
       />
       {modal ? (
-        <Modal modalHandler={modalHandler}>
-          <EventForm cancel={modalHandler} getAllEventData={getAllEventData} />
+        <Modal modalHandler={allModalHandler}>
+          <EventForm
+            cancel={allModalHandler}
+            getAllEventData={getAllEventData}
+            setShowModal={setShowModal}
+            showModal={showModal}
+          />
         </Modal>
       ) : (
         ""

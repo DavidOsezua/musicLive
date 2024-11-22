@@ -53,9 +53,7 @@ const ContactUs = () => {
         <div className={`${styles.formContainer}`}>
           <div className={`${styles.container}`}>
             <h1 className={`${styles.title}`}>GET IN TOUCH</h1>
-            <p className={`${styles.text}`}>
-              24/7 we will answer your questions
-            </p>
+          
           </div>
 
           <form className={`${styles.form}`} onSubmit={handleSubmitform}>

@@ -16,7 +16,7 @@ import Loader from "../general/Loader";
 import Success from "../general/Success";
 import Failed from "../general/Failed";
 
-const EventForm = ({ cancel, getAllEventData }) => {
+const EventForm = ({ cancel, getAllEventData, setShowModal, showModal }) => {
   const [formData, setFormData] = useState({
     eventName: "",
     venue: null,
@@ -24,7 +24,7 @@ const EventForm = ({ cancel, getAllEventData }) => {
     date: null,
     time: null,
   });
-  const [showModal, setShowModal] = useState(false);
+
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -243,10 +243,10 @@ const EventForm = ({ cancel, getAllEventData }) => {
         </Modal>
       )}
       {showModal && (
-        <Modal modalHandler={() => setShowModal(false)}>
+        <Modal modalHandler={cancel}>
           {isSubmitted ? (
             <Success
-              modalHandler={() => setShowModal(false)} // Close modal when Success is clicked
+              modalHandler={cancel} // Close modal when Success is clicked
               message={"Submitted Successfully"}
               description="Band under review, you will be notified via email once it is approved."
             />

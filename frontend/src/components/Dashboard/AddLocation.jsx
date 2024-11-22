@@ -9,11 +9,15 @@ import Failed from "../general/Failed";
 import Modal from "../general/Modal";
 import Loader from "../general/Loader";
 
-const AddLocation = ({ settrackChanges }) => {
+const AddLocation = ({
+  settrackChanges,
+  cancel,
+  setShowResultModal,
+  showResultModal,
+}) => {
   const [message, setMessage] = useState();
   const [image, setImage] = useState(null);
   const [image2, setImage2] = useState(null);
-  const [showResultModal, setShowResultModal] = useState(false); // New state to control result modal visibility
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -147,10 +151,10 @@ const AddLocation = ({ settrackChanges }) => {
       )}
 
       {showResultModal && (
-        <Modal modalHandler={() => setShowResultModal(false)}>
+        <Modal modalHandler={cancel}>
           {isSubmitted ? (
             <Success
-              modalHandler={() => setShowResultModal(false)} // Close modal when Success is clicked
+              modalHandler={cancel} // Close modal when Success is clicked
               message={message}
               description="Band under review, you will be notified via email once it is approved."
             />

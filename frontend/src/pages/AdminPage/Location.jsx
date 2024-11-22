@@ -11,6 +11,7 @@ const Location = () => {
   const [locationPageData, setLocationPageData] = useState([]);
   const [totalData, setTotalData] = useState(0);
   const [totalApprove, setTotalApprove] = useState(0);
+  const [showResultModal, setShowResultModal] = useState(false);
   // const [pending, setpending] = useState(0)
   const [trackChanges, settrackChanges] = useState(false);
   const { modal, modalHandler } = useModal() || {};
@@ -75,6 +76,11 @@ const Location = () => {
     numberOfItem: 10,
   };
 
+  const allModalHandler = () => {
+    modalHandler();
+    setShowResultModal((prev) => !prev);
+  };
+
   return (
     <section className={`adminSection pageContainer transition`}>
       <TitleAndStatus
@@ -96,8 +102,13 @@ const Location = () => {
         from={`venue`}
       />
       {modal ? (
-        <Modal modalHandler={modalHandler}>
-          <AddLocation settrackChanges={settrackChanges} />
+        <Modal modalHandler={allModalHandler}>
+          <AddLocation
+            cancel={allModalHandler}
+            setShowResultModal={setShowResultModal}
+            showResultModal={showResultModal}
+            settrackChanges={settrackChanges}
+          />
         </Modal>
       ) : (
         ""

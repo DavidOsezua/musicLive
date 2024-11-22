@@ -15,6 +15,7 @@ const Ads = () => {
   const [totalData, setTotalData] = useState(0);
   const [totalApprove, setTotalApprove] = useState(0);
   const [trackChanges, settrackChanges] = useState(false);
+  const [showResultModal, setShowResultModal] = useState(false);
   const getAlladsData = async () => {
     try {
       const res = await api.get("/api/v1/ads");
@@ -60,6 +61,11 @@ const Ads = () => {
     size: "ads",
   };
 
+  const allModalHandler = () => {
+    modalHandler();
+    setShowResultModal((prev) => !prev);
+  };
+
   return (
     <section className={` adminSection pageContainer transition`}>
       <TitleAndStatus
@@ -80,8 +86,13 @@ const Ads = () => {
         setTotalApprove={setTotalApprove}
       />
       {modal ? (
-        <Modal modalHandler={modalHandler}>
-          <AddAds getAlladsData={getAlladsData} />
+        <Modal modalHandler={allModalHandler}>
+          <AddAds
+            cancel={allModalHandler}
+            setShowResultModal={setShowResultModal}
+            showResultModal={showResultModal}
+            getAlladsData={getAlladsData}
+          />
         </Modal>
       ) : (
         ""

@@ -22,6 +22,7 @@ const Type = () => {
   const [totalData, setTotalData] = useState(0);
   const [totalApprove, setTotalApprove] = useState(0);
   const [trackChanges, settrackChanges] = useState(false);
+  const [showResultModal, setShowResultModal] = useState(false);
 
   const getAllVenueTypeData = async () => {
     try {
@@ -71,6 +72,11 @@ const Type = () => {
     numberOfItem: 12,
   };
 
+  const allModalHandler = () => {
+    modalHandler();
+    setShowResultModal((prev) => !prev);
+  };
+
   console.log(typePageData);
 
   return (
@@ -93,8 +99,13 @@ const Type = () => {
         setTotalApprove={setTotalApprove}
       />
       {modal ? (
-        <Modal modalHandler={modalHandler} component={""}>
-          <AddType getAllVenueTypeData={getAllVenueTypeData} />
+        <Modal modalHandler={allModalHandler} component={""}>
+          <AddType
+            cancel={allModalHandler}
+            setShowResultModal={setShowResultModal}
+            showResultModal={showResultModal}
+            getAllVenueTypeData={getAllVenueTypeData}
+          />
         </Modal>
       ) : (
         ""

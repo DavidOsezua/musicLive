@@ -8,18 +8,6 @@ import TablesAndCards from "../../components/Dashboard/TablesAndCards";
 import Modal from "../../components/general/Modal";
 import AddGenre from "../../components/Dashboard/AddGenre";
 import { useModal } from "../../App";
-import {
-  Acoustic,
-  blues,
-  country,
-  dance,
-  jazz,
-  metal,
-  pop,
-  raggae,
-  rock,
-  urban,
-} from "../../assets";
 
 const AdminGenre = () => {
   const { modal, modalHandler } = useModal() || {};
@@ -27,6 +15,7 @@ const AdminGenre = () => {
   const [totalData, setTotalData] = useState(0);
   const [totalApprove, setTotalApprove] = useState(0);
   const [trackChanges, settrackChanges] = useState(false);
+  const [showResultModal, setShowResultModal] = useState(false);
 
   const getAllGenreData = async () => {
     try {
@@ -74,6 +63,11 @@ const AdminGenre = () => {
     size: "genre",
   };
 
+  const allModalHandler = () => {
+    modalHandler();
+    setShowResultModal((prev) => !prev);
+  };
+
   console.log(locationPageData);
   return (
     <section className={` adminSection pageContainer transition`}>
@@ -95,8 +89,13 @@ const AdminGenre = () => {
         setTotalApprove={setTotalApprove}
       />
       {modal ? (
-        <Modal modalHandler={modalHandler}>
-          <AddGenre getAllGenreData={getAllGenreData} />
+        <Modal modalHandler={allModalHandler}>
+          <AddGenre
+            cancel={allModalHandler}
+            setShowResultModal={setShowResultModal}
+            showResultModal={showResultModal}
+            getAllGenreData={getAllGenreData}
+          />
         </Modal>
       ) : (
         ""

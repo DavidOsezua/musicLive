@@ -8,7 +8,12 @@ import Failed from "../general/Failed";
 import { Loader } from "lucide-react";
 import Modal from "../general/Modal";
 
-const AddType = ({ getAllVenueTypeData }) => {
+const AddType = ({
+  getAllVenueTypeData,
+  cancel,
+  setShowResultModal,
+  showResultModal,
+}) => {
   const { modal, modalHandler } = useModal() || {};
   const [message, setMessage] = useState();
   const [loader, setLoader] = useState(false);
@@ -20,7 +25,6 @@ const AddType = ({ getAllVenueTypeData }) => {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
-  const [showResultModal, setShowResultModal] = useState(false);
 
   //This Function handles the adding of the image to the genre form
   const handleAddImage = (e) => {
@@ -86,16 +90,16 @@ const AddType = ({ getAllVenueTypeData }) => {
       )}
 
       {showResultModal && (
-        <Modal modalHandler={() => setShowResultModal(false)}>
+        <Modal modalHandler={cancel}>
           {isSubmitted ? (
             <Success
-              modalHandler={() => setShowResultModal(false)} // Close modal when Success is clicked
+              modalHandler={cancel} // Close modal when Success is clicked
               message={message}
               description="Band under review, you will be notified via email once it is approved."
             />
           ) : (
             <Failed
-              modalHandler={modalHandler} // Close modal when Failed is clicked
+              modalHandler={() => setShowResultModal(false)} // Close modal when Failed is clicked
               message={message}
             />
           )}

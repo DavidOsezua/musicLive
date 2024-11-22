@@ -7,10 +7,14 @@ import Failed from "../general/Failed";
 import Loader from "../general/Loader";
 import { uploadAdsimage } from "../../pages/MainPage/router";
 
-const AddAds = ({ getAlladsData }) => {
+const AddAds = ({
+  getAlladsData,
+  cancel,
+  setShowResultModal,
+  showResultModal,
+}) => {
   const { modalHandler } = useModal() || {};
   const [image, setImage] = useState(null);
-  const [showResultModal, setShowResultModal] = useState(false); // New state to control result modal visibility
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [message, setMessage] = useState();
   const [loader, setLoader] = useState(false);
@@ -29,8 +33,6 @@ const AddAds = ({ getAlladsData }) => {
 
     setImage(selectedFile);
   };
-
-  
 
   const clickFunction = async (e) => {
     e.preventDefault();
@@ -84,10 +86,10 @@ const AddAds = ({ getAlladsData }) => {
       )}
 
       {showResultModal && (
-        <Modal modalHandler={() => setShowResultModal(false)}>
+        <Modal modalHandler={cancel}>
           {isSubmitted ? (
             <Success
-              modalHandler={() => setShowResultModal(false)} // Close modal when Success is clicked
+              modalHandler={cancel} // Close modal when Success is clicked
               message={message}
               description="Band under review, you will be notified via email once it is approved."
             />

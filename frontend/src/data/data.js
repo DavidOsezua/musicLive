@@ -145,19 +145,19 @@ export const about = [
     title: "Musicians",
     image: musicians,
     content:
-      "are amazing and have spent enormous amounts of time, energy, money, and effort to perfect their skills so the audience has the greatest experience. However, spending money on advertising is not practical for most artists.  So for musicians and bands, we make our site entirely free.",
+      "Musicians invest an enormous amount of time, energy and effort to perfect their skills for their audience. We provide an effective way to increase visibility for fans and followers.",
   },
   {
     title: "Venues",
     image: venue,
     content:
-      "We envision a world where live music is accessible to everyone, regardless of location or budget. Our website will empower users to explore and experience live band performances by offering a user-friendly, interactive map that showcases nearby venues and events at no cost. So for venues such as wineries, bars, restaurants, breweries, casinos, and seasonal outdoor events, we make our site entirely free. ",
+      "Reach greater audiences while enhancing visibility, reputation and profit. Now venues such as wineries, bars, restaurants, breweries, casinos, and seasonal outdoor events have an effective way to reach more customers",
   },
   {
     title: "Fans",
     image: fans,
     content:
-      "will put great effort into finding and supporting venues and musicians they love.  As we said, “Music Makes People Happy”. (Insert small photo of frustrated fan?)  And of course, fans are happy to spend money at the venue and hopefully on big tips for the musicians.  So for fans we also make this site entirely free!",
+      "We provide a vibrant online platform where live music enthusiasts can easily discover and follow bands of all genres. By providing users with up-to-date information on local performances, we bring people closer to the music they love.",
   },
 ];
 

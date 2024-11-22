@@ -9,7 +9,13 @@ import { useModal } from "../../App";
 import Failed from "../../components/general/Failed";
 import Loader from "../general/Loader";
 
-const AddBand = ({ settrackChanges, isEdit, bandId, getAllUserBandData }) => {
+const AddBand = ({
+  settrackChanges,
+  setShowResultModal,
+  showResultModal,
+  getAllUserBandData,
+  cancel,
+}) => {
   const { modal, modalHandler } = useModal() || {};
   const [message, setMessage] = useState();
   const [image, setImage] = useState(null);
@@ -31,7 +37,6 @@ const AddBand = ({ settrackChanges, isEdit, bandId, getAllUserBandData }) => {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
-  const [showResultModal, setShowResultModal] = useState(false); // New state to control result modal visibility
 
   const validateStep = (currentStep) => {
     const errors = {};
@@ -138,13 +143,13 @@ const AddBand = ({ settrackChanges, isEdit, bandId, getAllUserBandData }) => {
         <Modal modalHandler={() => setLoader(false)}>
           <Loader />
         </Modal>
-      )} 
+      )}
 
       {showResultModal && (
-        <Modal modalHandler={() => setShowResultModal(false)}>
+        <Modal modalHandler={cancel}>
           {isSubmitted ? (
             <Success
-              modalHandler={() => setShowResultModal(false)} // Close modal when Success is clicked
+              modalHandler={cancel} // Close modal when Success is clicked
               message={message}
               description="Band under review, you will be notified via email once it is approved."
             />

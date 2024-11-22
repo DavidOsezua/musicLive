@@ -24,6 +24,7 @@ const AdminBand = () => {
   const [totalData, setTotalData] = useState(0);
   const [trackChanges, settrackChanges] = useState(false);
   const [totalApprove, setTotalApprove] = useState(0);
+  const [showResultModal, setShowResultModal] = useState(false);
   // const [pending, setpending] = useState(0);
   const { modal, modalHandler } = useModal() || {};
 
@@ -101,6 +102,11 @@ const AdminBand = () => {
     console.log("Updated locationPageData", locationPageData);
   }, [totalData, trackChanges]);
 
+  const allModalHandler = () => {
+    modalHandler();
+    setShowResultModal((prev) => !prev);
+  };
+
   return (
     <section className={` adminSection pageContainer transition`}>
       <TitleAndStatus
@@ -121,9 +127,12 @@ const AdminBand = () => {
         settrackChanges={settrackChanges}
       />
       {modal ? (
-        <Modal modalHandler={modalHandler}>
+        <Modal modalHandler={allModalHandler}>
           <AddBand
+          cancel={allModalHandler}
+            setShowResultModal={setShowResultModal}
             settrackChanges={settrackChanges}
+            showResultModal={showResultModal}
             getAllUserBandData={getAllUserBandData}
           />
         </Modal>
