@@ -1,5 +1,5 @@
 import { genre, venueType } from "../../data/data";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TipJar } from "../../components";
 import Search from "../../components/general/Search";
 import styles from "./Venues.module.css";
@@ -12,6 +12,9 @@ import { Url, api } from "../../services/api.route";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
 import EachVenue from "./EachVenue";
+import Modal from "@/components/general/Modal";
+import EventPopUp from "./EventPopUp";
+import { LocationPopUpContext } from "@/contexts/locationPopContext";
 
 const Venues = () => {
   // const [searchParams] = useSearchParams();
@@ -94,7 +97,7 @@ const Venues = () => {
 
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query");
-
+  const {popUp, setPopup} = useContext(LocationPopUpContext)
   const [dropdown, setDropDown] = useState(false);
   const [selectVenue, setSelectVenue] = useState([]); // Track selected venues
 
@@ -298,7 +301,7 @@ const Venues = () => {
           <div className={`${styles.bandDetailsContainer}`}>
             {venues.map((item) => (
               <>
-                <EachVenue data={item} />
+                <EachVenue data={item}/>
               </>
             ))}
           </div>
@@ -317,6 +320,11 @@ const Venues = () => {
         </div>
       </section>
       <TipJar />
+      {popUp && (
+        <Modal modalHandler={() => setPopup((value) => !value)}>
+          <EventPopUp/>
+        </Modal>
+      )}
     </>
   );
 };

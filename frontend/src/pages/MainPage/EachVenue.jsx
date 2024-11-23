@@ -1,46 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect} from "react";
 import styles from "./EachVenue.module.css";
 import Concert from "@/components/SVGcomponent/Concert";
 import GreaterThan from "@/components/SVGcomponent/GreaterThan";
 import Facebook from "@/components/SVGcomponent/Facebook";
 import Instagram from "@/components/SVGcomponent/Instagram";
-import Modal from "@/components/general/Modal";
-import EventPopUp from "./EventPopUp";
-import { api } from "@/services/api.route";
 
-const EachVenue = ({ data }) => {
-  const [popUp, setPopUp] = useState(false);
-  const [events, setEvents] = useState([]); // State to store fetched events
-  const [loading, setLoading] = useState(false); // Loading indicator
+import { LocationPopUpContext } from "@/contexts/locationPopContext";
+
+const EachVenue = ({ data}) => {
+  
+  const {setVenueData, setPopup, popUp} = useContext(LocationPopUpContext)
+  
   const popUpHandler = async () => {
-    setPopUp((prev) => !prev);
-
-    if (!popUp) {
-      // Fetch events when the popup opens
-      try {
-        setLoading(true);
-        const res = await api.get(`/api/v1/events`, {
-          params: { venue_id: data.id }, // Pass venue-specific params
-        });
-        setEvents(res.data);
-      } catch (error) {
-        console.error("Error fetching events:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
+    setVenueData({...data})
+    setPopup(true)
   };
 
-  // const getEvents = async () => {
-  //   try {
-  //     const res = await api.get("/api/v1/events");
-  //     console.log(res.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(getEvents(), []);
+  
 
   useEffect(() => {
     // Scroll to the top whenever `popUp` is set to true
@@ -94,16 +70,7 @@ const EachVenue = ({ data }) => {
         </div>
       </div>
 
-      {popUp && (
-        <Modal modalHandler={popUpHandler}>
-          <EventPopUp
-            data={data}
-            cancel={popUpHandler}
-            events={events} // Pass fetched events
-            loading={loading} // Pass loading state
-          />
-        </Modal>
-      )}
+      
     </>
   );
 };
