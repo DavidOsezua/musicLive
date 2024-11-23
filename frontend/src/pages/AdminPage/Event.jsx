@@ -30,8 +30,10 @@ const Event = () => {
         return {
           ID: event.id,
           image: event.venue.image1 ? Url + "/" + event.venue.image1 : "",
-          venueOrBandName: event.venue.name || "",
-          genreOrType: event.venue.venue_type || "",
+          venueName: event.venue.name || "",
+          bandName: event.band.name || "",
+          type: event.venue.venue_type || "",
+          genre: event.band.genre_type || "",
           changeStatus: ["Approve", "Pending", "Inactive"],
           address: event.venue.address || "",
           email: event.venue.email || "",

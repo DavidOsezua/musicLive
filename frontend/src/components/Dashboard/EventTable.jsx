@@ -48,7 +48,7 @@ const EventTable = ({
     setDeleteModal(false);
   };
 
-  console.log(item);
+  console.log(data);
   return (
     <>
       <td className={`${styles.tdStyle}`}>{rowNumber + index + 1}</td>
@@ -60,8 +60,8 @@ const EventTable = ({
             className={`w-[40px] h-[40px] object-cover rounded-md`}
           />
           <div>
-            <h2>{item.venueOrBandName}</h2>
-            <span>{item.genreOrType}</span>
+            <h2>{item.venueName}</h2>
+            <span>{item.type}</span>
           </div>
         </div>
       </td>
@@ -72,8 +72,8 @@ const EventTable = ({
             className={`w-[40px] h-[40px] object-cover rounded-md`}
           />
           <div>
-            <h2>{item.venueOrBandName}</h2>
-            <span>{item.genreOrType}</span>
+            <h2>{item.bandName}</h2>
+            <span>{item.genre}</span>
           </div>
         </div>
       </td>
