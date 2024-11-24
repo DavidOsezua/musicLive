@@ -21,7 +21,6 @@ const LocationAndDates = () => {
     console.log("Selected location:", selectedLocation);
 
     navigate("/venues", {
-
       state: { date: selectedDate, location: selectedLocation },
     });
   };
@@ -50,7 +49,7 @@ const LocationAndDates = () => {
         <div className="w-full">
           <input
             id="date-input"
-            placeholder="Add dates"
+            placeholder="Add date"
             className={`${styles.input}`}
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}

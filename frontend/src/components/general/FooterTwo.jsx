@@ -6,7 +6,7 @@ const FooterTwo = () => {
       <div className={`sectionContainer py-0`}>
         <div className="h-[1px] w-full bg-[#0A225980]"></div>
         <p className="text-center text-[#0A2259] pt-[1rem]">
-          © 2024 Find Me Live Music, Inc
+          © 2024 Find Me Live Music
         </p>
       </div>
     </footer>
