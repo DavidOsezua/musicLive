@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import {
   GoogleMap,
   useJsApiLoader,
@@ -12,6 +12,7 @@ import "./Map.css";
 import { getVenueImage } from "@/venueImages";
 import { LocationPin } from "../Map/LocationPin";
 import { getFullImageUrl, getLatLngFromAddress } from "@/lib/utils";
+import { LocationPopUpContext } from "@/contexts/locationPopContext";
 
 const apiKey = import.meta.env.REACT_APP_MAP_API_KEY;
 
@@ -20,29 +21,7 @@ const defaultCenter = {
   lng: -121.62,
 };
 
-const testLocations = [
-  {
-    id: 1,
-    lat: 38.56,
-    lng: -121.62,
-    name: "Stone",
-    image: getVenueImage("Bar"),
-  },
-  {
-    id: 2,
-    lat: 43.56,
-    lng: -121.62,
-    name: "Sand",
-    image: getVenueImage("Winery"),
-  },
-  {
-    id: 3,
-    lat: 58.56,
-    lng: -110.62,
-    name: "Fire",
-    image: getVenueImage("Winery"),
-  },
-];
+
 
 const containerStyle = {
   width: "100%",
@@ -54,14 +33,17 @@ const Map = ({ venues }) => {
   const [failedAddresses, setFailedAddresses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [center, setCenter] = useState(defaultCenter); // Default center
-  const [zoom, setZoom] = useState(7);
+  const [zoom, setZoom] = useState(8);
   const [map, setMap] = useState(null);
+  const {setVenueData, setPopup} = useContext(LocationPopUpContext)
 
   const handleLocationClicked = (e) => {
-    const lat = e.latLng.lat();
-    const lng = e.latLng.lng();
-    setZoom((zoom) => zoom + 1);
-    setCenter({ lat, lng });
+    
+    
+    // const lat = e.latLng.lat();
+    // const lng = e.latLng.lng();
+    // setZoom((zoom) => zoom + 1);
+    // setCenter({ lat, lng });
   };
 
   useEffect(() => {
@@ -106,10 +88,13 @@ const Map = ({ venues }) => {
           position={{ lat: marker.lat, lng: marker.lng }}
           icon={{
             url: getVenueImage(marker.venue_type),
-            scaledSize: new window.google.maps.Size(40, 40),
+            scaledSize: new window.google.maps.Size(20, 20),
             labelOrigin: new window.google.maps.Point(45, 45),
           }}
-          onClick={handleLocationClicked}
+          onClick={() => {
+            setVenueData(marker)
+            setPopup(true)
+          }}
           // label={{color : "blue", text : marker.name, fontSize : "16px"}}
           title={marker.name}
         ></MarkerF>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./EventPopUp.module.css";
 import { band1 } from "@/assets";
 import Concert from "@/components/SVGcomponent/Concert";
@@ -7,29 +7,31 @@ import Instagram from "@/components/SVGcomponent/Instagram";
 import Close from "@/components/general/Close";
 import Loader from "@/components/general/Loader";
 import { Url } from "@/services/api.route";
+import { LocationPopUpContext } from "@/contexts/locationPopContext";
 
-const EventPopUp = ({ data, cancel, events, loading }) => {
-  console.log(events);
+const EventPopUp = () => {
+  const {events, loading, venueData: data, setPopup} = useContext(LocationPopUpContext)
+  
   return (
     <>
       <button
         className={`bg-[#f6f8fd] h-[40px] w-[40px] p-[0.8rem] rounded-full absolute top-0 right-[50%] translate-x-[50%] translate-y-1/2`}
-        onClick={cancel}
+        onClick={() => setPopup(false)}
       >
         <Close />
       </button>
       <div className={`${styles.cardContainer}`}>
-        <h2 className={`capitalize text-[#0A2259] font-bold`}>{data.name}</h2>
+        <h2 className={`capitalize text-[#0A2259] font-bold`}>{data?.name}</h2>
         <div className={`flex items-center justify-between gap-2`}>
           <p>Location</p>
 
           <div className={`flex items-center gap-2`}>
             <Concert />
-            <p className={`text-[#C32FB4]`}>{data.venue_type}</p>
+            <p className={`text-[#C32FB4]`}>{data?.venue_type}</p>
           </div>
         </div>
         <div className={`flex items-center justify-between gap-2`}>
-          <p className={`text-[0.8rem]`}>{data.address}</p>
+          <p className={`text-[0.8rem]`}>{data?.address}</p>
 
           <div className={`flex items-center gap-2`}>
             <Facebook />
