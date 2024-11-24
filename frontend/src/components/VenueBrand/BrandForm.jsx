@@ -9,10 +9,9 @@ const BrandForm = ({ formData, setFormData }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
 
   const toggleDropdown = (dropdownType) => {
-    console.log(dropdownType)
+    console.log(dropdownType);
     setActiveDropdown((prev) => (prev === dropdownType ? null : dropdownType));
   };
-
 
   const closeDropdown = () => {
     setActiveDropdown(null);
@@ -23,7 +22,7 @@ const BrandForm = ({ formData, setFormData }) => {
       ...prevData,
       genre_type: selectedGenres[0].genreOrType,
     }));
-    closeDropdown(); 
+    closeDropdown();
   };
 
   return (
@@ -112,6 +111,11 @@ const BrandForm = ({ formData, setFormData }) => {
           }
           required
         />
+      </div>
+
+      <div className={`text-center`}>
+        <p>Interested In Being a Featured Band ?</p>
+        <p>Ask us here!</p>
       </div>
     </div>
   );

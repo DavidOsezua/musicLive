@@ -21,7 +21,18 @@ const TipJar = () => {
             </p>
           </div>
 
-          <Button text={`Tip now`} colored width={`w-[109px]`} radius={`rounded-full`} />
+          <a
+          className="pt-[0.5rem] block"
+            href="https://donate.stripe.com/14k9Cl40T2uk1IAaEE"
+            target="_blank"
+          >
+            <Button
+              text={`Tip now`}
+              colored
+              width={`w-[109px]`}
+              radius={`rounded-full`}
+            />
+          </a>
         </div>
 
         <img src={tipJarImage} className={`${styles.tipJarImage}`} />

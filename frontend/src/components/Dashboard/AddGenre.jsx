@@ -46,10 +46,10 @@ const AddGenre = ({
     if (!formData.image) return;
     if (!formData.name) return;
 
-    const dataForm = new FormData();
-    Object.keys(formData).forEach((key) => {
-      dataForm.append(key, formData[key]);
-    });
+      const dataForm = new FormData();
+      Object.keys(formData).forEach((key) => {
+        dataForm.append(key, formData[key]);
+      });
 
     try {
       await api.post(`api/v1/genre/`, dataForm, {

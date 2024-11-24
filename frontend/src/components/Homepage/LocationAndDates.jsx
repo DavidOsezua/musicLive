@@ -50,17 +50,18 @@ const LocationAndDates = () => {
           <input
             id="date-input"
             placeholder="Add date"
-            className={`${styles.input}`}
+            className={`${styles.dateInput}`}
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
           />
         </div>
+
+        <div className={`${styles.search}`}>
+          <Search searchFunc={handleSearchBtn} />
+        </div>
       </div>
 
       {/* Search Button */}
-      <div className={`${styles.search}`}>
-        <Search searchFunc={handleSearchBtn} />
-      </div>
     </div>
   );
 };

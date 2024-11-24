@@ -1,5 +1,4 @@
 .locationAndDatesContainer {
-  position: relative;
   display: flex;
   align-items: center;
   font-size: 0.7rem;
@@ -17,24 +16,30 @@
   align-items: center;
   gap: 3px;
   width: 100%;
+  position: relative;
 }
 
-.input {
+.input,
+.dateInput {
   background: transparent;
   width: 100%;
   outline: none;
+}
+
+.dateInput::placeholder {
+  color: #2659c3;
 }
 
 .search {
   /* Ellipse 2 */
 
   position: absolute;
-  width: 45px;
-  height: 45px;
-  right: 0;
-  top: 0;
-  border-radius: 50px;
-  transform: translate(-13%, 13%);
+  width: 50px;
+  height: 50px;
+  right: 2%;
+  top: 50%;
+  border-radius: 50%;
+  transform: translate(50%, -50%);
 
   background: #2659c3;
 }

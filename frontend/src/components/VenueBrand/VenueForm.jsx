@@ -123,11 +123,10 @@ const VenueForm = ({ formData, setFormData }) => {
               </div>
             )}
           </div>
-        </div>
 
-        {/* GENRE INPUT */}
+          {/* GENRE INPUT */}
 
-        {/* <div className="w-full">
+          {/* <div className="w-full">
           <label>Genre type</label>
 
           <div className="relative">
@@ -163,27 +162,27 @@ const VenueForm = ({ formData, setFormData }) => {
             )}
           </div>
         </div> */}
-      </div>
-
-      <div className={`${styles.inputContainer}`}>
-        <div className="w-full">
-          <label>Address</label>
-          <input
-            placeholder="Search for venue address"
-            className={`${styles.input}`}
-            value={formData.address}
-            onChange={(e) =>
-              setFormData((formData) => ({
-                ...formData,
-                address: e.target.value,
-              }))
-            }
-            required
-          />
         </div>
-      </div>
 
-      {/* <div className={`${styles.inputContainer}`}>
+        <div className={`${styles.inputContainer}`}>
+          <div className="w-full">
+            <label>Address</label>
+            <input
+              placeholder="Search for venue address"
+              className={`${styles.input}`}
+              value={formData.address}
+              onChange={(e) =>
+                setFormData((formData) => ({
+                  ...formData,
+                  address: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+        </div>
+
+        {/* <div className={`${styles.inputContainer}`}>
         <div className="w-full">
           <label>Date</label>
           <DatePicker
@@ -201,6 +200,11 @@ const VenueForm = ({ formData, setFormData }) => {
           />
         </div>
       </div> */}
+      </div>
+      <div className={`text-center`}>
+        <p>Interested In Being a Featured venue ?</p>
+        <p>Ask us here!</p>
+      </div>
     </div>
   );
 };

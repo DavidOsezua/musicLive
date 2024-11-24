@@ -142,7 +142,7 @@ const AddYourBand = () => {
             <Success
               modalHandler={modalHandler}
               message={message}
-              description="Band under review, you will be notify via email once it approved"
+              description="Band under review, you will be notified via email once it approved"
             />
           ) : (
             <Failed modalHandler={modalHandler} message={message} />

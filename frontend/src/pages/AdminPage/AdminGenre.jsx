@@ -17,11 +17,13 @@ const AdminGenre = () => {
   const [trackChanges, settrackChanges] = useState(false);
   const [showResultModal, setShowResultModal] = useState(false);
 
-  const getAllGenreData = async () => {
+  const getAllGenreData = async (genre) => {
     try {
       const res = await api.get("/api/v1/genre");
       const genreData = res.data;
       let approvedCount = 0;
+
+      console.log(genreData);
 
       const formattedData = genreData.map((genre) => {
         if (genre.is_admin_approved) {
@@ -35,6 +37,7 @@ const AdminGenre = () => {
           status: genre.is_admin_approved ? "Approved" : "Inactive",
         };
       });
+
       setTotalData(genreData.length);
       setTotalApprove(approvedCount);
       setLocationPageData(formattedData);

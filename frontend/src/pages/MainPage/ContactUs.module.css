@@ -44,6 +44,16 @@
   gap: 1rem;
 }
 
+.errorInput {
+  /* border: 2px solid red; */
+}
+
+.errorText {
+  color: red;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
 @media screen and (min-width: 965px) {
   .inputContainer {
     display: flex;
