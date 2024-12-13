@@ -41,7 +41,7 @@ import outdoorStage from "./outdoorStage.svg";
 import brewery from "./brewery.svg";
 import Bar from "./Bar.svg";
 import concert from "./concert.svg";
-import resturant from "./resturant.svg";
+import restaurant from "./restaurant.svg";
 import youtube from "./youtube.svg";
 import venueImage from "./venueImage.jpg";
 
@@ -86,7 +86,7 @@ export {
   wine,
   concert,
   Bar,
-  resturant,
+  restaurant,
   night,
   brewery,
   outdoorStage,

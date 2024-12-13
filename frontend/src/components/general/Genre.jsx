@@ -13,6 +13,32 @@ const Genre = () => {
         const res = await api.get("/api/v1/genre");
         const totalGenreApproved = res.data;
 
+        // Custom sort order
+        const sortOrder = [
+          "Rock",
+          "Country",
+          "Jazz",
+          "Blues",
+          "Pop",
+          "Acoustic",
+          "Metal",
+          "Dance",
+          "Reggae",
+          "Urban",
+        ];
+
+        // Sort the data based on the custom order
+        totalGenreApproved.sort((a, b) => {
+          const indexA = sortOrder.indexOf(a.name);
+          const indexB = sortOrder.indexOf(b.name);
+
+          // If the name is not in the sortOrder array, place it at the end
+          return (
+            (indexA === -1 ? sortOrder.length : indexA) -
+            (indexB === -1 ? sortOrder.length : indexB)
+          );
+        });
+
         const filteredData = totalGenreApproved.filter(
           (item) => item.is_admin_approved === true
         );
@@ -31,13 +57,13 @@ const Genre = () => {
   return (
     <div className={`${styles.genre}`}>
       {genre.map((list) => (
-        <Link to={`/venues?query=${list.name}`} >
-        <div key={list.id} className="flex flex-col  items-center">
-          <img src={`${Url}/${list.image}`} className={styles.image} />
-          <h1 className="text-[0.7rem] font-[400] text-[#0A225980]">
-            {list.name}
-          </h1>
-        </div>
+        <Link to={`/venues?query=${list.name}`}>
+          <div key={list.id} className="flex flex-col  items-center">
+            <img src={`${Url}/${list.image}`} className={styles.image} />
+            <h1 className="text-[0.7rem] font-[400] text-[#0A225980]">
+              {list.name}
+            </h1>
+          </div>
         </Link>
       ))}
     </div>

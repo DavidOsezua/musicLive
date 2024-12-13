@@ -1,6 +1,6 @@
 import {
   wine,
-  resturant,
+  restaurant,
   Bar,
   night,
   outdoorStage,
@@ -11,8 +11,8 @@ export const getVenueImage = (venueType) => {
   switch (venueType) {
     case "Winery":
       return wine;
-    case "Resturant":
-      return resturant;
+    case "restaurant":
+      return restaurant;
     case "Brewery":
       return brewery;
     case "Bar":

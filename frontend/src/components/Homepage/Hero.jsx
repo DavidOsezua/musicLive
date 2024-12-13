@@ -8,7 +8,7 @@ const Hero = () => {
       <img src={desktopHeroImage} />
 
       <div>
-        <h1 className={`${styles.title}`}>Find My </h1>
+        <h1 className={`${styles.title}`}>Find Me </h1>
         <h1 className={`${styles.title}`}>
           {" "}
           <span className="pl-[6rem]">Live Music.</span>

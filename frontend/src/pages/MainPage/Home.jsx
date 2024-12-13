@@ -59,7 +59,7 @@ const Home = () => {
       <div className={`sectionContainer ${styles.homeContainerMobile}`}>
         <div className={`${styles.textContent}`}>
           <h1>
-            Find My <span>Live Music</span>
+            Find Me <span>Live Music</span>
           </h1>
           <p className={`${styles.textContentText}`}>
             HELPING UNITE BANDS AND FANS

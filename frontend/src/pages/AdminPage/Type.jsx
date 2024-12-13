@@ -9,7 +9,7 @@ import { useModal } from "../../App";
 import { api, Url } from "../../services/api.route";
 import {
   wine,
-  resturant,
+  restaurant,
   Bar,
   night,
   outdoorStage,

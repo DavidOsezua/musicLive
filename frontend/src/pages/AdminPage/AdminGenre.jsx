@@ -21,22 +21,51 @@ const AdminGenre = () => {
     try {
       const res = await api.get("/api/v1/genre");
       const genreData = res.data;
+
+      // Custom sort order
+      const sortOrder = [
+        "Rock",
+        "Country",
+        "Jazz",
+        "Blues",
+        "Pop",
+        "Acoustic",
+        "Metal",
+        "Dance",
+        "Reggae",
+        "Urban",
+      ];
+
+      // Sort the data based on the custom order
+      genreData.sort((a, b) => {
+        const indexA = sortOrder.indexOf(a.name);
+        const indexB = sortOrder.indexOf(b.name);
+
+        // If the name is not in the sortOrder array, place it at the end
+        return (
+          (indexA === -1 ? sortOrder.length : indexA) -
+          (indexB === -1 ? sortOrder.length : indexB)
+        );
+      });
+
       let approvedCount = 0;
 
       console.log(genreData);
 
-      const formattedData = genreData.map((genre) => {
-        if (genre.is_admin_approved) {
-          approvedCount++;
-        }
+      const formattedData = genreData
+        .map((genre) => {
+          if (genre.is_admin_approved) {
+            approvedCount++;
+          }
 
-        return {
-          ID: genre.id,
-          image: genre.image ? Url + "/" + genre.image : "",
-          genreOrType: genre.name || "",
-          status: genre.is_admin_approved ? "Approved" : "Inactive",
-        };
-      });
+          return {
+            ID: genre.id,
+            image: genre.image ? Url + "/" + genre.image : "",
+            genreOrType: genre.name || "",
+            status: genre.is_admin_approved ? "Approved" : "Inactive",
+          };
+        })
+        .sort((a, b) => b.created_at - a.created_at);
 
       setTotalData(genreData.length);
       setTotalApprove(approvedCount);

@@ -27,7 +27,7 @@ import {
   website,
   wine,
   concert,
-  resturant,
+  restaurant,
   Bar,
   night,
   outdoorStage,
@@ -101,8 +101,8 @@ export const venueType = [
   },
   {
     ID: crypto.randomUUID(),
-    genreOrType: "Resturant",
-    image: resturant,
+    genreOrType: "restaurant",
+    image: restaurant,
   },
   {
     ID: crypto.randomUUID(),
@@ -488,8 +488,8 @@ export const typePageData = {
     {
       ID: crypto.randomUUID(),
       status: "Inactive",
-      genreOrType: "Resturant",
-      image: resturant,
+      genreOrType: "restaurant",
+      image: restaurant,
     },
     {
       ID: crypto.randomUUID(),
