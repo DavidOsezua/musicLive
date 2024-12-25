@@ -1,4 +1,4 @@
-import React, { useContext, useEffect} from "react";
+import React, { useContext, useEffect } from "react";
 import styles from "./EachVenue.module.css";
 import Concert from "@/components/SVGcomponent/Concert";
 import GreaterThan from "@/components/SVGcomponent/GreaterThan";
@@ -6,17 +6,15 @@ import Facebook from "@/components/SVGcomponent/Facebook";
 import Instagram from "@/components/SVGcomponent/Instagram";
 
 import { LocationPopUpContext } from "@/contexts/locationPopContext";
+import { facebook, instagram, website, youtube } from "@/assets";
 
-const EachVenue = ({ data}) => {
-  
-  const {setVenueData, setPopup, popUp} = useContext(LocationPopUpContext)
-  
+const EachVenue = ({ data }) => {
+  const { setVenueData, setPopup, popUp } = useContext(LocationPopUpContext);
+
   const popUpHandler = async () => {
-    setVenueData({...data})
-    setPopup(true)
+    setVenueData({ ...data });
+    setPopup(true);
   };
-
-  
 
   useEffect(() => {
     // Scroll to the top whenever `popUp` is set to true
@@ -41,9 +39,51 @@ const EachVenue = ({ data}) => {
               {data.address}
             </p>
 
-            <div className={`flex items-center gap-1`}>
-              <Facebook />
-              <Instagram />
+            <div className={`flex gap-2 items-center`}>
+              {data.facebook_url === "" ? (
+                ""
+              ) : (
+                <a
+                  href={data.facebook_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img src={facebook} alt="Facebook" key={1} />
+                </a>
+              )}
+              {data.instagram_url === "" ? (
+                ""
+              ) : (
+                <a
+                  href={data.instagram_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img src={instagram} alt="Instagram" key={2} />
+                </a>
+              )}
+              {data.youtube_url === "" ? (
+                ""
+              ) : (
+                <a
+                  href={data.youtube_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img src={youtube} alt="YouTube" key={3} />
+                </a>
+              )}
+              {data.homepage === "" ? (
+                ""
+              ) : (
+                <a
+                  href={data.homepage}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img src={website} alt="YouTube" key={3} />
+                </a>
+              )}
             </div>
           </div>
 
@@ -59,8 +99,50 @@ const EachVenue = ({ data}) => {
 
         <div className={` ${styles.socialsAndDetails} `}>
           <div className={`flex items-center gap-1`}>
-            <Facebook />
-            <Instagram />
+            {data.facebook_url === "" ? (
+              ""
+            ) : (
+              <a
+                href={data.facebook_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={facebook} alt="Facebook" key={1} />
+              </a>
+            )}
+            {data.instagram_url === "" ? (
+              ""
+            ) : (
+              <a
+                href={data.instagram_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={instagram} alt="Instagram" key={2} />
+              </a>
+            )}
+            {data.youtube_url === "" ? (
+              ""
+            ) : (
+              <a
+                href={data.youtube_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={youtube} alt="YouTube" key={3} />
+              </a>
+            )}
+            {data.homepage === "" ? (
+              ""
+            ) : (
+              <a
+                href={data.homepage}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={website} alt="YouTube" key={3} />
+              </a>
+            )}
           </div>
 
           <button onClick={popUpHandler} className={`${styles.btn}`}>
@@ -69,8 +151,6 @@ const EachVenue = ({ data}) => {
           </button>
         </div>
       </div>
-
-      
     </>
   );
 };

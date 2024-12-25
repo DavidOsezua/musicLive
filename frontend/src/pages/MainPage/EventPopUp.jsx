@@ -2,16 +2,23 @@ import React, { useContext } from "react";
 import styles from "./EventPopUp.module.css";
 import { band1 } from "@/assets";
 import Concert from "@/components/SVGcomponent/Concert";
-import Facebook from "@/components/SVGcomponent/Facebook";
-import Instagram from "@/components/SVGcomponent/Instagram";
+import { facebook, instagram, website, youtube } from "@/assets";
 import Close from "@/components/general/Close";
 import Loader from "@/components/general/Loader";
 import { Url } from "@/services/api.route";
 import { LocationPopUpContext } from "@/contexts/locationPopContext";
+import { Venues } from "..";
 
 const EventPopUp = () => {
-  const {events, loading, venueData: data, setPopup} = useContext(LocationPopUpContext)
-  
+  const {
+    events,
+    loading,
+    venueData: data,
+    setPopup,
+  } = useContext(LocationPopUpContext);
+
+  console.log(events);
+
   return (
     <>
       <button
@@ -34,8 +41,46 @@ const EventPopUp = () => {
           <p className={`text-[0.8rem]`}>{data?.address}</p>
 
           <div className={`flex items-center gap-2`}>
-            <Facebook />
-            <Instagram />
+            {data.facebook_url === "" ? (
+              ""
+            ) : (
+              <a
+                href={data.facebook_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={facebook} alt="Facebook" key={1} />
+              </a>
+            )}
+            {data.instagram_url === "" ? (
+              ""
+            ) : (
+              <a
+                href={data.instagram_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={instagram} alt="Instagram" key={2} />
+              </a>
+            )}
+            {data.youtube_url === "" ? (
+              ""
+            ) : (
+              <a
+                href={data.youtube_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={youtube} alt="YouTube" key={3} />
+              </a>
+            )}
+            {data.homepage === "" ? (
+              ""
+            ) : (
+              <a href={data.homepage} target="_blank" rel="noopener noreferrer">
+                <img src={website} alt="YouTube" key={3} />
+              </a>
+            )}
           </div>
         </div>
 
@@ -57,8 +102,50 @@ const EventPopUp = () => {
                       {event.band.name}
                     </h2>
                     <div className={`flex items-center gap-2`}>
-                      <Facebook width={20} height={20} />
-                      <Instagram />
+                      {event.band.facebook_url === "" ? (
+                        ""
+                      ) : (
+                        <a
+                          href={event.band.facebook_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <img src={facebook} alt="Facebook" key={1} />
+                        </a>
+                      )}
+                      {event.band.instagram_url === "" ? (
+                        ""
+                      ) : (
+                        <a
+                          href={event.band.instagram_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <img src={instagram} alt="Instagram" key={2} />
+                        </a>
+                      )}
+                      {event.band.youtube_url === "" ? (
+                        ""
+                      ) : (
+                        <a
+                          href={event.band.youtube_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <img src={youtube} alt="YouTube" key={3} />
+                        </a>
+                      )}
+                      {event.band.homepage === "" ? (
+                        ""
+                      ) : (
+                        <a
+                          href={event.band.homepage}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <img src={website} alt="YouTube" key={3} />
+                        </a>
+                      )}
                     </div>
                   </div>
                   <p className={`text-[0.8rem]`}>{event.name}</p>

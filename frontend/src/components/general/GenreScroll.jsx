@@ -7,7 +7,7 @@ import "./ads.css";
 
 const GenreScroll = () => {
   return (
-    <div className={styles.check}>
+    <div className={`${styles.check} `}>
       <Genre />
     </div>
   );
