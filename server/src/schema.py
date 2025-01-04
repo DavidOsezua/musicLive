@@ -21,11 +21,8 @@ class Band_(BaseModel):
 class Venue_(BaseModel):
     name: str = Field(..., alias="name")
     email: EmailStr
-    genre_type: str
     venue_type: str = Field(..., alias="venue_type")
     address: str
-    venue_time: datetime.time
-    venue_date: datetime.date
     homepage: Optional[str] = Field(None, alias="homepage")
     facebook_url: Optional[str] = None
     instagram_url: Optional[str] = None
@@ -91,3 +88,16 @@ class EventsSchema(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class UpdateEvent(BaseModel):
+    name: str | None = None
+    venue_id: str | None = None
+    band_id: str | None = None
+    date: datetime.date | None = None
+    time: datetime.time | None = None
+    status: str | None = None
+
+
+class SubscriberSchema(BaseModel):
+    email: EmailStr

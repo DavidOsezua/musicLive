@@ -23,7 +23,7 @@ const Genre = () => {
           "Acoustic",
           "Metal",
           "Dance",
-          "Reggae",
+          "Raggae",
           "Urban",
         ];
 

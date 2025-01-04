@@ -17,12 +17,14 @@ from src.schema import (
     Type_,
     CreateEventSchema,
     EventsSchema,
+    UpdateEvent,
+    SubscriberSchema,
 )
 from src import uploads
 from typing import List, Optional
 from http import HTTPStatus
 from src import exceptions
-from db.table import Venue, Band, Ads, Genre, Venuetype, Event
+from db.table import Venue, Band, Ads, Genre, Venuetype, Event, Subscriber
 from sqlalchemy import func
 from datetime import timezone
 from dateutil import parser
@@ -30,6 +32,7 @@ import yagmail
 from db.database import asyc_engine
 import shortuuid
 from src import search
+import datetime
 
 api_router = APIRouter(prefix="/api/v1", tags=["api"])
 
@@ -190,9 +193,6 @@ async def upload__ads(
 async def upload_venue(
     name: str = Form(...),
     venue_type: str = Form(...),
-    genre_type: str = Form(...),
-    date: str = Form(...),
-    time: str = Form(...),
     address: str = Form(...),
     email: str = Form(...),
     homepage: Optional[str] = Form(None),
@@ -210,15 +210,9 @@ async def upload_venue(
         # validate_image_size(image2, image_size)
         image_paths = uploads.save_venue_images(venue_id, image1.file, image2.file)
 
-        venue_date = parser.parse(date)
-        venue_time = parser.parse(time)
-
         venue_data = Venue_(
             name=name,
             venue_type=venue_type,
-            genre_type=genre_type,
-            venue_date=venue_date.astimezone(timezone.utc).date().isoformat(),
-            venue_time=venue_time.astimezone(timezone.utc).time().isoformat(),
             address=address,
             email=email,
             homepage=homepage,
@@ -265,9 +259,6 @@ async def update_venue_id(
     venue_id: str,
     name: str = Form(...),
     venue_type: str = Form(...),
-    genre_type: str = Form(...),
-    date: str = Form(...),
-    time: str = Form(...),
     address: str = Form(...),
     email: str = Form(...),
     homepage: Optional[str] = Form(None),
@@ -289,13 +280,8 @@ async def update_venue_id(
         # validate_image_size(image2, image_size)
         image_paths = uploads.save_venue_images(venue_id, image1.file, image2.file)
 
-        venue_date = parser.parse(date)
-        venue_time = parser.parse(time)
         existing_venue.name = name
         existing_venue.venue_type = venue_type
-        existing_venue.genre_type = genre_type
-        existing_venue.venue_date = venue_date.astimezone(timezone.utc).date()
-        existing_venue.venue_time = venue_time.astimezone(timezone.utc).time()
         existing_venue.address = address
         existing_venue.email = email
         existing_venue.homepage = homepage
@@ -745,12 +731,13 @@ async def get_venue_approved(session: AsyncSession = Depends(get_session)) -> Ve
 @api_router.get("/venue/search", response_model=List[Venue])
 async def search_venue(
     name: str | None = Query(default=None),
-    genre: str | None = Query(default=None),
     types: str | None = Query(default=None),
+    date: datetime.date | None = Query(default=None),
+    genre_type: str | None = Query(default=None),
     session: AsyncSession = Depends(get_session),
 ):
     types_ = types.split(",") if types else None
-    venues = await search.search_venue(name, genre, types_, session)
+    venues = await search.search_venue(name, types_, date, genre_type, session)
     return venues
 
 
@@ -1120,3 +1107,63 @@ async def get_events(venue_id: str, session: AsyncSession = Depends(get_session)
         return None
 
     pass
+
+
+@api_router.delete("/events/{event_id}")
+async def delete_event(event_id: str, session: AsyncSession = Depends(get_session)):
+    type_ = await session.get(Event, event_id)
+    if not type_:
+        raise HTTPException(
+            status_code=HTTPStatus.NO_CONTENT.value, detail="Event not found"
+        )
+    await session.delete(type_)
+    await session.commit()
+    return True
+
+
+@api_router.put("/events/{event_id}")
+async def update_event(
+    event_id: str,
+    update_info: UpdateEvent,
+    session: AsyncSession = Depends(get_session),
+):
+
+    try:
+        update_query = (
+            update(Event)
+            .where(Event.id == event_id)
+            .values(update_info.model_dump(exclude_none=True, exclude_unset=True))
+        )
+        await session.exec(update_query)
+        await session.commit()
+        return True
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+            status_code=400, detail="Unable to update event, check your inputs"
+        )
+
+
+@api_router.post("/subscribers")
+async def add_subscriber(
+    data: SubscriberSchema, session: AsyncSession = Depends(get_session)
+):
+    exists = await session.get(Subscriber, data.email)
+    if exists:
+        return True
+    try:
+        new_sub = Subscriber(email=data.email)
+        session.add(new_sub)
+        await session.commit()
+        return True
+
+    except Exception as e:
+        return False
+
+
+@api_router.get("/subscribers")
+async def get_all_subscriber(session: AsyncSession = Depends(get_session)):
+    query = select(Subscriber)
+    result = await session.exec(query)
+    events = result.fetchall()
+    return events

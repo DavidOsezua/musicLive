@@ -97,6 +97,7 @@ const Venues = () => {
 
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query");
+  const dateQuery = searchParams.get("date");
   const {popUp, setPopup} = useContext(LocationPopUpContext)
   const [dropdown, setDropDown] = useState(false);
   const [selectVenue, setSelectVenue] = useState([]); // Track selected venues
@@ -105,6 +106,8 @@ const Venues = () => {
 
   const [searchData, setSearchData] = useState({
     name: "",
+    genre_type: query || "",
+    date : dateQuery || "",
     types: [], // To store the types of venues selected
     selectedVenues: [], // Track selected venues
   });

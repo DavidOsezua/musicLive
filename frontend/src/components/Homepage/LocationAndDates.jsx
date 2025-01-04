@@ -19,8 +19,12 @@ const LocationAndDates = () => {
     e.preventDefault();
     console.log("Selected date:", selectedDate);
     console.log("Selected location:", selectedLocation);
-
-    navigate("/venues", {
+    // console.log(s)
+    
+    const date = new Date(selectedDate);
+    const formattedDate = date.toLocaleDateString('en-CA');
+    
+    navigate(`/venues?date=${formattedDate}`, {
       state: { date: selectedDate, location: selectedLocation },
     });
   };
