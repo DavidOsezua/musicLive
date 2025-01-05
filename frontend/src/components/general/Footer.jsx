@@ -18,16 +18,16 @@ const Footer = () => {
     <footer className={`section pt-[1rem] ${styles.footerSection}`}>
       <div className={`${styles.footerContainer} sectionContainer`}>
         {/*******************   **************************/}
-        
-          {/*******************   **************************/}
-          <div className={styles.footerLogo}>
-            <img src={logo} className={`${styles.image}`} />
-            <h1>
-              Find Me <span className={`text-[#C32FB4]`}>Live Music</span>
-            </h1>
-          </div>
-          {/*******************   **************************/}
-   
+
+        {/*******************   **************************/}
+        <div className={styles.footerLogo}>
+          <img src={logo} className={`${styles.image}`} />
+          <h1>
+            Find Me <span className={`text-[#C32FB4]`}>Live Music</span>
+          </h1>
+        </div>
+        {/*******************   **************************/}
+
         {/*******************   **************************/}
         <ul className={`${styles.footerMenu}`}>
           {/*******************   **************************/}
@@ -47,7 +47,7 @@ const Footer = () => {
 
         <ul className={styles.socialMenu}>
           <li>
-            <a>
+            <a href="http://facebook.com/findmelivemusic" target="_blank">
               <Facebook />
             </a>
           </li>
@@ -59,10 +59,7 @@ const Footer = () => {
           </li>
         </ul>
 
-
-        <div>
-          
-        </div>
+        <div></div>
       </div>
     </footer>
   );
