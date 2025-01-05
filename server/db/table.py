@@ -6,6 +6,11 @@ from datetime import datetime
 from typing import Optional
 from pydantic import EmailStr
 from datetime import datetime, date, time
+from time import time as tm
+
+
+def get_current_timestamp():
+    return int(tm())
 
 
 class Ads(SQLModel, table=True):
@@ -58,9 +63,6 @@ class Venue(SQLModel, table=True):
     image2: Optional[str] = Field(default=None, sa_column=Column(String(255)))
     is_verified: bool = Field(default=False)
     is_admin_approved: bool = Field(default=False)
-    genre_type: str = Field(sa_column=Column(String(100)))
-    venue_date: date
-    venue_time: time
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now)
 
@@ -76,7 +78,7 @@ class Genre(SQLModel, table=True):
     name: str = Field(sa_column=Column(String(100)))
     image: Optional[str] = Field(default=None, sa_column=Column(String(255)))
     is_admin_approved: bool = Field(default=False)
-
+    created_at: int = Field(default_factory=get_current_timestamp)
     model_config = {"arbitrary_types_allowed": True}
 
     def __repr__(self) -> str:
@@ -109,3 +111,9 @@ class Event(SQLModel, table=True):
     venue: "Venue" = Relationship(sa_relationship_kwargs={"uselist": False})
     band: "Band" = Relationship(sa_relationship_kwargs={"uselist": False})
     status: str = Field(default="approved")
+
+
+class Subscriber(SQLModel, table=True):
+    __tablename__ = "subscriber"
+
+    email: str = Field(primary_key=True)
