@@ -129,7 +129,7 @@ const TablesAndCards = ({
     const setMusicStatus = async () => {
       try {
         let endpoint = "";
-        if (musicType === "genre") {
+        if (musicType === "band") {
           endpoint = "api/v1/band/approved/";
         } else if (musicType === "venue") {
           endpoint = "api/v1/venue/approved/";

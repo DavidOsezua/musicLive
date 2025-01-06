@@ -95,6 +95,8 @@ const Venues = () => {
 
   // console.log(selectVenue);
 
+  const [searchParams] = useSearchParams();
+
   const { popUp, setPopup } = useContext(LocationPopUpContext);
   const [dropdown, setDropDown] = useState(false);
   const [selectVenue, setSelectVenue] = useState([]); // Track selected venues

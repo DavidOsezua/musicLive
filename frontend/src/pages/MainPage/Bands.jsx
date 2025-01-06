@@ -62,7 +62,7 @@ const Bands = () => {
           if (value) params[key] = value;
         });
 
-        const response = await api.get("/api/v1/venue/search", {
+        const response = await api.get("/api/v1/band/search", {
           params: params,
         });
 

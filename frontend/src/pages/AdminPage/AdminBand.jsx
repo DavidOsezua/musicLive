@@ -122,6 +122,7 @@ const AdminBand = () => {
         columnCount={7}
         setUserData={setLocationPageData}
         from={`Band`}
+        musicType={'band'}
         setTotalData={setTotalData}
         setTotalApprove={setTotalApprove}
         settrackChanges={settrackChanges}

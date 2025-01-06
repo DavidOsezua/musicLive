@@ -54,6 +54,12 @@ const Home = () => {
   };
   console.log("Data being sent:", data);
 
+  useEffect(() => {
+    if (share) {
+      window.scrollTo(0, 0);
+    }
+  }, [share]);
+
   console.log(message);
 
   return (
