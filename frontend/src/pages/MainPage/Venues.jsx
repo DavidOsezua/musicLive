@@ -17,84 +17,10 @@ import EventPopUp from "./EventPopUp";
 import { LocationPopUpContext } from "@/contexts/locationPopContext";
 
 const Venues = () => {
-  // const [searchParams] = useSearchParams();
-  // const query = searchParams.get("query");
-
-  // const [dropdown, setDropDown] = useState(false);
-  // const [selectVenue, setSelectVenue] = useState([]);
-
-  // const [venues, setVenues] = useState([]);
-
-  // const [searchData, setSearchData] = useState({
-  //   name: "",
-  //   genre: query || "",
-  //   types: [],
-  // });
-
-  // const location = useLocation();
-  // const { date, location: selectedLocation } = location.state || {};
-
-  // const handleRemoveVenue = (id) => {
-  //   setSelectVenue((prev) => prev.filter((venue) => venue.ID !== id));
-  // };
-
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-
-  //   setSearchData((prevFormData) => ({
-  //     ...prevFormData,
-  //     name: value,
-  //   }));
-  // };
-
-  // const handleGenre = (selectedGenres) => {
-  //   const genres = selectedGenres.map((gnr) => gnr.genreOrType);
-  //   console.log("checking genres");
-  //   console.log(genres);
-  //   setSearchData((prevData) => {
-  //     return { ...prevData, types: genres };
-  //   });
-  //   closeDropdown();
-  // };
-
-  // useEffect(() => {
-  //   console.log(searchData);
-  //   const searchParams = { ...searchData };
-  //   searchParams.types = searchParams.types.join(",");
-
-  //   const getVenues = async () => {
-  //     try {
-  //       const params = {};
-  //       Object.entries(searchParams).forEach(([key, value]) => {
-  //         if (value) params[key] = value;
-  //       });
-
-  //       console.log(params);
-
-  //       const response = await api.get("/api/v1/venue/search", {
-  //         params: params,
-  //       });
-  //       console.log(response.data);
-  //       setVenues(response.data);
-  //     } catch (error) {
-  //       console.error("Error occurred when getting the user band:", error);
-  //       console.error(error || "An unexpected error occurred");
-  //       setVenues([]);
-  //     }
-  //   };
-  //   getVenues();
-  // }, [searchData]);
-
-  // const showDropdown = () => {
-  //   setDropDown((prev) => !prev);
-  // };
-
-  // const closeDropdown = () => {
-  //   setDropDown(false);
-  // };
-
-  // console.log(selectVenue);
-
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("query");
+  const dateQuery = searchParams.get("date")
+  
   const { popUp, setPopup } = useContext(LocationPopUpContext);
   const [dropdown, setDropDown] = useState(false);
   const [selectVenue, setSelectVenue] = useState([]); // Track selected venues
@@ -105,6 +31,8 @@ const Venues = () => {
     name: "",
     types: [], // To store the types of venues selected
     selectedVenues: [], // Track selected venues
+    genre_type: query || "",
+    date : dateQuery
   });
 
   const location = useLocation();
