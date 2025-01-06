@@ -17,6 +17,7 @@ import EventPopUp from "./EventPopUp";
 import { LocationPopUpContext } from "@/contexts/locationPopContext";
 
 const Venues = () => {
+<<<<<<< HEAD
   // const [searchParams] = useSearchParams();
   // const query = searchParams.get("query");
 
@@ -95,8 +96,14 @@ const Venues = () => {
 
   // console.log(selectVenue);
 
-  const [searchParams] = useSearchParams();
 
+
+=======
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("query");
+  const dateQuery = searchParams.get("date")
+  
+>>>>>>> 19e83e7cf8b6085e136e23b7088fca811ab6feeb
   const { popUp, setPopup } = useContext(LocationPopUpContext);
   const [dropdown, setDropDown] = useState(false);
   const [selectVenue, setSelectVenue] = useState([]); // Track selected venues
@@ -107,6 +114,8 @@ const Venues = () => {
     name: "",
     types: [], // To store the types of venues selected
     selectedVenues: [], // Track selected venues
+    genre_type: query || "",
+    date : dateQuery
   });
 
   const location = useLocation();
