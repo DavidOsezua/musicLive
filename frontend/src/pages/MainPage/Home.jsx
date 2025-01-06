@@ -12,10 +12,13 @@ import GenreScroll from "../../components/general/GenreScroll";
 import Advert from "@/components/general/Advert";
 import { createSubcriber } from "./router";
 import { api } from "@/services/api.route";
+import ShareComponent from "@/components/Homepage/ShareComponent";
+import Modal from "@/components/general/Modal";
 
 const Home = () => {
   const [data, setData] = useState({ email: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [share, setShare] = useState(false);
   const [message, setMessage] = useState("");
 
   const handleInputChange = (e) => {
@@ -46,24 +49,8 @@ const Home = () => {
     }
   };
 
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "Check out this website!",
-          text: "This site is awesome!",
-          url: "https://musiclivewebsite.netlify.app/",
-        });
-        console.log("Shared successfully");
-      } catch (error) {
-        console.error("Error sharing:", error);
-      }
-    } else {
-      // Fallback for desktop browsers
-      const link = "https://musiclivewebsite.netlify.app/";
-      navigator.clipboard.writeText(link);
-      alert("Link copied to clipboard!");
-    }
+  const handleShare = () => {
+    setShare((prev) => !prev);
   };
   console.log("Data being sent:", data);
 
@@ -203,6 +190,12 @@ const Home = () => {
         {/*  */}
         <TipJar />
       </div>
+
+      {share && (
+        <Modal modalHandler={handleShare}>
+          <ShareComponent />
+        </Modal>
+      )}
     </section>
   );
 };

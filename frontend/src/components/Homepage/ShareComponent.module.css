@@ -1,0 +1,29 @@
+.cardContainer {
+  background: #f6f8fd;
+  border-radius: 8px;
+  padding: 1rem;
+  max-width: 483px;
+  margin: 0 auto;
+}
+
+.cardContainer > * + * {
+  margin-top: 1rem;
+}
+
+.allBands {
+  height: 503px;
+  overflow: auto;
+}
+
+.hr{
+    width: 100%;
+    height: 0.015rem;
+    background-color: #878C9766;
+}
+
+.allBands::-webkit-scrollbar {
+display: none;
+}
+.allBands > * + * {
+  margin-top: 1rem;
+}
