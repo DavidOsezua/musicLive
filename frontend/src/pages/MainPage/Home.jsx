@@ -46,6 +46,15 @@ const Home = () => {
     }
   };
 
+  const handleShare = async () => {
+    try {
+      await navigator.share({ url: "https://musiclivewebsite.netlify.app/" });
+    } catch (error) {
+      console.error("Error sharing:", error);
+    } finally {
+    }
+  };
+
   console.log("Data being sent:", data);
 
   console.log(message);
@@ -90,7 +99,7 @@ const Home = () => {
 
         <div className={`${styles.findContainer}`}>
           <p className={`${styles.findText}`}>Find your best live music.</p>
-          <button className={`${styles.findButton}`}>
+          <button className={`${styles.findButton}`} onClick={handleShare}>
             <Share />
             Share to family & friends
           </button>
@@ -156,7 +165,7 @@ const Home = () => {
           <p className={`${styles.findText}`}>Find your best live music.</p>
 
           <div className={`${styles.buttonAndSubscribe}`}>
-            <button className={`${styles.findButton}`}>
+            <button className={`${styles.findButton}`} onClick={handleShare}>
               <Share />
               Share to family & friends
             </button>
