@@ -8,6 +8,7 @@ import { uploadUserbrand } from "./router";
 import { useModal } from "../../App";
 import Failed from "../../components/general/Failed";
 import Modal from "@/components/general/Modal";
+import Loader from "@/components/general/Loader";
 
 const AddYourBand = () => {
   const { modal, modalHandler } = useModal() || {};
@@ -28,6 +29,7 @@ const AddYourBand = () => {
   });
 
   const [formErrors, setFormErrors] = useState({});
+  const [loader, setLoader] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState(false);
 
@@ -74,6 +76,7 @@ const AddYourBand = () => {
 
   const handleSubmit = async () => {
     console.log(formErrors);
+    setLoader(true);
     if (validateStep(1)) {
       const dataForm = new FormData();
       Object.keys(formData).forEach((key) => {
@@ -84,17 +87,20 @@ const AddYourBand = () => {
         setIsSubmitted(true);
         setMessage("Band uploaded successfully!");
         setError(false);
+        setLoader(false);
         modalHandler(); // Open modal on success
       } catch (e) {
         setMessage(e.response.data.detail || "Form validation failed");
         setIsSubmitted(false);
         setError(true);
+        setLoader(false);
         console.error("error", e.response.data.detail);
         modalHandler(); // Open modal on failure
       }
     } else {
       console.error("error", error);
       setError(true);
+      setLoader(false);
       setMessage("Form validation failed");
       modalHandler(); // Open modal for validation failure
     }
@@ -134,6 +140,12 @@ const AddYourBand = () => {
         headerText={`Add your Band`}
         formHeaderText={`Tell Us About Your Band!`}
       />
+
+      {loader && (
+        <Modal>
+          <Loader />
+        </Modal>
+      )}
 
       {/* Conditionally render success or failure modal */}
       {modal && (

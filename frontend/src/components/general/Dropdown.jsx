@@ -20,7 +20,7 @@ const Dropdown = ({ setGenre, data, closeDropdown, setSelectVenue }) => {
     );
     console.log("selected item", selectedItems);
     setGenre(selectedItems);
-    setSelectVenue(selectedItems);
+    if (setSelectVenue) setSelectVenue(selectedItems);
     closeDropdown();
   };
 

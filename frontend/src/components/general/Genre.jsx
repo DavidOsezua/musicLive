@@ -5,8 +5,9 @@ import styles from "./Genre.module.css";
 import { api, Url } from "@/services/api.route";
 import { Link } from "react-router-dom";
 
-const Genre = () => {
+const Genre = ({ link, handleGenre }) => {
   const [genre, setGenre] = useState([]);
+  const [genreFiltered, setGenreFiltered] = useState([]);
   useEffect(() => {
     const getAlluserVenue = async () => {
       try {
@@ -48,23 +49,39 @@ const Genre = () => {
       } catch (error) {
         console.error("Error occur when getting the user venue:", error);
         setGenre([]);
-        // toast.error(error|| "An unexpected error occurred");
+        // toast.error(error || "An unexpected error occurred");
       }
     };
     getAlluserVenue();
   }, []);
   console.log(genre);
+
   return (
     <div className={`${styles.genre}`}>
       {genre.map((list) => (
-        <Link to={`/venues?query=${list.name}`}>
-          <div key={list.id} className="flex flex-col  items-center">
-            <img src={`${Url}/${list.image}`} className={styles.image} />
-            <h1 className="text-[0.7rem] font-[400] text-[#0A225980]">
-              {list.name}
-            </h1>
-          </div>
-        </Link>
+        <>
+          {link ? (
+            <Link to={`/venues?query=${list.name}`}>
+              <div key={list.id} className="flex flex-col  items-center">
+                <img src={`${Url}/${list.image}`} className={styles.image} />
+                <h1 className="text-[0.7rem] font-[400] text-[#0A225980]">
+                  {list.name}
+                </h1>
+              </div>
+            </Link>
+          ) : (
+            <div
+              key={list}
+              className="flex flex-col  items-center"
+              onClick={() => handleGenre(list)}
+            >
+              <img src={`${Url}/${list.image}`} className={styles.image} />
+              <h1 className="text-[0.7rem] font-[400] text-[#0A225980]">
+                {list.name}
+              </h1>
+            </div>
+          )}
+        </>
       ))}
     </div>
   );

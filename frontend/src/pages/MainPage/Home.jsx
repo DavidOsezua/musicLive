@@ -79,7 +79,7 @@ const Home = () => {
             </button>
           </div>
           {/******************* GENERE ICONS *******************/}
-          <GenreScroll />
+          <GenreScroll link />
         </div>
 
         <div>
@@ -142,7 +142,7 @@ const Home = () => {
           </div>
           {/******************* GENERE ICONS *******************/}
 
-          <GenreScroll />
+          <GenreScroll link />
         </div>
 
         <div>

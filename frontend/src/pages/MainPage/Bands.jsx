@@ -10,16 +10,16 @@ import GenreScroll from "../../components/general/GenreScroll";
 import Dropdown from "../../components/general/Dropdown";
 import { facebook, instagram, website } from "../../assets";
 import { Url, api } from "../../services/api.route";
+// import { set } from "react-datepicker/dist/date_utils";
 
 const Bands = () => {
   const [dropdown, setDropDown] = useState(false);
-  const [form, setForm] = useState({
-    venue_type: "",
-  });
+
   const [bands, setBands] = useState([]);
   const [isInputempty, setisInputempty] = useState(false);
   const [searchData, setSearchData] = useState({
     name: "",
+    genre_type: [],
   });
 
   const handleInputChange = (e) => {
@@ -27,37 +27,46 @@ const Bands = () => {
 
     setSearchData((prevFormData) => ({
       ...prevFormData,
-      name: value,
+      [name]: value,
     }));
-    if (value === "") {
-      console.log("Input is empty");
-      setisInputempty(true);
-      return;
-    } else {
-      setisInputempty(false);
-    }
   };
 
-  const handleGenre = (selectedGenres) => {
-    setForm((prevData) => ({
+  const handleDropdownGenre = (selectedGenres) => {
+    console.log(selectedGenres);
+    const genres = selectedGenres.map((item) => item.genreOrType);
+    const name = selectedGenres.map((item) => item.name);
+    console.log(genres);
+    setSearchData((prevData) => ({
       ...prevData,
-      venue_type: selectedGenres[0].genreOrType,
+      genre_type: [genres],
     }));
     closeDropdown();
   };
 
-  useEffect(() => {
-    console.log("The search data is:", searchData);
-    console.log("The form state has been updated:", form);
+  const handleGenre = (selectedGenres) => {
+    console.log(selectedGenres);
+    setSearchData((prevData) => ({
+      ...prevData,
+      genre_type: selectedGenres.name.split(", "),
+    }));
+  };
 
-    const getAllUserBandsWithAdminApproved = async () => {
+  useEffect(() => {
+    const getBands = async () => {
+      const searchParams = { ...searchData };
+      searchParams.genre_type = searchParams.genre_type.join(",");
+
       try {
-        const response = await api.get("/api/v1/band/search", {
-          params: {
-            name: searchData.name || "",
-            genre_type: form.venue_type || "",
-          },
+        const params = {};
+        Object.entries(searchParams).forEach(([key, value]) => {
+          if (value) params[key] = value;
         });
+
+        const response = await api.get("/api/v1/venue/search", {
+          params: params,
+        });
+
+        console.log("API Search Params:", params);
         console.log(response.data);
         setBands(response.data);
       } catch (error) {
@@ -67,22 +76,8 @@ const Bands = () => {
       }
     };
 
-    getAllUserBandsWithAdminApproved();
-  }, [searchData, form]);
-
-  useEffect(() => {
-    const getAlluserBand = async () => {
-      try {
-        const response = await api.get("/api/v1/band/approved");
-        console.log(response.data);
-        setBands(response.data);
-      } catch (error) {
-        console.error("Error occur when getting the user band:", error);
-        console.error(error || "An unexpected error occurred");
-      }
-    };
-    getAlluserBand();
-  }, [isInputempty]);
+    getBands();
+  }, [searchData]);
 
   const showDropdown = () => {
     setDropDown((prev) => !prev);
@@ -107,7 +102,7 @@ const Bands = () => {
             <div className="absolute top-0 w-full bg-[#F6F8FD] z-50 p-[1rem] border-[#2659C34D] border-[1px] rounded-md max-w-[500px] right-10">
               <Dropdown
                 data={genre}
-                setGenre={handleGenre}
+                setGenre={handleDropdownGenre}
                 closeDropdown={closeDropdown}
               />
             </div>
@@ -116,7 +111,7 @@ const Bands = () => {
       </div>
       <div className={`sectionContainer ${styles.bandContainer}`}>
         {/******** GRENE  *********/}
-        <GenreScroll />
+        <GenreScroll handleGenre={handleGenre} />
 
         {/******** BANDS  *********/}
 

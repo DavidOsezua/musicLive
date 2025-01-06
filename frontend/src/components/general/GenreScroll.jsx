@@ -5,10 +5,10 @@ import { bands } from "../../data/data";
 import { facebook, instagram, website } from "@/assets";
 import "./ads.css";
 
-const GenreScroll = () => {
+const GenreScroll = ({ link,handleGenre}) => {
   return (
     <div className={`${styles.check} `}>
-      <Genre />
+      <Genre link={link} handleGenre={handleGenre} />
     </div>
   );
 };

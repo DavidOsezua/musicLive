@@ -95,10 +95,7 @@ const Venues = () => {
 
   // console.log(selectVenue);
 
-  const [searchParams] = useSearchParams();
-  const query = searchParams.get("query");
-  const dateQuery = searchParams.get("date");
-  const {popUp, setPopup} = useContext(LocationPopUpContext)
+  const { popUp, setPopup } = useContext(LocationPopUpContext);
   const [dropdown, setDropDown] = useState(false);
   const [selectVenue, setSelectVenue] = useState([]); // Track selected venues
 
@@ -106,8 +103,6 @@ const Venues = () => {
 
   const [searchData, setSearchData] = useState({
     name: "",
-    genre_type: query || "",
-    date : dateQuery || "",
     types: [], // To store the types of venues selected
     selectedVenues: [], // Track selected venues
   });
@@ -117,15 +112,17 @@ const Venues = () => {
 
   // Handles input change for search fields
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    console.log(e.target);
+    // const { name, value } = e.target;
     setSearchData((prevFormData) => ({
       ...prevFormData,
-      [name]: value, // Update name or genre based on input
+      name: e.target.value, // Update name or genre based on input
     }));
   };
 
   // Handles selecting venues from dropdown and updating search data
   const handleGenre = (selectedGenres) => {
+    console.log(selectedGenres);
     const genres = selectedGenres.map((gnr) => gnr.genreOrType);
     setSearchData((prevData) => {
       return { ...prevData, types: genres, selectedVenues: selectedGenres };
@@ -137,6 +134,8 @@ const Venues = () => {
   useEffect(() => {
     const searchParams = { ...searchData };
     searchParams.types = searchParams.types.join(","); // Convert selected types to comma-separated string
+
+    console.log(searchParams.types);
 
     const getVenues = async () => {
       try {
@@ -304,7 +303,7 @@ const Venues = () => {
           <div className={`${styles.bandDetailsContainer}`}>
             {venues.map((item) => (
               <>
-                <EachVenue data={item}/>
+                <EachVenue data={item} />
               </>
             ))}
           </div>
@@ -325,7 +324,7 @@ const Venues = () => {
       <TipJar />
       {popUp && (
         <Modal modalHandler={() => setPopup((value) => !value)}>
-          <EventPopUp/>
+          <EventPopUp />
         </Modal>
       )}
     </>
