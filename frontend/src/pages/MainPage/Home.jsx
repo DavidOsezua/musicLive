@@ -47,14 +47,24 @@ const Home = () => {
   };
 
   const handleShare = async () => {
-    try {
-      await navigator.share({ url: "https://musiclivewebsite.netlify.app/" });
-    } catch (error) {
-      console.error("Error sharing:", error);
-    } finally {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Check out this website!",
+          text: "This site is awesome!",
+          url: "https://musiclivewebsite.netlify.app/",
+        });
+        console.log("Shared successfully");
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    } else {
+      // Fallback for desktop browsers
+      const link = "https://musiclivewebsite.netlify.app/";
+      navigator.clipboard.writeText(link);
+      alert("Link copied to clipboard!");
     }
   };
-
   console.log("Data being sent:", data);
 
   console.log(message);
