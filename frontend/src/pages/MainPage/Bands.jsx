@@ -62,7 +62,7 @@ const Bands = () => {
           if (value) params[key] = value;
         });
 
-        const response = await api.get("/api/v1/band/search", {
+        const response = await api.get("/api/v1/band", {
           params: params,
         });
 
@@ -86,6 +86,8 @@ const Bands = () => {
   const closeDropdown = () => {
     setDropDown(false);
   };
+
+  console.log(bands);
 
   return (
     <section className={`section py-0 px-0 transition`}>

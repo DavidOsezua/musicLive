@@ -13,10 +13,14 @@
 .adminSection {
   background-color: #f6f8fd;
   height: 100%;
-  width: 100%;    
+  width: 100%;
   padding: 1rem;
 }
 
+.svg {
+  width: 65px;
+  height: 65px;
+}
 
 .pageContainer > * + * {
   margin-top: 2rem;

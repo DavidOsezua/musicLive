@@ -37,7 +37,7 @@ const AdminBand = () => {
       let approvedCount = 0;
 
       const formattedData = res.data.map((band) => {
-        if (band.is_verified) {
+        if (band.is_admin_approved) {
           approvedCount += 1;
         }
 
@@ -56,7 +56,8 @@ const AdminBand = () => {
           date: band.venue_date
             ? dayjs(band.venue_date).format("DD MMM YYYY")
             : "",
-          status: band.is_verified ? "Approved" : "Pending",
+          status:
+            band.is_admin_approved || band.is_verified ? "Approved" : "Pending",
         };
       });
 
@@ -122,7 +123,7 @@ const AdminBand = () => {
         columnCount={7}
         setUserData={setLocationPageData}
         from={`Band`}
-        musicType={'band'}
+        musicType={"band"}
         setTotalData={setTotalData}
         setTotalApprove={setTotalApprove}
         settrackChanges={settrackChanges}
@@ -130,7 +131,7 @@ const AdminBand = () => {
       {modal ? (
         <Modal modalHandler={allModalHandler}>
           <AddBand
-          cancel={allModalHandler}
+            cancel={allModalHandler}
             setShowResultModal={setShowResultModal}
             settrackChanges={settrackChanges}
             showResultModal={showResultModal}

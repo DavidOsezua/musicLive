@@ -4,9 +4,7 @@ const ShareEmail = () => {
   return (
     <span>
       <svg
-        width="50"
-        height="50"
-        className={``}
+        className={`svg`}
         viewBox="0 0 65 64"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

@@ -100,7 +100,9 @@ const ShareComponent = ({ cancel }) => {
       </div>
 
       <div className={`flex flex-col gap-2 justify-center md:flex-row`}>
-        <p className={`${styles.link} text-[0.7rem] md:text-[1rem] text-[]`}>
+        <p
+          className={`${styles.link} text-[0.7rem] md:text-[1rem] text-[#BDBDBD]`}
+        >
           {shareUrl}
         </p>
         <Button
