@@ -1,13 +1,24 @@
 .cardContainer {
-  background: #f6f8fd;
+  /* background: #f6f8fd;
   border-radius: 8px;
   padding: 1rem;
-  max-width: 483px;
+  max-width: 520px;
+  margin: 0 auto; */
+
+  /* Rectangle 4675 */
+display: flex;
+flex-direction: column;
+justify-content: center;
+  max-width: 600px;
+  min-height: 351px;
   margin: 0 auto;
+  border-radius: 50px;
+  padding: 1rem 3rem;
+  background: #f6f8fd;
 }
 
 .cardContainer > * + * {
-  margin-top: 1rem;
+  margin-top: 3rem;
 }
 
 .allBands {
@@ -15,15 +26,24 @@
   overflow: auto;
 }
 
-.hr{
-    width: 100%;
-    height: 0.015rem;
-    background-color: #878C9766;
+.hr {
+  width: 100%;
+  height: 0.015rem;
+  background-color: #878c9766;
 }
 
 .allBands::-webkit-scrollbar {
-display: none;
+  display: none;
 }
 .allBands > * + * {
   margin-top: 1rem;
+}
+
+.link {
+  width: 100%;
+  height: 48px;
+  padding: 0.5rem;
+  background: rgba(38, 89, 195, 0.04);
+  border: 0.8px solid rgba(38, 89, 195, 0.07);
+  border-radius: 5px;
 }

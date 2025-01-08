@@ -68,12 +68,12 @@ const AdminBand = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("Updated locationPageData", locationPageData);
-    // setpending(totalBand - approvedCount)
-  }, [locationPageData]);
+  // useEffect(() => {
+  //   console.log("Updated locationPageData", locationPageData);
+  //   // setpending(totalBand - approvedCount)
+  // }, [locationPageData]);
 
-  let pending = totalData - totalApprove;
+  // let pending = totalData - totalApprove;
 
   const getuserBandData = {
     statusData: [
