@@ -156,6 +156,8 @@ const TablesAndCards = ({
 
               if (data.is_admin_approved) {
                 approvedCount++;
+              }else{
+                approvedCount--;
               }
             }
           });
