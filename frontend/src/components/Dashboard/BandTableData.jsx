@@ -32,41 +32,41 @@ const BandTableData = ({
   const [settingsModal, setSettingsModal] = useState(false);
   const [previewModal, setPreviewModal] = useState(false);
 
-  const getAllUserBandData = async () => {
-    try {
-      const res = await api.get("/api/v1/band");
-      const resultData = res.data.length;
-      console.log(res.data);
+  // const getAllUserBandData = async () => {
+  //   try {
+  //     const res = await api.get("/api/v1/band");
+  //     const resultData = res.data.length;
+  //     console.log(res.data);
 
-      let approvedCount = 0;
+  //     let approvedCount = 0;
 
-      const formattedData = res.data.map((band) => {
-        if (band.is_verified) {
-          approvedCount += 1;
-        }
+  //     const formattedData = res.data.map((band) => {
+  //       if (band.is_verified) {
+  //         approvedCount += 1;
+  //       }
 
-        return {
-          ID: band.id,
-          image: band.image1 ? Url + "/" + band.image1 : "",
-          venueOrBandName: band.name || "",
-          genreOrType: band.genre_type || "",
-          socials: [website, facebook, instagram, youtube],
-          changeStatus: ["Approve", "Pending", "Inactive"],
-          email: band.email || "",
-          date: band.venue_date
-            ? dayjs(band.venue_date).format("DD MMM YYYY")
-            : "",
-          status: band.is_verified ? "Approved" : "Pending",
-        };
-      });
+  //       return {
+  //         ID: band.id,
+  //         image: band.image1 ? Url + "/" + band.image1 : "",
+  //         venueOrBandName: band.name || "",
+  //         genreOrType: band.genre_type || "",
+  //         socials: [website, facebook, instagram, youtube],
+  //         changeStatus: ["Approve", "Pending", "Inactive"],
+  //         email: band.email || "",
+  //         date: band.venue_date
+  //           ? dayjs(band.venue_date).format("DD MMM YYYY")
+  //           : "",
+  //         status: band.is_verified ? "Approved" : "Pending",
+  //       };
+  //     });
 
-      setTotalApprove(approvedCount);
-      setTotalData(resultData);
-      setLocationPageData(formattedData);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  //     setTotalApprove(approvedCount);
+  //     setTotalData(resultData);
+  //     setLocationPageData(formattedData);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   console.log(item, data);
 

@@ -45,9 +45,9 @@ const ShareComponent = ({ cancel }) => {
     );
   };
 
-  const handleLinkedInShare = () => {
+  const handleEmailShare = () => {
     window.open(
-      `https://www.linkedin.com/shareArticle?mini=true&url=${shareUrl}`,
+      `mailto:?subject=Your%20Subject&body=Check%20out%20this%20link:%20${shareUrl}`,
       "_blank"
     );
   };
@@ -85,7 +85,7 @@ const ShareComponent = ({ cancel }) => {
         <button onClick={handleTwitterShare}>
           <ShareX />
         </button>
-        <button onClick={handleTwitterShare}>
+        <button onClick={handleEmailShare}>
           <ShareEmail />
         </button>
         <button onClick={handleTwitterShare}>

@@ -22,6 +22,8 @@ const EachVenue = ({ data }) => {
       window.scrollTo(0, 0);
     }
   }, [popUp]);
+
+   console.log(data.venue_type)
   return (
     <>
       <div className={`${styles.venueCard}`}>
