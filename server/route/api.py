@@ -444,7 +444,7 @@ async def get_band(session: AsyncSession = Depends(get_session)) -> Band:
     query = select(Band)
     result = await session.exec(query)
     bands = result.fetchall()
-    print(result)
+    
     return [dict(row) for row in bands]
 
 
@@ -523,25 +523,28 @@ async def update_band(
     Status: str = Query(alias="Status"),
     session: AsyncSession = Depends(get_session),
 ):
+
     query = select(Band).where(Band.id == band_id)
     result = await session.exec(query)
     venue = result.fetchall()
     if not venue:
         raise HTTPException(status_code=404, detail="Venue not found")
-    if Status == "Approved":
 
-        update_query = update(Band).where(Band.id == band_id).values(is_verified=True)
-        # else:
-        #     update_query = update(Band).where(Band.id == band_id).values(is_verified=False)
+    new_status = Status == "Approved"
+    print(new_status)
+    update_query = (
+        update(Band).where(Band.id == band_id).values(is_admin_approved=new_status)
+    )
 
-        await session.exec(update_query)
-        await session.commit()
-    updated_query = select(Band).where(Band.is_verified == True)
+    await session.exec(update_query)
+    await session.commit()
+
+    updated_query = select(Band)
     result = await session.exec(updated_query)
     updated_venue = result.fetchall()
 
-    if not updated_venue:
-        raise HTTPException(status_code=404, detail="Update failed")
+    # if not updated_venue:
+    #     raise HTTPException(status_code=404, detail="Update failed")
 
     return updated_venue
 
@@ -714,7 +717,7 @@ async def contact_us(
 @api_router.get("/band/approved", response_model=List[Band])
 async def get_band_approved(session: AsyncSession = Depends(get_session)) -> Band:
     # query = select(Band)
-    query = select(Band).where(Band.is_verified == True)
+    query = select(Band).where(Band.is_admin_approved == True)
     result = await session.exec(query)
     bands = result.fetchall()
     return [dict(row) for row in bands]
@@ -748,31 +751,31 @@ async def search_band(
     genre_type: Optional[str] = Query(default=None),
     session: AsyncSession = Depends(get_session),
 ):
-    query = select(Band).where(Band.is_admin_approved == True)
-    if name and genre_type:
-        name = name.strip().lower()
-        genre_type = genre_type.strip().lower()
-        query = query.where(
-            func.lower(Band.genre_type) == genre_type,
-            func.lower(Band.name).contains(name),
-        )
+    # query = select(Band).where(Band.is_admin_approved == True)
+    # if name and genre_type:
+    #     name = name.strip().lower()
+    #     genre_type = genre_type.strip().lower()
+    #     query = query.where(
+    #         func.lower(Band.genre_type) == genre_type,
+    #         func.lower(Band.name).contains(name),
+    #     )
 
-    elif name:
-        name = name.strip().lower()
-        query = query.where(func.lower(Band.name).contains(name))
+    # elif name:
+    #     name = name.strip().lower()
+    #     query = query.where(func.lower(Band.name).contains(name))
 
-    elif genre_type:
-        genre_type = genre_type.strip().lower()
-        query = query.where(func.lower(Band.genre_type) == genre_type)
+    # elif genre_type:
+    #     genre_type = genre_type.strip().lower()
+    #     query = query.where(func.lower(Band.genre_type) == genre_type)
 
-    if not (name or genre_type):
-        return []
+    # if not (name or genre_type):
+    #     return []
 
-    result = await session.exec(query)
-    band = result.fetchall()
-    if not band:
-        return []
-
+    # result = await session.exec(query)
+    # band = result.fetchall()
+    # if not band:
+    #     return []
+    band = await search.search_band(name, genre_type, session)
     return band
 
 

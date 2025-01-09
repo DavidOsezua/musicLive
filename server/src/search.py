@@ -34,3 +34,20 @@ async def search_venue(
     result = await session.exec(query)
     venues = result.fetchall()
     return venues
+
+
+async def search_band(
+    name: str | None,
+    genre_type: str | None,
+    session: AsyncSession,
+):
+    query = select(Band).distinct().where(Band.is_admin_approved == True)
+    if name:
+        query = query.where(func.lower(Band.name).contains(name))
+
+    if genre_type:
+        query = query.where(func.lower(Band.genre_type) == genre_type.lower())
+
+    result = await session.exec(query)
+    bands = result.fetchall()
+    return bands

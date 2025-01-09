@@ -43,7 +43,7 @@ const Dropdown = ({ setGenre, data, closeDropdown, setSelectVenue }) => {
         radius="rounded-full"
         width="w-full"
         clickFunction={handleSelect} // Handles selection
-        disableFn={selectedButtons.length === 0}
+        // disableFn={selectedButtons.length === 0}
       />
     </div>
   );
