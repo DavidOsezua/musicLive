@@ -29,6 +29,7 @@ const Event = () => {
         }
         return {
           ID: event.id,
+          name : event.name,
           image: event.venue.image1 ? Url + "/" + event.venue.image1 : "",
           venueName: event.venue.name || "",
           bandName: event.band.name || "",
