@@ -56,8 +56,7 @@ const AdminBand = () => {
           date: band.venue_date
             ? dayjs(band.venue_date).format("DD MMM YYYY")
             : "",
-          status:
-            band.is_admin_approved ? "Approved" : "Pending",
+          status: band.is_admin_approved ? "Approved" : "Pending",
         };
       });
 

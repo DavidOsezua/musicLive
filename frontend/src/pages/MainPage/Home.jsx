@@ -85,12 +85,7 @@ const Home = () => {
 
           <div className={`${styles.genreContainer}`}>
             {/******************* GENERE BUTTON *******************/}
-            <div className="flex justify-center">
-              <button className={`${styles.genrebtn}`}>
-                <SelectGenre />
-                Select Genre
-              </button>
-            </div>
+
             {/******************* GENERE ICONS *******************/}
             <GenreScroll link />
           </div>
@@ -147,12 +142,7 @@ const Home = () => {
 
           <div className={`${styles.genreContainer}`}>
             {/******************* GENERE BUTTON *******************/}
-            <div className="">
-              <button className={`${styles.genrebtn}`}>
-                <SelectGenre />
-                Select Genre
-              </button>
-            </div>
+
             {/******************* GENERE ICONS *******************/}
 
             <GenreScroll link />
