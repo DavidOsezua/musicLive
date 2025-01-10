@@ -23,9 +23,9 @@
 //     setActiveDropdown((prev) => (prev === dropdownType ? null : dropdownType));
 //   };
 
-//   const modalHandler = () => {
-//     setActiveDropdown(null);
-//   };
+  const modalHandler = () => {
+    setActiveDropdown(null);
+  };
 
 //   const closeDropdown = () => {
 //     setActiveDropdown(null);
@@ -325,67 +325,90 @@ const EditEvent = ({ item,modalHandler }) => {
     closeDropdown();
   };
 
-  async function getOneEventData() {
-    if (!item?.ID) {
-      console.error("Item ID is missing.");
-      return;
-    }
+  const modalHandler = () => {
+    setActiveDropdown(null);
+  };
 
-    try {
-      const res = await api.get(`/api/v1/events/all`, {
-        params: { venue_id: item.ID },
-      });
-      const data = res.data;
-      const event = data.find((b) => b.id === item.ID);
-      console.log(event.name);
-      if (event) {
-        setFormData({
-          name: event.name,
-          venue: event.venue,
-          band: event.band,
-          date: dayjs(event.date),
-          time: dayjs(event.time, "HH:mm"),
-        });
-      } else {
-        console.log("Event not found");
-      }
-    } catch (error) {
-      console.error("Error fetching event data:", error);
-    }
-  }
+  // async function getOneEventData() {
+  //   if (!item?.ID) {
+  //     console.error("Item ID is missing.");
+  //     return;
+  //   }
+
+  //   try {
+  //     const res = await api.get(`/api/v1/events/all`, {
+  //       params: { venue_id: item.ID },
+  //     });
+  //     const data = res.data;
+  //     const event = data.find((b) => b.id === item.ID);
+  //     console.log(event.name);
+  //     if (event) {
+  //       setFormData({
+  //         name: event.name,
+  //         venue: event.venue,
+  //         band: event.band,
+  //         date: dayjs(event.date),
+  //         time: dayjs(event.time, "HH:mm"),
+  //       });
+  //     } else {
+  //       console.log("Event not found");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching event data:", error);
+  //   }
+  // }
 
   useEffect(() => {
-    getOneEventData();
+    
+    setFormData({
+          name: item.name,
+          venue: item.venue,
+          band: item.band,
+          date: dayjs(item.date),
+          time: dayjs(item.time, "HH:mm"),
+    });
+    
+    // getOneEventData();
   }, []);
 
   console.log(item);
 
   const formHandler = async (e) => {
     e.preventDefault();
-    setLoader(true);
+    console.log("Editing event")
+    // setLoader(true);
+    
+    const data = {}
+    if(formData.date) data.date = dayjs(formData.date).format("YYYY-MM-DD")
+    if(formData.time) data.time = dayjs(formData.time).format("HH:mm")
+    if(formData.name) data.name = formData.name
+    if(formData.band) data.band_id = formData.band.id
+    if(formData.venue) data.venue_id = formData.venue.id
 
-    if (
-      !formData.eventName?.trim() ||
-      !formData.band?.id ||
-      !formData.venue?.id ||
-      !formData.date ||
-      !formData.time
-    ) {
-      setError("All Fields Required");
-      setIsSubmitted(false);
-      setShowModal(true);
-      setLoader(false);
-      return;
+    if(Object.entries(data).length == 0){
+        setError("All Fields Required");
+        setIsSubmitted(false);
+        setShowModal(true);
+        setLoader(false);
+        return;
     }
 
-    const data = {
-      band_id: formData.band.id,
-      venue_id: formData.venue.id,
-      name: formData.name,
-      date: dayjs(formData.date).format("YYYY-MM-DD"),
-      time: dayjs(formData.time).format("HH:mm"),
-    };
+    console.log(data)
+    
 
+    // if (
+      
+    //   !formData.date ||
+    //   !formData.time
+    // ) {
+    //   setError("All Fields Required");
+    //   setIsSubmitted(false);
+    //   setShowModal(true);
+    //   setLoader(false);
+    //   return;
+    // }
+
+    
     try {
       await api.put(`/api/v1/events/${item.id}`);
       setIsSubmitted(true);
