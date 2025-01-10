@@ -11,7 +11,7 @@ const Hero = () => {
         <h1 className={`${styles.title}`}>Find Me </h1>
         <h1 className={`${styles.title}`}>
           {" "}
-          <span className="pl-[6rem]">Live Music.</span>
+          <span className="pl-[6rem] text-[#C32FB4]">Live Music.</span>
         </h1>
         <p className={`${styles.text}`}>HELPING UNITE BANDS AND FANS</p>
       </div>

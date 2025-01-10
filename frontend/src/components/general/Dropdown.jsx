@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styles from "./Dropdown.module.css";
 import DropdownItem from "./DropdownItem";
 import Button from "./Button";
+import { FaTimes } from "react-icons/fa";
 
 const Dropdown = ({ setGenre, data, closeDropdown, setSelectVenue }) => {
   const [selectedButtons, setSelectedButtons] = useState([]);
@@ -26,7 +27,10 @@ const Dropdown = ({ setGenre, data, closeDropdown, setSelectVenue }) => {
 
   return (
     <div>
-      <div className={`${styles.card}`}>
+      <div className={`${styles.card} relative`}>
+        <button onClick={closeDropdown} className={`absolute right-0`}>
+          <FaTimes />
+        </button>
         {data.map((item, i) => (
           <DropdownItem
             key={i}

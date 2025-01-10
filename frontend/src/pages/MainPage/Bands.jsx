@@ -10,13 +10,13 @@ import GenreScroll from "../../components/general/GenreScroll";
 import Dropdown from "../../components/general/Dropdown";
 import { facebook, instagram, website } from "../../assets";
 import { Url, api } from "../../services/api.route";
+import { FaTimes } from "react-icons/fa";
 // import { set } from "react-datepicker/dist/date_utils";
 
 const Bands = () => {
   const [dropdown, setDropDown] = useState(false);
-
+  const [selectVenue, setSelectVenue] = useState([]); // Track selected bands
   const [bands, setBands] = useState([]);
-  const [isInputempty, setisInputempty] = useState(false);
   const [searchData, setSearchData] = useState({
     name: "",
     genre_type: [],
@@ -66,7 +66,6 @@ const Bands = () => {
           params: params,
         });
 
-        
         console.log(response.data);
         setBands(response.data);
       } catch (error) {
@@ -87,7 +86,27 @@ const Bands = () => {
     setDropDown(false);
   };
 
-  
+  // Removes a selected venue and resets the search to show all venues
+  const handleRemoveVenue = (id) => {
+    const updatedSelectedVenues = selectVenue.filter(
+      (venue) => venue.ID !== id
+    );
+    setSelectVenue(updatedSelectedVenues);
+
+    // If no more venues are selected, reset the search criteria to show all venues
+    if (updatedSelectedVenues.length === 0) {
+      setSearchData((prevData) => ({
+        ...prevData,
+        genre_type: [],
+      }));
+    } else {
+      setSearchData((prevData) => ({
+        ...prevData,
+        selectedVenues: updatedSelectedVenues,
+        types: updatedSelectedVenues.map((venue) => venue.genreOrType),
+      }));
+    }
+  };
 
   return (
     <section className={`section py-0 px-0 transition`}>
@@ -106,14 +125,37 @@ const Bands = () => {
                 data={genre}
                 setGenre={handleDropdownGenre}
                 closeDropdown={closeDropdown}
+                setSelectVenue={setSelectVenue}
               />
             </div>
           )}
         </div>
       </div>
       <div className={`sectionContainer ${styles.bandContainer}`}>
+        <div className={`${styles.card} `}>
+          {selectVenue.length > 0
+            ? selectVenue.map((item) => (
+                <div key={item.ID} className={`${styles.dropItem} relative`}>
+                  <img
+                    src={item.image}
+                    alt={item.genreOrType}
+                    className="w-[15px]"
+                  />
+                  <p className="text-[0.8rem]">{item.genreOrType}</p>
+
+                  <button
+                    onClick={() => handleRemoveVenue(item.ID)}
+                    className="absolute top-[50%] transform translate-y-[-50%] right-[5%]"
+                  >
+                    <FaTimes className="font-light" />
+                  </button>
+                </div>
+              ))
+            : ""}
+        </div>
+
         {/******** GRENE  *********/}
-        <GenreScroll handleGenre={handleGenre} />
+        <Genre nreScroll handleGenre={handleGenre} />
 
         {/******** BANDS  *********/}
 

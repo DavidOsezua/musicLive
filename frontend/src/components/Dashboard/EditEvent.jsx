@@ -299,7 +299,7 @@ import Failed from "../general/Failed";
 import styles from "./EditEvent.module.css";
 import { api } from "@/services/api.route";
 
-const EditEvent = ({ item }) => {
+const EditEvent = ({ item,modalHandler }) => {
   const [formData, setFormData] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -358,6 +358,8 @@ const EditEvent = ({ item }) => {
     getOneEventData();
   }, []);
 
+  console.log(item);
+
   const formHandler = async (e) => {
     e.preventDefault();
     setLoader(true);
@@ -385,7 +387,7 @@ const EditEvent = ({ item }) => {
     };
 
     try {
-      await api.post("/api/v1/events", data);
+      await api.put(`/api/v1/events/${item.id}`);
       setIsSubmitted(true);
       setShowModal(true);
     } catch (error) {
@@ -400,7 +402,7 @@ const EditEvent = ({ item }) => {
   return (
     <>
       <div className={`${styles.formContainer} relative`}>
-        <button className="absolute right-[5%]" onClick={() => {}}>
+        <button className="absolute right-[5%]" onClick={modalHandler}>
           <Close />
         </button>
         <div className={`${styles.formHeader}`}>
@@ -451,7 +453,7 @@ const EditEvent = ({ item }) => {
                     <ArrowDown />
                   </button>
                   {activeDropdown === "venue" && (
-                    <Modal modalHandler={modalHandler}>
+                    <Modal modalHandler={closeDropdown}>
                       <SelectVenue
                         close={closeDropdown}
                         onVenueSelection={handleVenueSelect}
@@ -481,7 +483,7 @@ const EditEvent = ({ item }) => {
 
                   {/* BAND DropDown  */}
                   {activeDropdown === "Band" && (
-                    <Modal modalHandler={modalHandler}>
+                    <Modal modalHandler={closeDropdown}>
                       <SelectBand
                         close={closeDropdown}
                         onBandSelection={handleBandSelect}

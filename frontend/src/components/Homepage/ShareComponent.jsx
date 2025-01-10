@@ -52,6 +52,29 @@ const ShareComponent = ({ cancel }) => {
     );
   };
 
+  const shareOnReddit = () => {
+    const redditUrl = `https://www.reddit.com/submit?url=${encodeURIComponent(
+      shareUrl
+    )}&title=${encodeURIComponent("Check out this awesome website!")}`;
+    window.open(redditUrl, "_blank");
+  };
+
+  const shareOnPinterest = () => {
+    const pinterestUrl = `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(
+      shareUrl
+    )}&media=${encodeURIComponent("")}&description=${encodeURIComponent(
+      "Check out this awesome website!"
+    )}`;
+    window.open(pinterestUrl, "_blank");
+  };
+
+  const shareOnThreads = () => {
+    const threadsUrl = `https://www.threads.net/share?url=${encodeURIComponent(
+      shareUrl
+    )}`;
+    window.open(threadsUrl, "_blank");
+  };
+
   // Clipboard functionality
   const [copied, setCopied] = useState(false);
   const handleCopy = () => {
@@ -88,13 +111,13 @@ const ShareComponent = ({ cancel }) => {
         <button onClick={handleEmailShare}>
           <ShareEmail />
         </button>
-        <button onClick={handleTwitterShare}>
+        <button onClick={shareOnReddit}>
           <ShareReddit />
         </button>
-        <button onClick={handleTwitterShare}>
+        <button onClick={shareOnPinterest}>
           <SharePinterest />
         </button>
-        <button onClick={handleTwitterShare}>
+        <button onClick={shareOnThreads}>
           <ShareThread />
         </button>
       </div>

@@ -53,7 +53,7 @@ const Footer = () => {
           </li>
 
           <li>
-            <a>
+            <a href="http://instagram.com/findmelivemusic" target="_blank">
               <Instagram />
             </a>
           </li>
