@@ -125,7 +125,7 @@ const EventTable = ({
 
       {settingsModal && (
         <Modal modalHandler={settingsHandler}>
-          <EditEvent item={item} modalHandler={settingsHandler} />
+          <EditEvent item={item} cancel={settingsHandler} />
         </Modal>
       )}
 

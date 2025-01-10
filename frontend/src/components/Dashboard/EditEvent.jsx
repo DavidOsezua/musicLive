@@ -23,9 +23,9 @@
 //     setActiveDropdown((prev) => (prev === dropdownType ? null : dropdownType));
 //   };
 
-  const modalHandler = () => {
-    setActiveDropdown(null);
-  };
+const modalHandler = () => {
+  setActiveDropdown(null);
+};
 
 //   const closeDropdown = () => {
 //     setActiveDropdown(null);
@@ -299,7 +299,7 @@ import Failed from "../general/Failed";
 import styles from "./EditEvent.module.css";
 import { api } from "@/services/api.route";
 
-const EditEvent = ({ item,modalHandler }) => {
+const EditEvent = ({ item, cancel }) => {
   const [formData, setFormData] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -359,15 +359,14 @@ const EditEvent = ({ item,modalHandler }) => {
   // }
 
   useEffect(() => {
-    
     setFormData({
-          name: item.name,
-          venue: item.venue,
-          band: item.band,
-          date: dayjs(item.date),
-          time: dayjs(item.time, "HH:mm"),
+      name: item.name,
+      venue: item.venue,
+      band: item.band,
+      date: dayjs(item.date),
+      time: dayjs(item.time, "HH:mm"),
     });
-    
+
     // getOneEventData();
   }, []);
 
@@ -375,29 +374,28 @@ const EditEvent = ({ item,modalHandler }) => {
 
   const formHandler = async (e) => {
     e.preventDefault();
-    console.log("Editing event")
+    console.log("Editing event");
     // setLoader(true);
-    
-    const data = {}
-    if(formData.date) data.date = dayjs(formData.date).format("YYYY-MM-DD")
-    if(formData.time) data.time = dayjs(formData.time).format("HH:mm")
-    if(formData.name) data.name = formData.name
-    if(formData.band) data.band_id = formData.band.id
-    if(formData.venue) data.venue_id = formData.venue.id
 
-    if(Object.entries(data).length == 0){
-        setError("All Fields Required");
-        setIsSubmitted(false);
-        setShowModal(true);
-        setLoader(false);
-        return;
+    const data = {};
+    if (formData.date) data.date = dayjs(formData.date).format("YYYY-MM-DD");
+    if (formData.time) data.time = dayjs(formData.time).format("HH:mm");
+    if (formData.name) data.name = formData.name;
+    if (formData.band) data.band_id = formData.band.id;
+    if (formData.venue) data.venue_id = formData.venue.id;
+
+    if (Object.entries(data).length == 0) {
+      setError("All Fields Required");
+      setIsSubmitted(false);
+      setShowModal(true);
+      setLoader(false);
+      return;
     }
 
-    console.log(data)
-    
+    console.log(data);
 
     // if (
-      
+
     //   !formData.date ||
     //   !formData.time
     // ) {
@@ -408,7 +406,6 @@ const EditEvent = ({ item,modalHandler }) => {
     //   return;
     // }
 
-    
     try {
       await api.put(`/api/v1/events/${item.id}`);
       setIsSubmitted(true);
@@ -425,7 +422,7 @@ const EditEvent = ({ item,modalHandler }) => {
   return (
     <>
       <div className={`${styles.formContainer} relative`}>
-        <button className="absolute right-[5%]" onClick={modalHandler}>
+        <button className="absolute right-[5%]" onClick={cancel}>
           <Close />
         </button>
         <div className={`${styles.formHeader}`}>
