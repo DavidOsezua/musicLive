@@ -385,7 +385,7 @@ const EditEvent = ({ item, cancel }) => {
     if (formData.venue) data.venue_id = formData.venue.id;
 
     if (Object.entries(data).length == 0) {
-      setError("All Fields Required");
+      setError("Nothing to update");
       setIsSubmitted(false);
       setShowModal(true);
       setLoader(false);
@@ -407,7 +407,7 @@ const EditEvent = ({ item, cancel }) => {
     // }
 
     try {
-      await api.put(`/api/v1/events/${item.id}`);
+      await api.put(`/api/v1/events/${item.ID}`, data);
       setIsSubmitted(true);
       setShowModal(true);
     } catch (error) {
