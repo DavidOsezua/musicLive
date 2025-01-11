@@ -18,9 +18,6 @@ const DashboardSidebar = ({ toggle, toggleHandler }) => {
     setDropDown(false);
   };
 
-  const tokenStateHandler = (currentToken) => {
-    setTokenState(currentToken);
-  };
   return (
     <aside className={`${styles.sideBar} ${toggle && styles.showMenu}`}>
       <nav className={styles.sidebarNav}>
@@ -41,6 +38,7 @@ const DashboardSidebar = ({ toggle, toggleHandler }) => {
                     className={`${styles.link} flex gap-4 items-center`}
                     onClick={showDropdown}
                   >
+                    {sidebarLink.icon}
                     {sidebarLink.link}
                     <ArrowDown />
                   </a>
@@ -69,6 +67,7 @@ const DashboardSidebar = ({ toggle, toggleHandler }) => {
                   className={styles.link}
                   onClick={toggleHandler}
                 >
+                  {sidebarLink.icon}
                   {sidebarLink.link}
                 </NavLink>
               )}

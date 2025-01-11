@@ -17,6 +17,11 @@ import EditBand from "./EditBand";
 import PreviexBand from "./PreviexBand";
 import { facebook, instagram, website, youtube } from "@/assets";
 import { api } from "@/services/api.route";
+import Instagram from "../SVGcomponent/Instagram";
+import Facebook from "../SVGcomponent/Facebook";
+import Website from "../SVGcomponent/Website";
+import Youtube from "../SVGcomponent/Youtube";
+import Edit from "../SVGcomponent/Edit";
 
 const BandTableData = ({
   item,
@@ -31,42 +36,6 @@ const BandTableData = ({
   const [deleteModal, setDeleteModal] = useState(false);
   const [settingsModal, setSettingsModal] = useState(false);
   const [previewModal, setPreviewModal] = useState(false);
-
-  // const getAllUserBandData = async () => {
-  //   try {
-  //     const res = await api.get("/api/v1/band");
-  //     const resultData = res.data.length;
-  //     console.log(res.data);
-
-  //     let approvedCount = 0;
-
-  //     const formattedData = res.data.map((band) => {
-  //       if (band.is_verified) {
-  //         approvedCount += 1;
-  //       }
-
-  //       return {
-  //         ID: band.id,
-  //         image: band.image1 ? Url + "/" + band.image1 : "",
-  //         venueOrBandName: band.name || "",
-  //         genreOrType: band.genre_type || "",
-  //         socials: [website, facebook, instagram, youtube],
-  //         changeStatus: ["Approve", "Pending", "Inactive"],
-  //         email: band.email || "",
-  //         date: band.venue_date
-  //           ? dayjs(band.venue_date).format("DD MMM YYYY")
-  //           : "",
-  //         status: band.is_verified ? "Approved" : "Pending",
-  //       };
-  //     });
-
-  //     setTotalApprove(approvedCount);
-  //     setTotalData(resultData);
-  //     setLocationPageData(formattedData);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
 
   console.log(item, data);
 
@@ -94,7 +63,7 @@ const BandTableData = ({
       <td className={`${styles.tdStyle}`}>
         <div className="flex gap-3 items-center">
           <img
-            src={item.image}
+            src={item.image1}
             className={`w-[40px] h-[40px] object-cover rounded-md`}
           />
           <div>
@@ -110,7 +79,7 @@ const BandTableData = ({
             ""
           ) : (
             <a href={item.homepage} target="_blank">
-              <img src={website} />
+              <Website />
             </a>
           )}
 
@@ -118,7 +87,7 @@ const BandTableData = ({
             ""
           ) : (
             <a href={item.facebook} target="_blank">
-              <img src={facebook} />
+              <Facebook />
             </a>
           )}
 
@@ -126,7 +95,7 @@ const BandTableData = ({
             ""
           ) : (
             <a href={item.youtube} target="_blank">
-              <img src={youtube} />
+              <Youtube />
             </a>
           )}
 
@@ -134,7 +103,7 @@ const BandTableData = ({
             ""
           ) : (
             <a href={item.instagram} target="_blank">
-              <img src={instagram} />
+              <Instagram />
             </a>
           )}
         </div>
@@ -166,7 +135,8 @@ const BandTableData = ({
       <td className={`${styles.tdStyle} text-[#FF6665]`}>
         <div className="flex items-center gap-3">
           <button onClick={settingsHandler}>
-            <Settings />
+            {/* <Settings /> */}
+            <Edit />
           </button>
           <button onClick={deleteHandler}>
             <Delete />
@@ -177,7 +147,7 @@ const BandTableData = ({
         </div>
       </td>
       {deleteModal && (
-        <Modal>
+        <Modal modalHandler={() => setDeleteModal(false)}>
           <ConfirmDelete
             confirmDelete={confirmDelete}
             cancelDelete={cancelDelete}
@@ -187,12 +157,7 @@ const BandTableData = ({
 
       {settingsModal && (
         <Modal modalHandler={settingsHandler}>
-          <EditBand
-            item={item}
-            data={data}
-            setDeleteModal={settingsModal}
-            getAllUserBandData={getAllUserBandData}
-          />
+          <EditBand item={item} data={data} setDeleteModal={settingsModal} />
         </Modal>
       )}
 

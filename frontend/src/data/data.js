@@ -38,6 +38,12 @@ import Preview from "../components/SVGcomponent/Preview";
 import Delete from "../components/SVGcomponent/Delete";
 import Settings from "../components/SVGcomponent/Settings";
 import { calculateSummary } from "./helper";
+import Dashboard from "@/components/SVGcomponent/Dashboard";
+import BandsIcon from "@/components/SVGcomponent/BandsIcon";
+import VenueIcon from "@/components/SVGcomponent/VenueIcon";
+import EventIcon from "@/components/SVGcomponent/EventIcon";
+import GenreIcon from "@/components/SVGcomponent/GenreIcon";
+import AdsIcon from "@/components/SVGcomponent/AdsIcon";
 
 export const navLinks = [
   { link: "Home", path: "/" },
@@ -50,19 +56,20 @@ export const navLinks = [
 ];
 
 export const sideBarLinks = [
-  { link: "Dashboard", path: "dashboard" },
+  { link: "Dashboard", path: "dashboard", icon: <Dashboard /> },
   {
     link: "Venues",
     path: "adminvenue",
+    icon: <VenueIcon />,
     dropdownLink: [
       { link: "Location", path: "location" },
       { link: "Type", path: "type" },
     ],
   },
-  { link: "Event", path: "adminevent" },
-  { link: "Genre", path: "admingenre" },
-  { link: "Bands", path: "adminband" },
-  { link: "Ads", path: "ads" },
+  { link: "Event", path: "adminevent", icon: <EventIcon /> },
+  { link: "Genre", path: "admingenre", icon: <GenreIcon /> },
+  { link: "Bands", path: "adminband", icon: <BandsIcon /> },
+  { link: "Ads", path: "ads", icon: <AdsIcon /> },
 ];
 
 export const footerLinks = [

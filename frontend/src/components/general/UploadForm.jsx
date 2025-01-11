@@ -13,12 +13,12 @@ const UploadForm = ({
   firstLayer = true,
   handleAddImage,
   clickFunction,
+  cancel,
   image,
 }) => {
-  const { modalHandler } = useModal() || {};
   return (
     <div className={styles.formContainer}>
-      <button className={styles.btn} onClick={modalHandler}>
+      <button className={styles.btn} onClick={cancel}>
         <Close />
       </button>
 

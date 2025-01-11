@@ -38,13 +38,13 @@
 
 .navMenu {
   padding-top: 1rem;
-  color: #0e338680;
+  color: rgba(14, 51, 134, 0.402);
   width: 100%;
   /* background-color: aqua; */
 }
 
 .navMenu > * + * {
-  padding-top: 1rem;
+  padding-top: 1.5rem;
 }
 
 .link {
@@ -52,7 +52,9 @@
   padding-bottom: 0.5rem;
   transition: all 0.3 ease-in-out;
   width: 100%;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   transition: all 0.6s ease;
 }
 
@@ -71,6 +73,7 @@
   font-weight: bold;
   background: #b0c9fd80;
   padding: 1rem 0.5rem;
+  fill: #3d69c5;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);

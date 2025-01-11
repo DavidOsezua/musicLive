@@ -63,6 +63,8 @@ const AddAds = ({
       setIsSubmitted(false);
       console.log("Error uploading ads:", e);
       setShowResultModal(true);
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -70,6 +72,7 @@ const AddAds = ({
     <>
       <UploadForm
         clickFunction={clickFunction}
+        cancel={cancel}
         image={image}
         label1={`Genre`}
         label2={`Upload Ad Icon`}
@@ -80,7 +83,7 @@ const AddAds = ({
         // getAlladsData={getAlladsData}
       />
       {loader && (
-        <Modal modalHandler={modalHandler}>
+        <Modal modalHandler={cancel}>
           <Loader />
         </Modal>
       )}

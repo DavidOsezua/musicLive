@@ -14,7 +14,6 @@ const EditBand = ({ item, data }) => {
   const { modalHandler } = useModal() || {};
   const [message, setMessage] = useState();
   const [loader, setLoader] = useState(false);
-  const [dataObj, setdataObj] = useState({});
   const [image, setImage] = useState("");
   const [image2, setImage2] = useState("");
   const [formData, setFormData] = useState({});
@@ -49,46 +48,24 @@ const EditBand = ({ item, data }) => {
     return Object.keys(errors).length === 0;
   };
 
-  async function getOneUserBandDta() {
-    try {
-      const res = await api.get("api/v1/band");
-      const data = await res.data;
-      const bandId = item.ID;
-      const band = data.find((b) => b.id === bandId);
-      console.log(data);
-      console.log(band);
-      if (band) {
-        console.log("Band:", band);
-        setFormData({
-          name: band.name || "",
-          email: band.email || "",
-          genre_type: band.genre_type || "",
-          band_tag: band.band_tag || "",
-          homepage: band.homepage || "",
-          facebook: band.facebook_url || "",
-          instagram: band.instagram_url || "",
-          youtube: band.youtube_url || "",
-          image1: band.image1 ? `${Url}/${band.image1}` : "", // Assuming these are URLs or image data
-          image2: band.image2 ? `${Url}/${band.image2}` : "",
-        });
-
-        setImage(band.image1 ? `${Url}/${band.image1}` : "");
-        setImage2(band.image2 ? `${Url}/${band.image2}` : "");
-
-        setdataObj(band);
-      } else {
-        console.log("Band not found");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  
 
   useEffect(() => {
-    getOneUserBandDta();
+    setFormData({
+      name: item.venueOrBandName || "",
+      email: item.email || "",
+      genre_type: item.genreOrType || "",
+      band_tag: item.bandTag || "",
+      homepage: item.homepage || "",
+      facebook: item.facebook || "",
+      instagram: item.instagram || "",
+      youtube: item.youtube || "",
+      image1: item.image1 ? `${Url}/${item.image1}` : "", // Assuming these are URLs or image data
+      image2: item.image2 ? `${Url}/${item.image2}` : "",
+    });
   }, []);
 
-  console.log(dataObj);
+  console.log(data);
 
   const formHandler = (e) => {
     const file = e.target.files[0];

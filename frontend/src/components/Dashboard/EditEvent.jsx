@@ -329,35 +329,6 @@ const EditEvent = ({ item, cancel }) => {
     setActiveDropdown(null);
   };
 
-  // async function getOneEventData() {
-  //   if (!item?.ID) {
-  //     console.error("Item ID is missing.");
-  //     return;
-  //   }
-
-  //   try {
-  //     const res = await api.get(`/api/v1/events/all`, {
-  //       params: { venue_id: item.ID },
-  //     });
-  //     const data = res.data;
-  //     const event = data.find((b) => b.id === item.ID);
-  //     console.log(event.name);
-  //     if (event) {
-  //       setFormData({
-  //         name: event.name,
-  //         venue: event.venue,
-  //         band: event.band,
-  //         date: dayjs(event.date),
-  //         time: dayjs(event.time, "HH:mm"),
-  //       });
-  //     } else {
-  //       console.log("Event not found");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching event data:", error);
-  //   }
-  // }
-
   useEffect(() => {
     setFormData({
       name: item.name,
@@ -366,8 +337,6 @@ const EditEvent = ({ item, cancel }) => {
       date: dayjs(item.date),
       time: dayjs(item.time, "HH:mm"),
     });
-
-    // getOneEventData();
   }, []);
 
   console.log(item);
@@ -394,18 +363,6 @@ const EditEvent = ({ item, cancel }) => {
 
     console.log(data);
 
-    // if (
-
-    //   !formData.date ||
-    //   !formData.time
-    // ) {
-    //   setError("All Fields Required");
-    //   setIsSubmitted(false);
-    //   setShowModal(true);
-    //   setLoader(false);
-    //   return;
-    // }
-
     try {
       await api.put(`/api/v1/events/${item.ID}`, data);
       setIsSubmitted(true);
@@ -417,6 +374,12 @@ const EditEvent = ({ item, cancel }) => {
     } finally {
       setLoader(false);
     }
+  };
+
+  //cancelAll
+  const cancelAll = () => {
+    setShowModal(false);
+    cancel();
   };
 
   return (
@@ -554,10 +517,10 @@ const EditEvent = ({ item, cancel }) => {
       )}
 
       {showModal && (
-        <Modal modalHandler={() => setShowModal(false)}>
+        <Modal modalHandler={cancelAll}>
           {isSubmitted ? (
             <Success
-              modalHandler={() => setShowModal(false)}
+              modalHandler={cancelAll}
               message="Submitted Successfully"
               description="The event has been created successfully."
             />

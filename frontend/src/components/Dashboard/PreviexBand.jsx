@@ -2,9 +2,12 @@ import React from "react";
 import styles from "./PreviexBand.module.css";
 import Close from "../general/Close";
 import { facebook, instagram, website } from "@/assets";
+import Facebook from "../SVGcomponent/Facebook";
+import Instagram from "../SVGcomponent/Instagram";
+import Website from "../SVGcomponent/Website";
 
 const PreviexBand = ({ item, modalHandler }) => {
-  console.log("the item are:", item)
+  console.log("the item are:", item);
   return (
     <div className={`${styles.successCard} relative rounded-lg`}>
       <button
@@ -13,30 +16,23 @@ const PreviexBand = ({ item, modalHandler }) => {
       >
         <Close />
       </button>
-      {/* <img src={item.image} className="w-[200px] rounded-md" />
-      <p>{item.venueOrBandName}</p>
-      <p>{item.status}</p>
-      <p>{item.email}</p>
-      <p>{item.genreOrType}</p>
-      <p>{item.date}</p>
-      <p>{item.time}</p>
-      <p className="">{item.address}</p> */}{" "}
+
       <div className={`${styles.bandDetail}`}>
         {" "}
-        <img src={item.image} className={`${styles.image}`} />
+        <img src={item.image1} className={`${styles.image}`} />
         <span className="text-[#c32fb4]">{item.genreOrType}</span>
         <h1 className={`${styles.bandName} font-bold`}>
           {item.venueOrBandName}
         </h1>
         <div className={`${styles.socials}`}>
           <a href="#" rel="noopener noreferrer">
-            <img src={facebook} alt="Facebook" />
+            <Facebook />
           </a>
           <a href="#" rel="noopener noreferrer">
-            <img src={instagram} alt="Instagram" />
+            <Instagram />
           </a>
           <a href="#" rel="noopener noreferrer">
-            <img src={website} alt="YouTube" />
+            <Website />
           </a>
         </div>
       </div>

@@ -16,6 +16,7 @@ import Modal from "../general/Modal";
 import ConfirmDelete from "../general/ConfirmDelete";
 import EditLocation from "./EditLocation";
 import PreviewLocation from "./PreviewLocation";
+import Edit from "../SVGcomponent/Edit";
 
 const LocationTableData = ({
   item,
@@ -46,7 +47,7 @@ const LocationTableData = ({
     setDeleteModal(false);
   };
 
-  console.log(item)
+  console.log(item);
 
   return (
     <>
@@ -98,7 +99,7 @@ const LocationTableData = ({
       <td className={`${styles.tdStyle} text-[#FF6665]`}>
         <div className="flex items-center gap-3">
           <button aria-label="Settings" onClick={settingsHandler}>
-            <Settings />
+            <Edit />
           </button>
           <button onClick={deleteHandler} aria-label="Delete">
             <Delete />
@@ -120,7 +121,7 @@ const LocationTableData = ({
 
       {settingsModal && (
         <Modal modalHandler={settingsHandler}>
-          <EditLocation item={item} setDeleteModal={settingsModal} />
+          <EditLocation item={item} cancel={settingsHandler} />
         </Modal>
       )}
       {previewModal && (

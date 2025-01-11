@@ -7,7 +7,7 @@ export { default as ContactUs } from "./MainPage/ContactUs";
 export { default as Home } from "./MainPage/Home";
 export { default as DashBoard } from "./AdminPage/DashBoard";
 export { default as AdminBand } from "./AdminPage/AdminBand";
-export { default as AdminVenue } from "./AdminPage/AdminVenue";
+
 export { default as Ads } from "./AdminPage/Ads";
 export { default as AdminGenre } from "./AdminPage/AdminGenre";
 export { default as EmailTemplates } from "./AdminPage/EmailTemplates";

@@ -10,7 +10,6 @@ import {
   AddYourBand,
   AddYourVenue,
   DashBoard,
-  AdminVenue,
   AdminBand,
   Ads,
   EmailTemplates,

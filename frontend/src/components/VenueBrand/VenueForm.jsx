@@ -107,14 +107,6 @@ const VenueForm = ({ formData, setFormData }) => {
 
             {activeDropdown === "venue" && (
               <div className="absolute top-0 w-full bg-[#F6F8FD] z-50 p-[1rem] border-[#2659C34D] border-[1px] rounded-md">
-                <button
-                  type="button"
-                  className="absolute right-[20px] top-[10px]"
-                  onClick={closeDropdown}
-                >
-                  <FaTimes />
-                </button>
-
                 <Dropdown
                   data={venueType}
                   setGenre={handleGenre}

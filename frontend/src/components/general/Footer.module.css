@@ -44,6 +44,15 @@
   color: #fff;
   width: 100%;
 }
+
+.link {
+  cursor: pointer;
+}
+
+.link:hover {
+  color: #0a2259;
+  font-weight: 600;
+}
 @media screen and (max-width: 768px) {
   .footerTitle,
   .plus {

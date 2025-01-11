@@ -29,7 +29,7 @@ const Event = () => {
         }
         return {
           ID: event.id,
-          name : event.name,
+          name: event.name,
           image: event.venue.image1 ? Url + "/" + event.venue.image1 : "",
           venueName: event.venue.name || "",
           bandName: event.band.name || "",
@@ -66,7 +66,7 @@ const Event = () => {
       { status: "Pending", numbers: pending, colorID: "pending" },
       // { status: "Inactive", numbers: 0, colorID: "inactive" },
     ],
-    status: ["All", "Approved", "Pending", "Inactive"],
+    status: ["All", "Approved", "Pending"],
     tableHead: ["ID", "Venue", "Band", "Date", "Time", "Status", "Actions"],
 
     tableOrCardData: eventPageData,

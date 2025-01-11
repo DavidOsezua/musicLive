@@ -17,6 +17,7 @@ import { facebook, instagram, website, youtube } from "@/assets";
 import { api } from "@/services/api.route";
 import PreviewEvent from "./PreviewEvent";
 import EditEvent from "./EditEvent";
+import Edit from "../SVGcomponent/Edit";
 
 const EventTable = ({
   item,
@@ -32,8 +33,11 @@ const EventTable = ({
   const [settingsModal, setSettingsModal] = useState(false);
   const [previewModal, setPreviewModal] = useState(false);
 
-  const settingsHandler = () => setSettingsModal(!settingsModal);
+  const settingsHandler = () => {
+    setSettingsModal(!settingsModal);
+  };
   const previewHandler = () => setPreviewModal(!previewModal);
+  const { modal, modalHandler } = useModal() || {};
 
   const deleteHandler = () => {
     setDeleteModal(true);
@@ -104,7 +108,7 @@ const EventTable = ({
       <td className={`${styles.tdStyle} text-[#FF6665]`}>
         <div className="flex items-center gap-3">
           <button onClick={settingsHandler}>
-            <Settings />
+            <Edit />
           </button>
           <button onClick={deleteHandler}>
             <Delete />
@@ -115,7 +119,7 @@ const EventTable = ({
         </div>
       </td>
       {deleteModal && (
-        <Modal>
+        <Modal modalHandler={cancelDelete}>
           <ConfirmDelete
             confirmDelete={confirmDelete}
             cancelDelete={cancelDelete}

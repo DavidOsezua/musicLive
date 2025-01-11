@@ -19,11 +19,13 @@ import { LocationPopUpContext } from "@/contexts/locationPopContext";
 const Venues = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query");
-  const dateQuery = searchParams.get("date")
-  
+  const dateQuery = searchParams.get("date");
+
   const { popUp, setPopup } = useContext(LocationPopUpContext);
   const [dropdown, setDropDown] = useState(false);
+  const [page, setPage] = useState(6); // Track current page
   const [selectVenue, setSelectVenue] = useState([]); // Track selected venues
+  const [isLoading, setIsLoading] = useState(false); // Track loading state
 
   const [venues, setVenues] = useState([]);
 
@@ -32,7 +34,7 @@ const Venues = () => {
     types: [], // To store the types of venues selected
     selectedVenues: [], // Track selected venues
     genre_type: query || "",
-    date : dateQuery
+    date: dateQuery,
   });
 
   const location = useLocation();
@@ -66,6 +68,7 @@ const Venues = () => {
     console.log(searchParams.types);
 
     const getVenues = async () => {
+      setIsLoading(true);
       try {
         const params = {};
         Object.entries(searchParams).forEach(([key, value]) => {
@@ -78,10 +81,13 @@ const Venues = () => {
           params: params,
         });
         console.log("Fetched venues:", response.data);
+        // setVenues((prevVenues) => [...prevVenues, ...response.data]);
         setVenues(response.data); // Update venues
       } catch (error) {
         console.error("Error occurred when getting the venues:", error);
         setVenues([]); // Clear venues on error
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -119,6 +125,13 @@ const Venues = () => {
       }));
     }
   };
+
+  // Load more venues when "Show More" button is clicked
+  const handleShowMore = () => {
+    setPage((prevPage) => prevPage + 3);
+  };
+
+  console.log(venues);
   return (
     <>
       <section className={`${styles.venueSection} transition `}>
@@ -167,69 +180,11 @@ const Venues = () => {
           <Map venues={venues} />
         </div>
 
-        {/******** BANDS DETAILS  *********/}
-
-        {/* <div className={`${styles.bandDetailsContainer}`}>
-          {venues.map((venue) => (
-            <div key={venue.id} className={`${styles.bandDetail}`}>
-              <a href="#" rel="noopener noreferrer">
-                <img
-                  src={`${Url}/${venue.image1}`}
-                  alt={`${venue.name} image 1`}
-                  className={`${Url}/ ${styles.image}`}
-                />
-              </a>
-
-              <span>{venue.venue_type}</span>
-              <h1 className={`${styles.bandName}`}>
-                {String(venue.name).charAt(0).toUpperCase() +
-                  String(venue.name.slice(1))}
-              </h1>
-
-              <div className={`${styles.socials}`}>
-                {venue.facebook_url === "" ? (
-                  ""
-                ) : (
-                  <a
-                    href={venue.facebook_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img src={facebook} alt="Facebook" key={1} />
-                  </a>
-                )}
-                {venue.instagram_url === "" ? (
-                  ""
-                ) : (
-                  <a
-                    href={venue.instagram_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img src={instagram} alt="Instagram" key={2} />
-                  </a>
-                )}
-                {venue.youtube_url === "" ? (
-                  ""
-                ) : (
-                  <a
-                    href={venue.youtube_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img src={website} alt="YouTube" key={3} />
-                  </a>
-                )}
-              </div>
-            </div>
-          ))}
-        </div> */}
-
         {/* Venue Details  */}
 
         <div className={`${styles.bandWrapper}`}>
           <div className={`${styles.bandDetailsContainer}`}>
-            {venues.map((item) => (
+            {venues.slice(0, page).map((item) => (
               <>
                 <EachVenue data={item} />
               </>
@@ -237,17 +192,22 @@ const Venues = () => {
           </div>
         </div>
 
-        <div className={`flex flex-col items-center ${styles.showMore}`}>
-          <p className={`text-[#0A2259] pb-4`}>
-            Continue exploring Live Bands!!
-          </p>
-          <Button
-            text={`Show more`}
-            width={`w-[236px]`}
-            colored
-            radius={`rounded-full`}
-          />
-        </div>
+        {page < 9 ? (
+          <div className={`flex flex-col items-center ${styles.showMore}`}>
+            <p className={`text-[#0A2259] pb-4`}>
+              Continue exploring Live Bands!!
+            </p>
+            <Button
+              text={`${isLoading ? "Loading..." : "Show more"}`}
+              width={`w-[236px]`}
+              colored
+              clickFunction={handleShowMore}
+              radius={`rounded-full`}
+            />
+          </div>
+        ) : (
+          ""
+        )}
       </section>
       <TipJar />
       {popUp && (

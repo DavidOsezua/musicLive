@@ -20,10 +20,10 @@ const LocationAndDates = () => {
     console.log("Selected date:", selectedDate);
     console.log("Selected location:", selectedLocation);
     // console.log(s)
-    
+
     const date = new Date(selectedDate);
-    const formattedDate = date.toLocaleDateString('en-CA');
-    
+    const formattedDate = date.toLocaleDateString("en-CA");
+
     navigate(`/venues?date=${formattedDate}`, {
       state: { date: selectedDate, location: selectedLocation },
     });
@@ -39,6 +39,7 @@ const LocationAndDates = () => {
           <input
             placeholder="Greater Sacramento"
             className={`${styles.input}`}
+            disabled
             value={selectedLocation}
             onChange={(e) => setSelectedLocation(e.target.value)}
           />
@@ -54,6 +55,7 @@ const LocationAndDates = () => {
           <input
             id="date-input"
             placeholder="Add date"
+            disabled
             className={`${styles.dateInput}`}
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}

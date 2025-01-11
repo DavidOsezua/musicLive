@@ -155,7 +155,7 @@ const Bands = () => {
         </div>
 
         {/******** GRENE  *********/}
-        <Genre nreScroll handleGenre={handleGenre} />
+        <GenreScroll handleGenre={handleGenre} />
 
         {/******** BANDS  *********/}
 

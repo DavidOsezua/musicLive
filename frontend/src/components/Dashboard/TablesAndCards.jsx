@@ -50,7 +50,7 @@ const TablesAndCards = ({
     totalPages = 1;
   }
 
-  console.log(tableOrCardData);
+  console.log(pageData);
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
