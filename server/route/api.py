@@ -508,7 +508,7 @@ async def update_venue(
     is_approved = Status == "Approved"
 
     update_query = (
-        update(Venue).where(Venue.id == venue_id).values(is_admin_approved=is_approved)
+        update(Venue).where(Venue.id == venue_id).values({"is_admin_approved": is_approved, "is_verified" : is_approved})
     )
     await session.exec(update_query)
     await session.commit()
@@ -543,7 +543,7 @@ async def update_band(
     new_status = Status == "Approved"
     print(new_status)
     update_query = (
-        update(Band).where(Band.id == band_id).values(is_admin_approved=new_status)
+        update(Band).where(Band.id == band_id).values({"is_admin_approved" :new_status, "is_verified" : new_status})
     )
 
     await session.exec(update_query)
