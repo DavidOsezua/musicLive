@@ -96,6 +96,7 @@ const AddBand = ({
         setIsSubmitted(false);
         setMessage(e.response?.data?.detail || "Form validation failed");
         setShowResultModal(true); // Show the result modal on failure as well
+        setLoader(false)
       }
     } else {
       setError("Form validation failed");
