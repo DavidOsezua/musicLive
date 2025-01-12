@@ -1,4 +1,13 @@
-from fastapi import File, Form, UploadFile, HTTPException, Depends, APIRouter, Query
+from fastapi import (
+    File,
+    Form,
+    UploadFile,
+    HTTPException,
+    Depends,
+    APIRouter,
+    Query,
+    BackgroundTasks,
+)
 from typing import Optional
 from PIL import Image
 import io
@@ -24,10 +33,9 @@ from src import uploads
 from typing import List, Optional
 from http import HTTPStatus
 from src import exceptions
+from src import email
 from db.table import Venue, Band, Ads, Genre, Venuetype, Event, Subscriber
 from sqlalchemy import func
-from datetime import timezone
-from dateutil import parser
 import yagmail
 from db.database import asyc_engine
 import shortuuid
@@ -444,7 +452,7 @@ async def get_band(session: AsyncSession = Depends(get_session)) -> Band:
     query = select(Band)
     result = await session.exec(query)
     bands = result.fetchall()
-    
+
     return [dict(row) for row in bands]
 
 
@@ -484,30 +492,31 @@ async def delete_user_band(band_id: str, session: AsyncSession = Depends(get_ses
 
 @api_router.put("/venue/", response_model=List[Venue])
 async def update_venue(
+    background_tasks: BackgroundTasks,
     venue_id: str = Query(alias="ID"),
     Status: str = Query(alias="Status"),
     session: AsyncSession = Depends(get_session),
 ):
     query = select(Venue).where(Venue.id == venue_id)
     result = await session.exec(query)
-    venue = result.fetchall()
+    venue = result.first()
     print(Status)
 
     if not venue:
         raise HTTPException(status_code=404, detail="Venue not found")
-    if Status == "Approved":
 
-        update_query = (
-            update(Venue).where(Venue.id == venue_id).values(is_verified=True)
-        )
-        # else:
-        #     update_query = (
-        #         update(Venue).where(Venue.id == venue_id).values(is_verified=False)
-        #     )
+    is_approved = Status == "Approved"
 
-        await session.exec(update_query)
-        await session.commit()
-    updated_query = select(Venue).where(Venue.is_verified == True)
+    update_query = (
+        update(Venue).where(Venue.id == venue_id).values({"is_admin_approved": is_approved, "is_verified" : is_approved})
+    )
+    await session.exec(update_query)
+    await session.commit()
+
+    if is_approved:
+        background_tasks.add_task(email.send_venue_approval_msg, venue.email)
+
+    updated_query = select(Venue)
     result = await session.exec(updated_query)
     updated_venue = result.fetchall()
 
@@ -519,6 +528,7 @@ async def update_venue(
 
 @api_router.put("/band/", response_model=List[Band])
 async def update_band(
+    background_tasks: BackgroundTasks,
     band_id: str = Query(alias="ID"),
     Status: str = Query(alias="Status"),
     session: AsyncSession = Depends(get_session),
@@ -526,14 +536,14 @@ async def update_band(
 
     query = select(Band).where(Band.id == band_id)
     result = await session.exec(query)
-    venue = result.fetchall()
+    venue = result.first()
     if not venue:
         raise HTTPException(status_code=404, detail="Venue not found")
 
     new_status = Status == "Approved"
     print(new_status)
     update_query = (
-        update(Band).where(Band.id == band_id).values(is_admin_approved=new_status)
+        update(Band).where(Band.id == band_id).values({"is_admin_approved" :new_status, "is_verified" : new_status})
     )
 
     await session.exec(update_query)
@@ -543,6 +553,8 @@ async def update_band(
     result = await session.exec(updated_query)
     updated_venue = result.fetchall()
 
+    if new_status:
+        background_tasks.add_task(email.send_band_approval_msg, venue.email)
     # if not updated_venue:
     #     raise HTTPException(status_code=404, detail="Update failed")
 
@@ -551,6 +563,7 @@ async def update_band(
 
 @api_router.put("/venue/approved/", response_model=List[Venue])
 async def approve_venue(
+    background_tasks: BackgroundTasks,
     # venue_type: str = Query(..., alias="venue_type"),
     venue_id: str = Query(..., alias="venue_type"),
     Status: str = Query(..., alias="Status"),
@@ -563,9 +576,9 @@ async def approve_venue(
     query = select(Venue).where(func.lower(Venue.id) == venue_id.lower())
     print(f"Query: {query}")
     result = await session.exec(query)
-    venues = result.fetchall()
+    venue = result.first()
 
-    if not venues:
+    if not venue:
         raise HTTPException(status_code=404, detail="No venues found with this type")
 
     is_approved = status_normalized == "approved"
@@ -584,6 +597,9 @@ async def approve_venue(
 
     if not updated_venues:
         raise HTTPException(status_code=404, detail="Update failed")
+
+    if is_approved:
+        background_tasks.add_task(email.send_venue_approval_msg, venue.email)
 
     return updated_venues
 
@@ -751,30 +767,7 @@ async def search_band(
     genre_type: Optional[str] = Query(default=None),
     session: AsyncSession = Depends(get_session),
 ):
-    # query = select(Band).where(Band.is_admin_approved == True)
-    # if name and genre_type:
-    #     name = name.strip().lower()
-    #     genre_type = genre_type.strip().lower()
-    #     query = query.where(
-    #         func.lower(Band.genre_type) == genre_type,
-    #         func.lower(Band.name).contains(name),
-    #     )
 
-    # elif name:
-    #     name = name.strip().lower()
-    #     query = query.where(func.lower(Band.name).contains(name))
-
-    # elif genre_type:
-    #     genre_type = genre_type.strip().lower()
-    #     query = query.where(func.lower(Band.genre_type) == genre_type)
-
-    # if not (name or genre_type):
-    #     return []
-
-    # result = await session.exec(query)
-    # band = result.fetchall()
-    # if not band:
-    #     return []
     band = await search.search_band(name, genre_type, session)
     return band
 
