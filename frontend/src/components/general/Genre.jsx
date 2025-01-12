@@ -5,9 +5,10 @@ import styles from "./Genre.module.css";
 import { api, Url } from "@/services/api.route";
 import { Link } from "react-router-dom";
 
-const Genre = ({ link, handleGenre }) => {
+const Genre = ({ link, handleGenre, setSelectedGenre }) => {
   const [genre, setGenre] = useState([]);
   const [genreFiltered, setGenreFiltered] = useState([]);
+
   useEffect(() => {
     const getAlluserVenue = async () => {
       try {
@@ -56,6 +57,11 @@ const Genre = ({ link, handleGenre }) => {
   }, []);
   console.log(genre);
 
+  const handleSelect = (data) => {
+    handleGenre([data]);
+    if (setSelectedGenre) setSelectedGenre([data]);
+  };
+
   return (
     <div className={`${styles.genre}`}>
       {genre.map((list) => (
@@ -73,7 +79,7 @@ const Genre = ({ link, handleGenre }) => {
             <div
               key={list}
               className="flex flex-col  items-center"
-              onClick={() => handleGenre(list)}
+              onClick={() => handleSelect(list)}
             >
               <img src={`${Url}/${list.image}`} className={styles.image} />
               <h1 className="text-[0.7rem] font-[400] text-[#0A225980]">

@@ -16,7 +16,8 @@ import Loader from "@/components/general/Loader";
 
 const Bands = () => {
   const [dropdown, setDropDown] = useState(false);
-  const [selectVenue, setSelectVenue] = useState([]); // Track selected bands
+  const [selectGenre, setSelectGenre] = useState([]); // Track selected bands
+  const [selectedGenre, setSelectedGenre] = useState([]);
   const [bands, setBands] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchData, setSearchData] = useState({
@@ -36,7 +37,6 @@ const Bands = () => {
   const handleDropdownGenre = (selectedGenres) => {
     console.log(selectedGenres);
     const genres = selectedGenres.map((item) => item.genreOrType);
-    const name = selectedGenres.map((item) => item.name);
     console.log(genres);
     setSearchData((prevData) => ({
       ...prevData,
@@ -46,10 +46,11 @@ const Bands = () => {
   };
 
   const handleGenre = (selectedGenres) => {
+    const genre = selectedGenres.map((item) => item.name);
     console.log(selectedGenres);
     setSearchData((prevData) => ({
       ...prevData,
-      genre_type: selectedGenres.name.split(", "),
+      genre_type: genre,
     }));
   };
 
@@ -91,12 +92,35 @@ const Bands = () => {
     setDropDown(false);
   };
 
+  const handleRemoveGenre = (id) => {
+    console.log(id);
+    const updatedSelectedGenres = selectedGenre.filter(
+      (genre) => genre.id !== id
+    );
+    setSelectedGenre(updatedSelectedGenres);
+
+    // If no more venues are selected, reset the search criteria to show all venues
+    if (updatedSelectedGenres.length === 0) {
+      setSearchData((prevData) => ({
+        ...prevData,
+        genre_type: [],
+      }));
+    } else {
+      setSearchData((prevData) => ({
+        ...prevData,
+        selectedVenues: updatedSelectedGenres,
+        types: updatedSelectedGenres.map((genre) => genre.name),
+      }));
+    }
+  };
+
   // Removes a selected venue and resets the search to show all venues
-  const handleRemoveVenue = (id) => {
-    const updatedSelectedVenues = selectVenue.filter(
+  const handleRemoveSelectedGenre = (id) => {
+    console.log(id);
+    const updatedSelectedVenues = selectGenre.filter(
       (venue) => venue.ID !== id
     );
-    setSelectVenue(updatedSelectedVenues);
+    setSelectGenre(updatedSelectedVenues);
 
     // If no more venues are selected, reset the search criteria to show all venues
     if (updatedSelectedVenues.length === 0) {
@@ -130,7 +154,7 @@ const Bands = () => {
                 data={genre}
                 setGenre={handleDropdownGenre}
                 closeDropdown={closeDropdown}
-                setSelectVenue={setSelectVenue}
+                setSelectVenue={setSelectGenre}
               />
             </div>
           )}
@@ -138,8 +162,8 @@ const Bands = () => {
       </div>
       <div className={`sectionContainer ${styles.bandContainer}`}>
         <div className={`${styles.card} `}>
-          {selectVenue.length > 0
-            ? selectVenue.map((item) => (
+          {selectGenre.length > 0
+            ? selectGenre.map((item) => (
                 <div key={item.ID} className={`${styles.dropItem} relative`}>
                   <img
                     src={item.image}
@@ -149,7 +173,22 @@ const Bands = () => {
                   <p className="text-[0.8rem]">{item.genreOrType}</p>
 
                   <button
-                    onClick={() => handleRemoveVenue(item.ID)}
+                    onClick={() => handleRemoveSelectedGenre(item.ID)}
+                    className="absolute top-[50%] transform translate-y-[-50%] right-[5%]"
+                  >
+                    <FaTimes className="font-light" />
+                  </button>
+                </div>
+              ))
+            : ""}
+          {selectedGenre.length > 0
+            ? selectedGenre.map((item) => (
+                <div key={item.id} className={`${styles.dropItem} relative`}>
+             
+                  <p className="text-[0.9rem] font-bold ">{item.name}</p>
+
+                  <button
+                    onClick={() => handleRemoveGenre(item.id)}
                     className="absolute top-[50%] transform translate-y-[-50%] right-[5%]"
                   >
                     <FaTimes className="font-light" />
@@ -160,7 +199,10 @@ const Bands = () => {
         </div>
 
         {/******** GRENE  *********/}
-        <GenreScroll handleGenre={handleGenre} />
+        <GenreScroll
+          handleGenre={handleGenre}
+          setSelectedGenre={setSelectedGenre}
+        />
 
         {/******** BANDS  *********/}
 
