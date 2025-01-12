@@ -22,7 +22,7 @@ const EditBand = ({ item, data }) => {
 
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState("error");
   const [showResultModal, setShowResultModal] = useState(false);
 
   const validateStep = (currentStep) => {
@@ -47,8 +47,6 @@ const EditBand = ({ item, data }) => {
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
-
-  
 
   useEffect(() => {
     setFormData({
@@ -160,6 +158,8 @@ const EditBand = ({ item, data }) => {
         showPageHeader={false}
         formHeaderText={`Tell Us About Your Band!`}
         onSubmit={handleSave}
+        error={error}
+        setError={setError}
         validateStep={validateStep}
       />
 

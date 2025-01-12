@@ -20,6 +20,7 @@ const MultiFormPage = ({
   headerText,
   showTipJar = true,
   formHeaderText,
+  isSubmitted,
   error,
   setError,
 }) => {
@@ -42,6 +43,7 @@ const MultiFormPage = ({
   const backHandler = (e) => {
     e.preventDefault();
     previous();
+    setError("");
   };
 
   console.log(currentStep);
@@ -79,16 +81,13 @@ const MultiFormPage = ({
               {step}
 
               {currentStep > 0 ? (
-                error ? (
+                error !== "" ? (
                   <Button
                     text={`Back`}
                     width={`w-full`}
                     colored
                     radius={`rounded-sm`}
-                    clickFunction={() => {
-                      setError(false); // Set error to false
-                      backHandler(); // Call the back handler
-                    }}
+                    clickFunction={backHandler}
                     svg2={<ArrowLeft />}
                   />
                 ) : (

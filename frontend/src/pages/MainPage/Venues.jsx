@@ -15,6 +15,7 @@ import EachVenue from "./EachVenue";
 import Modal from "@/components/general/Modal";
 import EventPopUp from "./EventPopUp";
 import { LocationPopUpContext } from "@/contexts/locationPopContext";
+import Loader from "@/components/general/Loader";
 
 const Venues = () => {
   const [searchParams] = useSearchParams();
@@ -184,11 +185,19 @@ const Venues = () => {
 
         <div className={`${styles.bandWrapper}`}>
           <div className={`${styles.bandDetailsContainer}`}>
-            {venues.slice(0, page).map((item) => (
-              <>
-                <EachVenue data={item} />
-              </>
-            ))}
+            {venues.length === 0 ? (
+              <p className="col-span-full">No venues Found</p>
+            ) : isLoading ? (
+              <div className="col-span-full">
+                <Loader />
+              </div>
+            ) : (
+              venues.slice(0, page).map((item) => (
+                <>
+                  <EachVenue data={item} />
+                </>
+              ))
+            )}
           </div>
         </div>
 

@@ -4,8 +4,7 @@ const AdsIcon = () => {
   return (
     <span>
       <svg
-        width="29"
-        height="24"
+        className="sideBarSvgs"
         viewBox="0 0 29 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

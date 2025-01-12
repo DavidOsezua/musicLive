@@ -19,7 +19,7 @@ const EditLocation = ({ item, cancel }) => {
 
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState("error");
   const [loader, setLoader] = useState(false);
 
   useEffect(() => {
@@ -162,6 +162,8 @@ const EditLocation = ({ item, cancel }) => {
         validateStep={validateStep}
         showTipJar={false}
         showPageHeader={false}
+        error={error}
+        setError={setError}
         formHeaderText={`Tell Us About Your Venue`}
       />
       {loader && (

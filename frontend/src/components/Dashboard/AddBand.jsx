@@ -89,19 +89,21 @@ const AddBand = ({
         if (getAllUserBandData) getAllUserBandData();
         setMessage("Band uploaded successfully!");
         setShowResultModal(true); // Show the result modal
-        setLoader(false);
       } catch (e) {
         setError(e.message);
         if (settrackChanges) settrackChanges(false);
         setIsSubmitted(false);
         setMessage(e.response?.data?.detail || "Form validation failed");
         setShowResultModal(true); // Show the result modal on failure as well
+      } finally {
+        setLoader(false);
       }
     } else {
       setError("Form validation failed");
       settrackChanges(false);
       setMessage("Form validation failed");
       setShowResultModal(true); // Show result modal on validation failure
+      setLoader(false);
     }
   };
 
@@ -136,6 +138,8 @@ const AddBand = ({
         showPageHeader={false}
         formHeaderText={`Tell Us About Your Band!`}
         onSubmit={handleSubmit}
+        error={error}
+        setError={setError}
         validateStep={validateStep}
       />
 

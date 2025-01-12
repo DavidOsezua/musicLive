@@ -22,6 +22,11 @@
   height: 65px;
 }
 
+.sideBarSvgs {
+  width: 24px;
+  height: 24px;
+}
+
 .pageContainer > * + * {
   margin-top: 2rem;
 }

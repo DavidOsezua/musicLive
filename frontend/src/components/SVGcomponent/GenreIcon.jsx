@@ -4,8 +4,7 @@ const GenreIcon = () => {
   return (
     <span>
       <svg
-        width="26"
-        height="24"
+        className="sideBarSvgs"
         viewBox="0 0 26 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

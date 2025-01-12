@@ -11,12 +11,14 @@ import Dropdown from "../../components/general/Dropdown";
 import { facebook, instagram, website } from "../../assets";
 import { Url, api } from "../../services/api.route";
 import { FaTimes } from "react-icons/fa";
+import Loader from "@/components/general/Loader";
 // import { set } from "react-datepicker/dist/date_utils";
 
 const Bands = () => {
   const [dropdown, setDropDown] = useState(false);
   const [selectVenue, setSelectVenue] = useState([]); // Track selected bands
   const [bands, setBands] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [searchData, setSearchData] = useState({
     name: "",
     genre_type: [],
@@ -53,6 +55,7 @@ const Bands = () => {
 
   useEffect(() => {
     const getBands = async () => {
+      setIsLoading(true);
       const searchParams = { ...searchData };
       searchParams.genre_type = searchParams.genre_type.join(",");
 
@@ -72,6 +75,8 @@ const Bands = () => {
         console.error("Error occurred when getting the user band:", error);
         console.error(error || "An unexpected error occurred");
         setBands([]);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -164,9 +169,13 @@ const Bands = () => {
             Highlighted Live Bands Near Sacramento, CA
           </p>
 
-          <div className={`${styles.bandDetailsContainer}`}>
+          <div className={`${styles.bandDetailsContainer} w-full`}>
             {bands.length === 0 ? (
-              <p>No bands found</p>
+              <p className="text-center col-span-full">No bands found</p>
+            ) : isLoading ? (
+              <div className="col-span-full">
+                <Loader />
+              </div>
             ) : (
               bands.map((band) => (
                 <div key={band.id} className={`${styles.bandDetail}`}>
