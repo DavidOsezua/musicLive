@@ -46,15 +46,8 @@ const AddYourVenue = () => {
     }
 
     if (currentStep === 1) {
-      if (!formData.homepage) errors.date = "homepage is required";
-      if (!formData.facebook)
-        errors.facebook = "facebook profile link is required";
-      if (!formData.instagram)
-        errors.instagram = "instagram profile link is required";
       if (!formData.image1) errors.image1 = "Upload your venue image1";
       if (!formData.image2) errors.image2 = "Upload your venue image1";
-
-      // if (!formData.youtube) errors.youtube = "youtube is required";
     }
 
     setFormErrors(errors);

@@ -77,14 +77,14 @@ const DashBoard = () => {
           <h3>Recents</h3>
           <CsvRecent
             title={`Bands`}
-            buttonText={`Send Details`}
+            buttonText={`See Details`}
             numberOfRequests={`${pendingBand} Pending ${
               pendingBand > 1 ? "requests" : "request"
             }`}
           />
           <CsvRecent
             title={`Venue`}
-            buttonText={`Send Details`}
+            buttonText={`See Details`}
             numberOfRequests={`${pendingVenue} Pending ${
               pendingVenue > 1 ? "requests" : "request"
             }`}

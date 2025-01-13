@@ -185,7 +185,7 @@ const Bands = () => {
             ? selectedGenre.map((item) => (
                 <div key={item.id} className={`${styles.dropItem} relative`}>
              
-                  <p className="text-[0.9rem] font-bold ">{item.name}</p>
+                  <p className="text-[0.9rem] font-boldcd .. ">{item.name}</p>
 
                   <button
                     onClick={() => handleRemoveGenre(item.id)}

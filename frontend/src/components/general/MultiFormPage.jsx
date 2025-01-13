@@ -51,8 +51,8 @@ const MultiFormPage = ({
     <section className={`${sectionClass} `}>
       {showPageHeader && <PageHeader page={`${headerText}`} />}
       <div className={`${containerClass}`}>
-        <div className={`${styles.formContainer}`}>
-          <form className={`${styles.form}`}>
+        <div className={`${styles.formContainer} relative`}>
+          <form className={`${styles.form} `}>
             <div className={`${styles.formHeader}`}>
               <div className="flex justify-center w-full">
                 <p className={`${styles.formText} px-3`}>
@@ -77,30 +77,27 @@ const MultiFormPage = ({
             </div>
 
             <h4 className={`${styles.tellUs}`}>{formHeaderText}</h4>
-            <div className={`${styles.formWrapper}`}>
+            <div className={`${styles.formWrapper} `}>
               {step}
 
+              {currentStep === 1 ? (
+                <button onClick={previous} className="absolute top-0">
+                  <ArrowLeft />
+                </button>
+              ) : (
+                ""
+              )}
+
               {currentStep > 0 ? (
-                error !== "" ? (
-                  <Button
-                    text={`Back`}
-                    width={`w-full`}
-                    colored
-                    radius={`rounded-sm`}
-                    clickFunction={backHandler}
-                    svg2={<ArrowLeft />}
-                  />
-                ) : (
-                  <Button
-                    text={`Upload`}
-                    width={`w-full`}
-                    colored
-                    radius={`rounded-sm`}
-                    clickFunction={Upload}
-                    type={`button`}
-                    // svg2={<ArrowLeft />}
-                  />
-                )
+                <Button
+                  text={`Upload`}
+                  width={`w-full`}
+                  colored
+                  radius={`rounded-sm`}
+                  clickFunction={Upload}
+                  type={`button`}
+                  // svg2={<ArrowLeft />}
+                />
               ) : (
                 <Button
                   text={`Next`}
