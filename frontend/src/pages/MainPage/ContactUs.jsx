@@ -22,7 +22,7 @@ const ContactUs = () => {
   const validateForm = () => {
     const newErrors = {};
     if (!contact.name.trim()) newErrors.name = "Required";
-    if (!contact.email.trim()) newErrors.email = "Required";
+    // if (!contact.email.trim()) newErrors.email = "Required";
     if (!contact.description.trim()) newErrors.description = "Required";
 
     setErrors(newErrors);
@@ -35,18 +35,25 @@ const ContactUs = () => {
     if (!validateForm()) {
       return; // Prevent submission if validation fails
     }
+    const recipient = "HQ@FindMeLiveMusic.com"
+     const mailtoLink = `mailto:${recipient}?subject=Contact from ${encodeURIComponent(contact.name)}&body=${encodeURIComponent(
+        `${contact.description}`
+      )}`;
 
-    const contactInfo = { ...contact };
-    try {
-      const response = await SubmitContactinfo(JSON.stringify(contactInfo));
-      setIsSubmitted(true);
-      setMessage(response.data.message);
-      modalHandler();
-    } catch (err) {
-      setIsSubmitted(false);
-      setMessage(err.response?.data?.detail || "Submission failed.");
-      modalHandler();
-    }
+      window.location.href = mailtoLink;
+
+
+    // const contactInfo = { ...contact };
+    // try {
+    //   const response = await SubmitContactinfo(JSON.stringify(contactInfo));
+    //   setIsSubmitted(true);
+    //   setMessage(response.data.message);
+    //   modalHandler();
+    // } catch (err) {
+    //   setIsSubmitted(false);
+    //   setMessage(err.response?.data?.detail || "Submission failed.");
+    //   modalHandler();
+    // }
   };
 
   return (
@@ -76,11 +83,11 @@ const ContactUs = () => {
               {/* Email Input */}
               <div className={`${styles.inputContainer}`}>
                 <div className="w-full">
-                  {errors.email && (
+                  {/* {errors.email && (
                     <p className={styles.errorText}>{errors.email}</p>
-                  )}
-                  <input
-                    placeholder="Email (Required)"
+                  )} */}
+                  {/* <input
+                    placeholder="Email (Optional)"
                     className={`${styles.input} ${
                       errors.email ? styles.errorInput : ""
                     }`}
@@ -88,18 +95,18 @@ const ContactUs = () => {
                     onChange={(e) =>
                       setContact({ ...contact, email: e.target.value })
                     }
-                  />
+                  /> */}
                 </div>
 
                 {/* Phone Input */}
-                <input
+                {/* <input
                   placeholder="Phone (Optional)"
                   className={`${styles.input}`}
                   value={contact.phone}
                   onChange={(e) =>
                     setContact({ ...contact, phone: e.target.value })
                   }
-                />
+                /> */}
               </div>
 
               {/* Description Input */}
