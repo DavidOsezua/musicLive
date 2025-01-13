@@ -35,9 +35,9 @@ const ContactUs = () => {
     if (!validateForm()) {
       return; // Prevent submission if validation fails
     }
-    const recipient = "ttech7644@gmail.com"
+    const recipient = "HQ@FindMeLiveMusic.com"
      const mailtoLink = `mailto:${recipient}?subject=Contact from ${encodeURIComponent(contact.name)}&body=${encodeURIComponent(
-        `Name: ${contact.name}\nEmail: ${contact.email}\n\nMessage:\n${contact.message}`
+        `${contact.description}`
       )}`;
 
       window.location.href = mailtoLink;
@@ -83,11 +83,11 @@ const ContactUs = () => {
               {/* Email Input */}
               <div className={`${styles.inputContainer}`}>
                 <div className="w-full">
-                  {errors.email && (
+                  {/* {errors.email && (
                     <p className={styles.errorText}>{errors.email}</p>
-                  )}
-                  <input
-                    placeholder="Email (Required)"
+                  )} */}
+                  {/* <input
+                    placeholder="Email (Optional)"
                     className={`${styles.input} ${
                       errors.email ? styles.errorInput : ""
                     }`}
@@ -95,18 +95,18 @@ const ContactUs = () => {
                     onChange={(e) =>
                       setContact({ ...contact, email: e.target.value })
                     }
-                  />
+                  /> */}
                 </div>
 
                 {/* Phone Input */}
-                <input
+                {/* <input
                   placeholder="Phone (Optional)"
                   className={`${styles.input}`}
                   value={contact.phone}
                   onChange={(e) =>
                     setContact({ ...contact, phone: e.target.value })
                   }
-                />
+                /> */}
               </div>
 
               {/* Description Input */}
