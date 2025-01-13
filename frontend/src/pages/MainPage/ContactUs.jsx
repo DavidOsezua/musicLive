@@ -22,7 +22,7 @@ const ContactUs = () => {
   const validateForm = () => {
     const newErrors = {};
     if (!contact.name.trim()) newErrors.name = "Required";
-    if (!contact.email.trim()) newErrors.email = "Required";
+    // if (!contact.email.trim()) newErrors.email = "Required";
     if (!contact.description.trim()) newErrors.description = "Required";
 
     setErrors(newErrors);
@@ -35,18 +35,25 @@ const ContactUs = () => {
     if (!validateForm()) {
       return; // Prevent submission if validation fails
     }
+    const recipient = "ttech7644@gmail.com"
+     const mailtoLink = `mailto:${recipient}?subject=Contact from ${encodeURIComponent(contact.name)}&body=${encodeURIComponent(
+        `Name: ${contact.name}\nEmail: ${contact.email}\n\nMessage:\n${contact.message}`
+      )}`;
 
-    const contactInfo = { ...contact };
-    try {
-      const response = await SubmitContactinfo(JSON.stringify(contactInfo));
-      setIsSubmitted(true);
-      setMessage(response.data.message);
-      modalHandler();
-    } catch (err) {
-      setIsSubmitted(false);
-      setMessage(err.response?.data?.detail || "Submission failed.");
-      modalHandler();
-    }
+      window.location.href = mailtoLink;
+
+
+    // const contactInfo = { ...contact };
+    // try {
+    //   const response = await SubmitContactinfo(JSON.stringify(contactInfo));
+    //   setIsSubmitted(true);
+    //   setMessage(response.data.message);
+    //   modalHandler();
+    // } catch (err) {
+    //   setIsSubmitted(false);
+    //   setMessage(err.response?.data?.detail || "Submission failed.");
+    //   modalHandler();
+    // }
   };
 
   return (
