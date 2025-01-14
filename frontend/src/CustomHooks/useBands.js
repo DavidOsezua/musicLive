@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
-
-import { useModal } from "@/App";
 import { api, Url } from "@/services/api.route";
 import { facebook, instagram, youtube } from "@/assets";
+import { useModal } from "@/App";
 
 const useBands = () => {
   const [locationPageData, setLocationPageData] = useState([]);
   const [totalData, setTotalData] = useState(0);
   const [trackChanges, settrackChanges] = useState(false);
   const [totalApprove, setTotalApprove] = useState(0);
-  const { modal, modalHandler } = useModal() || {};
+  const [openBand, setOpenBand] = useState(false);
   const [showResultModal, setShowResultModal] = useState(false);
+
+  const { modal, modalHandler } = useModal() || {};
+
+  const openBandHandler = () => {
+    setOpenBand(true);
+  };
 
   const getAllUserBandData = async () => {
     try {
@@ -90,19 +95,25 @@ const useBands = () => {
     console.log("Updated locationPageData", locationPageData);
   }, [totalData, trackChanges]);
 
+  // const allModalHandler = () => {
+  //   setOpenBand((prev) => !prev);
+  //   setShowResultModal((prev) => !prev);
+  // };
+
   const allModalHandler = () => {
     modalHandler();
     setShowResultModal((prev) => !prev);
   };
+
   return {
     getuserBandData,
     setLocationPageData,
     setTotalData,
     setTotalApprove,
     settrackChanges,
-    allModalHandler,
     setShowResultModal,
     showResultModal,
+    allModalHandler,
     modal,
     modalHandler,
     getAllUserBandData,

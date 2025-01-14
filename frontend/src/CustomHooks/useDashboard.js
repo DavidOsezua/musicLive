@@ -14,7 +14,6 @@ import useType from "./useType";
 
 const useDashboard = () => {
   const [selectedCard, setSelectedCard] = useState(null);
-  const { modal, modalHandler } = useModal() || {};
   const [totalResultData, setTotalResultData] = useState({});
   const [totalresultAdsData, setTotalResultAdsData] = useState({});
   const [totalresultBandData, setTotalResultBandData] = useState({});
@@ -22,9 +21,33 @@ const useDashboard = () => {
   const [totalresultVenueTypeData, setTotalResultVenueTypeData] = useState({});
   const [totalresultGenreData, setTotalResultGenreData] = useState({});
   const [totalSubscribers, setTotalSubcribers] = useState([]);
+  const { modal, modalHandler } = useModal() || {};
+
+  //
+  const handleSelection = (card) => {
+    setSelectedCard((curr) => (curr?.ID === card.ID ? "" : card));
+  };
+
+  //
+  const cardHandler = () => {
+    setSelectedCard(null);
+  };
 
   //UseBands
- 
+
+  const { setShowResultModal } = useBands();
+
+  const allBandModalHandler = () => {
+    cardHandler();
+    setShowResultModal((prev) => !prev);
+  };
+
+  //useVenue
+  const { setVenueShowResultModal } = useVenues();
+  const allVenueModalHandler = () => {
+    cardHandler();
+    setVenueShowResultModal((prev) => !prev);
+  };
 
   //useAds
   const {
@@ -96,7 +119,7 @@ const useDashboard = () => {
       path: "/admin/adminband",
       numbers: totalresultBandData.total || 0,
       image: Bands,
-      component: <AddBand />,
+      component: <AddBand cancel={allBandModalHandler} />,
       status: [
         {
           state: "active",
@@ -120,7 +143,7 @@ const useDashboard = () => {
       path: "/admin/location",
       numbers: totalresultVenueData.total || 0,
       image: venueImg,
-      component: <AddLocation />,
+      component: <AddLocation cancel={allVenueModalHandler} />,
       status: [
         {
           state: "active",
@@ -226,16 +249,6 @@ const useDashboard = () => {
     },
   ];
 
-  //
-  const handleSelection = (card) => {
-    setSelectedCard((curr) => (curr?.ID === card.ID ? "" : card));
-  };
-
-  //
-  const cardHandler = () => {
-    setSelectedCard(null);
-  };
-
   console.log(selectedCard);
   return {
     dashboardSummary,
@@ -244,6 +257,8 @@ const useDashboard = () => {
     totalSubscribers,
     pendingBand,
     pendingVenue,
+    modalHandler,
+    modal,
     cardHandler,
   };
 };

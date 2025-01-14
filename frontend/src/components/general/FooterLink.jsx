@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./Footer.module.css";
-import "../../App.css"
+import "../../App.css";
+import { NavLink } from "react-router-dom";
 
 const FooterLink = ({
   footerLink,
@@ -26,9 +27,15 @@ const FooterLink = ({
       <ul className={`${styles.footerSubMenu} ${isOpen && styles.showMenu}`}>
         {footerLink.links.map((link) => (
           <li key={link.name} className={`${styles.footerLink}`}>
-            <a href={link.link} className={`${styles.link}`}>
-              {link.name}
-            </a>
+            {link.link ? (
+              <a href={link.link} className={`${styles.link}`}>
+                {link.name}
+              </a>
+            ) : (
+              <NavLink to={link.path} className={`${styles.link}`}>
+                {link.name}
+              </NavLink>
+            )}
           </li>
         ))}
       </ul>

@@ -14,13 +14,10 @@ const Location = () => {
     setTotalApprove,
     settrackVenueChanges,
     setVenueShowResultModal,
+    modal,
+    allModalHandlerVenue,
+    modalHandler,
   } = useVenues();
-  const { modal, modalHandler } = useModal() || {};
-
-  const allModalHandlerVenue = () => {
-    modalHandler();
-    setVenueShowResultModal((prev) => !prev);
-  };
 
   return (
     <section className={`adminSection pageContainer transition`}>

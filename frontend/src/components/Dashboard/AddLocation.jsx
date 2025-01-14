@@ -10,7 +10,7 @@ import Modal from "../general/Modal";
 import Loader from "../general/Loader";
 import useVenues from "@/CustomHooks/useVenues";
 
-const AddLocation = ({ allModalHandlerVenue }) => {
+const AddLocation = () => {
   const [message, setMessage] = useState();
   const [image, setImage] = useState(null);
   const [image2, setImage2] = useState(null);
@@ -35,6 +35,9 @@ const AddLocation = ({ allModalHandlerVenue }) => {
     settrackVenueChanges,
     setVenueShowResultModal,
     venueShowResultModal,
+    allModalHandlerVenue,
+    modal,
+    modalHandler,
   } = useVenues();
 
   const validateStep = (currentStep) => {
@@ -50,7 +53,7 @@ const AddLocation = ({ allModalHandlerVenue }) => {
 
     if (currentStep === 1) {
       if (!formData.image1) errors.image1 = "Upload your venue image1";
-      if (!formData.image2) errors.image2 = "Upload your venue image1";
+      // if (!formData.image2) errors.image2 = "Upload your venue image1";
     }
 
     setFormErrors(errors);
@@ -111,6 +114,8 @@ const AddLocation = ({ allModalHandlerVenue }) => {
   };
 
   console.log(venueShowResultModal);
+  console.log("modal", modal);
+  console.log("modalHandler", modalHandler);
 
   return (
     <>

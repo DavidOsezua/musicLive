@@ -10,8 +10,7 @@ import Failed from "../../components/general/Failed";
 import Loader from "../general/Loader";
 import useBands from "@/CustomHooks/useBands";
 
-const AddBand = () => {
-  const { modal, modalHandler } = useModal() || {};
+const AddBand = ({ cancel }) => {
   const [message, setMessage] = useState();
   const [image, setImage] = useState(null);
   const [image2, setImage2] = useState(null);
@@ -34,10 +33,12 @@ const AddBand = () => {
   const [error, setError] = useState("");
   const {
     settrackChanges,
-    allModalHandler: cancel,
     setShowResultModal,
     showResultModal,
     getAllUserBandData,
+    allModalHandler,
+    modal,
+    modalHandler,
   } = useBands();
 
   const validateStep = (currentStep) => {
@@ -51,7 +52,7 @@ const AddBand = () => {
 
     if (currentStep === 1) {
       if (!formData.image1) errors.image1 = "Upload your brand image1";
-      if (!formData.image2) errors.image2 = "Upload your brand image2";
+      // if (!formData.image2) errors.image2 = "Upload your brand image2";
     }
 
     setFormErrors(errors);
@@ -91,6 +92,18 @@ const AddBand = () => {
         if (getAllUserBandData) getAllUserBandData();
         setMessage("Band uploaded successfully!");
         setShowResultModal(true); // Show the result modal
+        setFormData({
+          name: "",
+          email: "",
+          genre_type: "",
+          band_tag: "",
+          homepage: "",
+          facebook: "",
+          instagram: "",
+          youtube: "",
+          image1: "",
+          image2: "",
+        });
       } catch (e) {
         setError(e.message);
         if (settrackChanges) settrackChanges(false);
@@ -109,9 +122,11 @@ const AddBand = () => {
     }
   };
 
-  console.log(formData);
+  // console.log(formData);
 
-  console.log(showResultModal);
+  console.log("Result", showResultModal);
+  console.log("modal", modal);
+  console.log("modalHandler", modalHandler);
 
   return (
     <>
@@ -152,10 +167,10 @@ const AddBand = () => {
       )}
 
       {showResultModal && (
-        <Modal modalHandler={cancel}>
+        <Modal modalHandler={allModalHandler || cancel}>
           {isSubmitted ? (
             <Success
-              modalHandler={cancel} // Close modal when Success is clicked
+              modalHandler={allModalHandler || cancel} // Close modal when Success is clicked
               message={message}
               description="Band under review, you will be notified via email once it is approved."
             />

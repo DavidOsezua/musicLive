@@ -3,6 +3,7 @@ import TitleAndStatus from "../../components/Dashboard/TitleAndStatus";
 import TablesAndCards from "../../components/Dashboard/TablesAndCards";
 import Modal from "../../components/general/Modal";
 import AddBand from "../../components/Dashboard/AddBand";
+import { useModal } from "@/App";
 import useBands from "@/CustomHooks/useBands";
 
 const AdminBand = () => {
@@ -12,13 +13,20 @@ const AdminBand = () => {
     setTotalData,
     setTotalApprove,
     settrackChanges,
-    allModalHandler,
     setShowResultModal,
-    showResultModal,
     modal,
     modalHandler,
-    getAllUserBandData,
+    allModalHandler,
   } = useBands();
+
+  // const { modal, modalHandler } = useModal() || {};
+
+  // const allModalHandler = () => {
+  //   modalHandler();
+  //   setShowResultModal((prev) => !prev);
+  // };
+
+  console.log(modal, modalHandler);
 
   return (
     <section className={` adminSection pageContainer transition`}>
@@ -42,13 +50,7 @@ const AdminBand = () => {
       />
       {modal ? (
         <Modal modalHandler={allModalHandler}>
-          <AddBand
-            // cancel={allModalHandler}
-            // setShowResultModal={setShowResultModal}
-            // settrackChanges={settrackChanges}
-            // showResultModal={showResultModal}
-            // getAllUserBandData={getAllUserBandData}
-          />
+          <AddBand cancel={allModalHandler} />
         </Modal>
       ) : (
         ""

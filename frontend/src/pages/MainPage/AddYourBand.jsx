@@ -43,13 +43,13 @@ const AddYourBand = () => {
     }
 
     if (currentStep === 1) {
-      if (!formData.homepage) errors.homepage = "Homepage is required";
-      if (!formData.facebook)
-        errors.facebook = "Facebook profile link is required";
-      if (!formData.instagram)
-        errors.instagram = "Instagram profile link is required";
+      // if (!formData.homepage) errors.homepage = "Homepage is required";
+      // if (!formData.facebook)
+      //   errors.facebook = "Facebook profile link is required";
+      // if (!formData.instagram)
+      //   errors.instagram = "Instagram profile link is required";
       if (!formData.image1) errors.image1 = "Upload your brand image1";
-      if (!formData.image2) errors.image2 = "Upload your brand image2";
+      // if (!formData.image2) errors.image2 = "Upload your brand image2";
     }
 
     setFormErrors(errors);
@@ -86,6 +86,18 @@ const AddYourBand = () => {
         await uploadUserbrand(dataForm);
         setIsSubmitted(true);
         setMessage("Band uploaded successfully!");
+        setFormData({
+          name: "",
+          email: "",
+          genre_type: "",
+          band_tag: "",
+          homepage: "",
+          facebook: "",
+          instagram: "",
+          youtube: "",
+          image1: "",
+          image2: "",
+        });
         setError(false);
         setLoader(false);
         modalHandler(); // Open modal on success

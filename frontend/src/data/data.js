@@ -78,9 +78,11 @@ export const footerLinks = [
     links: [
       {
         name: "email@findmelivemusic.com",
+        link: `mailto:HQ@FindMeLiveMusic.com`,
       },
       {
         name: "About us",
+        path: "/aboutus",
       },
       {
         name: "Terms",
@@ -91,10 +93,12 @@ export const footerLinks = [
     title: "Interests",
     links: [
       {
-        name: "Sponsor Interest",
+        name: "Sponsorship",
+        path: "/contactus",
       },
       {
-        name: "Adverts Interest",
+        name: "Advertising",
+        path: "/contactus",
       },
     ],
   },

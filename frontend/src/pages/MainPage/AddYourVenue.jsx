@@ -47,7 +47,7 @@ const AddYourVenue = () => {
 
     if (currentStep === 1) {
       if (!formData.image1) errors.image1 = "Upload your venue image1";
-      if (!formData.image2) errors.image2 = "Upload your venue image1";
+      // if (!formData.image2) errors.image2 = "Upload your venue image1";
     }
 
     setFormErrors(errors);
@@ -95,6 +95,18 @@ const AddYourVenue = () => {
         await uploadUservenue(dataForm);
         setIssubmitted(true);
         setMessage("Venue uploaded successfully!");
+        setFormData({
+          name: "",
+          email: "",
+          venue_type: "",
+          address: "",
+          homepage: "",
+          facebook: "",
+          instagram: "",
+          youtube: "",
+          image1: "",
+          image2: "",
+        });
         setError(false);
         setLoader(false);
         modalHandler();
