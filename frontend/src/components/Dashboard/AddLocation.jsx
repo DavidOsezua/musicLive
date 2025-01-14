@@ -8,13 +8,9 @@ import Success from "../general/Success";
 import Failed from "../general/Failed";
 import Modal from "../general/Modal";
 import Loader from "../general/Loader";
+import useVenues from "@/CustomHooks/useVenues";
 
-const AddLocation = ({
-  settrackChanges,
-  cancel,
-  setShowResultModal,
-  showResultModal,
-}) => {
+const AddLocation = ({ allModalHandlerVenue }) => {
   const [message, setMessage] = useState();
   const [image, setImage] = useState(null);
   const [image2, setImage2] = useState(null);
@@ -35,6 +31,12 @@ const AddLocation = ({
   const [error, setError] = useState("");
   const [loader, setLoader] = useState(false);
 
+  const {
+    settrackVenueChanges,
+    setVenueShowResultModal,
+    venueShowResultModal,
+  } = useVenues();
+
   const validateStep = (currentStep) => {
     const errors = {};
     console.log(formData);
@@ -47,15 +49,8 @@ const AddLocation = ({
     }
 
     if (currentStep === 1) {
-      // if (!formData.homepage) errors.homepage = "homepage is required";
-      // if (!formData.facebook)
-      //   errors.facebook = "facebook profile link is required";
-      // if (!formData.instagram)
-      //   errors.instagram = "instagram profile link is required";
       if (!formData.image1) errors.image1 = "Upload your venue image1";
       if (!formData.image2) errors.image2 = "Upload your venue image1";
-
-      // if (!formData.youtube) errors.youtube = "youtube is required";
     }
 
     setFormErrors(errors);
@@ -91,29 +86,31 @@ const AddLocation = ({
       try {
         console.log(dataForm);
         await uploadUservenue(dataForm);
-        settrackChanges(true);
+        settrackVenueChanges(true);
         setIsSubmitted(true);
         setMessage("Venue uploaded successfully!");
         setLoader(false);
-        setShowResultModal(true); // Show the result modal
+        setVenueShowResultModal(true); // Show the result modal
       } catch (e) {
         setError(e.message);
         setIsSubmitted(false);
         setMessage(e.response.data.detail || "Form validation failed");
-        settrackChanges(false);
+        settrackVenueChanges(false);
         setLoader(false);
-        setShowResultModal(true);
+        setVenueShowResultModal(true);
         // Show the result modal
       }
     } else {
       setError("Form validation failed");
-      settrackChanges(false);
+      settrackVenueChanges(false);
       setMessage("Form validation failed");
-      setShowResultModal(true);
+      setVenueShowResultModal(true);
       setLoader(false);
       setLoader(false); // Show the result modal
     }
   };
+
+  console.log(venueShowResultModal);
 
   return (
     <>
@@ -150,17 +147,17 @@ const AddLocation = ({
         </Modal>
       )}
 
-      {showResultModal && (
-        <Modal modalHandler={cancel}>
+      {venueShowResultModal && (
+        <Modal modalHandler={allModalHandlerVenue}>
           {isSubmitted ? (
             <Success
-              modalHandler={cancel} // Close modal when Success is clicked
+              modalHandler={allModalHandlerVenue} // Close modal when Success is clicked
               message={message}
               description="Band under review, you will be notified via email once it is approved."
             />
           ) : (
             <Failed
-              modalHandler={() => setShowResultModal(false)} // Close modal when Failed is clicked
+              modalHandler={() => setVenueShowResultModal(false)} // Close modal when Failed is clicked
               message={message}
             />
           )}

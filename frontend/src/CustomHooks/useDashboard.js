@@ -24,21 +24,7 @@ const useDashboard = () => {
   const [totalSubscribers, setTotalSubcribers] = useState([]);
 
   //UseBands
-  const {
-    settrackChanges,
-    allModalHandler,
-    setShowResultModal,
-    showResultModal,
-    getAllUserBandData,
-  } = useBands();
-
-  //useVenues
-  const {
-    allModalHandlerVenue,
-    settrackVenueChanges,
-    setVenueShowResultModal,
-    venueShowResultModal,
-  } = useVenues();
+ 
 
   //useAds
   const {
@@ -110,15 +96,7 @@ const useDashboard = () => {
       path: "/admin/adminband",
       numbers: totalresultBandData.total || 0,
       image: Bands,
-      component: (
-        <AddBand
-          cancel={allModalHandler}
-          setShowResultModal={setShowResultModal}
-          settrackChanges={settrackChanges}
-          showResultModal={showResultModal}
-          getAllUserBandData={getAllUserBandData}
-        />
-      ),
+      component: <AddBand />,
       status: [
         {
           state: "active",
@@ -142,14 +120,7 @@ const useDashboard = () => {
       path: "/admin/location",
       numbers: totalresultVenueData.total || 0,
       image: venueImg,
-      component: (
-        <AddLocation
-          cancel={allModalHandlerVenue}
-          setShowResultModal={setVenueShowResultModal}
-          showResultModal={venueShowResultModal}
-          settrackChanges={settrackVenueChanges}
-        />
-      ),
+      component: <AddLocation />,
       status: [
         {
           state: "active",

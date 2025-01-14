@@ -1,22 +1,26 @@
 import TablesAndCards from "../../components/Dashboard/TablesAndCards";
 import TitleAndStatus from "../../components/Dashboard/TitleAndStatus";
+import { useModal } from "@/App";
+
 import Modal from "../../components/general/Modal";
 import AddLocation from "../../components/Dashboard/AddLocation";
 import useVenues from "@/CustomHooks/useVenues";
 
 const Location = () => {
   const {
-    modal,
-    modalHandler,
     getuserVenueData,
     setLocationPageData,
-    allModalHandlerVenue,
     setTotalData,
     setTotalApprove,
     settrackVenueChanges,
     setVenueShowResultModal,
-    venueShowResultModal,
   } = useVenues();
+  const { modal, modalHandler } = useModal() || {};
+
+  const allModalHandlerVenue = () => {
+    modalHandler();
+    setVenueShowResultModal((prev) => !prev);
+  };
 
   return (
     <section className={`adminSection pageContainer transition`}>
@@ -39,12 +43,7 @@ const Location = () => {
       />
       {modal ? (
         <Modal modalHandler={allModalHandlerVenue}>
-          <AddLocation
-            cancel={allModalHandlerVenue}
-            setShowResultModal={setVenueShowResultModal}
-            ShowResultModal={venueShowResultModal}
-            settrackChanges={settrackVenueChanges}
-          />
+          <AddLocation allModalHandlerVenue={allModalHandlerVenue} />
         </Modal>
       ) : (
         ""

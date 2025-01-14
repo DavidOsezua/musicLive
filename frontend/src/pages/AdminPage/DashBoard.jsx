@@ -76,6 +76,7 @@ const DashBoard = () => {
         <div className={`${styles.csvRecent}`}>
           <h3>Recents</h3>
           <CsvRecent
+            path={"/admin/adminband"}
             title={`Bands`}
             buttonText={`See Details`}
             numberOfRequests={`${pendingBand} Pending ${
@@ -83,6 +84,7 @@ const DashBoard = () => {
             }`}
           />
           <CsvRecent
+            path={"/admin/location"}
             title={`Venue`}
             buttonText={`See Details`}
             numberOfRequests={`${pendingVenue} Pending ${

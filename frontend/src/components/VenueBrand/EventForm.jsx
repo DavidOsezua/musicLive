@@ -127,7 +127,7 @@ const EventForm = ({ cancel, getAllEventData, setShowModal, showModal }) => {
               <div className="w-full">
                 <label>Name</label>
                 <input
-                  placeholder="Enter Venue Name"
+                  placeholder="Enter Event Name"
                   className={`${styles.input}`}
                   value={formData.eventName}
                   onChange={(e) =>

@@ -1,6 +1,5 @@
-import { useModal } from "@/App";
-import { api, Url } from "@/services/api.route";
 import React, { useEffect, useState } from "react";
+import { api, Url } from "@/services/api.route";
 
 const useVenues = () => {
   const [locationPageData, setLocationPageData] = useState([]);
@@ -8,7 +7,6 @@ const useVenues = () => {
   const [totalApprove, setTotalApprove] = useState(0);
   const [venueShowResultModal, setVenueShowResultModal] = useState(false);
   const [trackChanges, settrackVenueChanges] = useState(false);
-  const { modal, modalHandler } = useModal() || {};
 
   const getAllUserVenueData = async () => {
     try {
@@ -78,23 +76,15 @@ const useVenues = () => {
     numberOfItem: 10,
   };
 
-  const allModalHandlerVenue = () => {
-    modalHandler();
-    setVenueShowResultModal((prev) => !prev);
-  };
-
   return {
-    modalHandler,
     getuserVenueData,
     getAllUserVenueData,
     setLocationPageData,
-    allModalHandlerVenue,
     setTotalData,
     setTotalApprove,
     settrackVenueChanges,
     setVenueShowResultModal,
     venueShowResultModal,
-    modal,
   };
 };
 

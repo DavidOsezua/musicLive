@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react";
 import styles from "./CsvRecent.module.css";
 import { api } from "@/services/api.route";
+import { useNavigate } from "react-router-dom";
 
-const CsvRecent = ({ title, numberOfRequests, buttonText }) => {
+const CsvRecent = ({ title, numberOfRequests, buttonText, path }) => {
   const [data, setData] = useState([]);
-  const [errorMessage, seterrorMessage] = useState()
+  const [errorMessage, seterrorMessage] = useState();
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (path) {
+      navigate(path, { replace: true });
+    }
+  };
   useEffect(() => {
     const fetchData = async () => {
-      let endpoint = ""
+      let endpoint = "";
       if (title.trim() === "Venue") {
         endpoint = "api/v1/venue";
       } else if (title.trim() === "Bands") {
@@ -22,23 +30,22 @@ const CsvRecent = ({ title, numberOfRequests, buttonText }) => {
         setData(jsonData);
       } catch (error) {
         console.error("Error fetching data:", error);
-        seterrorMessage(error.response.data)
+        seterrorMessage(error.response.data);
       }
     };
 
     fetchData();
   }, []);
 
-
   const handleExport = () => {
     const csvRows = [];
     const headers = Object.keys(data[0] || {}).join(",");
     csvRows.push(headers);
-    data.forEach(item => {
+    data.forEach((item) => {
       const values = Object.values(item).join(",");
       csvRows.push(values);
     });
-    console.log(csvRows)
+    console.log(csvRows);
 
     // Create a Blob from the CSV string
     const csvContent = csvRows.join("\n");
@@ -58,7 +65,7 @@ const CsvRecent = ({ title, numberOfRequests, buttonText }) => {
     <div className={`${styles.card}`}>
       <h3>{title}</h3>
       <p className="text-[#437CF3]">{numberOfRequests}</p>
-      <button className={`${styles.button}`} onClick={handleExport}>
+      <button className={`${styles.button}`} onClick={handleClick}>
         {buttonText}
       </button>
     </div>

@@ -8,14 +8,9 @@ import Modal from "../../components/general/Modal";
 import { useModal } from "../../App";
 import Failed from "../../components/general/Failed";
 import Loader from "../general/Loader";
+import useBands from "@/CustomHooks/useBands";
 
-const AddBand = ({
-  settrackChanges,
-  setShowResultModal,
-  showResultModal,
-  getAllUserBandData,
-  cancel,
-}) => {
+const AddBand = () => {
   const { modal, modalHandler } = useModal() || {};
   const [message, setMessage] = useState();
   const [image, setImage] = useState(null);
@@ -37,6 +32,13 @@ const AddBand = ({
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const {
+    settrackChanges,
+    allModalHandler: cancel,
+    setShowResultModal,
+    showResultModal,
+    getAllUserBandData,
+  } = useBands();
 
   const validateStep = (currentStep) => {
     const errors = {};
