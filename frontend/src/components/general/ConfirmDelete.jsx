@@ -4,7 +4,7 @@ import Close from "./Close";
 import Error from "../SVGcomponent/Error";
 import Button from "./Button";
 
-const ConfirmDelete = ({ confirmDelete, cancelDelete }) => {
+const ConfirmDelete = ({ confirmDelete, cancelDelete, message }) => {
   return (
     <div className={`${styles.successCard} relative`}>
       <button
@@ -14,8 +14,7 @@ const ConfirmDelete = ({ confirmDelete, cancelDelete }) => {
         <Close />
       </button>
       <Error />
-      <p>Are you sure wnat to delete</p>
-
+      {message}
       <div className="flex gap-3">
         <Button
           colored

@@ -71,6 +71,7 @@ const CardListItem = ({ item, updateItemStatus, handleDelete }) => {
           <ConfirmDelete
             confirmDelete={confirmDelete}
             cancelDelete={cancelDelete}
+            message={<p>Are you sure you want to delete</p>}
           />
         </Modal>
       )}

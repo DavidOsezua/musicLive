@@ -151,6 +151,15 @@ const BandTableData = ({
           <ConfirmDelete
             confirmDelete={confirmDelete}
             cancelDelete={cancelDelete}
+            message={
+              <div className="space-y-22 text-center">
+                <p>Are you sure you want to delete</p>
+                <p className="text-[red] font-bold text-[0.8rem] max-w-[300px] mx-auto ">
+                  Some of these bands are linked to events. Deleting them will
+                  cause an associated event to be deleted.
+                </p>
+              </div>
+            }
           />
         </Modal>
       )}
