@@ -500,7 +500,7 @@ const EditEvent = ({ item, cancel }) => {
               </div>
             </div>
             <Button
-              text="Edit"
+              text="Save Changes"
               width="w-full"
               colored
               radius="rounded-sm"

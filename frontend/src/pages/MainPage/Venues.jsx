@@ -199,24 +199,24 @@ const Venues = () => {
               ))
             )}
           </div>
-        </div>
 
-        {page < 9 ? (
-          <div className={`flex flex-col items-center ${styles.showMore}`}>
-            <p className={`text-[#0A2259] pb-4`}>
-              Continue exploring Live Bands!!
-            </p>
-            <Button
-              text={`${isLoading ? "Loading..." : "Show more"}`}
-              width={`w-[236px]`}
-              colored
-              clickFunction={handleShowMore}
-              radius={`rounded-full`}
-            />
-          </div>
-        ) : (
-          ""
-        )}
+          {page < 9 ? (
+            <div className={`flex flex-col items-center ${styles.showMore}`}>
+              <p className={`text-[#0A2259] pb-4`}>
+                Continue exploring Live Bands!!
+              </p>
+              <Button
+                text={`${isLoading ? "Loading..." : "Show more"}`}
+                width={`w-[236px]`}
+                colored
+                clickFunction={handleShowMore}
+                radius={`rounded-full`}
+              />
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
       </section>
       <TipJar />
       {popUp && (
