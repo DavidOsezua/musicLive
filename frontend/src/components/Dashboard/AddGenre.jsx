@@ -95,7 +95,7 @@ const AddGenre = ({
             <Success
               modalHandler={cancel} // Close modal when Success is clicked
               message={message}
-              description="Band under review, you will be notified via email once it is approved."
+              description="Genre under review, you will be notified via email once it is approved."
             />
           ) : (
             <Failed

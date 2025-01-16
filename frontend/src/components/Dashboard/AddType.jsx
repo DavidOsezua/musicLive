@@ -95,7 +95,7 @@ const AddType = ({
             <Success
               modalHandler={cancel} // Close modal when Success is clicked
               message={message}
-              description="Band under review, you will be notified via email once it is approved."
+              description="Venue Type under review, you will be notified via email once it is approved."
             />
           ) : (
             <Failed

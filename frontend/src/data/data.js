@@ -84,9 +84,6 @@ export const footerLinks = [
         name: "About us",
         path: "/aboutus",
       },
-      {
-        name: "Terms",
-      },
     ],
   },
   {

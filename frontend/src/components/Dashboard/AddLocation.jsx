@@ -158,7 +158,7 @@ const AddLocation = () => {
             <Success
               modalHandler={allModalHandlerVenue} // Close modal when Success is clicked
               message={message}
-              description="Band under review, you will be notified via email once it is approved."
+              description="Venue under review, you will be notified via email once it is approved."
             />
           ) : (
             <Failed

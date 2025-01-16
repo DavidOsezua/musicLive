@@ -247,8 +247,8 @@ const EventForm = ({ cancel, getAllEventData, setShowModal, showModal }) => {
           {isSubmitted ? (
             <Success
               modalHandler={cancel} // Close modal when Success is clicked
-              message={"Submitted Successfully"}
-              description="Band under review, you will be notified via email once it is approved."
+              message={"Created Successfully"}
+              description="Event has been created successfully"
             />
           ) : (
             <Failed

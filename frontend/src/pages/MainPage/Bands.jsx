@@ -19,6 +19,7 @@ const Bands = () => {
   const [selectGenre, setSelectGenre] = useState([]); // Track selected bands
   const [selectedGenre, setSelectedGenre] = useState([]);
   const [bands, setBands] = useState([]);
+  const [page, setPage] = useState(8);
   const [isLoading, setIsLoading] = useState(false);
   const [searchData, setSearchData] = useState({
     name: "",
@@ -137,6 +138,10 @@ const Bands = () => {
     }
   };
 
+  // Load more venues when "Show More" button is clicked
+  const handleShowMore = () => {
+    setPage((prevPage) => prevPage + 3);
+  };
   return (
     <section className={`section py-0 px-0 transition`}>
       <div>
@@ -184,7 +189,6 @@ const Bands = () => {
           {selectedGenre.length > 0
             ? selectedGenre.map((item) => (
                 <div key={item.id} className={`${styles.dropItem} relative`}>
-             
                   <p className="text-[0.9rem] font-boldcd .. ">{item.name}</p>
 
                   <button
@@ -219,7 +223,7 @@ const Bands = () => {
                 <Loader />
               </div>
             ) : (
-              bands.map((band) => (
+              bands.slice(0, page).map((band) => (
                 <div key={band.id} className={`${styles.bandDetail}`}>
                   <a href="#" rel="noopener noreferrer">
                     <img
@@ -277,17 +281,21 @@ const Bands = () => {
           </div>
         </div>
 
-        <div className={`flex flex-col items-center`}>
-          <p className={`text-[#0A2259] pb-4`}>
-            Continue exploring Live Bands!!
-          </p>
-          <Button
-            text={`Show more`}
-            width={`w-[236px]`}
-            colored
-            radius={`rounded-full`}
-          />
-        </div>
+        {page > 8 ? (
+          <div className={`flex flex-col items-center`}>
+            <p className={`text-[#0A2259] pb-4`}>
+              Continue exploring Live Bands!!
+            </p>
+            <Button
+              text={`Show more`}
+              width={`w-[236px]`}
+              colored
+              radius={`rounded-full`}
+            />
+          </div>
+        ) : (
+          ""
+        )}
 
         <TipJar />
       </div>

@@ -203,7 +203,7 @@ const Venues = () => {
           {page < 9 ? (
             <div className={`flex flex-col items-center ${styles.showMore}`}>
               <p className={`text-[#0A2259] pb-4`}>
-                Continue exploring Live Bands!!
+                Continue exploring Venues!
               </p>
               <Button
                 text={`${isLoading ? "Loading..." : "Show more"}`}
