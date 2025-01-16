@@ -282,6 +282,8 @@ const Bands = () => {
         </div>
 
         {page > 8 ? (
+          ""
+        ) : (
           <div className={`flex flex-col items-center`}>
             <p className={`text-[#0A2259] pb-4`}>
               Continue exploring Live Bands!!
@@ -290,11 +292,10 @@ const Bands = () => {
               text={`Show more`}
               width={`w-[236px]`}
               colored
+              clickFunction={handleShowMore}
               radius={`rounded-full`}
             />
           </div>
-        ) : (
-          ""
         )}
 
         <TipJar />
