@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field, Column, Integer, String, Relationship
+from sqlmodel import SQLModel, Field, Column, Integer, String, Relationship, ForeignKey
 from uuid import UUID, uuid4
 from sqlalchemy.dialects.mysql import CHAR
 import shortuuid
@@ -26,7 +26,7 @@ class Ads(SQLModel, table=True):
 class Band(SQLModel, table=True):
     __tablename__ = "Band"
     id: str = Field(default=None, primary_key=True)
-    email: EmailStr = Field(sa_column=Column(String(255), unique=True))
+    email: EmailStr = Field(sa_column=Column(String(255), unique=False))
     name: str = Field(sa_column=Column(String(100)))
     genre_type: str = Field(sa_column=Column(String(100)))
     band_tag: str = Field(sa_column=Column(String(150)))
@@ -54,7 +54,7 @@ class Venue(SQLModel, table=True):
     name: str = Field(sa_column=Column(String(100)))
     venue_type: str = Field(sa_column=Column(String(100)))
     address: str
-    email: str = Field(sa_column=Column(String(255), unique=True))
+    email: str = Field(sa_column=Column(String(255), unique=False))
     homepage: Optional[str] = Field(default=None, sa_column=Column(String(255)))
     facebook_url: Optional[str] = Field(default=None, sa_column=Column(String(255)))
     instagram_url: Optional[str] = Field(default=None, sa_column=Column(String(255)))
@@ -104,8 +104,8 @@ class Event(SQLModel, table=True):
 
     id: str = Field(primary_key=True, default_factory=shortuuid.uuid)
     name: str = Field(nullable=False, unique=True)
-    venue_id: str = Field(default=None, foreign_key="Venue.id")
-    band_id: str = Field(default=None, foreign_key="Band.id")
+    venue_id: str = Field(default=None, foreign_key="Venue.id", ondelete="CASCADE")
+    band_id: str = Field(default=None, foreign_key="Band.id", ondelete="CASCADE")
     date: date
     time: time
     venue: "Venue" = Relationship(sa_relationship_kwargs={"uselist": False})

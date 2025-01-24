@@ -42,6 +42,8 @@ import shortuuid
 from src import search
 import datetime
 
+admin_email = "HQ@findmelivemusic.com"
+
 api_router = APIRouter(prefix="/api/v1", tags=["api"])
 
 
@@ -212,6 +214,13 @@ async def upload_venue(
     session: AsyncSession = Depends(get_session),
 ) -> Venue_:
     try:
+        if email.lower() != admin_email.lower():
+            query = select(Venue).where(func.lower(Venue.email) == email.lower())
+            result = await session.exec(query)
+            venue = result.first()
+            if venue:
+                raise exceptions.BadRequest("Email already exists.")
+
         # image_size = (400, 400)
         venue_id = shortuuid.uuid()
         # validate_image_size(image1, image_size)
@@ -397,6 +406,12 @@ async def upload_band(
     session: AsyncSession = Depends(get_session),
 ) -> Band_:
     try:
+        if email.lower() != admin_email.lower():
+            query = select(Venue).where(func.lower(Band.email) == email.lower())
+            result = await session.exec(query)
+            band = result.first()
+            if band:
+                raise exceptions.BadRequest("Email already exists.")
         # image_size = (400, 400)
         # validate_image_size(image1, image_size)
         # validate_image_size(image2, image_size)
@@ -508,7 +523,9 @@ async def update_venue(
     is_approved = Status == "Approved"
 
     update_query = (
-        update(Venue).where(Venue.id == venue_id).values({"is_admin_approved": is_approved, "is_verified" : is_approved})
+        update(Venue)
+        .where(Venue.id == venue_id)
+        .values({"is_admin_approved": is_approved, "is_verified": is_approved})
     )
     await session.exec(update_query)
     await session.commit()
@@ -543,7 +560,9 @@ async def update_band(
     new_status = Status == "Approved"
     print(new_status)
     update_query = (
-        update(Band).where(Band.id == band_id).values({"is_admin_approved" :new_status, "is_verified" : new_status})
+        update(Band)
+        .where(Band.id == band_id)
+        .values({"is_admin_approved": new_status, "is_verified": new_status})
     )
 
     await session.exec(update_query)
