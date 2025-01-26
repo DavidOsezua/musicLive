@@ -103,7 +103,7 @@ class Event(SQLModel, table=True):
     __tablename__ = "events"
 
     id: str = Field(primary_key=True, default_factory=shortuuid.uuid)
-    name: str = Field(nullable=False, unique=True)
+    name: str = Field(nullable=False, unique=False)
     venue_id: str = Field(default=None, foreign_key="Venue.id", ondelete="CASCADE")
     band_id: str = Field(default=None, foreign_key="Band.id", ondelete="CASCADE")
     date: date

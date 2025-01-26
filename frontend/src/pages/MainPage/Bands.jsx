@@ -71,7 +71,7 @@ const Bands = () => {
           params: params,
         });
 
-        console.log(response.data);
+        
         setBands(response.data);
       } catch (error) {
         console.error("Error occurred when getting the user band:", error);
@@ -117,7 +117,6 @@ const Bands = () => {
 
   // Removes a selected venue and resets the search to show all venues
   const handleRemoveSelectedGenre = (id) => {
-    console.log(id);
     const updatedSelectedVenues = selectGenre.filter(
       (venue) => venue.ID !== id
     );
@@ -140,7 +139,7 @@ const Bands = () => {
 
   // Load more venues when "Show More" button is clicked
   const handleShowMore = () => {
-    setPage((prevPage) => prevPage + 3);
+    setPage((prevPage) => prevPage + prevPage);
   };
   return (
     <section className={`section py-0 px-0 transition`}>
@@ -281,9 +280,7 @@ const Bands = () => {
           </div>
         </div>
 
-        {page > 8 ? (
-          ""
-        ) : (
+        {page < bands.length ? (
           <div className={`flex flex-col items-center`}>
             <p className={`text-[#0A2259] pb-4`}>
               Continue exploring Live Bands!!
@@ -296,6 +293,9 @@ const Bands = () => {
               radius={`rounded-full`}
             />
           </div>
+          
+        ) : (
+          ""
         )}
 
         <TipJar />

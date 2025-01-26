@@ -1037,8 +1037,11 @@ async def create_event(
         return new_event
 
     except IntegrityError as ie:
+
         error_message = str(ie.orig)
+        print(error_message)
         column_name = None
+
         if ie.orig.args[0] == 1062:
             raise HTTPException(
                 status_code=400, detail="No venue with the given venue id"

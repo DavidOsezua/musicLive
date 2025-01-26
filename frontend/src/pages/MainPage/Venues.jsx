@@ -76,12 +76,12 @@ const Venues = () => {
           if (value) params[key] = value; // Only add non-empty parameters
         });
 
-        console.log("API Search Params:", params);
+        
 
         const response = await api.get("/api/v1/venue/search", {
           params: params,
         });
-        console.log("Fetched venues:", response.data);
+        
         // setVenues((prevVenues) => [...prevVenues, ...response.data]);
         setVenues(response.data); // Update venues
       } catch (error) {
@@ -129,10 +129,10 @@ const Venues = () => {
 
   // Load more venues when "Show More" button is clicked
   const handleShowMore = () => {
-    setPage((prevPage) => prevPage + 3);
+    setPage((prevPage) => prevPage + prevPage);
   };
 
-  console.log(venues);
+  
   return (
     <>
       <section className={`${styles.venueSection} transition `}>
@@ -200,7 +200,7 @@ const Venues = () => {
             )}
           </div>
 
-          {page < 9 ? (
+          {page < venues.length ? (
             <div className={`flex flex-col items-center ${styles.showMore}`}>
               <p className={`text-[#0A2259] pb-4`}>
                 Continue exploring Venues!
