@@ -5,7 +5,7 @@ import SearchIcon from "../SVGcomponent/SearchIcon";
 import styles from "./FilterAndSearch.module.css";
 import AdminSearch from "./AdminSearch";
 
-const FilterAndSearch = ({ data, pageType, handleFilter, active }) => {
+const FilterAndSearch = ({ data, pageType, handleFilter, active, searchHandler }) => {
   return (
     <div className={`${styles.container}`}>
       <div className={`${styles.filteredButton}`}>
@@ -23,7 +23,7 @@ const FilterAndSearch = ({ data, pageType, handleFilter, active }) => {
       <div className={`${styles.secondColumn}`}>
         {/* {pageType === "bands" || pageType === "venue" ? <div className="w-full">Export</div> : ""} */}
 
-        <AdminSearch />
+        <AdminSearch  onSearch={searchHandler}/>
       </div>
     </div>
   );

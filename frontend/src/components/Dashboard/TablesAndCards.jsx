@@ -86,6 +86,26 @@ const TablesAndCards = ({
     setActive(status);
   };
 
+  const handleSearch = (name) => {
+    if(!name){
+      // setFilteredData(data)
+      handleFilter(active)
+      return
+    }
+    // console.log(pageType)
+    const nameLower = name.toLowerCase() 
+    if(from == "Band" || from == "venue"){
+      setFilteredData(data.filter((item) => item.venueOrBandName.toLowerCase().includes(nameLower) && (active == "All" || item.status == status)));
+    }else if(from == "event"){
+      setFilteredData(data.filter((item) => (item.venueName.toLowerCase().includes(nameLower) || item.bandName.toLowerCase().includes(nameLower)) && (active == "All" || item.status == status)));
+    }else if(from == "Type" || "Genre"){
+      setFilteredData(data.filter((item) => item.genreOrType.toLowerCase().includes(nameLower) && (active == "All" || item.status == status)));
+    }
+    
+    // console.log(name)
+    // console.log(data[0])
+  }
+
   const handleDelete = async (id) => {
     if (!id) {
       return;
@@ -208,6 +228,7 @@ const TablesAndCards = ({
         pageType={pageType}
         handleFilter={handleFilter}
         active={active}
+        searchHandler={handleSearch}
       />
 
       {/* RENDERING TABLES OR CARDS BASED ON THE PAGE TYPE */}
