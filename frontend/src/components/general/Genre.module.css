@@ -1,9 +1,11 @@
 .genre {
   display: flex;
-  gap: 0.9rem;
-  justify-content: space-between;
+  gap: 2rem;
+  width: 100%;
+  /* justify-content: center; */
+  justify-content: center;
+  /* background-color: blueviolet; */
   align-items: center;
-  width: 600px;
 }
 
 .image {
@@ -21,15 +23,15 @@
   }
 }
 @media screen and (min-width: 820px) {
-  .genre {
+  /* .genre {
     justify-content: center;
-  }
+  } */
 }
 
 @media screen and (min-width: 1024px) {
-  .genre {
+  /* .genre {
     gap: 1.3rem;
     width: 100%;
     justify-content: space-between;
-  }
+  } */
 }

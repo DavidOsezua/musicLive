@@ -142,6 +142,11 @@
   padding: 11px 14px 11px 14px;
 }
 
+.genreContainer {
+  width: 100%;
+  /* background-color: #00b3c1; */
+}
+
 .genreContainer > * + * {
   margin-top: 1rem;
 }

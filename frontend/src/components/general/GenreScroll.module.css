@@ -1,5 +1,7 @@
 .check {
   overflow-x: scroll;
+  max-width: 1100px;
+  /* background-color: aqua; */
 }
 
 .check::-webkit-scrollbar {
