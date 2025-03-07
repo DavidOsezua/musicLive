@@ -33,12 +33,12 @@ const Navbar = () => {
           {/********************* Menu Lists *******************/}
 
           {navLinks.map((navLink) => (
-            <li
-              className={styles.navItems}
-              key={navLink.link}
-              onClick={toggleHandler}
-            >
-              <NavLink to={navLink.path} className={`${styles.link}`}>
+            <li className={styles.navItems} key={navLink.link}>
+              <NavLink
+                to={navLink.path}
+                className={`${styles.link}`}
+                onClick={toggleHandler}
+              >
                 {navLink.link}
               </NavLink>
             </li>
