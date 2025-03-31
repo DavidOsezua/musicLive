@@ -31,7 +31,7 @@ const Calender = ({ onDateChange }) => {
       </span>
 
       {isOpen && (
-        <div style={{ position: "absolute", zIndex: 1 }}>
+        <div className="absolute  z-10 left-1/2 transform -translate-x-1/2">
           <DatePicker selected={startDate} onChange={handleDateChange} inline />
         </div>
       )}
