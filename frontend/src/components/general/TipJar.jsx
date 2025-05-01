@@ -22,8 +22,8 @@ const TipJar = () => {
           </div>
 
           <a
-          className="pt-[0.5rem] block"
-            href="https://donate.stripe.com/14k9Cl40T2uk1IAaEE"
+            className="pt-[0.5rem] block"
+            href="https://venmo.com/code?user_id=4225375999625230777&created=1746038971.9433498&printed=1"
             target="_blank"
           >
             <Button
