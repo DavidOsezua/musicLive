@@ -6,8 +6,6 @@
 }
 
 
-<<<<<<< HEAD
-=======
 .delete{
   background-color: white; /* Default background color */
   color: white; /* Default text color */
@@ -21,7 +19,6 @@
   color: red !important; /* Text color when hovered */
 }
 
->>>>>>> new
 .cardContainer > *+*{
     margin-top: 0.6rem;
 }

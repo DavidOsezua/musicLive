@@ -11,9 +11,17 @@ export const uploadUservenue = async (formData) => {
 
     return response.data;
   } catch (error) {
-    console.error("Error uploading user venue form:", error);
-    throw error || "An unexpected error occurred";
+    console.log(error)
+    if (error.response && error.response.status === 413) {
+      // Custom error for file size being too large
+      
+      throw new Error("The file size is too large. Please upload a smaller file.");
+    } else {
+      console.error("Error uploading user venue form:", error);
+      throw error || "An unexpected error occurred";
+    }
   }
+
 };
 
 export const uploadAdsimage = async (image) => {

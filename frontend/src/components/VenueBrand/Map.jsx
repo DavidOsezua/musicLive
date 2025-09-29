@@ -27,6 +27,7 @@ const containerStyle = {
   width: "100%",
   height: "100%",
 };
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const Map = ({ venues }) => {
   const [locations, setLocations] = useState([]);
@@ -46,22 +47,28 @@ const Map = ({ venues }) => {
     // setCenter({ lat, lng });
   };
 
-  useEffect(() => {
-    // console.log(venues)
-    Promise.all(
-      venues.map(async (venue) => {
-        const latLng = await getLatLngFromAddress(venue.address);
-        if (!latLng) return null;
-        console.log(latLng);
-        return { ...latLng, ...venue };
-      })
-    ).then((parsed) => {
-      const filtered = parsed.filter((parse) => parse != null);
-      // console.log(parsed)
-      setLocations(filtered);
-    });
-    //  console.log(parsed)
-  }, [venues]);
+  // useEffect(() => {
+  //   // console.log(venues)
+  //   console.log(venues.length)
+    
+
+  //   const getVenueData = async () => {
+  //     for(const venue of venues){
+  //     const latLng = await getLatLngFromAddress(venue.address);
+  //     if (!latLng) {
+  //       await delay(10000)
+  //       continue
+  //     };
+  //     setLocations((locations) => [...locations, latLng]);
+  //     await delay(10000)
+  //   }
+  //   }
+
+  //   getVenueData().catch((err) => {
+  //     console.log(err)
+  //   })
+
+  // }, [venues]);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -82,10 +89,10 @@ const Map = ({ venues }) => {
       // onLoad={onLoad}
       // onUnmount={onUnmount}
     >
-      {locations.map((marker) => (
+      {venues.map((marker) => (
         <MarkerF
           key={marker.id}
-          position={{ lat: marker.lat, lng: marker.lng }}
+          position={{ lat: Number(marker.latitude), lng: Number(marker.longitude) }}
           icon={{
             url: getVenueImage(marker.venue_type),
             scaledSize: new window.google.maps.Size(20, 20),

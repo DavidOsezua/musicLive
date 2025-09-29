@@ -23,7 +23,7 @@ export const getLatLngFromAddress = async (address) => {
         }
 
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       return null
     
     }

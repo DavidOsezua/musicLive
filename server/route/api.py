@@ -34,6 +34,7 @@ from typing import List, Optional
 from http import HTTPStatus
 from src import exceptions
 from src import email
+from route.utils import getLatLngFromAddress
 from db.table import Venue, Band, Ads, Genre, Venuetype, Event, Subscriber
 from sqlalchemy import func
 import yagmail
@@ -227,6 +228,15 @@ async def upload_venue(
         # validate_image_size(image2, image_size)
         image_paths = uploads.save_venue_images(venue_id, image1.file, image2.file)
 
+        try:
+            lat_lng = getLatLngFromAddress(address)
+        except Exception as e:
+            print(e)
+            raise exceptions.BadRequest(f"Error getting latitude, {e}")
+
+        if not lat_lng:
+            raise exceptions.BadRequest(f"Error getting latitude")
+
         venue_data = Venue_(
             name=name,
             venue_type=venue_type,
@@ -238,7 +248,10 @@ async def upload_venue(
             youtube_url=youtube,
             image1=image_paths.path1,
             image2=image_paths.path2,
+            latitude=str(lat_lng["lat"]),
+            longitude=str(lat_lng["lng"]),
         )
+
         try:
             venue_db = Venue(id=venue_id, **venue_data.model_dump(by_alias=True))
             session.add(venue_db)

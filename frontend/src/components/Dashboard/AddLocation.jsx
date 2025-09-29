@@ -97,7 +97,7 @@ const AddLocation = () => {
       } catch (e) {
         setError(e.message);
         setIsSubmitted(false);
-        setMessage(e.response.data.detail || "Form validation failed");
+        setMessage(e.response?.data?.detail || e.message ||  "Form validation failed");
         settrackVenueChanges(false);
         setLoader(false);
         setVenueShowResultModal(true);

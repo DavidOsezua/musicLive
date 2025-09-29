@@ -54,6 +54,9 @@ class Venue(SQLModel, table=True):
     name: str = Field(sa_column=Column(String(100)))
     venue_type: str = Field(sa_column=Column(String(100)))
     address: str
+    latitude: str = Field(sa_column=Column(String(255)))
+    longitude: str = Field(sa_column=Column(String(255)))
+
     email: str = Field(sa_column=Column(String(255), unique=False))
     homepage: Optional[str] = Field(default=None, sa_column=Column(String(255)))
     facebook_url: Optional[str] = Field(default=None, sa_column=Column(String(255)))

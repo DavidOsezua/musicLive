@@ -29,6 +29,8 @@ class Venue_(BaseModel):
     youtube_url: Optional[str] = None
     image1: Optional[str] = None
     image2: Optional[str] = None
+    latitude: Optional[str] = None
+    longitude: Optional[str] = None
 
     class Config:
         populate_by_name = True

@@ -20,7 +20,8 @@ export const LocationPopUpContextProvider = ({ children }) => {
     }
 
     setLoading(true);
-
+    console.log(`Venue id is`, venueData)
+    if(!venueData.id) return 
     api
       .get(`/api/v1/events`, {
         params: { venue_id: venueData.id }, // Pass venue-specific params
